@@ -1,5 +1,5 @@
 import asyncHandler from 'express-async-handler'
-import User from '../models/userModel.js';
+import User from '../entities/userModel.js';
 import { generateToken } from '../utilitis/token.js';
 
 // auth user

@@ -2,8 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
-import { notFound, errorHandler } from './middleware/errorMiddleware.js';
-import connectDb from './config/db.js';
+import { notFound, errorHandler } from './interface/middlewares/errorMiddleware.js';
+import connectDb from './infrastructure/config/db.js';
 import { fileURLToPath } from 'url'; 
 import path from 'path';
 
@@ -15,8 +15,8 @@ const port = process.env.PORT ;
 
 connectDb();
 
-import userRoutes from './routes/userRoutes.js';
-import adminRoutes from './routes/adminRoutes.js';
+import userRoutes from './interface/controllers/userRoutes.js';
+import adminRoutes from './interface/controllers/adminRoutes.js';
 
 const app = express();
 const corsOptions = {

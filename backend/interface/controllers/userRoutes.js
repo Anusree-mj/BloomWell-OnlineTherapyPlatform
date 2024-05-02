@@ -6,9 +6,9 @@ import {
   updateUserProfile, uploadImage,
   getUser
   
-} from '../controller/userController.js';
-import { protect } from '../middleware/authMiddleware.js';
-import { upload } from '../multer/multerConfig.js';
+} from '../../useCases/userController.js';
+import { protect } from '../middlewares/authMiddleware.js';
+import { upload } from '../../utilitis/multerConfig.js';
 
 router.post('/', registerUser);//signup user
 router.post('/auth', authUser);//loginuser

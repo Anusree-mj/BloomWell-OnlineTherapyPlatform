@@ -1,28 +1,25 @@
 import asyncHandler from 'express-async-handler'
-import Admin from '../models/adminModel.js';
-import User from '../models/userModel.js';
+import Admin from '../entities/adminModel.js';
+import User from '../entities/userModel.js';
 import { generateAdminToken } from '../utilitis/token.js';
+import adminAuthQueries from '../infrastructure/dbQueries/adminAuthQueries.js'
 
 // auth user
-const authAdmin = asyncHandler(async (req, res) => {
-    const { email, password } = req.body;
-    const admin = await Admin.findOne({ email, password });
-    if (admin) {
-        generateAdminToken(res, admin._id);
-        res.status(200).json({
-            status: 'ok',
-            admin: {
-                _id: admin._id,
-                name: admin.name,
-                email: admin.email,
-            },
-        });
+const authAdmin = async (email, password) => {
+    try {
+        console.log('entered in authadmin')
+        const admin = await adminAuthQueries.adminDoLogin(email, password); 
+        if (admin) {
+            const token = generateAdminToken(admin._id);
+            return { status: 'ok', admin, token };
+        } else {
+            return { status: 'nok' }
+        }
+    } catch (err) {
+        console.log('Error found', err)
 
-    } else {
-        res.status(401).json({ status: 'nok', message: 'Invalid email or password' });
     }
-});
-
+}
 
 // get admin dashboard
 const getAdminDashboard = asyncHandler(async (req, res) => {
