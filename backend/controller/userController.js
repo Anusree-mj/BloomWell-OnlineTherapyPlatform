@@ -70,23 +70,13 @@ const registerUser = asyncHandler(async (req, res) => {
 const getUser = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
 
-    if (user && !user.isBlocked) {
-        res.status(201).json({
-            status: 'ok'
-        })
-
+    if (user && user.isBlocked !== true) {
+        return res.status(200).json({ status: 'ok' });
     } else {
-        res.status(400).json({
-            status: 'nok', message: 'User is blocked by the admin', user: {
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                image: user.image,
-                isBlocked: user.isBlocked
-            }
-        });
+        return res.json({ status: 'nok', message: 'User is blocked by the admin' });
     }
 });
+
 
 // update user
 const updateUserProfile = asyncHandler(async (req, res) => {
