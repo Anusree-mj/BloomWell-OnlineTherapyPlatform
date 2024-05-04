@@ -1,0 +1,10 @@
+/* styles.css */
+.logo {
+    display: none;
+}
+@media (min-width: 768px) {
+    .logo-image {
+      display: flex;
+      margin-right: 1rem;
+    }
+  }
