@@ -1,6 +1,8 @@
-import Header from "./components/headers/header";
-import HomeCard from './components/homeCard/homeCard'
-import WorkFlows from './components/howItWorks/index'
+import Header from "./components/headers/header";;
+import HomeCard from './components/homeComponents/homeCard';
+import WorkFlows from './components/homeComponents/howItWorks';
+import Accordion from './components/homeComponents/accordion';
+import Footer from './components/footer/index'
 
 export default function Home() {
   return (
@@ -10,6 +12,8 @@ export default function Home() {
         <HomeCard />
       </div>
       <WorkFlows />
+      <Accordion />
+      <Footer />
     </>
   );
 }

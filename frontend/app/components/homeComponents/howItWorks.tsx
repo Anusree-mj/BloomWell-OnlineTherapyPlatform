@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import Box from '@mui/joy/Box';
-import Card from '@mui/joy/Card';
-import CardCover from '@mui/joy/CardCover';
-import CardContent from '@mui/joy/CardContent';
 import Typography from '@mui/joy/Typography';
 import Image from 'next/image';
-import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 
 const contents = [
     {
@@ -57,7 +53,7 @@ export default function HowItWorks() {
                             <Image
                                 src={item.src}
                                 alt='work flows'
-                                width={650}
+                                width={500}
                                 height={100}
                                 layout='fixed'
                             />
