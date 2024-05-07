@@ -16,6 +16,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Image from 'next/image';
+import Link from '@mui/material/Link';
 
 interface Props {
   /**
@@ -36,49 +37,74 @@ export default function DrawerAppBar(props: Props) {
     setMobileOpen((prevState) => !prevState);
   };
 
-  const drawer = (    
+  const drawer = (
     <Box onClick={handleDrawerToggle} sx={{
       textAlign: 'center', backgroundColor: '#F8FBD5',
       display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'
     }}>
-      <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'flex' },
-       alignItems:'center', backgroundColor:'#325343',width:'100%'}}
-          >
-            <Image
-              src="/logo.png"
-              alt="logo"
-              width={80}
-              height={30}
-            />
-            <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{   
-              ml:2,          
-              display: { xs: 'flex', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.1rem',
-              color: 'white',
-              textDecoration: 'none',
-            }}
-          >
-            BloomWell
-          </Typography>
-          </Box>
-          <Divider />
+      <Box sx={{
+        flexGrow: 1, display: { xs: 'flex', sm: 'flex' },
+        alignItems: 'center', backgroundColor: '#325343', width: '100%'
+      }}
+      >
+        <Image
+          src="/logo.png"
+          alt="logo"
+          width={80}
+          height={30}
+        />
+        <Typography
+          variant="h6"
+          noWrap
+          component="a"
+          href="#app-bar-with-responsive-menu"
+          sx={{
+            ml: 2,
+            display: { xs: 'flex', md: 'flex' },
+            fontFamily: 'monospace',
+            fontWeight: 700,
+            letterSpacing: '.1rem',
+            color: 'white',
+            textDecoration: 'none',
+          }}
+        >
+          BloomWell
+        </Typography>
+      </Box>
+      <Divider />
       <List>
         {navItems.map((item) => (
           <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' ,}}>
+            <ListItemButton sx={{ textAlign: 'center', }}>
               <ListItemText primary={item} />
             </ListItemButton>
           </ListItem>
         ))}
-        <Button sx={{ my: 2, mx: 5, color: '#325343', borderColor: '#325343', display: 'block' }} variant="outlined">Login</Button>
-        <Button sx={{ my: 2, mx: 2, color: 'white', backgroundColor: '#325343', display: 'block' }} variant="contained">Get Started</Button>
+        <Button sx={{
+          my: 2, mx: 5, color: '#325343', borderColor: '#325343',
+          display: 'block'
+        }}
+          variant="outlined">
+          <Link href="/login" underline="none"
+            sx={{
+              color: '#325343',
+              fontWeight: 600
+            }}>
+            {'Login'}
+          </Link>
+        </Button>
+
+        <Button sx={{
+          my: 2, mx: 2, color: 'white', backgroundColor: '#325343',
+          display: 'block'
+        }} variant="contained">
+          <Link href="#" underline="none"
+            sx={{
+              color: 'white', fontWeight: 600,
+            }}>
+            {'Get Started'}
+          </Link>
+        </Button>
 
       </List>
     </Box>
@@ -91,7 +117,7 @@ export default function DrawerAppBar(props: Props) {
       <CssBaseline />
       <AppBar component="nav" sx={{ backgroundColor: '#325343' }}>
         <Toolbar>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'flex' }, alignItems:'center' }}
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'flex' }, alignItems: 'center' }}
           >
             <Image
               src="/logo.png"
@@ -100,21 +126,21 @@ export default function DrawerAppBar(props: Props) {
               height={40}
             />
             <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{             
-              display: { xs: 'flex', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.1rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            BloomWell
-          </Typography>
+              variant="h6"
+              noWrap
+              component="a"
+              href="#app-bar-with-responsive-menu"
+              sx={{
+                display: { xs: 'flex', md: 'flex' },
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.1rem',
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+            >
+              BloomWell
+            </Typography>
           </Box>
           <IconButton
             color="inherit"
@@ -140,17 +166,34 @@ export default function DrawerAppBar(props: Props) {
               my: 2, mx: 1, color: 'white', borderColor: 'white', display: 'block',
               '&:hover': {
                 borderColor: '#08CB6D',
-                color: '#08CB6D'
               }
             }}
-              variant="outlined">Login</Button>
+              variant="outlined">
+              <Link href="/login" underline="none"
+                sx={{
+                  color: 'white', fontWeight: 600,
+                  '&:hover': {
+                    color: '#08CB6D'
+                  }
+                }}>
+                {'Login'}
+              </Link>
+            </Button>
+
             <Button sx={{
               my: 2, mx: 1, color: '#325343', backgroundColor: 'white', display: 'block',
               '&:hover': {
                 backgroundColor: '#08CB6D',
               }
             }}
-              variant="contained">Get Started</Button>
+              variant="contained">
+              <Link href="#" underline="none"
+                sx={{
+                  color: '#325343', fontWeight: 600,
+                }}>
+                {'Get Started'}
+              </Link>
+            </Button>
           </Box>
         </Toolbar>
       </AppBar>
