@@ -10,7 +10,7 @@ export default function Footer() {
         }}>
             <Typography sx={{
                 fontSize: { xs: '0.9rem', sm: '0.9rem' },
-                color: '#325343', mb: 1, fontWeight: 500, ml:2,mt:2
+                color: '#325343', mb: 1, fontWeight: 500, ml: 2, mt: 2
             }
             }>If you are in a crisis or any other person may be in danger-don’t use this site.
                 Dial 112 can provide you with immediate help.</Typography>
