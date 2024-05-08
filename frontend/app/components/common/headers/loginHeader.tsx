@@ -10,8 +10,8 @@ export function LoginHeader() {
         }}>
             <Box sx={{
                 display: 'flex',
-                alignItems: 'center', justifyContent: 'center', 
-                backgroundColor: '#325343', 
+                alignItems: 'center', justifyContent: 'center',
+                backgroundColor: '#325343',
             }}>
                 <Image
                     src="/logo.png"
@@ -23,8 +23,8 @@ export function LoginHeader() {
                     variant="h6"
                     noWrap
                     component="a"
-                    href="#app-bar-with-responsive-menu"
-                    sx={{                        
+                    href="/"
+                    sx={{
                         fontFamily: 'monospace',
                         fontWeight: 700,
                         letterSpacing: '.1rem',
