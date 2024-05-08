@@ -68,10 +68,12 @@ export default function Login() {
                 <Button variant="contained"
                     sx={{
                         mt: 3, backgroundColor: '#325343', borderRadius: '2rem',
-                        maxWidth: '90%', width: '30rem'
+                        maxWidth: '90%', width: '30rem', '&:hover': {
+                            backgroundColor: '#1C955A',
+                        }
                     }}
                 >Login</Button>
-                <Link href="#" underline="always"
+                <Link href="/forgotPassword" underline="always"
                     sx={{
                         color: '#325343', mt: 2,
                         fontWeight: 600, textDecorationColor: '#325343'

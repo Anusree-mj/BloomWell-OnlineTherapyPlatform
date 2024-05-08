@@ -57,7 +57,7 @@ export default function DrawerAppBar(props: Props) {
           variant="h6"
           noWrap
           component="a"
-          href="#app-bar-with-responsive-menu"
+          href="/"
           sx={{
             ml: 2,
             display: { xs: 'flex', md: 'flex' },
@@ -129,7 +129,7 @@ export default function DrawerAppBar(props: Props) {
               variant="h6"
               noWrap
               component="a"
-              href="#app-bar-with-responsive-menu"
+              href="/"
               sx={{
                 display: { xs: 'flex', md: 'flex' },
                 fontFamily: 'monospace',
