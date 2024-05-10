@@ -25,7 +25,7 @@ const TherapistJobComponent = () => {
       <Box
         component="ul"
         sx={{
-          backgroundColor: '#F8FBD5', pt: 4, pb: 4
+          backgroundColor: '#F8FBD5', pt: 4, pb: 4, height: '80vh'
         }}
       >
         <Typography sx={{
@@ -81,7 +81,7 @@ const TherapistJobComponent = () => {
       {/* requirements div starts */}
       <Box sx={{
         display: 'flex', alignItems: 'center', flexDirection: 'column',
-        justifyContent: 'center', mt: 1, pt: 3, pb: 3
+        justifyContent: 'center', mt: 1, pt: 3, pb: 3, height: '80vh'
       }}>
         <Typography sx={{
           fontSize: { xs: '1.5rem', sm: '1.5rem' },
@@ -112,7 +112,7 @@ const TherapistJobComponent = () => {
           ))}
           <Typography sx={{
             fontSize: '1rem', mt: 2, fontStyle: 'italic',
-            textAlign: 'start', color: '#325343',m:{xs:2}
+            textAlign: 'start', color: '#325343', m: { xs: 2 }
           }}>
             Note: Unfortunately, if you are an intern or require supervision to provide therapy services,
             you cannot be a provider at BloomWell at this time.

@@ -18,7 +18,7 @@ const cardItems = [
 export default function MediaCover() {
   return (
     <Box sx={{
-      paddingTop: '2rem', paddingBottom: '2rem',
+      paddingTop: '2rem', paddingBottom: '4rem',
       backgroundColor: '#325343', display: 'flex', minHeight: 'calc(100vh - var(--header-height))',
       flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
     }}>
@@ -46,7 +46,7 @@ export default function MediaCover() {
       >
         {cardItems.map((item, index) => (
           <Card key={index} component="li" sx={{
-            maxWidth: '100%', width: 320, height: 300
+            maxWidth: '100%', width: 300, height: 300
           }}
           >
             <CardCover>

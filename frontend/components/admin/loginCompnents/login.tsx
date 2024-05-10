@@ -16,7 +16,7 @@ export default function AdminLogin() {
         }}>
             <Typography sx={{
                 fontSize: { xs: '1.2rem', sm: '2rem' },
-                color: 'white', mb: 1, fontWeight: 600, 
+                color: 'white', mb: 1, fontWeight: 600,
             }
             }>Admin Login</Typography>
             <Box sx={{
@@ -45,10 +45,10 @@ export default function AdminLogin() {
                 />
                 <Button variant="contained"
                     sx={{
-                        mt: 3, backgroundColor: '#325343', borderRadius: '2rem',                       
-                        maxWidth: '90%', width: '30rem','&:hover': {
+                        mt: 3, backgroundColor: '#325343', borderRadius: '2rem',
+                        maxWidth: '90%', width: '30rem', '&:hover': {
                             backgroundColor: '#1C955A',
-                          }
+                        }
                     }}
                 >Login</Button>
                 <Link href="/forgotPassword" underline="always"

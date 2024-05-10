@@ -1,14 +1,42 @@
 'use client'
 
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import Image from 'next/image';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { toast } from 'react-toastify';
 import Link from '@mui/material/Link';
+// import { useRouter } from 'next/router';
+
+import { getLoginAction } from '@/store/user/userReducer';
 
 export default function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+    // const router = useRouter();
+
+    const handleLogin = async (e: { preventDefault: () => void; }) => {
+        e.preventDefault();
+        console.log('Entered in handlelogin')
+        if (!email && !password) {
+            toast.error('Please provide valid email and password');
+            return;
+        } else if (!email) {
+            toast.error('Please provide valid email');
+        } else if (!password) {
+            toast.error('Please provide valid password');
+        }
+        try {
+            await dispatch(getLoginAction({ email, password}));
+        } catch (error) {
+            console.error('Login error:', error);
+        }
+    }
+  
     return (
         <Box sx={{
             paddingTop: '2rem', paddingBottom: '2rem',
@@ -52,7 +80,8 @@ export default function Login() {
 
 
                     }
-                } />
+                } onChange={(e) => { setEmail(e.target.value) }}
+                />
                 <TextField
                     id="outlined-password-input"
                     label="Password"
@@ -63,7 +92,7 @@ export default function Login() {
                             maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
                             mt: 3
                         }
-                    }
+                    } onChange={(e) => { setPassword(e.target.value) }}
                 />
                 <Button variant="contained"
                     sx={{
@@ -71,7 +100,7 @@ export default function Login() {
                         maxWidth: '90%', width: '30rem', '&:hover': {
                             backgroundColor: '#1C955A',
                         }
-                    }}
+                    }} onClick={handleLogin}
                 >Login</Button>
                 <Link href="/forgotPassword" underline="always"
                     sx={{

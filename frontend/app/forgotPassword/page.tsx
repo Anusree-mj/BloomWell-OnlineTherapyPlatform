@@ -1,7 +1,7 @@
-import AdminLogin from "@/app/components/admin/loginCompnents/login"
-import { LoginHeader } from "@/app/components/common/headers/loginHeader"
-import Footer from '../components/common/footer/footer'
-import Forgot from '../components/common/forgotPassword/forgot'
+import AdminLogin from "@/components/admin/loginCompnents/login"
+import { LoginHeader } from "@/components/common/headers/loginHeader"
+import Footer from '../../components/common/footer/footer'
+import Forgot from '../../components/common/forgotPassword/forgot'
 const Page = () => {
     return (
         <>

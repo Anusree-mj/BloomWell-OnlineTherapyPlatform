@@ -1,5 +1,5 @@
-import Admin from '../../entities/adminModel.js';
-import User from '../../entities/userModel.js';
+import Admin from '../../../entities/adminModel.js';
+import User from '../../../entities/userModel.js';
 
 
 const adminDoLogin = async (email, password) => {
