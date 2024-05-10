@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler'
 import Admin from '../entities/adminModel.js';
 import User from '../entities/userModel.js';
 import { generateAdminToken } from '../utilitis/token.js';
-import adminAuthQueries from '../infrastructure/dbQueries/adminAuthQueries.js'
+import adminAuthQueries from '../infrastructure/dbQueries/admin/adminAuthQueries.js'
 
 // auth user
 const authAdmin = async (email, password) => {

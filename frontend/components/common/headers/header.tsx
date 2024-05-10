@@ -27,7 +27,12 @@ interface Props {
 }
 
 const drawerWidth = 240;
-const navItems = ['Home', 'Advice', 'Contact', 'Therapist jobs'];
+const navItems = [
+  { name: 'Home', link: '/' },
+  { name: 'Advice', link: '/advice' },
+  { name: 'Contact', link: '/contact' },
+  { name: 'Therapist Jobs', link: '/therapists' },
+];
 
 export default function DrawerAppBar(props: Props) {
   const { window } = props;
@@ -74,9 +79,15 @@ export default function DrawerAppBar(props: Props) {
       <Divider />
       <List>
         {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
+          <ListItem key={item.name} disablePadding>
             <ListItemButton sx={{ textAlign: 'center', }}>
-              <ListItemText primary={item} />
+              <Link href={item.link} underline="none"
+                sx={{
+                  color: '#325343',
+                  fontWeight: 600
+                }}>
+                <ListItemText primary={item.name} />
+              </Link>
             </ListItemButton>
           </ListItem>
         ))}
@@ -122,8 +133,8 @@ export default function DrawerAppBar(props: Props) {
             <Image
               src="/logo.png"
               alt="logo"
-              width={120}
-              height={40}
+              width={90}
+              height={30}
             />
             <Typography
               variant="h6"
@@ -153,13 +164,19 @@ export default function DrawerAppBar(props: Props) {
           </IconButton>
           <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
             {navItems.map((item) => (
-              <Button key={item} sx={{
+              <Button key={item.name} sx={{
                 color: '#fff', '&:hover': {
                   textDecorationColor: 'transparent',
                   boxShadow: 'inset 0em -0.2em 0 #08CB6D',
                 }
               }}>
-                {item}
+                <Link href={item.link} underline="none"
+                  sx={{
+                    color: 'white',
+                    fontWeight: 600
+                  }}>
+                  {item.name}
+                </Link>
               </Button>
             ))}
             <Button sx={{

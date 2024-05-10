@@ -1,6 +1,6 @@
-import AdminLogin from "@/app/components/admin/loginCompnents/login"
-import { LoginHeader } from "@/app/components/common/headers/loginHeader"
-import Footer from '../../components/common/footer/footer'
+import AdminLogin from "@/components/admin/loginCompnents/login"
+import { LoginHeader } from "@/components/common/headers/loginHeader"
+import Footer from '../../../components/common/footer/footer'
 
 const Page = () => {
     return (

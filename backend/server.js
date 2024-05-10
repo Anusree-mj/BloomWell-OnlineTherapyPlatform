@@ -15,8 +15,8 @@ const port = process.env.PORT ;
 
 connectDb();
 
-import userRoutes from './interface/controllers/userRoutes.js';
-import adminRoutes from './interface/controllers/adminRoutes.js';
+import userRoutes from './interface/routes/userRoutes.js';
+import adminRoutes from './interface/routes/adminRoutes.js';
 
 const app = express();
 const corsOptions = {
