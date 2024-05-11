@@ -1,11 +1,10 @@
-import { UserItem } from "../store/type";
+import { ClientItem } from "@/store/type";
 
-
-// login
-export const getLoginApi = async (item: UserItem) => {
+// signup
+export const getSignupApi = async (item: ClientItem) => {
     // console.log('URL:', `${process.env.NEXT_APP_SERVER_URL}`);
 
-    const res = await fetch(`http://localhost:8000/api/users/login`, {
+    const res = await fetch(`http://localhost:8000/api/users/signup`, {
         method: 'POST',
         body: JSON.stringify(item),
         headers: {

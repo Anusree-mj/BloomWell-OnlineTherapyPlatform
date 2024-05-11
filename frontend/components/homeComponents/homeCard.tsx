@@ -6,16 +6,25 @@ import Card from '@mui/joy/Card';
 import CardCover from '@mui/joy/CardCover';
 import CardContent from '@mui/joy/CardContent';
 import Typography from '@mui/joy/Typography';
+import Link from 'next/link';
 import Image from 'next/image';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 
 const cardItems = [
-  { src: '/home/ind.png', title: 'Individual', subTitle: 'For myself', hoverSrc: '/home/indHover.png', color: '#3C7358' },
+  { src: '/home/ind.png', title: 'Individual', subTitle: 'For myself', hoverSrc: '/home/indHover.png', color: '#397a4a' },
   { src: '/home/couple.png', title: 'Couples', subTitle: 'For me and my partner', hoverSrc: '/home/coupleHover.png', color: '#265353' },
   { src: '/home/teen.png', title: 'Teen', subTitle: 'For my child', hoverSrc: '/home/teenHover.png', color: '#6f4205' }
 ]
 
 export default function MediaCover() {
+  const [hoveredItems, setHoveredItems] = useState(Array(cardItems.length).fill(false));
+
+  const handleHover = (index: number, isHovered: boolean) => {
+    const newHoveredItems = [...hoveredItems];
+    newHoveredItems[index] = isHovered;
+    setHoveredItems(newHoveredItems);
+  };
+
   return (
     <Box sx={{
       paddingTop: '2rem', paddingBottom: '4rem',
@@ -45,41 +54,46 @@ export default function MediaCover() {
         }}
       >
         {cardItems.map((item, index) => (
-          <Card key={index} component="li" sx={{
-            maxWidth: '100%', width: 300, height: 300
-          }}
-          >
-            <CardCover>
-              <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'flex' }, backgroundColor: item.color }}
-              >
-                <Image
-                  src={item.src}
-                  alt={item.title}
-                  width={200}
-                  height={100}
-                  layout='fixed'
-                />
-              </Box>
-            </CardCover>
-            <CardContent>
-              <Typography
-                level="body-lg"
-                fontWeight="lg"
-                textColor="#fff"
-                mt={{ xs: 2, sm: 2 }}
-              >
-                {item.title}
-              </Typography>
-              <Typography
-                level="body-md"
-                textColor="#ddd"
-              >
-                {item.subTitle}
-                <span style={{ marginLeft: '0.5rem' }}><ArrowCircleRightIcon /></span>
-              </Typography>
+          <Link href={`/questionnaire/${item.title}`}>
+            <Card key={index} component="li" sx={{
+              maxWidth: '100%', width: 300, height: 300
+            }}
+              onMouseEnter={() => handleHover(index, true)}
+              onMouseLeave={() => handleHover(index, false)}
+            >
+              <CardCover>
+                <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'flex' }, backgroundColor: item.color }}
 
-            </CardContent>
-          </Card>
+                >
+                  <Image
+                    src={hoveredItems[index] ? item.hoverSrc : item.src}
+                    alt={item.title}
+                    width={200}
+                    height={100}
+                    layout='fixed'
+                  />
+                </Box>
+              </CardCover>
+              <CardContent>
+                <Typography
+                  level="body-lg"
+                  fontWeight="lg"
+                  textColor="#fff"
+                  mt={{ xs: 2, sm: 2 }}
+                >
+                  {item.title}
+                </Typography>
+                <Typography
+                  level="body-md"
+                  textColor="#ddd"
+                >
+                  {item.subTitle}
+                  <span style={{ marginLeft: '0.5rem' }}><ArrowCircleRightIcon /></span>
+                </Typography>
+
+              </CardContent>
+            </Card>
+          </Link>
         ))}
       </Box>
     </Box>
