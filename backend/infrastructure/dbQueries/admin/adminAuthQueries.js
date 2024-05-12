@@ -1,4 +1,4 @@
-import Admin from '../../../entities/adminModel.js';
+import Admin from '../../../entities/admin/adminModel.js';
 import User from '../../../entities/userModel.js';
 
 

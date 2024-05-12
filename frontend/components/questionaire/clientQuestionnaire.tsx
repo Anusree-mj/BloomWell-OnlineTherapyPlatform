@@ -1,8 +1,5 @@
 'use client'
-import { useState } from "react";
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import { useEffect, useState } from "react";
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Box from '@mui/joy/Box';
@@ -11,6 +8,9 @@ import Button from '@mui/material/Button';
 import { toast } from 'react-toastify';
 import OTPInput from "../common/otp/otp";
 import ClientSignupComponent from "../signupComponents/client/clientSignup";
+import { useDispatch, useSelector } from 'react-redux'
+import { getSignUpAction, clientStateType } from "@/store/clients/clientReducer";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 interface Question {
     question: string;
@@ -21,7 +21,6 @@ const ClientQuestionnaire: React.FC<{ type: string; questionnaire: Question[] }>
     const [qtnIndex, setQtnIndex] = useState(0);
     const qtn = questionnaire[qtnIndex]
     const [answers, setAnswers] = useState<string[]>([])
-    const [selectedValue, setSelectedValue] = useState<string | null>('');
     const [name, setName] = useState('')
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -30,6 +29,10 @@ const ClientQuestionnaire: React.FC<{ type: string; questionnaire: Question[] }>
     const [signUpField, setSignupField] = useState(false)
     const [otpField, setOtpField] = useState(false)
     const [otp, setOtp] = useState('');
+    const [disableButton, setDisableButton] = useState(false)
+    const dispatch = useDispatch();
+    const isLoading = useSelector((state: { client: clientStateType }) => state.client.isLoading);
+    const error = useSelector((state: { client: clientStateType }) => state.client.error);
 
     const handleAnswers = (answer: string | null) => {
         if (!answer) {
@@ -42,23 +45,27 @@ const ClientQuestionnaire: React.FC<{ type: string; questionnaire: Question[] }>
             setSignupField(true)
         }
         setAnswers((prevAnswers) => [...prevAnswers, answer]);
-        setSelectedValue(null)
         setQtnIndex((prevQtn) => prevQtn + 1)
     }
 
-
-    const handleOtp = () => {
-        console.log(otp, 'ottpppp')
+    const handleOtp = async (e: { preventDefault: () => void; }) => {
+        e.preventDefault();
+        try {
+            if (!otp) {
+                toast.error('Please enter the otp')
+                return;
+            }
+            await dispatch(getSignUpAction({ otp, name, email, password, answers }))
+        } catch (err) {
+            console.log(err)
+        }
     }
-    // const checkIsValid = () => {
-    //     let isValid = true;
-    //     if (!name) {
-    //         toast.error('Please include your name')
-    //         isValid=false
-    //     }if(!email){
-    //         toast.e
-    //     }
-    // }
+
+    useEffect(() => {
+        if (error) {
+            toast.error(error)
+        }
+    }, [error])
     return (
         <Box sx={{
             display: 'flex', justifyContent: 'center', alignItems: 'center', pb: 4,
@@ -87,25 +94,16 @@ const ClientQuestionnaire: React.FC<{ type: string; questionnaire: Question[] }>
                         <FormLabel id="demo-controlled-radio-buttons-group"
                             sx={{ fontSize: '1.2rem', fontWeight: 700 }}
                         >{qtn.question}</FormLabel>
-                        <RadioGroup
-                            aria-labelledby="demo-controlled-radio-buttons-group"
-                            name="controlled-radio-buttons-group" sx={{ mt: 2 }}
-                            value={selectedValue}
-                            onChange={(event) => setSelectedValue(event.target.value)}
-                        >
-                            {qtn.options.map((item) => (
-                                <FormControlLabel key={item} value={item} control={<Radio color="success" />}
-                                    label={item} />
-                            ))}
-                        </RadioGroup>
-                        <Button variant="contained" sx={{
-                            width: '20rem', maxWidth: '30%', color: '#325343',
-                            ml: { xs: 22, sm: 36 }, backgroundColor: '#a6de9b',
-                            '&:hover': {
-                                backgroundColor: '#325343',
-                                color: 'white'
-                            }
-                        }} onClick={() => { handleAnswers(selectedValue) }}>Next</Button>
+                        {qtn.options.map((item) => (
+                            <Button variant="contained" key={item} sx={{
+                                color: '#325343', mt: 2, borderRadius: '0.7rem',
+                                backgroundColor: '#a6de9b',
+                                '&:hover': {
+                                    backgroundColor: '#325343',
+                                    color: 'white'
+                                }
+                            }} onClick={() => { handleAnswers(item) }}>{item}</Button>
+                        ))}
                     </FormControl>
                 </>
             )}{signUpField && (
@@ -146,18 +144,29 @@ const ClientQuestionnaire: React.FC<{ type: string; questionnaire: Question[] }>
                         boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                         borderRadius: '0.6rem',
                     }}>
-                        <OTPInput otp={otp} setOtp={setOtp} />
-                        <Button variant="contained"
-                            sx={{
-                                mt: 3, borderRadius: '2rem',
-                                maxWidth: '90%', width: '30rem', color: '#325343',
-                                backgroundColor: '#a6de9b',
-                                '&:hover': {
-                                    backgroundColor: '#325343',
-                                    color: 'white'
-                                }
-                            }} onClick={handleOtp}
-                        >Continue</Button>
+                        <OTPInput email={email} otp={otp} setOtp={setOtp} disableButton={disableButton} setDisableButton={setDisableButton} />
+                        {!disableButton && (
+
+                            <LoadingButton
+                                onClick={handleOtp}
+                                loading={isLoading}
+                                loadingPosition="end"
+                                variant="contained"
+                                sx={{
+                                    mt: 3, borderRadius: '2rem',
+                                    maxWidth: '90%', width: '30rem', color: '#325343',
+                                    backgroundColor: '#a6de9b',
+                                    '&:hover': {
+                                        backgroundColor: '#325343',
+                                        color: 'white'
+                                    }
+                                }}
+                            >
+                                Continue
+                            </LoadingButton>
+                        )
+
+                        }
                     </FormControl>
                 </>
             )}

@@ -17,7 +17,8 @@ connectDb();
 
 import userRoutes from './interface/routes/userLogin/userRoutes.js';
 import adminRoutes from './interface/routes/admin/adminLogin.js';
- 
+import clientRoutes from './interface/routes/clients/clientAuth/clientAuthRoutes.js' 
+
 const app = express();
 const corsOptions = {
     origin: function (origin, callback) {
@@ -38,8 +39,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
-app.use('/api/users', userRoutes)
-app.use('/api/admin', adminRoutes);
+app.use('/users', userRoutes)
+app.use('/admin', adminRoutes);
+app.use('/client', clientRoutes);
 
 
 app.get('/', (req, res) => res.send('Server is ready'))

@@ -9,6 +9,8 @@ import { individualQuestionnaire } from "@/components/questionaire/individual";
 import { coupleQuestionnaire } from "@/components/questionaire/couple";
 import { teenQuestionnaire } from "@/components/questionaire/teen";
 import ClientQuiestionnaire from "@/components/questionaire/clientQuestionnaire";
+import store from "@/store";
+import { Provider } from "react-redux";
 
 interface QuestionnaireProps {
     params: {
@@ -28,11 +30,12 @@ const Questionnaire: React.FC<QuestionnaireProps> = ({ params }) => {
     }
     return (
         <>
-
-            <ToastContainer />
-            <LoginHeader />
-            <ClientQuiestionnaire type={type} questionnaire={questionnaire} />
-            <Footer />
+            <Provider store={store}>
+                <ToastContainer />
+                <LoginHeader />
+                <ClientQuiestionnaire type={type} questionnaire={questionnaire} />
+                <Footer />
+            </Provider>
         </>
 
     )

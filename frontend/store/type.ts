@@ -5,7 +5,7 @@ export interface UserItem {
 }
 export interface ClientItem {
     id: string;
-    email: string;
     name: string;
+    email: string;
     questionnaires:[];
 }

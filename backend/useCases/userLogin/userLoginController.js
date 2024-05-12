@@ -1,4 +1,4 @@
-import { generateToken } from '../../utilitis/token.js';
+import { generateClientToken, generateTherapistsToken } from '../../utilitis/token.js';
 import userAuthQueries from '../../infrastructure/dbQueries/user/userAuthQueries.js';
 
 // auth user

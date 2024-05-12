@@ -1,7 +1,13 @@
 import jwt from "jsonwebtoken";
 
-const generateToken = (token) => {
-    return jwt.sign({ userId: token }, process.env.JWT_SECRET, {
+const generateClientToken = (token) => {
+    return jwt.sign({ clientId: token }, process.env.JWT_SECRET, {
+        expiresIn: '30d'
+    });
+}
+
+const generateTherapistsToken = (token) => {
+    return jwt.sign({ therapistId: token }, process.env.JWT_SECRET, {
         expiresIn: '30d'
     });
 }
@@ -11,4 +17,4 @@ const generateAdminToken = (token) => {
         expiresIn: '30d'
     });
 }
-export { generateToken, generateAdminToken };
+export  { generateClientToken, generateAdminToken, generateTherapistsToken };

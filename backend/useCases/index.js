@@ -1,9 +1,9 @@
 import adminControllers from './admin/index.js'
-// import { clientControllers } from './client'
+import clientControllers from './clients/index.js'
 import userAuthControllers from './userLogin/index.js'
 
 export default {
     adminControllers,
-    // clientControllers,
+    clientControllers,
     userAuthControllers
 }

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Input as BaseInput } from '@mui/base/Input';
 import { Box, styled } from '@mui/system';
+import { Button } from '@mui/material';
+import axios from 'axios';
 
 function OTP({
   separator,
@@ -172,11 +174,44 @@ function OTP({
   );
 }
 interface OTPInputProps {
-    otp: string;
-    setOtp: React.Dispatch<React.SetStateAction<string>>;
+  email: string;
+  otp: string;
+  setOtp: React.Dispatch<React.SetStateAction<string>>;
+  disableButton: boolean;
+  setDisableButton: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const OTPInput: React.FC<OTPInputProps> = ({ email, otp, setOtp, disableButton, setDisableButton }) => {
+  const [timer, setTimer] = React.useState(119)
+
+  React.useEffect(() => {
+    if (timer === 0) {
+      setDisableButton(true);
+      return
+    }
+    const intervalId = setInterval(() => {
+      setTimer((prevTimer) => prevTimer - 1)
+    }, 1000)
+    return () => clearInterval(intervalId)
+  }, [timer])
+
+  const formatTime = ((timer: number) => {
+    const min = Math.floor(timer / 60);
+    const sec = timer % 60;
+    return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+  })
+  const handleResendOTP = async () => {
+    try {
+      const response = await axios.post(`http://localhost:8000/client/getOtp`, { email: email });
+      if (response) {
+        setTimer(119)
+        setDisableButton(false)
+      }
+    } catch (err) {
+      console.log(err)
+    }
   }
-  
-  const OTPInput: React.FC<OTPInputProps> = ({ otp, setOtp }) => {
+
   return (
     <Box
       sx={{
@@ -185,8 +220,21 @@ interface OTPInputProps {
         gap: 2,
       }}
     >
-      <OTP separator={<span>-</span>} value={otp} onChange={setOtp} length={5} />
-      <span>Entered value: {otp}</span>
+      <OTP separator={<span>-</span>} value={otp} onChange={setOtp} length={6} />
+      <span>Resend otp in: {formatTime(timer)}</span>
+      {disableButton && (
+        <Button variant="contained"
+          sx={{
+            mt: 3, borderRadius: '2rem',
+            maxWidth: '90%', width: '30rem', color: '#325343',
+            backgroundColor: '#a6de9b',
+            '&:hover': {
+              backgroundColor: '#325343',
+              color: 'white'
+            }
+          }} onClick={handleResendOTP}
+        >Resend OTP</Button>
+      )}
     </Box>
   );
 }
@@ -226,9 +274,8 @@ const InputElement = styled('input')(
   color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
   border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  box-shadow: 0px 2px 4px ${
-    theme.palette.mode === 'dark' ? 'rgba(0,0,0, 0.5)' : 'rgba(0,0,0, 0.05)'
-  };
+  box-shadow: 0px 2px 4px ${theme.palette.mode === 'dark' ? 'rgba(0,0,0, 0.5)' : 'rgba(0,0,0, 0.05)'
+    };
 
   &:hover {
     border-color: ${blue[400]};

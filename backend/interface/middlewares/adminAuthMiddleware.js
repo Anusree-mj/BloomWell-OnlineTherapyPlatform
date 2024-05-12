@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import asyncHandler from 'express-async-handler'
-import Admin from '../../entities/adminModel.js';
+import Admin from '../../entities/admin/adminModel.js';
 
 const protectAdmin = asyncHandler(async (req, res, next) => {
     let token;

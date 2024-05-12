@@ -9,7 +9,7 @@ import {
 // SignupSaga
 function* getSignUpActionSaga(action: {
     type: string;
-    payload: { email: '', password: '', questionnaire: [] }
+    payload: { otp: number, name: '', email: '', password: '', questionnaire: [] }
 }): any {
     try {
         const response = yield call<any>(getSignupApi, action.payload);
@@ -19,7 +19,6 @@ function* getSignUpActionSaga(action: {
             console.log('signup success')
         } else {
             yield put(getSignUpFailureAction(response.message))
-
         }
     } catch (err) {
         yield put(getSignUpFailureAction(err))

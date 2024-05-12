@@ -34,7 +34,7 @@ const ClientSignupComponent: React.FC<ClientSignUpComponentProps> = ({ name, set
                 toast.error(`Password doesn't match`)
                 return;
             }
-            const response = await axios.post(`http://localhost:8000/api/clients/getOtp`, email);
+            const response = await axios.post(`http://localhost:8000/client/getOtp`, { email: email });
             if (response) {
                 setSignupField(false);
                 setOtpField(true);
