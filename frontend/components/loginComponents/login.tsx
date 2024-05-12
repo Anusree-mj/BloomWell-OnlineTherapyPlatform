@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
@@ -11,12 +11,15 @@ import { toast } from 'react-toastify';
 import Link from '@mui/material/Link';
 // import { useRouter } from 'next/router';
 
-import { getLoginAction } from '@/store/user/userReducer';
+import { getLoginAction, userStateType } from '@/store/user/userReducer';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
+    const isLoading = useSelector((state: { user: userStateType }) => state.user.isLoading);
+    const error = useSelector((state: { user: userStateType }) => state.user.error);
     // const router = useRouter();
 
     const handleLogin = async (e: { preventDefault: () => void; }) => {
@@ -31,12 +34,18 @@ export default function Login() {
             toast.error('Please provide valid password');
         }
         try {
-            await dispatch(getLoginAction({ email, password}));
+            await dispatch(getLoginAction({ email, password }));
         } catch (error) {
             console.error('Login error:', error);
         }
     }
-  
+
+    useEffect(() => {
+        if (error) {
+            toast.error(error)
+        }
+    }, [error])
+
     return (
         <Box sx={{
             paddingTop: '2rem', paddingBottom: '2rem',
@@ -94,14 +103,22 @@ export default function Login() {
                         }
                     } onChange={(e) => { setPassword(e.target.value) }}
                 />
-                <Button variant="contained"
+                <LoadingButton
+                    onClick={handleLogin}
+                    loading={isLoading}
+                    loadingPosition="end"
+                    variant="contained"
                     sx={{
                         mt: 3, backgroundColor: '#325343', borderRadius: '2rem',
-                        maxWidth: '90%', width: '30rem', '&:hover': {
-                            backgroundColor: '#1C955A',
+                        maxWidth: '90%', width: '30rem',
+                        '&:hover': {
+                            backgroundColor: '#325343',
+                            color: 'white'
                         }
-                    }} onClick={handleLogin}
-                >Login</Button>
+                    }}
+                >
+                    Continue
+                </LoadingButton>
                 <Link href="/forgotPassword" underline="always"
                     sx={{
                         color: '#325343', mt: 2,

@@ -65,7 +65,7 @@ export const individualQuestionnaire = [
     },
     {
         question: 'Are there any specific preferences for your therapist?',
-        options: ['Male therapist', 'Female therapist']
+        options: ['Male therapist', 'Female therapist','Anyone']
     },
 
 ]

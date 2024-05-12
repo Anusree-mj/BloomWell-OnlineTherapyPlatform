@@ -1,12 +1,9 @@
 import express from 'express'
 const router = express.Router();
-import {
-    authAdmin,
-    getAdminDashboard,
-    deleteUser,
-    editUser,addUser
-} from '../../useCases/adminController.js'
-import { protectAdmin } from '../middlewares/adminAuthMiddleware.js';
+
+import controllers  from '../../../useCases/index.js';
+
+import { protectAdmin } from '../../middlewares/adminAuthMiddleware.js';
 
 
 
@@ -14,7 +11,7 @@ router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
         console.log(email, password)
-        const response = await authAdmin(email, password)
+        const response = await controllers.adminControllers.authAdmin(email, password)
         if (response.status === 'ok') {
             res.cookie('jwtAdmin', response.token, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true });
             console.log(response.admin);
@@ -25,13 +22,13 @@ router.post('/login', async (req, res) => {
     }
 })
 
-router.get('/', protectAdmin, getAdminDashboard);
-router.post('/addUser', protectAdmin, addUser);
-router
-    .route('/user/:userId')
-    .delete(protectAdmin, deleteUser)
-    .put(protectAdmin, editUser)
-    // .post(protectAdmin, addUser);
+// router.get('/', protectAdmin, getAdminDashboard);
+// router.post('/addUser', protectAdmin, addUser);
+// router
+//     .route('/user/:userId')
+//     .delete(protectAdmin, deleteUser)
+//     .put(protectAdmin, editUser)
+//     // .post(protectAdmin, addUser);
 
 
 
