@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
+import { useRouter } from 'next/router';
 import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import Image from 'next/image';
@@ -9,8 +10,6 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { toast } from 'react-toastify';
 import Link from '@mui/material/Link';
-// import { useRouter } from 'next/router';
-
 import { getLoginAction, userStateType } from '@/store/user/userReducer';
 import LoadingButton from '@mui/lab/LoadingButton';
 
@@ -20,7 +19,6 @@ export default function Login() {
     const dispatch = useDispatch();
     const isLoading = useSelector((state: { user: userStateType }) => state.user.isLoading);
     const error = useSelector((state: { user: userStateType }) => state.user.error);
-    // const router = useRouter();
 
     const handleLogin = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
@@ -34,12 +32,25 @@ export default function Login() {
             toast.error('Please provide valid password');
         }
         try {
-            await dispatch(getLoginAction({ email, password }));
+            await dispatch(getLoginAction({ email, password, handleLoginSuccess }));
         } catch (error) {
             console.error('Login error:', error);
         }
     }
-
+    const handleLoginSuccess = (role: string) => {
+        if (role === 'client') {
+            window.location.href = '/';
+        } else {
+            window.location.href = '/therapistJob'
+        }
+    }
+    useEffect(() => {
+        if (localStorage.getItem('clientData')) {
+            window.location.href = ('/client/welcome')
+        } else if (localStorage.getItem('therapistData')) {
+            window.location.href = ('/therapistJob')
+        }
+    })
     useEffect(() => {
         if (error) {
             toast.error(error)

@@ -31,7 +31,7 @@ const navItems = [
   { name: 'Home', link: '/' },
   { name: 'Advice', link: '/advice' },
   { name: 'Contact', link: '/contact' },
-  { name: 'Therapist Jobs', link: '/therapists' },
+  { name: 'Therapist Jobs', link: '/therapistJob' },
 ];
 
 export default function DrawerAppBar(props: Props) {
