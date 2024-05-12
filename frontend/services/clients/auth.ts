@@ -4,7 +4,7 @@ import { ClientItem } from "@/store/type";
 export const getSignupApi = async (item: ClientItem) => {
     // console.log('URL:', `${process.env.NEXT_APP_SERVER_URL}`);
 
-    const res = await fetch(`http://localhost:8000/api/users/signup`, {
+    const res = await fetch(`http://localhost:8000/api/clients/signup`, {
         method: 'POST',
         body: JSON.stringify(item),
         headers: {

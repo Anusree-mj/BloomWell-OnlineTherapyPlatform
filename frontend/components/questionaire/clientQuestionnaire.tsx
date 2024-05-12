@@ -1,6 +1,5 @@
 'use client'
-
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -10,8 +9,8 @@ import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import Button from '@mui/material/Button';
 import { toast } from 'react-toastify';
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
+import OTPInput from "../common/otp/otp";
+import ClientSignupComponent from "../signupComponents/client/clientSignup";
 
 interface Question {
     question: string;
@@ -27,6 +26,10 @@ const ClientQuestionnaire: React.FC<{ type: string; questionnaire: Question[] }>
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confrmPassword, setConfrmPassword] = useState('');
+    const [questionnaireField, setQuestionnaireField] = useState(true)
+    const [signUpField, setSignupField] = useState(false)
+    const [otpField, setOtpField] = useState(false)
+    const [otp, setOtp] = useState('');
 
     const handleAnswers = (answer: string | null) => {
         if (!answer) {
@@ -34,24 +37,18 @@ const ClientQuestionnaire: React.FC<{ type: string; questionnaire: Question[] }>
             console.log('answerrr', answer)
             return;
         }
+        if (qtnIndex === questionnaire.length - 1) {
+            setQuestionnaireField(false);
+            setSignupField(true)
+        }
         setAnswers((prevAnswers) => [...prevAnswers, answer]);
         setSelectedValue(null)
         setQtnIndex((prevQtn) => prevQtn + 1)
     }
 
-    const handleSignup = async (e: { preventDefault: () => void; }) => {
-        e.preventDefault();
-        if (!name || !email || !password || !confrmPassword) {
-            toast.error('All fields are required')
-        } else if (password !== confrmPassword) {
-            toast.error(`Password and confirm password doesn't match`)
-        }
-        try {
 
-
-        } catch (err) {
-            console.log(err)
-        }
+    const handleOtp = () => {
+        console.log(otp, 'ottpppp')
     }
     // const checkIsValid = () => {
     //     let isValid = true;
@@ -67,7 +64,7 @@ const ClientQuestionnaire: React.FC<{ type: string; questionnaire: Question[] }>
             display: 'flex', justifyContent: 'center', alignItems: 'center', pb: 4,
             flexDirection: 'column', backgroundColor: '#F7FCC2',
         }}>
-            {qtnIndex !== questionnaire.length - 1 ? (
+            {questionnaireField && (
                 <>
                     <Typography sx={{
                         fontSize: { xs: '1.5rem', sm: '2rem' },
@@ -111,7 +108,26 @@ const ClientQuestionnaire: React.FC<{ type: string; questionnaire: Question[] }>
                         }} onClick={() => { handleAnswers(selectedValue) }}>Next</Button>
                     </FormControl>
                 </>
-            ) : (
+            )}{signUpField && (
+                <>
+                    <Typography sx={{
+                        fontSize: { xs: '1.5rem', sm: '2rem' },
+                        textAlign: 'center', color: '#325343', mt: 2, mb: 1
+                    }}>
+                        You've completed the questionaire !
+                    </Typography>
+                    <Typography sx={{
+                        fontSize: '0.9rem', fontWeight: 600, textAlign: 'center', color: '#325343',
+                        width: '30rem', maxWidth: '80%', mb: 2
+                    }
+                    }>Now, Signin with your credentials.</Typography>
+                    <ClientSignupComponent name={name} setName={setName} email={email} setEmail={setEmail}
+                        password={password} setPassword={setPassword} confrmPassword={confrmPassword} setConfrmPassword={setConfrmPassword}
+                        setSignupField={setSignupField} setOtpField={setOtpField}
+                    />
+                </>
+            )}
+            {otpField && (
                 <>
                     <Typography sx={{
                         fontSize: { xs: '1.5rem', sm: '2rem' },
@@ -130,38 +146,7 @@ const ClientQuestionnaire: React.FC<{ type: string; questionnaire: Question[] }>
                         boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                         borderRadius: '0.6rem',
                     }}>
-                        <TextField id="outlined-basic" label="Name" variant="outlined"
-                            required
-                            sx={{
-                                maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
-                            }} onChange={(e) => { setName(e.target.value) }}
-                        />
-                        <TextField id="outlined-basic" label="Email" variant="outlined"
-                            required
-                            sx={{
-                                maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2', mt: 2
-                            }} onChange={(e) => { setEmail(e.target.value) }}
-                        />
-                        <TextField
-                            id="outlined-password-input"
-                            label="Password"
-                            type="password"
-                            required
-                            sx={{
-                                maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
-                                mt: 2
-                            }} onChange={(e) => { setPassword(e.target.value) }}
-                        />
-                        <TextField
-                            id="outlined-password-input"
-                            label="Confirm Password"
-                            type="password"
-                            required
-                            sx={{
-                                maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
-                                mt: 2
-                            }} onChange={(e) => { setConfrmPassword(e.target.value) }}
-                        />
+                        <OTPInput otp={otp} setOtp={setOtp} />
                         <Button variant="contained"
                             sx={{
                                 mt: 3, borderRadius: '2rem',
@@ -171,7 +156,7 @@ const ClientQuestionnaire: React.FC<{ type: string; questionnaire: Question[] }>
                                     backgroundColor: '#325343',
                                     color: 'white'
                                 }
-                            }} onClick={handleSignup}
+                            }} onClick={handleOtp}
                         >Continue</Button>
                     </FormControl>
                 </>
