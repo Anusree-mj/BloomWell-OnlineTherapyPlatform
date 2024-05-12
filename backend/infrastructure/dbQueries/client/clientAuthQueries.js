@@ -1,6 +1,7 @@
 import TempClient from "../../../entities/clients/tempClientModel.js";
 import Client from "../../../entities/clients/clients.js";
 import bcrypt from 'bcryptjs';
+import User from "../../../entities/userModel.js";
 
 const saveOtp = async (email, otp) => {
     try {
@@ -19,7 +20,7 @@ const saveOtp = async (email, otp) => {
 
 const verifyOTP = async (data) => {
     try {
-        const { otp, name, email, password, answers } = data
+        const { type, otp, name, email, password, answers } = data
         const verify = TempClient.findOne({ email: email, otp: otp })
         if (verify) {
             console.log('otp matched')
@@ -27,13 +28,20 @@ const verifyOTP = async (data) => {
             if (userExists) {
                 console.log('userExists')
                 return { status: 'nok', message: 'User already exists' }
-            } else {
+            }
+            else {
                 const hashedPassword = await bcrypt.hash(password, 10);
-                const data = await Client.insertMany({
+                await Client.insertMany({
                     name: name,
                     email: email,
                     password: hashedPassword,
-                    questionnaire: answers
+                    sessionType: type,
+                    questionnaire: answers,
+                })
+                await User.insertMany({
+                    email: email,
+                    password: hashedPassword,
+                    role: 'client'
                 })
                 const client = await Client.findOne({ email: email }).select('-password -createdAt -updatedAt');
                 return { status: 'ok', client }

@@ -9,7 +9,7 @@ import {
 // SignupSaga
 function* getSignUpActionSaga(action: {
     type: string;
-    payload: { otp: number, name: '', email: '', password: '', questionnaire: [] }
+    payload: { type: '', otp: number, name: '', email: '', password: '', questionnaire: [] }
 }): any {
     try {
         const response = yield call<any>(getSignupApi, action.payload);

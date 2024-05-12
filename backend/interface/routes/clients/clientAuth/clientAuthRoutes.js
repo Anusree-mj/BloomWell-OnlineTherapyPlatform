@@ -18,7 +18,6 @@ router.post('/getOtp', async (req, res) => {
 router.post('/signup', async (req, res) => {
     try {
         const data = req.body;
-        console.log(data, 'foundd')
         const response = await controllers.clientControllers.signUp(data);
         if (response.status === 'ok') {
             console.log('reached back in route status ok')

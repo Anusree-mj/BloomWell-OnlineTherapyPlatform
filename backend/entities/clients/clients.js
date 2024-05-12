@@ -14,6 +14,10 @@ const clientSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    sessionType: {
+        type: String,
+        required: true
+    },
     questionnaire: {
         type: Array,
         required: true

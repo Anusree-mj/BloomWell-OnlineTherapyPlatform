@@ -11,13 +11,9 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    image: {
+    role: {
         type: String
-    },
-    isBlocked: {
-        type: Boolean,
-        default: false
-    },
+    }    
 }, {
     timestamps: true
 })

@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router();
 
-import controllers  from '../../../useCases/index.js';
+import controllers from '../../../useCases/index.js';
 
 //loginuser
 router.post('/login', async (req, res) => {
@@ -10,9 +10,16 @@ router.post('/login', async (req, res) => {
     console.log(email, password)
     const response = await controllers.userAuthControllers.authUser(email, password);
     if (response.status === 'ok') {
-      res.cookie('jwtUser', response.token, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true });
-      console.log(response.user);
-      res.status(200).json({ status: 'ok', user: response.user });
+      if (response.role === 'client') {
+        res.cookie('jwtClient', response.token, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true });
+        console.log(response.client);
+        res.status(200).json({ status: 'ok', role: 'client', client: response.client });
+      }
+      else {
+        res.cookie('jwtTherapist', response.token, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true });
+        console.log(response.therapist);
+        res.status(200).json({ status: 'ok', role: 'therapist', therapist: response.therapist });
+      }
     }
   } catch (error) {
     console.log(error)

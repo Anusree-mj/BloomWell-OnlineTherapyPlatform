@@ -55,7 +55,7 @@ const ClientQuestionnaire: React.FC<{ type: string; questionnaire: Question[] }>
                 toast.error('Please enter the otp')
                 return;
             }
-            await dispatch(getSignUpAction({ otp, name, email, password, answers }))
+            await dispatch(getSignUpAction({ type, otp, name, email, password, answers }))
         } catch (err) {
             console.log(err)
         }
