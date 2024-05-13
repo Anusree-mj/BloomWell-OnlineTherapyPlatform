@@ -5,7 +5,6 @@ import {
     getSignUpFailureAction,
     getSignUpSuccessAction
 } from '@/store/clients/clientReducer';
-import Router from 'next/router';
 
 
 // SignupSaga
@@ -19,7 +18,6 @@ function* getSignUpActionSaga(action: {
             yield put(getSignUpSuccessAction(response.client))
             localStorage.setItem("clientData", JSON.stringify(response.client));
             console.log('signup success')
-            yield call(() => Router.push('/'));
         } else {
             yield put(getSignUpFailureAction(response.message))
         }

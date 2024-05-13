@@ -1,13 +1,53 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
+import { toast } from 'react-toastify';
+import { getAdminLoginAction, adminStateType } from '@/store/admin/adminReducer';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function AdminLogin() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+    const isLoading = useSelector((state: { admin: adminStateType }) => state.admin.isLoading);
+    const error = useSelector((state: { admin: adminStateType }) => state.admin.error);
+
+    const handleLogin = async (e: { preventDefault: () => void; }) => {
+        e.preventDefault();
+        console.log('Entered in handlelogin')
+        if (!email && !password) {
+            toast.error('Please provide valid email and password');
+            return;
+        } else if (!email) {
+            toast.error('Please provide valid email');
+        } else if (!password) {
+            toast.error('Please provide valid password');
+        }
+        try {
+            await dispatch(getAdminLoginAction({ email, password, handleAdminLoginSuccess }));
+        } catch (error) {
+            console.error('Login error:', error);
+        }
+    }
+    const handleAdminLoginSuccess = () => {
+        window.location.href = '/admin';
+    }
+    useEffect(() => {
+        if (localStorage.getItem('adminData')) {
+            window.location.href = ('/admin')
+        }
+    }, [])
+    useEffect(() => {
+        if (error) {
+            toast.error(error)
+        }
+    }, [error])
+
     return (
         <Box sx={{
             paddingTop: '2rem', paddingBottom: '2rem',
@@ -25,12 +65,8 @@ export default function AdminLogin() {
                 alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'
             }}>
                 <TextField id="outlined-basic" label="Email" variant="outlined" sx={
-                    {
-                        maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
-
-
-                    }
-                } />
+                    { maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2', }
+                } onChange={(e) => { setEmail(e.target.value) }} />
                 <TextField
                     id="outlined-password-input"
                     label="Password"
@@ -41,16 +77,24 @@ export default function AdminLogin() {
                             maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
                             mt: 3
                         }
-                    }
+                    } onChange={(e) => { setPassword(e.target.value) }}
                 />
-                <Button variant="contained"
+                <LoadingButton
+                    onClick={handleLogin}
+                    loading={isLoading}
+                    loadingPosition="end"
+                    variant="contained"
                     sx={{
                         mt: 3, backgroundColor: '#325343', borderRadius: '2rem',
-                        maxWidth: '90%', width: '30rem', '&:hover': {
-                            backgroundColor: '#1C955A',
+                        maxWidth: '90%', width: '30rem',
+                        '&:hover': {
+                            backgroundColor: '#325343',
+                            color: 'white'
                         }
                     }}
-                >Login</Button>
+                >
+                    Login
+                </LoadingButton>
                 <Link href="/forgotPassword" underline="always"
                     sx={{
                         color: '#325343', mt: 2,

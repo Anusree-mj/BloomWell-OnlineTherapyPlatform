@@ -22,27 +22,92 @@ const ClientSignupComponent: React.FC<ClientSignUpComponentProps> = ({ name, set
     password, setPassword, confrmPassword, setConfrmPassword, setSignupField, setOtpField }) => {
 
     const [loading, setLoading] = React.useState(false)
+    const [nameSpan, setNameSpan] = React.useState('black')
+    const [nameTextSpan, setNameTextSpan] = React.useState('')
+    const [emailSpan, setEmailSpan] = React.useState('black')
+    const [emailTextSpan, setEmailTextSpan] = React.useState('')
+    const [passwordSpan, setPasswordSpan] = React.useState('black')
+    const [passwordTextSpan, setPasswordTextSpan] = React.useState('')
+    const [confrmPasswordSpan, setConfrmPasswordSpan] = React.useState('black')
+    const [confrmPasswordTextSpan, setConfrmPasswordTextSpan] = React.useState('')
 
     const handleSignup = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         try {
-            setLoading(true)
-            if (!name || !email || !password || !confrmPassword) {
-                toast.error('All fields are required')
-                return;
-            } else if (password !== confrmPassword) {
-                toast.error(`Password doesn't match`)
-                return;
-            }
-            const response = await axios.post(`http://localhost:8000/client/getOtp`, { email: email });
-            if (response) {
-                setSignupField(false);
-                setOtpField(true);
+            const valid = validation()
+            if (valid) {
+                setLoading(true)
+                const response = await axios.post(`http://localhost:8000/client/getOtp`, { email: email });
+                if (response) {
+                    setSignupField(false);
+                    setOtpField(true);
+                }
+            } else {
+                return
             }
         } catch (err) {
             console.log(err)
         }
     }
+
+    const validation = () => {
+        let isValid = true
+        if (!name) {
+            setNameSpan('red')
+            isValid = false
+        } else if (name.trim() === '') {
+            setNameTextSpan('Please provide a valid name')
+            isValid = false
+        } if (!email) {
+            setEmailSpan('red')
+            isValid = false
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            setEmailTextSpan('Please provide a valid email.')
+            isValid = false
+        } if (!password) {
+            setPasswordSpan('red')
+            isValid = false
+        } else if (password.trim() === '') {
+            setPasswordTextSpan('Password must be at least 8 characters long')
+            isValid = false
+        } else if (password.length < 8) {
+            setPasswordTextSpan('Password must be at least 8 characters long')
+            isValid = false
+        } if (!confrmPassword) {
+            setConfrmPasswordSpan('red')
+            isValid = false
+        } else if (password !== confrmPassword) {
+            setConfrmPasswordTextSpan(`Password doesn't match`)
+            isValid = false
+        }
+        return isValid
+    }
+
+    const clearSpan = (e: { preventDefault: () => void; }, fieldName: string) => {
+        e.preventDefault();
+        switch (fieldName) {
+            case 'name':
+                setNameTextSpan('');
+                setNameSpan('');
+                break;
+            case 'email':
+                setEmailTextSpan('');
+                setEmailSpan(''); 
+                break;
+            case 'password':
+                setPasswordSpan('')
+                setPasswordTextSpan('')
+                break;
+            case 'confrmPassword':
+                setConfrmPasswordSpan('')
+                setConfrmPasswordTextSpan('')
+                break;
+            default:
+                break;
+        }
+    }
+
+
     return (
         <>
             <FormControl sx={{
@@ -55,14 +120,30 @@ const ClientSignupComponent: React.FC<ClientSignUpComponentProps> = ({ name, set
                     required
                     sx={{
                         maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
-                    }} onChange={(e) => { setName(e.target.value) }}
+                        '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                                borderColor: nameSpan,
+                            },
+                        },
+                    }} onChange={(e) => { setName(e.target.value) }} 
+                    onClick={(e)=>clearSpan(e,'name')}
                 />
+                <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
+                >{nameTextSpan}</span>
                 <TextField id="outlined-basic" label="Email" variant="outlined"
                     required
                     sx={{
-                        maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2', mt: 2
-                    }} onChange={(e) => { setEmail(e.target.value) }}
+                        maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2', mt: 2,
+                        '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                                borderColor: emailSpan,
+                            },
+                        },
+                    }} onChange={(e) => { setEmail(e.target.value) }} 
+                    onClick={(e)=>clearSpan(e,'email')}
                 />
+                <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
+                >{emailTextSpan}</span>
                 <TextField
                     id="outlined-password-input"
                     label="Password"
@@ -70,9 +151,17 @@ const ClientSignupComponent: React.FC<ClientSignUpComponentProps> = ({ name, set
                     required
                     sx={{
                         maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
-                        mt: 2
-                    }} onChange={(e) => { setPassword(e.target.value) }}
+                        mt: 2,
+                        '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                                borderColor: passwordSpan,
+                            },
+                        },
+                    }} onChange={(e) => { setPassword(e.target.value) }} 
+                    onClick={(e)=>clearSpan(e,'password')}
                 />
+                <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
+                >{passwordTextSpan}</span>
                 <TextField
                     id="outlined-password-input"
                     label="Confirm Password"
@@ -80,9 +169,17 @@ const ClientSignupComponent: React.FC<ClientSignUpComponentProps> = ({ name, set
                     required
                     sx={{
                         maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
-                        mt: 2
+                        mt: 2,
+                        '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                                borderColor: confrmPasswordSpan,
+                            },
+                        },
                     }} onChange={(e) => { setConfrmPassword(e.target.value) }}
+                    onClick={(e)=>clearSpan(e,'confrmPassword')}
                 />
+                <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
+                >{confrmPasswordTextSpan}</span>
                 <LoadingButton
                     onClick={handleSignup}
                     loading={loading}

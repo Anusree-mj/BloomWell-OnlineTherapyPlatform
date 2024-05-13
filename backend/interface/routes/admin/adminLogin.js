@@ -3,9 +3,6 @@ const router = express.Router();
 
 import controllers  from '../../../useCases/index.js';
 
-import { protectAdmin } from '../../middlewares/adminAuthMiddleware.js';
-
-
 
 router.post('/login', async (req, res) => {
     try {
@@ -21,16 +18,5 @@ router.post('/login', async (req, res) => {
         console.log(err)
     }
 })
-
-// router.get('/', protectAdmin, getAdminDashboard);
-// router.post('/addUser', protectAdmin, addUser);
-// router
-//     .route('/user/:userId')
-//     .delete(protectAdmin, deleteUser)
-//     .put(protectAdmin, editUser)
-//     // .post(protectAdmin, addUser);
-
-
-
 
 export default router;

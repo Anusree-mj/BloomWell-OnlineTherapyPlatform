@@ -7,5 +7,10 @@ export interface ClientItem {
     id: string;
     name: string;
     email: string;
-    questionnaires:[];
+    questionnaires: [];
+}
+export interface AdminItem {
+    id: string;
+    name: string;
+    email: string
 }

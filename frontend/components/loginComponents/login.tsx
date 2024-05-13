@@ -2,12 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { useRouter } from 'next/router';
 import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import Image from 'next/image';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import { toast } from 'react-toastify';
 import Link from '@mui/material/Link';
 import { getLoginAction, userStateType } from '@/store/user/userReducer';
@@ -50,7 +48,7 @@ export default function Login() {
         } else if (localStorage.getItem('therapistData')) {
             window.location.href = ('/therapistJob')
         }
-    })
+    },[])
     useEffect(() => {
         if (error) {
             toast.error(error)
@@ -128,7 +126,7 @@ export default function Login() {
                         }
                     }}
                 >
-                    Continue
+                    Login
                 </LoadingButton>
                 <Link href="/forgotPassword" underline="always"
                     sx={{
