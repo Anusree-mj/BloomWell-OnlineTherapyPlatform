@@ -10,8 +10,7 @@ import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { getLoginAction, userStateType } from '@/store/user/userReducer';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { useRouter } from "next/router"
-
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
     const [email, setEmail] = useState('');

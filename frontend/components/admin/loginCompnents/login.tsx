@@ -9,8 +9,7 @@ import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { getAdminLoginAction, adminStateType } from '@/store/admin/adminReducer';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { useRouter } from "next/router"
-
+import { useRouter } from 'next/navigation';
 
 
 export default function AdminLogin() {

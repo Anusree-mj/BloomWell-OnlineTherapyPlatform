@@ -1,6 +1,7 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export function LoginHeader() {
     return (
@@ -19,11 +20,11 @@ export function LoginHeader() {
                     width={80}
                     height={30}
                 />
+                <Link href={'/'}>
                 <Typography
                     variant="h6"
                     noWrap
                     component="a"
-                    href="/"
                     sx={{
                         fontFamily: 'monospace',
                         fontWeight: 700,
@@ -34,6 +35,7 @@ export function LoginHeader() {
                 >
                     BloomWell
                 </Typography>
+                </Link>
             </Box>
         </Box>
     )

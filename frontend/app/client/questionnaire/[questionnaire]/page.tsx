@@ -1,14 +1,14 @@
 'use client'
 
-import { LoginHeader } from "../../../components/common/headers/loginHeader";
-import Footer from '../../../components/common/footer/footer';
+import { LoginHeader } from "../../../../components/common/headers/loginHeader";
+import Footer from '../../../../components/common/footer/footer';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { individualQuestionnaire } from "@/components/questionaire/individual";
-import { coupleQuestionnaire } from "@/components/questionaire/couple";
-import { teenQuestionnaire } from "@/components/questionaire/teen";
-import ClientQuiestionnaire from "@/components/questionaire/clientQuestionnaire";
+import { individualQuestionnaire } from "@/components/common/questionaire/individual";
+import { coupleQuestionnaire } from "@/components/common/questionaire/couple";
+import { teenQuestionnaire} from '@/components/common/questionaire/teen'
+import ClientQuiestionnaire from '@/components/common/questionaire/clientQuestionnaire'
 import store from "@/store";
 import { Provider } from "react-redux";
 

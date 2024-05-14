@@ -1,7 +1,7 @@
 import Header from "../components/common/headers/header";;
-import HomeCard from '../components/homeComponents/homeCard';
-import WorkFlows from '../components/homeComponents/howItWorks';
-import Accordion from '../components/homeComponents/accordion';
+import HomeCard from '../components/user/homeComponents/homeCard';
+import WorkFlows from '../components/user/homeComponents/howItWorks';
+import Accordion from '../components/user/homeComponents/accordion';
 import Footer from '../components/common/footer/footer'
 
 
