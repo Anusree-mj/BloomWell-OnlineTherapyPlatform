@@ -135,6 +135,12 @@ const ClientSignupComponent = () => {
     }
 
     useEffect(() => {
+        if (localStorage.getItem('clientData')) {
+            router.push('/client/welcome')
+        }
+    }, [])
+
+    useEffect(() => {
         if (error) {
             toast.error(error)
         }

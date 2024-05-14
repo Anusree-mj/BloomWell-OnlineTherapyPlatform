@@ -1,12 +1,21 @@
 import Box from '@mui/joy/Box';
 import { Button, Typography } from '@mui/material';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 interface WelcomeComponentProps {
   welcomeText: string[];
 }
 
 const WelcomeComponent = ({ welcomeText }: WelcomeComponentProps) => {
+  const router = useRouter()
+  useEffect(() => {
+    const userData = localStorage.getItem('clientData')
+    if (!userData) {
+      router.push('/login')
+    }
+  }, [])
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
       <Typography sx={{
@@ -39,7 +48,7 @@ const WelcomeComponent = ({ welcomeText }: WelcomeComponentProps) => {
       <Button variant="contained"
         sx={{
           color: '#325343', mt: 2, borderRadius: '0.7rem',
-          backgroundColor: '#a6de9b', mb:3,
+          backgroundColor: '#a6de9b', mb: 3,
           '&:hover': {
             backgroundColor: '#325343',
             color: 'white'

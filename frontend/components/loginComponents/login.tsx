@@ -47,6 +47,15 @@ export default function Login() {
     }
 
     useEffect(() => {
+      if (localStorage.getItem('clientData')) {
+        router.push('/client/welcome')
+      }
+      // } else if (localStorage.getItem('therapistData')) {
+      //   router.push('/therapistJob')
+      // }
+    }, [])
+
+    useEffect(() => {
         if (error) {
             toast.error(error)
         }

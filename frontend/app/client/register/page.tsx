@@ -1,4 +1,3 @@
-'use client'
 
 import { LoginHeader } from "@/components/common/headers/loginHeader"
 import Footer from "@/components/common/footer/footer"
@@ -8,15 +7,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import store from "@/store";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 const Page = () => {
-    const router = useRouter()
-    useEffect(() => {
-        if (localStorage.getItem('clientData')) {
-            router.push('/client/welcome')
-        }
-    }, [])
+   
     return (
         <Provider store={store}>
             <ToastContainer />
