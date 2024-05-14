@@ -5,8 +5,7 @@ import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-
+import Link from 'next/link';
 export default function AminLogin() {
     return (
         <Box sx={{
@@ -32,18 +31,19 @@ export default function AminLogin() {
                 } />
                 <Button variant="contained"
                     sx={{
-                        mt: 3, backgroundColor: '#325343', borderRadius: '2rem',                       
-                        maxWidth: '90%', width: '30rem','&:hover': {
+                        mt: 3, backgroundColor: '#325343', borderRadius: '2rem',
+                        maxWidth: '90%', width: '30rem', '&:hover': {
                             backgroundColor: '#1C955A',
-                          }
+                        }
                     }}
                 >Send reset password email</Button>
-                <Link href="/login" underline="always"
-                    sx={{
+                <Link href="/login" >
+                    <Typography sx={{
                         color: '#325343', mt: 2,
                         fontWeight: 600, textDecorationColor: '#325343'
                     }}>
-                    {'Back to Login'}
+                        Back to Login
+                    </Typography>
                 </Link>
             </Box>
         </Box>

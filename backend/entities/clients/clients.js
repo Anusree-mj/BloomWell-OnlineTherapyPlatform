@@ -16,11 +16,9 @@ const clientSchema = mongoose.Schema({
     },
     sessionType: {
         type: String,
-        required: true
     },
     questionnaire: {
         type: Array,
-        required: true
     },
     isBlocked: {
         type: Boolean,

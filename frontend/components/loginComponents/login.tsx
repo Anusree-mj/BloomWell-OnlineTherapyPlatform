@@ -6,13 +6,12 @@ import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import Image from 'next/image';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
 import { toast } from 'react-toastify';
-import Link from '@mui/material/Link';
-// import { useRouter } from 'next/router';
-
+import Link from 'next/link';
 import { getLoginAction, userStateType } from '@/store/user/userReducer';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { useRouter } from "next/router"
+
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -20,7 +19,7 @@ export default function Login() {
     const dispatch = useDispatch();
     const isLoading = useSelector((state: { user: userStateType }) => state.user.isLoading);
     const error = useSelector((state: { user: userStateType }) => state.user.error);
-    // const router = useRouter();
+    const router = useRouter()
 
     const handleLogin = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
@@ -34,11 +33,27 @@ export default function Login() {
             toast.error('Please provide valid password');
         }
         try {
-            await dispatch(getLoginAction({ email, password }));
+            await dispatch(getLoginAction({ email, password, handleLoginSuccess }));
         } catch (error) {
             console.error('Login error:', error);
         }
     }
+    const handleLoginSuccess = (role: string) => {
+        if (role === 'client') {
+            router.push('/');
+        } else {
+            router.push('/therapistJob')
+        }
+    }
+
+    useEffect(() => {
+      if (localStorage.getItem('clientData')) {
+        router.push('/client/welcome')
+      }
+      // } else if (localStorage.getItem('therapistData')) {
+      //   router.push('/therapistJob')
+      // }
+    }, [])
 
     useEffect(() => {
         if (error) {
@@ -117,14 +132,15 @@ export default function Login() {
                         }
                     }}
                 >
-                    Continue
+                    Login
                 </LoadingButton>
-                <Link href="/forgotPassword" underline="always"
-                    sx={{
+                <Link href="/forgotPassword">
+                    <Typography sx={{
                         color: '#325343', mt: 2,
                         fontWeight: 600, textDecorationColor: '#325343'
                     }}>
-                    {'Forgot Password?'}
+                        Forgot Password?
+                    </Typography>
                 </Link>
             </Box>
         </Box>

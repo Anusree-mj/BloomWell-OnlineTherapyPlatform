@@ -63,7 +63,7 @@ export default function AdminHeader(props: Props) {
     const navicons = [
         { iconTitle: 'Dashboard', icon: <DashboardIcon />, link: '/admin/' },
         { iconTitle: 'Clients', icon: <PsychologyAltIcon />, link: '/admin/clients' },
-        { iconTitle: 'Therapists', icon: <PsychologyIcon />, link: '/admin/therapists' },
+        { iconTitle: 'Therapists', icon: <PsychologyIcon />, link: '/admin/therapistJob' },
         { iconTitle: 'Analytics', icon: <AutoGraphIcon />, link: '/admin/analytics' },
 
     ]

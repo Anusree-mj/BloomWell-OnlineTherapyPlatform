@@ -16,8 +16,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Image from 'next/image';
-import Link from '@mui/material/Link';
-
+import Link from 'next/link';
 interface Props {
   /**
    * Injected by the documentation to work in an iframe.
@@ -31,7 +30,7 @@ const navItems = [
   { name: 'Home', link: '/' },
   { name: 'Advice', link: '/advice' },
   { name: 'Contact', link: '/contact' },
-  { name: 'Therapist Jobs', link: '/therapists' },
+  { name: 'Therapist Jobs', link: '/therapistJob' },
 ];
 
 export default function DrawerAppBar(props: Props) {
@@ -47,6 +46,7 @@ export default function DrawerAppBar(props: Props) {
       textAlign: 'center', backgroundColor: '#F8FBD5',
       display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'
     }}>
+
       <Box sx={{
         flexGrow: 1, display: { xs: 'flex', sm: 'flex' },
         alignItems: 'center', backgroundColor: '#325343', width: '100%'
@@ -62,7 +62,6 @@ export default function DrawerAppBar(props: Props) {
           variant="h6"
           noWrap
           component="a"
-          href="/"
           sx={{
             ml: 2,
             display: { xs: 'flex', md: 'flex' },
@@ -80,45 +79,39 @@ export default function DrawerAppBar(props: Props) {
       <List>
         {navItems.map((item) => (
           <ListItem key={item.name} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center', }}>
-              <Link href={item.link} underline="none"
-                sx={{
-                  color: '#325343',
-                  fontWeight: 600
-                }}>
+            <Link href={item.link} passHref>
+              <ListItemButton sx={{ textAlign: 'center', color: '#325343', fontWeight: 600 }}>
                 <ListItemText primary={item.name} />
-              </Link>
-            </ListItemButton>
+              </ListItemButton>
+            </Link>
           </ListItem>
         ))}
-        <Button sx={{
-          my: 2, mx: 5, color: '#325343', borderColor: '#325343',
-          display: 'block'
-        }}
-          variant="outlined">
-          <Link href="/login" underline="none"
+        <Link href="/login">
+          <Button
+            variant="outlined"
             sx={{
+              my: 1,
+              mx: 2,
               color: '#325343',
+              borderColor: '#325343',
+              display: 'block',
               fontWeight: 600
-            }}>
-            {'Login'}
-          </Link>
-        </Button>
+            }}
+          >
+            Login          </Button>
+        </Link>
 
-        <Button sx={{
-          my: 2, mx: 2, color: 'white', backgroundColor: '#325343',
-          display: 'block'
-        }} variant="contained">
-          <Link href="#" underline="none"
-            sx={{
-              color: 'white', fontWeight: 600,
-            }}>
-            {'Get Started'}
-          </Link>
-        </Button>
+        <Link href="/client/register">
+          <Button sx={{
+            my: 2, mx: 2, color: 'white', backgroundColor: '#325343',
+            display: 'block', fontWeight: 600,
+          }} variant="contained">
+            Get Started
+          </Button>
+        </Link>
 
       </List>
-    </Box>
+    </Box >
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
@@ -164,53 +157,46 @@ export default function DrawerAppBar(props: Props) {
           </IconButton>
           <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
             {navItems.map((item) => (
-              <Button key={item.name} sx={{
-                color: '#fff', '&:hover': {
-                  textDecorationColor: 'transparent',
-                  boxShadow: 'inset 0em -0.2em 0 #08CB6D',
-                }
-              }}>
-                <Link href={item.link} underline="none"
+              <Link href={item.link} passHref>
+                <Button
+                  key={item.name}
                   sx={{
-                    color: 'white',
-                    fontWeight: 600
-                  }}>
+                    color: '#fff',
+                    '&:hover': {
+                      textDecorationColor: 'transparent',
+                      boxShadow: 'inset 0em -0.2em 0 #08CB6D',
+                    },
+                  }}
+                >
                   {item.name}
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             ))}
-            <Button sx={{
-              my: 2, mx: 1, color: 'white', borderColor: 'white', display: 'block',
-              '&:hover': {
-                borderColor: '#08CB6D',
-              }
-            }}
-              variant="outlined">
-              <Link href="/login" underline="none"
-                sx={{
-                  color: 'white', fontWeight: 600,
-                  '&:hover': {
-                    color: '#08CB6D'
-                  }
-                }}>
-                {'Login'}
-              </Link>
-            </Button>
+            <Link href="/login">
+              <Button sx={{
+                mx: 1, color: 'white', borderColor: 'white', display: 'block',
+                fontWeight: 600,
+                '&:hover': {
+                  borderColor: '#08CB6D',
+                }
+              }}
+                variant="outlined">
+                Login
+              </Button>
+            </Link>
 
-            <Button sx={{
-              my: 2, mx: 1, color: '#325343', backgroundColor: 'white', display: 'block',
-              '&:hover': {
-                backgroundColor: '#08CB6D',
-              }
-            }}
-              variant="contained">
-              <Link href="#" underline="none"
-                sx={{
-                  color: '#325343', fontWeight: 600,
-                }}>
-                {'Get Started'}
-              </Link>
-            </Button>
+            <Link href="/client/register">
+              <Button sx={{
+                mx: 1, color: '#325343', backgroundColor: 'white', display: 'block',
+                fontWeight: 600,
+                '&:hover': {
+                  backgroundColor: '#08CB6D',
+                }
+              }}
+                variant="contained">
+                Get Started
+              </Button>
+            </Link>
           </Box>
         </Toolbar>
       </AppBar>

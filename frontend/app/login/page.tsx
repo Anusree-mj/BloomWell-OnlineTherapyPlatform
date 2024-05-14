@@ -1,5 +1,4 @@
-'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from '../../components/common/headers/header'
 import Footer from '../../components/common/footer/footer'
 import Login from '../../components/loginComponents/login'
@@ -9,15 +8,15 @@ import { Provider } from 'react-redux';
 import store from '../../store'
 
 const Page = () => {
-  return (
+   return (
     <Provider store={store}>
-    <ToastContainer />
+      <ToastContainer />
       <Header />
       <div style={{ paddingTop: '5.6rem' }}>
         <Login />
       </div>
       <Footer />
-      </Provider>
+    </Provider>
   )
 }
 

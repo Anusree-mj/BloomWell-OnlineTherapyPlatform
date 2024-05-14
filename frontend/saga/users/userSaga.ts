@@ -9,7 +9,7 @@ import {
 // loginSaga
 function* getLoginActionSaga(action: {
     type: string;
-    payload: { email: '', password: '', }
+    payload: { email: '', password: '', handleLoginSuccess: (role: string) => void }
 }): any {
     try {
         const response = yield call<any>(getLoginApi, action.payload);
@@ -17,10 +17,12 @@ function* getLoginActionSaga(action: {
             if (response.role === 'client') {
                 yield put(getLoginSuccessAction(response.client))
                 localStorage.setItem("clientData", JSON.stringify(response.client));
+                action.payload.handleLoginSuccess(response.role)
                 console.log('login success')
             } else {
                 yield put(getLoginSuccessAction(response.therapist))
                 localStorage.setItem("therapistData", JSON.stringify(response.therapist));
+                action.payload.handleLoginSuccess(response.role)
                 console.log('login success')
             }
         } else {
