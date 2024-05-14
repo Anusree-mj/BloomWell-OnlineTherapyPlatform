@@ -10,13 +10,14 @@ import {
 // SignupSaga
 function* getSignUpActionSaga(action: {
     type: string;
-    payload: { type: '', otp: number, name: '', email: '', password: '', questionnaire: [] }
+    payload: { otp: number, name: '', email: '', password: '', handleSignupSuccess: () => void }
 }): any {
     try {
         const response = yield call<any>(getSignupApi, action.payload);
         if (response.status === 'ok') {
             yield put(getSignUpSuccessAction(response.client))
             localStorage.setItem("clientData", JSON.stringify(response.client));
+            action.payload.handleSignupSuccess()
             console.log('signup success')
         } else {
             yield put(getSignUpFailureAction(response.message))

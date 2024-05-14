@@ -5,10 +5,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
+import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { getAdminLoginAction, adminStateType } from '@/store/admin/adminReducer';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { useRouter } from "next/router"
+
+
 
 export default function AdminLogin() {
     const [email, setEmail] = useState('');
@@ -16,6 +19,7 @@ export default function AdminLogin() {
     const dispatch = useDispatch();
     const isLoading = useSelector((state: { admin: adminStateType }) => state.admin.isLoading);
     const error = useSelector((state: { admin: adminStateType }) => state.admin.error);
+    const router = useRouter()
 
     const handleLogin = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
@@ -35,11 +39,11 @@ export default function AdminLogin() {
         }
     }
     const handleAdminLoginSuccess = () => {
-        window.location.href = '/admin';
+        router.push('/admin');
     }
     useEffect(() => {
         if (localStorage.getItem('adminData')) {
-            window.location.href = ('/admin')
+            router.push('/admin')
         }
     }, [])
     useEffect(() => {
@@ -95,12 +99,13 @@ export default function AdminLogin() {
                 >
                     Login
                 </LoadingButton>
-                <Link href="/forgotPassword" underline="always"
-                    sx={{
+                <Link href="/forgotPassword">
+                    <Typography sx={{
                         color: '#325343', mt: 2,
                         fontWeight: 600, textDecorationColor: '#325343'
                     }}>
-                    {'Forgot Password?'}
+                        Forgot Password?
+                    </Typography>
                 </Link>
             </Box>
         </Box>

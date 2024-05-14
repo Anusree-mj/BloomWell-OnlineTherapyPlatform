@@ -7,9 +7,11 @@ import Typography from '@mui/joy/Typography';
 import Image from 'next/image';
 import TextField from '@mui/material/TextField';
 import { toast } from 'react-toastify';
-import Link from '@mui/material/Link';
+import Link from 'next/link';
 import { getLoginAction, userStateType } from '@/store/user/userReducer';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { useRouter } from "next/router"
+
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -17,6 +19,7 @@ export default function Login() {
     const dispatch = useDispatch();
     const isLoading = useSelector((state: { user: userStateType }) => state.user.isLoading);
     const error = useSelector((state: { user: userStateType }) => state.user.error);
+    const router = useRouter()
 
     const handleLogin = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
@@ -37,18 +40,12 @@ export default function Login() {
     }
     const handleLoginSuccess = (role: string) => {
         if (role === 'client') {
-            window.location.href = '/';
+            router.push('/');
         } else {
-            window.location.href = '/therapistJob'
+            router.push('/therapistJob')
         }
     }
-    useEffect(() => {
-        if (localStorage.getItem('clientData')) {
-            window.location.href = ('/client/welcome')
-        } else if (localStorage.getItem('therapistData')) {
-            window.location.href = ('/therapistJob')
-        }
-    },[])
+
     useEffect(() => {
         if (error) {
             toast.error(error)
@@ -128,12 +125,13 @@ export default function Login() {
                 >
                     Login
                 </LoadingButton>
-                <Link href="/forgotPassword" underline="always"
-                    sx={{
+                <Link href="/forgotPassword">
+                    <Typography sx={{
                         color: '#325343', mt: 2,
                         fontWeight: 600, textDecorationColor: '#325343'
                     }}>
-                    {'Forgot Password?'}
+                        Forgot Password?
+                    </Typography>
                 </Link>
             </Box>
         </Box>

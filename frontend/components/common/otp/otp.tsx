@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Input as BaseInput } from '@mui/base/Input';
 import { Box, styled } from '@mui/system';
-import { Button } from '@mui/material';
+import { Button, FormControl, Typography } from '@mui/material';
 import axios from 'axios';
 
 function OTP({
@@ -219,22 +219,22 @@ const OTPInput: React.FC<OTPInputProps> = ({ email, otp, setOtp, disableButton, 
         flexDirection: 'column',
         gap: 2,
       }}
-    >
-      <OTP separator={<span>-</span>} value={otp} onChange={setOtp} length={6} />
-      <span>Resend otp in: {formatTime(timer)}</span>
-      {disableButton && (
-        <Button variant="contained"
-          sx={{
-            mt: 3, borderRadius: '2rem',
-            maxWidth: '90%', width: '30rem', color: '#325343',
-            backgroundColor: '#a6de9b',
-            '&:hover': {
-              backgroundColor: '#325343',
-              color: 'white'
-            }
-          }} onClick={handleResendOTP}
-        >Resend OTP</Button>
-      )}
+    >   
+        <OTP separator={<span>-</span>} value={otp} onChange={setOtp} length={6} />
+        <span>Resend otp in: {formatTime(timer)}</span>
+        {disableButton && (
+          <Button variant="contained"
+            sx={{
+              mt: 3, borderRadius: '2rem',
+              maxWidth: '90%', width: '30rem', color: '#325343',
+              backgroundColor: '#a6de9b',
+              '&:hover': {
+                backgroundColor: '#325343',
+                color: 'white'
+              }
+            }} onClick={handleResendOTP}
+          >Resend OTP</Button>
+        )}
     </Box>
   );
 }

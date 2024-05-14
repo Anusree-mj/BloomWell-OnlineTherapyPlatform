@@ -7,7 +7,6 @@ import controllers from '../../../useCases/index.js';
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    console.log(email, password)
     const response = await controllers.userAuthControllers.authUser(email, password);
     if (response.status === 'ok') {
       if (response.role === 'client') {

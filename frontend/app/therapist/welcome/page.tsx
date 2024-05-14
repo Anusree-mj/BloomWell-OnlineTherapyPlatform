@@ -5,13 +5,14 @@ import Footer from "@/components/common/footer/footer"
 import WelcomeComponent from "@/components/welcome/clientWelcomeText"
 import { therapistWelcomeText } from "@/components/welcome/welcomeText"
 import { useEffect } from "react"
+import { useRouter } from "next/router"
 
 const Page = () => {
-
+    const router = useRouter()
     // useEffect(() => {
     //     const userData = localStorage.getItem('therapistData')
     //     if (!userData) {
-    //         window.location.href = ('/login')
+    //        router.push('/login')
     //     } 
     // },[])
     return (

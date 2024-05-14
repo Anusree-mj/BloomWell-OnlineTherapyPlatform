@@ -21,18 +21,7 @@ const ClientQuestionnaire: React.FC<{ type: string; questionnaire: Question[] }>
     const [qtnIndex, setQtnIndex] = useState(0);
     const qtn = questionnaire[qtnIndex]
     const [answers, setAnswers] = useState<string[]>([])
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confrmPassword, setConfrmPassword] = useState('');
     const [questionnaireField, setQuestionnaireField] = useState(true)
-    const [signUpField, setSignupField] = useState(false)
-    const [otpField, setOtpField] = useState(false)
-    const [otp, setOtp] = useState('');
-    const [disableButton, setDisableButton] = useState(false)
-    const dispatch = useDispatch();
-    const isLoading = useSelector((state: { client: clientStateType }) => state.client.isLoading);
-    const error = useSelector((state: { client: clientStateType }) => state.client.error);
 
     const handleAnswers = (answer: string | null) => {
         if (!answer) {
@@ -40,32 +29,10 @@ const ClientQuestionnaire: React.FC<{ type: string; questionnaire: Question[] }>
             console.log('answerrr', answer)
             return;
         }
-        if (qtnIndex === questionnaire.length - 1) {
-            setQuestionnaireField(false);
-            setSignupField(true)
-        }
         setAnswers((prevAnswers) => [...prevAnswers, answer]);
         setQtnIndex((prevQtn) => prevQtn + 1)
     }
 
-    const handleOtp = async (e: { preventDefault: () => void; }) => {
-        e.preventDefault();
-        try {
-            if (!otp) {
-                toast.error('Please enter the otp')
-                return;
-            }
-            await dispatch(getSignUpAction({ type, otp, name, email, password, answers }))
-        } catch (err) {
-            console.log(err)
-        }
-    }
-
-    useEffect(() => {
-        if (error) {
-            toast.error(error)
-        }
-    }, [error])
     return (
         <Box sx={{
             display: 'flex', justifyContent: 'center', alignItems: 'center', pb: 4,
@@ -104,69 +71,6 @@ const ClientQuestionnaire: React.FC<{ type: string; questionnaire: Question[] }>
                                 }
                             }} onClick={() => { handleAnswers(item) }}>{item}</Button>
                         ))}
-                    </FormControl>
-                </>
-            )}{signUpField && (
-                <>
-                    <Typography sx={{
-                        fontSize: { xs: '1.5rem', sm: '2rem' },
-                        textAlign: 'center', color: '#325343', mt: 2, mb: 1
-                    }}>
-                        You've completed the questionaire !
-                    </Typography>
-                    <Typography sx={{
-                        fontSize: '0.9rem', fontWeight: 600, textAlign: 'center', color: '#325343',
-                        width: '30rem', maxWidth: '80%', mb: 2
-                    }
-                    }>Now, Signin with your credentials.</Typography>
-                    <ClientSignupComponent name={name} setName={setName} email={email} setEmail={setEmail}
-                        password={password} setPassword={setPassword} confrmPassword={confrmPassword} setConfrmPassword={setConfrmPassword}
-                        setSignupField={setSignupField} setOtpField={setOtpField}
-                    />
-                </>
-            )}
-            {otpField && (
-                <>
-                    <Typography sx={{
-                        fontSize: { xs: '1.5rem', sm: '2rem' },
-                        textAlign: 'center', color: '#325343', mt: 2, mb: 1
-                    }}>
-                        You've completed the questionaire !
-                    </Typography>
-                    <Typography sx={{
-                        fontSize: '0.9rem', fontWeight: 600, textAlign: 'center', color: '#325343',
-                        width: '30rem', maxWidth: '80%', mb: 2
-                    }
-                    }>Now, Signin with your credentials.</Typography>
-                    <FormControl sx={{
-                        width: '30rem', backgroundColor: 'white',
-                        padding: 4, maxWidth: '90%', minHeight: '50vh',
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-                        borderRadius: '0.6rem',
-                    }}>
-                        <OTPInput email={email} otp={otp} setOtp={setOtp} disableButton={disableButton} setDisableButton={setDisableButton} />
-                        {!disableButton && (
-
-                            <LoadingButton
-                                onClick={handleOtp}
-                                loading={isLoading}
-                                loadingPosition="end"
-                                variant="contained"
-                                sx={{
-                                    mt: 3, borderRadius: '2rem',
-                                    maxWidth: '90%', width: '30rem', color: '#325343',
-                                    backgroundColor: '#a6de9b',
-                                    '&:hover': {
-                                        backgroundColor: '#325343',
-                                        color: 'white'
-                                    }
-                                }}
-                            >
-                                Continue
-                            </LoadingButton>
-                        )
-
-                        }
                     </FormControl>
                 </>
             )}

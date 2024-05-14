@@ -7,7 +7,6 @@ import controllers  from '../../../useCases/index.js';
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log(email, password)
         const response = await controllers.adminControllers.authAdmin(email, password)
         if (response.status === 'ok') {
             res.cookie('jwtAdmin', response.token, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true });

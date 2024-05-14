@@ -5,14 +5,16 @@ import { generateOTP, sendOtpByEmail } from '../../../utilitis/generateOTP.js';
 // getOtp
 const getOtp = async (email) => {
     try {
-        // console.log('entered in getOtp controller')
-        const otp = generateOTP()
-        const response = await clientAuthQueries.saveOtp(email, otp);
-        if (response) {
-            await sendOtpByEmail(email, otp);
-            return { status: 'ok' };
+        const verifyUser = await clientAuthQueries.checkUser(email);
+        if (verifyUser.status === 'ok') {
+            const otp = generateOTP()
+            const response = await clientAuthQueries.saveOtp(email, otp);
+            if (response.status === 'ok') {
+                await sendOtpByEmail(email, otp);
+                return { status: 'ok' };
+            }
         } else {
-            return { status: 'nok' }
+            return { status: 'nok', message: 'User already exists' }
         }
     } catch (err) {
         console.log('Error found', err)
