@@ -12,7 +12,7 @@ export interface adminStateType {
 
 const initialState: adminStateType = {
     admin: {
-        id: '',
+        _id: '',
         name: '',
         email: '',
     },
@@ -41,6 +41,7 @@ export const adminSlice: any = createSlice({
         },
         // get client details
         getClientsDetailsAction: (state) => {
+            console.log('entered in get client details action')
             state.isLoading = true;
         },
         getClientsDetailsSuccessAction: (state, action) => {

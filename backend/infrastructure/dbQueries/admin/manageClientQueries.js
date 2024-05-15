@@ -1,7 +1,7 @@
 import Admin from '../../../entities/admin/adminModel.js';
 import Client from '../../../entities/clients/clients.js';
 
-const getClientsDetails = async () => {
+const getClientsDetailsQuery = async () => {
     try {
         const clients = await Client.find({}).select('-password');
         return { clients }
@@ -11,6 +11,30 @@ const getClientsDetails = async () => {
     }
 }
 
+const deleteClientQuery = async (clientId) => {
+    try {
+        const client = await Client.findByIdAndUpdate(clientId, { isBlocked: true });
+        if (client) {
+            return { status: 'ok' }
+        }
+    } catch (err) {
+        console.log(err.message)
+    }
+}
+
+const editClientQuery = async (clientId) => {
+    try {
+        const client = await Client.findByIdAndUpdate(clientId, { isBlocked: false });
+        if (client) {
+            return { status: 'ok' }
+        }
+    } catch (err) {
+        console.log(err.message)
+    }
+}
+
 export default {
-    getClientsDetails,
+    getClientsDetailsQuery,
+    deleteClientQuery,
+    editClientQuery,
 }
