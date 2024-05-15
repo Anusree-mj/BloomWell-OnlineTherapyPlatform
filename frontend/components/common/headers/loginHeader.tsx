@@ -20,11 +20,10 @@ export function LoginHeader() {
                     width={80}
                     height={30}
                 />
-                <Link href={'/'}>
+                <Link href={'/'} passHref>
                 <Typography component="a" 
                     variant="h6"
                     noWrap
-                    component="a"
                     sx={{
                         fontFamily: 'monospace',
                         fontWeight: 700,

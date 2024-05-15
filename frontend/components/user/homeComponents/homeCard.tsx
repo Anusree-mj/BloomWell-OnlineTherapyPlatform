@@ -95,8 +95,10 @@ export default function MediaCover() {
           </Card>
         ))}
       </Box>
-      <Link href={"/client/register"}>
-        <Button variant="contained" sx={{
+      <Link href={"/client/register"} passHref>
+        <Button variant="contained"
+        component="a"
+        sx={{
           mt: 4,
           backgroundColor: '#95C08D',
           color: '#325343',

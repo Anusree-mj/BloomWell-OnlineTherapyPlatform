@@ -133,7 +133,7 @@ export default function Login() {
                 >
                     Login
                 </LoadingButton>
-                <Link href="/forgotPassword">
+                <Link href="/forgotPassword" passHref>
                     <Typography component="a"  sx={{
                         color: '#325343', mt: 2,
                         fontWeight: 600, textDecorationColor: '#325343'

@@ -1,4 +1,9 @@
 import { authAdmin } from './adminAuth/adminAuthController.js'
-const adminControllers = { authAdmin }
+import { getClientsDetailsController } from './clientManagement/manageClientController.js'
+
+const adminControllers = {
+    authAdmin,
+    getClientsDetailsController,
+}
 
 export default adminControllers

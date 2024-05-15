@@ -40,7 +40,8 @@ function* getClientsDetailsActionSaga(): any {
     try {
         const response = yield call<any>(getClientssDetailsApi);
         if (response.status === 'ok') {
-            yield put(getClientsDetailsSuccessAction(response.Clients))
+            yield put(getClientsDetailsSuccessAction(response.clients))
+            console.log('cleint details', response.clients)
         } else {
             yield put(getClientsDetailsFailureAction(response.message))
 

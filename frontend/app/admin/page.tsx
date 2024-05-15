@@ -1,7 +1,7 @@
 'use client'
 
 import AdminHeader from "@/components/admin/header/adminHeader";
-import AdminDashboard from "@/components/admin/dashboard/dashboardComponent";
+import AdminDashboard from "@/components/admin/clients/manageClientComponent";
 import { Provider } from 'react-redux';
 import store from '../../store'
 

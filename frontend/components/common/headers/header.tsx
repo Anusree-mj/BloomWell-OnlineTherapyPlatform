@@ -18,10 +18,6 @@ import Button from '@mui/material/Button';
 import Image from 'next/image';
 import Link from 'next/link';
 interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window?: () => Window;
 }
 
@@ -87,7 +83,7 @@ export default function DrawerAppBar(props: Props) {
             </Link>
           </ListItem>
         ))}
-        <Link href="/login">
+        <Link href="/login" passHref>
           <Button component="a" 
             variant="outlined"
             sx={{
@@ -102,7 +98,7 @@ export default function DrawerAppBar(props: Props) {
             Login          </Button>
         </Link>
 
-        <Link href="/client/register">
+        <Link href="/client/register" passHref>
           <Button component="a"  sx={{
             my: 2, mx: 2, color: 'white', backgroundColor: '#325343',
             display: 'block', fontWeight: 600,
@@ -173,7 +169,7 @@ export default function DrawerAppBar(props: Props) {
                 </Button>
               </Link>
             ))}
-            <Link href="/login">
+            <Link href="/login" passHref>
               <Button component="a" 
               sx={{
                 mx: 1, color: 'white', borderColor: 'white', display: 'block',
@@ -187,7 +183,7 @@ export default function DrawerAppBar(props: Props) {
               </Button>
             </Link>
 
-            <Link href="/client/register">
+            <Link href="/client/register" passHref>
               <Button component="a" 
                sx={{
                 mx: 1, color: '#325343', backgroundColor: 'white', display: 'block',
