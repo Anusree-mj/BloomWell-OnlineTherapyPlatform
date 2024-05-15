@@ -25,5 +25,53 @@ router.post('/login', async (req, res) => {
   }
 });
 
+router.post('/getOtp', async (req, res) => {
+  try {
+    const { email } = req.body;
+    console.log('entered in get otp route')
+    const response = await controllers.userAuthControllers.getOtpController(email)
+    if (response.status === 'ok') {
+      console.log('otp sent')
+      res.status(200).json({ status: 'ok' });
+    } else {
+      res.status(400).json({ status: 'nok', message: 'User already exists' })
+    }
+  } catch (err) {
+    console.log(err)
+  }
+})
+// forgot password
+router.post('/forgotPassword/getOtp', async (req, res) => {
+  try {
+    const { email } = req.body;
+    console.log('entered in forgot password get otp route')
+    const { status } = await controllers.userAuthControllers.getForgotPasswordOTP(email)
+    if (status === 'ok') {
+      console.log('otp sent')
+      res.status(200).json({ status: 'ok' });
+    } else {
+      res.status(400).json({ status: 'nok', message: 'Invalid email' })
+    }
+  } catch (err) {
+    console.log(err)
+  }
+})
+
+router.post('/forgotPassword/verifyOtp', async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    console.log('entered in forgot password get otp route',email,otp)
+
+    const { status } = await controllers.userAuthControllers.verifyOTP(email, otp)
+    if (status === 'ok') {
+      console.log('otp matched')
+      res.status(200).json({ status: 'ok' });
+    } else {
+      res.status(400).json({ status: 'nok', message: 'Invalid OTP' })
+    }
+  } catch (err) {
+    console.log(err)
+  }
+})
 
 export default router;

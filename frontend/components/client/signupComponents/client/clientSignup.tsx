@@ -38,7 +38,7 @@ const ClientSignupComponent = () => {
             const valid = validation()
             if (valid) {
                 setLoading(true)
-                const response = await axios.post(`http://localhost:8000/client/getOtp`, { email: email });
+                const response = await axios.post(`http://localhost:8000/users/getOtp`, { email: email });
                 if (response.status === 200) {
                     setOtpField(true)
                 }

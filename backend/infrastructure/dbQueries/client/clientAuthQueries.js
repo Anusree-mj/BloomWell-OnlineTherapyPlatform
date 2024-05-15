@@ -3,18 +3,6 @@ import Client from "../../../entities/clients/clients.js";
 import bcrypt from 'bcryptjs';
 import User from "../../../entities/userModel.js";
 
-const checkUser = async (email) => {
-    try {
-        const user = await Client.findOne({ email: email });
-        if (user) {
-            return { status: 'nok' }
-        } else {
-            return { status: 'ok' }
-        }
-    } catch (err) {
-        console.log(err)
-    }
-}
 
 const saveOtp = async (email, otp) => {
     try {
@@ -61,5 +49,4 @@ const verifyOTP = async (data) => {
 export default {
     saveOtp,
     verifyOTP,
-    checkUser,
 }

@@ -1,7 +1,7 @@
 import Client from '../../../entities/clients/clients.js';
 import User from '../../../entities/userModel.js';
 import bcrypt from 'bcryptjs';
-
+import TempClient from '../../../entities/clients/tempClientModel.js';
 
 const userDoLogin = async (email, password) => {
     try {
@@ -28,6 +28,53 @@ const userDoLogin = async (email, password) => {
     }
 }
 
+const checkUser = async (email) => {
+    try {
+        const client = await Client.findOne({ email: email });
+        // const therapy = await Therapist.findOne({ email: email });
+        if (client) {  //&&therapist
+            return { status: 'nok' }
+        } else {
+            return { status: 'ok' }
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const verifyEmail = async (email) => {
+    try {
+        const client = await Client.findOne({ email: email });
+        // const therapy = await Therapist.findOne({ email: email });
+        if (client) {  //||therapist
+            return { status: 'ok' }
+        } else {
+            return { status: 'nok' }
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const verifyOTPQuery = async (email, otp)=>{
+    try {
+        console.log('entered in verify otp query')
+        const verify = await TempClient.findOne({ email: email, otp: otp })
+        if (verify) {
+            console.log('verified')
+            return { status: 'ok' }
+        } else {
+            return { status: 'nok' }
+        }
+    }
+    catch (err) {
+
+    }
+}
+
 export default {
     userDoLogin,
+    checkUser,
+    verifyEmail,
+    verifyOTPQuery
 }
