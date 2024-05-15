@@ -1,12 +1,13 @@
 'use client'
 
 import React, { useState } from 'react';
-import Box from '@mui/joy/Box';
-import Typography from '@mui/joy/Typography';
+import Box from '@mui/joy/Box'; 
+import Typography from '@mui/joy/Typography'; 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Link from 'next/link';
-export default function AminLogin() {
+
+export default function AdminLogin() {
     return (
         <Box sx={{
             backgroundColor: '#325343', display: 'flex', flexDirection: 'column',
@@ -37,8 +38,8 @@ export default function AminLogin() {
                         }
                     }}
                 >Send reset password email</Button>
-                <Link href="/login" >
-                    <Typography sx={{
+                <Link href="/login" passHref>
+                    <Typography component="a"  sx={{
                         color: '#325343', mt: 2,
                         fontWeight: 600, textDecorationColor: '#325343'
                     }}>

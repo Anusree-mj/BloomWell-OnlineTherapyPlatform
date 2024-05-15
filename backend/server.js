@@ -4,35 +4,36 @@ import dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
 import { notFound, errorHandler } from './interface/middlewares/errorMiddleware.js';
 import connectDb from './infrastructure/config/db.js';
-import { fileURLToPath } from 'url'; 
+import { fileURLToPath } from 'url';
 import path from 'path';
 
 const __filename = fileURLToPath(import.meta.url); // Get the current file's path
 const __dirname = path.dirname(__filename);
-const allowedOrigins = ['http://localhost:3000','http://localhost:8000'];
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:8000'];
 dotenv.config();
-const port = process.env.PORT ;
+const port = process.env.PORT;
 
 connectDb();
 
 import userRoutes from './interface/routes/userLogin/userRoutes.js';
 import adminRoutes from './interface/routes/admin/adminLogin.js';
-import clientRoutes from './interface/routes/clients/clientAuth/clientAuthRoutes.js' 
+import clientRoutes from './interface/routes/clients/clientAuth/clientAuthRoutes.js'
+import adminClientRoutes from './interface/routes/admin/clients/manageClientRoutes.js'
 
 const app = express();
 const corsOptions = {
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true
-  };
-  
-  app.options('*', cors(corsOptions));
-  app.use(cors(corsOptions));
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+};
+
+app.options('*', cors(corsOptions));
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -42,6 +43,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/users', userRoutes)
 app.use('/admin', adminRoutes);
 app.use('/client', clientRoutes);
+app.use('/admin/clients', adminClientRoutes);
 
 
 app.get('/', (req, res) => res.send('Server is ready'))

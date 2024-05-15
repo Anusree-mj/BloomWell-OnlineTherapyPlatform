@@ -6,6 +6,7 @@ import controllers  from '../../../useCases/index.js';
 
 router.post('/login', async (req, res) => {
     try {
+        console.log('entered in routes')
         const { email, password } = req.body;
         const response = await controllers.adminControllers.authAdmin(email, password)
         if (response.status === 'ok') {

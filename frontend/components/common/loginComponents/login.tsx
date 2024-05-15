@@ -10,8 +10,7 @@ import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { getLoginAction, userStateType } from '@/store/user/userReducer';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { useRouter } from "next/router"
-
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -134,8 +133,8 @@ export default function Login() {
                 >
                     Login
                 </LoadingButton>
-                <Link href="/forgotPassword">
-                    <Typography sx={{
+                <Link href="/forgotPassword" passHref>
+                    <Typography component="a"  sx={{
                         color: '#325343', mt: 2,
                         fontWeight: 600, textDecorationColor: '#325343'
                     }}>

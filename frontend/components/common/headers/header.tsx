@@ -18,10 +18,6 @@ import Button from '@mui/material/Button';
 import Image from 'next/image';
 import Link from 'next/link';
 interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window?: () => Window;
 }
 
@@ -80,14 +76,15 @@ export default function DrawerAppBar(props: Props) {
         {navItems.map((item) => (
           <ListItem key={item.name} disablePadding>
             <Link href={item.link} passHref>
-              <ListItemButton sx={{ textAlign: 'center', color: '#325343', fontWeight: 600 }}>
+              <ListItemButton component="a" 
+               sx={{ textAlign: 'center', color: '#325343', fontWeight: 600 }}>
                 <ListItemText primary={item.name} />
               </ListItemButton>
             </Link>
           </ListItem>
         ))}
-        <Link href="/login">
-          <Button
+        <Link href="/login" passHref>
+          <Button component="a" 
             variant="outlined"
             sx={{
               my: 1,
@@ -101,8 +98,8 @@ export default function DrawerAppBar(props: Props) {
             Login          </Button>
         </Link>
 
-        <Link href="/client/register">
-          <Button sx={{
+        <Link href="/client/register" passHref>
+          <Button component="a"  sx={{
             my: 2, mx: 2, color: 'white', backgroundColor: '#325343',
             display: 'block', fontWeight: 600,
           }} variant="contained">
@@ -158,7 +155,7 @@ export default function DrawerAppBar(props: Props) {
           <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
             {navItems.map((item) => (
               <Link href={item.link} passHref>
-                <Button
+                <Button component="a" 
                   key={item.name}
                   sx={{
                     color: '#fff',
@@ -172,8 +169,9 @@ export default function DrawerAppBar(props: Props) {
                 </Button>
               </Link>
             ))}
-            <Link href="/login">
-              <Button sx={{
+            <Link href="/login" passHref>
+              <Button component="a" 
+              sx={{
                 mx: 1, color: 'white', borderColor: 'white', display: 'block',
                 fontWeight: 600,
                 '&:hover': {
@@ -185,8 +183,9 @@ export default function DrawerAppBar(props: Props) {
               </Button>
             </Link>
 
-            <Link href="/client/register">
-              <Button sx={{
+            <Link href="/client/register" passHref>
+              <Button component="a" 
+               sx={{
                 mx: 1, color: '#325343', backgroundColor: 'white', display: 'block',
                 fontWeight: 600,
                 '&:hover': {
