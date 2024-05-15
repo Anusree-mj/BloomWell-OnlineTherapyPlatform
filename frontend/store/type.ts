@@ -1,17 +1,18 @@
 export interface UserItem {
-    id: string;
+    _id: string;
     email: string;
     name: string;
 }
 export interface ClientItem {
-    id: string;
+    _id: string;
     name: string;
     email: string;
     type: string;
     questionnaires: [];
+    isBlocked: boolean
 }
 export interface AdminItem {
-    id: string;
+    _id: string;
     name: string;
     email: string
 }
