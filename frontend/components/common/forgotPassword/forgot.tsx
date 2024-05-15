@@ -38,7 +38,7 @@ export default function AminLogin() {
                     }}
                 >Send reset password email</Button>
                 <Link href="/login" >
-                    <Typography sx={{
+                    <Typography component="a"  sx={{
                         color: '#325343', mt: 2,
                         fontWeight: 600, textDecorationColor: '#325343'
                     }}>

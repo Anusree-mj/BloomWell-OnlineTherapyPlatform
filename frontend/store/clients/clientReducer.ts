@@ -13,6 +13,7 @@ const initialState: clientStateType = {
         id: '',
         name: '',
         email: '',
+        type: "",
         questionnaires: []
     },
     isLoading: false,

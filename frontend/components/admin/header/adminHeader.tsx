@@ -112,7 +112,7 @@ export default function AdminHeader(props: Props) {
                 <List component="div" disablePadding>
                   {item.subItems.map((subItem, subIndex) => (
                     <Link href={subItem.link} passHref key={subIndex}>
-                      <ListItemButton sx={{ pl: 4 }}>
+                      <ListItemButton component="a" sx={{ pl: 4 }}>
                         <ListItemText primary={subItem.title} />
                       </ListItemButton>
                     </Link>
@@ -123,7 +123,7 @@ export default function AdminHeader(props: Props) {
           ) : (
             <Link href={item.link} passHref key={index}>
               <ListItem disablePadding>
-                <ListItemButton>
+                <ListItemButton component="a">
                   <ListItemIcon sx={{ color: 'white' }}>
                     {item.icon}
                   </ListItemIcon>

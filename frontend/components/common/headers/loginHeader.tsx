@@ -21,7 +21,7 @@ export function LoginHeader() {
                     height={30}
                 />
                 <Link href={'/'}>
-                <Typography
+                <Typography component="a" 
                     variant="h6"
                     noWrap
                     component="a"
