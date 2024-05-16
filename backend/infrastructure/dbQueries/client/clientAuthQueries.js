@@ -45,7 +45,9 @@ const verifyOTP = async (data, role) => {
                     name: name,
                     email: email,
                     phone: phone,
-                    license: licenseNum,
+                    license: {
+                        licenseNo: licenseNum
+                    },
                     role: roleType,
                     password: hashedPassword,
                 })

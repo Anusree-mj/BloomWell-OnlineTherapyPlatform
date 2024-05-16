@@ -10,15 +10,28 @@ interface WelcomeComponentProps {
 
 const WelcomeComponent = ({ welcomeText }: WelcomeComponentProps) => {
   const router = useRouter()
+
   useEffect(() => {
     const clientData = localStorage.getItem('clientData')
     const therapistData = localStorage.getItem('therapistData')
+    console.log('clientData:', clientData);
+    console.log('therapistData:', therapistData);
     if (!clientData && !therapistData) {
+      console.log('notsfdsdfsdfsdfdsaaaaa')
       router.push('/login')
     }
   }, [])
+
+  const handleWelcomeNavigation = (link: string) => {
+    console.log(link, 'link in handleonclick')
+    router.push(`${link}`)
+  }
+
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+    <Box sx={{
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      flexDirection: 'column'
+    }}>
       <Typography sx={{
         fontSize: { xs: '1rem', sm: '1.5rem' }, mt: 2,
         textAlign: 'center', color: '#325343', fontWeight: 600
@@ -54,8 +67,8 @@ const WelcomeComponent = ({ welcomeText }: WelcomeComponentProps) => {
             backgroundColor: '#325343',
             color: 'white'
           }
-        }}
-      >Get started</Button>
+        }} onClick={() => { handleWelcomeNavigation(welcomeText[3]) }}>
+        Get started</Button>
     </Box>
   )
 }

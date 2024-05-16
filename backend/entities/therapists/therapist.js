@@ -15,8 +15,19 @@ const therapistSchema = mongoose.Schema({
         required: true,
     },
     license: {
-        type: String,
-        required: true
+        licenseNo: {
+            type: String,
+            required: true
+        },
+        state: {
+            type: String,
+        },
+        country: {
+            type: String,
+        },
+        expirationDate: {
+            type: Date,
+        }
     },
     role: {
         type: String,

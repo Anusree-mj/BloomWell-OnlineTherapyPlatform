@@ -19,7 +19,7 @@ function* getTherapistSignUpActionSaga(action: {
         const response = yield call<any>(getTherapistSignupApi, action.payload);
         if (response.status === 'ok') {
             yield put(getTherapistSignUpSuccessAction(response.therapist))
-            localStorage.setItem("therapistata", JSON.stringify(response.therapist));
+            localStorage.setItem("therapistData", JSON.stringify(response.therapist));
             action.payload.handleTherapistSignupSuccess()
             console.log('Therapistsignup success')
         } else {

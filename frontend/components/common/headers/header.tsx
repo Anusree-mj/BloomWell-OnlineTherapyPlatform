@@ -169,7 +169,7 @@ export default function DrawerAppBar(props: Props) {
                     color: '#fff',
                     '&:hover': {
                       textDecorationColor: 'transparent',
-                      boxShadow: 'inset 0em -0.2em 0 #08CB6D',
+                      boxShadow: 'inset 0em -0.2em 0 #49873D',
                     },
                   }}
                 >
@@ -183,7 +183,7 @@ export default function DrawerAppBar(props: Props) {
                   mx: 1, color: 'white', borderColor: 'white', display: 'block',
                   fontWeight: 600,
                   '&:hover': {
-                    borderColor: '#08CB6D',
+                   border:'1px solid #49873D'
                   }
                 }}
                 variant="outlined">
@@ -197,7 +197,7 @@ export default function DrawerAppBar(props: Props) {
                   mx: 1, color: '#325343', backgroundColor: 'white', display: 'block',
                   fontWeight: 600,
                   '&:hover': {
-                    backgroundColor: '#08CB6D',
+                    backgroundColor: '#49873D',color:'white'
                   }
                 }}
                 variant="contained">

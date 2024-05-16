@@ -1,6 +1,7 @@
 import express from 'express'
 const router = express.Router();
 import controllers from '../../../../useCases/index.js';
+import { upload } from '../../../../utilitis/multer.js';
 
 router.post('/signup', async (req, res) => {
     try {
@@ -18,5 +19,13 @@ router.post('/signup', async (req, res) => {
     }
 })
 
+router.post('/uploadImage', upload.single('file'), async (req, res) => {
+    const file = req.file
+    console.log('entered in upload image router', req.file)
+    const relativeImagePath = req.file.path.replace(/\\/g, '/').split('/public')[1];
+    const imageUrl = `${req.protocol}://${req.get('host')}/public${relativeImagePath}`;
+    console.log(relativeImagePath, imageUrl, 'sdfjsdlkjfskdjflkjlj')
+    res.status(200).json({ imageUrl });
+})
 
 export default router;
