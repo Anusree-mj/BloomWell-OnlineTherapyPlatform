@@ -46,12 +46,12 @@ export default function Login() {
     }
 
     useEffect(() => {
-      if (localStorage.getItem('clientData')) {
-        router.push('/client/welcome')
-      }
-      // } else if (localStorage.getItem('therapistData')) {
-      //   router.push('/therapistJob')
-      // }
+        if (localStorage.getItem('clientData')) {
+            router.push('/client/welcome')
+        }
+        else if (localStorage.getItem('therapistData')) {
+            router.push('/therapist/welcome')
+        }
     }, [])
 
     useEffect(() => {
@@ -134,7 +134,7 @@ export default function Login() {
                     Login
                 </LoadingButton>
                 <Link href="/forgotPassword" passHref>
-                    <Typography component="a"  sx={{
+                    <Typography component="a" sx={{
                         color: '#325343', mt: 2,
                         fontWeight: 600, textDecorationColor: '#325343'
                     }}>

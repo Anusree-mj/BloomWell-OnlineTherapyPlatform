@@ -1,32 +1,32 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { getSignupApi } from '@/services/clients/auth';
 import {
-    getSignUpAction,
-    getSignUpFailureAction,
-    getSignUpSuccessAction
+   getClientSignUpAction,
+   getClientSignUpFailureAction,
+   getClientSignUpSuccessAction
 } from '@/store/clients/clientReducer';
 
 
 // SignupSaga
-function* getSignUpActionSaga(action: {
+function* getClientSignUpActionSaga(action: {
     type: string;
     payload: { otp: number, name: '', email: '', password: '', handleSignupSuccess: () => void }
 }): any {
     try {
         const response = yield call<any>(getSignupApi, action.payload);
         if (response.status === 'ok') {
-            yield put(getSignUpSuccessAction(response.client))
+            yield put(getClientSignUpSuccessAction(response.client))
             localStorage.setItem("clientData", JSON.stringify(response.client));
             action.payload.handleSignupSuccess()
             console.log('signup success')
         } else {
-            yield put(getSignUpFailureAction(response.message))
+            yield put(getClientSignUpFailureAction(response.message))
         }
     } catch (err) {
-        yield put(getSignUpFailureAction(err))
+        yield put(getClientSignUpFailureAction(err))
     }
 }
 
 export function* clientWatcher() {
-    yield takeEvery(getSignUpAction, getSignUpActionSaga);
+    yield takeEvery(getClientSignUpAction, getClientSignUpActionSaga);
 }

@@ -76,15 +76,15 @@ export default function DrawerAppBar(props: Props) {
         {navItems.map((item) => (
           <ListItem key={item.name} disablePadding>
             <Link href={item.link} passHref>
-              <ListItemButton component="a" 
-               sx={{ textAlign: 'center', color: '#325343', fontWeight: 600 }}>
+              <ListItemButton component="a"
+                sx={{ textAlign: 'center', color: '#325343', fontWeight: 600 }}>
                 <ListItemText primary={item.name} />
               </ListItemButton>
             </Link>
           </ListItem>
         ))}
         <Link href="/login" passHref>
-          <Button component="a" 
+          <Button component="a"
             variant="outlined"
             sx={{
               my: 1,
@@ -99,7 +99,7 @@ export default function DrawerAppBar(props: Props) {
         </Link>
 
         <Link href="/client/register" passHref>
-          <Button component="a"  sx={{
+          <Button component="a" sx={{
             my: 2, mx: 2, color: 'white', backgroundColor: '#325343',
             display: 'block', fontWeight: 600,
           }} variant="contained">
@@ -118,30 +118,38 @@ export default function DrawerAppBar(props: Props) {
       <CssBaseline />
       <AppBar component="nav" sx={{ backgroundColor: '#325343' }}>
         <Toolbar>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'flex' }, alignItems: 'center' }}
+          <Box sx={{
+            flexGrow: 1, display: { xs: 'flex', sm: 'flex' },
+            alignItems: 'center'
+          }}
           >
-            <Image
-              src="/logo.png"
-              alt="logo"
-              width={90}
-              height={30}
-            />
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                display: { xs: 'flex', md: 'flex' },
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.1rem',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              BloomWell
-            </Typography>
+            <Link href="/" passHref>
+              <Image
+                src="/logo.png"
+                alt="logo"
+                width={90}
+                height={30}
+              />
+            </Link>
+            <Link href="/" passHref>
+              <Typography
+                variant="h6"
+                noWrap
+                component="a"
+                href="/"
+                sx={{
+                  display: { xs: 'flex', md: 'flex' },
+                  fontFamily: 'monospace',
+                  fontWeight: 700,
+                  letterSpacing: '.1rem',
+                  color: 'inherit',
+                  textDecoration: 'none',
+                }}
+              >
+                BloomWell
+              </Typography>
+            </Link>
+
           </Box>
           <IconButton
             color="inherit"
@@ -155,7 +163,7 @@ export default function DrawerAppBar(props: Props) {
           <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
             {navItems.map((item) => (
               <Link href={item.link} passHref>
-                <Button component="a" 
+                <Button component="a"
                   key={item.name}
                   sx={{
                     color: '#fff',
@@ -170,28 +178,28 @@ export default function DrawerAppBar(props: Props) {
               </Link>
             ))}
             <Link href="/login" passHref>
-              <Button component="a" 
-              sx={{
-                mx: 1, color: 'white', borderColor: 'white', display: 'block',
-                fontWeight: 600,
-                '&:hover': {
-                  borderColor: '#08CB6D',
-                }
-              }}
+              <Button component="a"
+                sx={{
+                  mx: 1, color: 'white', borderColor: 'white', display: 'block',
+                  fontWeight: 600,
+                  '&:hover': {
+                    borderColor: '#08CB6D',
+                  }
+                }}
                 variant="outlined">
                 Login
               </Button>
             </Link>
 
             <Link href="/client/register" passHref>
-              <Button component="a" 
-               sx={{
-                mx: 1, color: '#325343', backgroundColor: 'white', display: 'block',
-                fontWeight: 600,
-                '&:hover': {
-                  backgroundColor: '#08CB6D',
-                }
-              }}
+              <Button component="a"
+                sx={{
+                  mx: 1, color: '#325343', backgroundColor: 'white', display: 'block',
+                  fontWeight: 600,
+                  '&:hover': {
+                    backgroundColor: '#08CB6D',
+                  }
+                }}
                 variant="contained">
                 Get Started
               </Button>

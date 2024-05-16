@@ -2,6 +2,7 @@ import Client from '../../../entities/clients/clients.js';
 import User from '../../../entities/userModel.js';
 import bcrypt from 'bcryptjs';
 import TempClient from '../../../entities/clients/tempClientModel.js';
+import Therapists from '../../../entities/therapists/therapist.js';
 
 const userDoLogin = async (email, password) => {
     try {
@@ -31,8 +32,8 @@ const userDoLogin = async (email, password) => {
 const checkUser = async (email) => {
     try {
         const client = await Client.findOne({ email: email });
-        // const therapy = await Therapist.findOne({ email: email });
-        if (client) {  //&&therapist
+        const therapist = await Therapists.findOne({ email: email })
+        if (client || therapist) {  //&&therapist
             return { status: 'nok' }
         } else {
             return { status: 'ok' }
@@ -45,8 +46,8 @@ const checkUser = async (email) => {
 const verifyEmail = async (email) => {
     try {
         const client = await Client.findOne({ email: email });
-        // const therapy = await Therapist.findOne({ email: email });
-        if (client) {  //||therapist
+        const therapist = await Therapists.findOne({ email: email })
+        if (client || therapist) {
             return { status: 'ok' }
         } else {
             return { status: 'nok' }
@@ -56,7 +57,7 @@ const verifyEmail = async (email) => {
     }
 }
 
-const verifyOTPQuery = async (email, otp)=>{
+const verifyOTPQuery = async (email, otp) => {
     try {
         console.log('entered in verify otp query')
         const verify = await TempClient.findOne({ email: email, otp: otp })

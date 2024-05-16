@@ -16,3 +16,11 @@ export interface AdminItem {
     name: string;
     email: string
 }
+export interface TherapistItem {
+    _id: string;
+    name:string,
+    email:string,
+    phone:number,
+    licenseNum:string,
+    role:string,
+}

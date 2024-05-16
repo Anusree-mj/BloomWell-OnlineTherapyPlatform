@@ -11,8 +11,9 @@ interface WelcomeComponentProps {
 const WelcomeComponent = ({ welcomeText }: WelcomeComponentProps) => {
   const router = useRouter()
   useEffect(() => {
-    const userData = localStorage.getItem('clientData')
-    if (!userData) {
+    const clientData = localStorage.getItem('clientData')
+    const therapistData = localStorage.getItem('therapistData')
+    if (!clientData && !therapistData) {
       router.push('/login')
     }
   }, [])

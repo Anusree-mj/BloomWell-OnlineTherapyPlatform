@@ -6,11 +6,6 @@ import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import Button from '@mui/material/Button';
 import { toast } from 'react-toastify';
-import OTPInput from "../common/otp/otp";
-import ClientSignupComponent from "../signupComponents/client/clientSignup";
-import { useDispatch, useSelector } from 'react-redux'
-import { getSignUpAction, clientStateType } from "@/store/clients/clientReducer";
-import LoadingButton from "@mui/lab/LoadingButton";
 
 interface Question {
     question: string;

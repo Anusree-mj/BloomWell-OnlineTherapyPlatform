@@ -1,17 +1,18 @@
-import { generateClientToken } from '../../../utilitis/token.js';
+import { generateTherapistsToken } from '../../../utilitis/token.js';
 import clientAuthQueries from '../../../infrastructure/dbQueries/client/clientAuthQueries.js';
 
 
 // signup
-const signUp = async (data) => {
+const therapistsSignUp = async (data) => {
     try {
         console.log('entered in signup controller')
-        const response = await clientAuthQueries.verifyOTP(data,'client');
+        const response = await clientAuthQueries.verifyOTP(data, 'therapists');
         if (response.status === 'ok') {
-            const { client } = response;
-            const token = generateClientToken(client._id)
+            const { therapist } = response;
+            console.log(therapist, 'therapist received in controller')
+            const token = generateTherapistsToken(therapist._id)
             console.log(token, 'token found in signup')
-            return { status: 'ok', client, token };
+            return { status: 'ok', therapist, token };
         } else {
             const { message } = response
             return { status: 'nok', message }
@@ -24,5 +25,5 @@ const signUp = async (data) => {
 
 
 export {
-    signUp,
+    therapistsSignUp,
 }

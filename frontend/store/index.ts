@@ -4,6 +4,7 @@ import createSagaMiddleware from "redux-saga";
 import { userSlice } from "./user/userReducer";
 import { clientSlice } from "./clients/clientReducer";
 import { adminSlice } from "./admin/adminReducer";
+import { therapistSlice } from "./therapists/therapistReducers";
 import rootSaga from '../saga'
 
 
@@ -14,6 +15,7 @@ const store = configureStore({
         user: userSlice.reducer,
         client: clientSlice.reducer,
         admin: adminSlice.reducer,
+        therapist: therapistSlice.reducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(sagaMiddleware),

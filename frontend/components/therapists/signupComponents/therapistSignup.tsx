@@ -7,14 +7,17 @@ import axios from 'axios'
 import { Box, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
-import { getClientSignUpAction, clientStateType } from "@/store/clients/clientReducer";
+import { getTherapistSignUpAction, therapistStateType } from '@/store/therapists/therapistReducers';
 import OTPInput from '@/components/common/otp/otp';
 
-const ClientSignupComponent = () => {
+const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [licenseNum, setLicenseNum] = useState('');
     const [password, setPassword] = useState('');
     const [confrmPassword, setConfrmPassword] = useState('');
+
     const [loading, setLoading] = useState(false)
     const [nameSpan, setNameSpan] = useState('black')
     const [nameTextSpan, setNameTextSpan] = useState('')
@@ -22,14 +25,19 @@ const ClientSignupComponent = () => {
     const [emailTextSpan, setEmailTextSpan] = useState('')
     const [passwordSpan, setPasswordSpan] = useState('black')
     const [passwordTextSpan, setPasswordTextSpan] = useState('')
+    const [phoneSpan, setPhoneSpan] = useState('black')
+    const [phoneTextSpan, setPhoneTextSpan] = useState('')
+    const [licenseNumSpan, setLicenseNumSpan] = useState('black')
+    const [licenseNumTextSpan, setLicenseNumTextSpan] = useState('')
     const [confrmPasswordSpan, setConfrmPasswordSpan] = useState('black')
     const [confrmPasswordTextSpan, setConfrmPasswordTextSpan] = useState('')
+
     const [otpField, setOtpField] = useState(false)
     const [otp, setOtp] = useState('');
     const [disableButton, setDisableButton] = useState(false)
     const dispatch = useDispatch();
-    const isLoading = useSelector((state: { client: clientStateType }) => state.client.isLoading);
-    const error = useSelector((state: { client: clientStateType }) => state.client.error);
+    const isLoading = useSelector((state: { therapist: therapistStateType }) => state.therapist.isLoading);
+    const error = useSelector((state: { therapist: therapistStateType }) => state.therapist.error);
     const router = useRouter();
 
     const handleGetOtp = async (e: { preventDefault: () => void; }) => {
@@ -63,18 +71,23 @@ const ClientSignupComponent = () => {
                 toast.error('Please enter the otp')
                 return;
             }
-            await dispatch(getClientSignUpAction({ otp, name, email, password, handleSignupSuccess }))
+            console.log(roleType,'roelelele')
+            await dispatch(getTherapistSignUpAction({
+                otp, name, email, password, phone, licenseNum, roleType,
+                handleTherapistSignupSuccess
+            }))
         } catch (err) {
             console.log(err)
         }
     }
 
-    const handleSignupSuccess = () => {
-        router.push('/client/welcome')
+    const handleTherapistSignupSuccess = () => {
+        router.push('/therapist/welcome')
     }
 
     const validation = () => {
         let isValid = true
+
         const setValidation = (setSpan: any, setTextSpan: any, message: string) => {
             setSpan('red');
             setTextSpan(message);
@@ -86,6 +99,15 @@ const ClientSignupComponent = () => {
         }
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             setValidation(setEmailSpan, setEmailTextSpan, 'Please provide a valid email.');
+        }
+        if (!phone || !/^\d{10}$/.test(phone)) {
+            setValidation(setPhoneSpan, setPhoneTextSpan, 'Please provide a valid phone number')
+        }
+        if (!licenseNum || licenseNum.trim() === '' || !/^[A-Za-z]{3}\/\d+$/.test(licenseNum)) {
+            let message = !licenseNum && licenseNum.trim() === ''
+                ? 'Please provide a valid license number'
+                : 'License number format is invalid. Format should be ABC/12345'
+            setValidation(setLicenseNumSpan, setLicenseNumTextSpan, message)
         }
         if (!password || password.trim() === '' || password.length < 8) {
             let message = !password && password.trim() === ''
@@ -101,6 +123,7 @@ const ClientSignupComponent = () => {
         }
         return isValid;
     }
+
     const clearSpan = (e: { preventDefault: () => void; }, fieldName: string) => {
         e.preventDefault();
         switch (fieldName) {
@@ -111,6 +134,14 @@ const ClientSignupComponent = () => {
             case 'email':
                 setEmailTextSpan('');
                 setEmailSpan('');
+                break;
+            case 'phone':
+                setPhoneSpan('');
+                setPhoneTextSpan('');
+                break;
+            case 'licenseNum':
+                setLicenseNumTextSpan('');
+                setLicenseNumSpan('');
                 break;
             case 'password':
                 setPasswordSpan('')
@@ -126,8 +157,8 @@ const ClientSignupComponent = () => {
     }
 
     useEffect(() => {
-        if (localStorage.getItem('clientData')) {
-            router.push('/client/welcome')
+        if (localStorage.getItem('therapistData')) {
+            router.push('/therapist/welcome')
         }
     }, [])
 
@@ -141,7 +172,7 @@ const ClientSignupComponent = () => {
         <Box sx={{
             backgroundColor: '#F7FCC2', display: 'flex',
             justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
-            height: '85vh', paddingBottom: '2rem'
+            minHeight: '85vh', paddingBottom: '2rem'
         }}>
             {otpField !== true ? (
                 <>
@@ -155,10 +186,11 @@ const ClientSignupComponent = () => {
                         fontSize: '0.9rem', fontWeight: 600, textAlign: 'center', color: '#325343',
                         width: '30rem', maxWidth: '80%', mb: 2
                     }
-                    }>Fill in the registration form with your details.</Typography>
+                    }>Create your therapist account by filling this form so we can start processing
+                        your application.</Typography>
                     <FormControl sx={{
                         width: '30rem', backgroundColor: 'white', mt: 1,
-                        padding: 4, maxWidth: '90%', minHeight: '50vh',
+                        padding: 4, maxWidth: '90%', minHeight: '50vh', height: '90vh',
                         boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                         borderRadius: '0.6rem',
                     }}>
@@ -190,6 +222,34 @@ const ClientSignupComponent = () => {
                         />
                         <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
                         >{emailTextSpan}</span>
+                        <TextField id="outlined-basic" label="Phone" variant="outlined"
+                            required
+                            sx={{
+                                maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2', mt: 2,
+                                '& .MuiOutlinedInput-root': {
+                                    '& fieldset': {
+                                        borderColor: phoneSpan,
+                                    },
+                                },
+                            }} onChange={(e) => { setPhone(e.target.value) }}
+                            onClick={(e) => clearSpan(e, 'phone')}
+                        />
+                        <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
+                        >{phoneTextSpan}</span>
+                        <TextField id="outlined-basic" label="License Number" variant="outlined"
+                            required
+                            sx={{
+                                maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2', mt: 2,
+                                '& .MuiOutlinedInput-root': {
+                                    '& fieldset': {
+                                        borderColor: licenseNumSpan,
+                                    },
+                                },
+                            }} onChange={(e) => { setLicenseNum(e.target.value) }}
+                            onClick={(e) => clearSpan(e, 'licenseNum')}
+                        />
+                        <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
+                        >{licenseNumTextSpan}</span>
                         <TextField
                             id="outlined-password-input"
                             label="Password"
@@ -285,4 +345,4 @@ const ClientSignupComponent = () => {
         </Box>
     )
 }
-export default ClientSignupComponent;
+export default TherapistSignupComponent;
