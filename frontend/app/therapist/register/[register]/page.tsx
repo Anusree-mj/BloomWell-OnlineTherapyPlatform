@@ -8,15 +8,14 @@ import { Provider } from 'react-redux';
 import store from "@/store";
 
 export default function Page({ params }: { params: { register: string } }) {
-    console.log(params.register, 'role obtained')
+    const decodedRole = decodeURIComponent(params.register);
     return (
         <Provider store={store}>
             <ToastContainer />
             <LoginHeader />
-            <TherapistSignupComponent roleType={params.register} />
+            <TherapistSignupComponent roleType={decodedRole} />
             <Footer />
         </Provider>
-
     )
 }
 

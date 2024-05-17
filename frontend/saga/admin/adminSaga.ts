@@ -60,14 +60,13 @@ function* getTherapistsDetailsActionSaga(): any {
     try {
         const response = yield call<any>(getTherapistsDetailsApi);
         if (response.status === 'ok') {
-            yield put(getClientsDetailsSuccessAction(response.clients))
-            console.log('cleint details', response.clients)
+            console.log(response,'response got in sage')
+            yield put(getTherapistsDetailsSuccessAction(response.therapists))
         } else {
-            yield put(getClientsDetailsFailureAction(response.message))
-
+            yield put(getTherapistsDetailsFailureAction(response.message))
         }
     } catch (err) {
-        yield put(getClientsDetailsFailureAction(err))
+        yield put(getTherapistsDetailsFailureAction(err))
     }
 }
 

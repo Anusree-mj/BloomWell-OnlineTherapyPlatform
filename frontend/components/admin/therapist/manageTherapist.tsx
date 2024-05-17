@@ -3,94 +3,106 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getTherapistsDetailsAction, adminStateType } from "@/store/admin/adminReducer";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import EditIcon from '@mui/icons-material/Edit';
-import PersonOffIcon from '@mui/icons-material/PersonOff';
-import { deleteClient, editClient } from "@/utilities/admin/clients/manageClients";
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
+import { verifyTherapists } from "@/utilities/admin/therapists/manageTherapist";
 import { useRouter } from "next/navigation";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, MenuItem, Select, TextField } from "@mui/material";
+import Link from "next/link";
 
-const AdminManageTherapists = () => {
+const verifyOptions = [
+    'Granted',
+    'Denied',
+];
+
+const AdminVerifyTherapists = () => {
     const dispatch = useDispatch();
-    const clients = useSelector((state: { admin: adminStateType }) => state.admin.clients);
+    const therapists = useSelector((state: { admin: adminStateType }) => state.admin.therapists);
     const router = useRouter()
     const [search, setSearch] = useState<string>('');
+    const [verifystatus, setVerifyStatus] = useState('')
 
     useEffect(() => {
         const adminData = localStorage.getItem("adminData");
         if (adminData) {
-            const fetchData = async () => {
-                await dispatch(getTherapistsDetailsAction());
-            };
-
-            fetchData();
+            dispatch(getTherapistsDetailsAction());
+            console.log(therapists, 'therapist details')
         } else {
             router.push('/admin/login')
         }
     }, []);
+
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value.toLowerCase();
         setSearch(value);
     };
 
-   
+
     const columns: GridColDef[] = [
-        { field: "slNo", headerName: "Sl.No", width: 70 },
-        { field: "name", headerName: "Name", width: 130 },
-        { field: "email", headerName: "Email", width: 130 },
-        { field: "role", headerName: "Role", width: 130 },
-        { field: "clientStatus", headerName: "ClientStatus", width: 130 },
+        { field: "slNo", headerName: "Sl.No", width: 60 },
+        { field: "name", headerName: "Name", width: 150 },
+        { field: "email", headerName: "Email", width: 180 },
+        { field: "role", headerName: "Role", width: 220 },
+        { field: "verificationStatus", headerName: "Status", width: 100 },
         {
-            field: "edit",
-            headerName: "Edit",
+            field: "moreInfo",
+            headerName: "More Info",
             sortable: false,
-            width: 90,
+            width: 100,
             renderCell: (params) => (
-                <Button
-                    variant="contained"
-                    color="success"
-                    disabled={!params.row.isBlocked}
-                    // onClick={() => handleEdit(params.row.id, params.row.name)}
-                >
-                    <EditIcon />
-                </Button>
+                <Link href={`/therapist/${params.row.id}`}
+                >View
+                </Link>
             ),
         },
         {
-            field: "delete",
-            headerName: "Delete",
+            field: "verify",
+            headerName: "Verify",
             sortable: false,
             width: 160,
             renderCell: (params) => (
-                <Button
-                    variant="contained"
-                    color="error"
-                    disabled={params.row.isBlocked}
-                    // onClick={() => handleDelete(params.row.id, params.row.name)}
-                >
-                    <PersonOffIcon />
-                </Button>
+                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                    <Select
+                        value={verifystatus}
+                        onChange={(e) => verifyTherapists(params.row.id, params.row.name, e.target.value)}
+                        displayEmpty
+                        inputProps={{ 'aria-label': 'Without label' }}
+                        disabled={params.row.isVerified}
+                    >
+                        <MenuItem value="">
+                            <em>None</em>
+                        </MenuItem>
+                        {verifyOptions.map((option) => (
+                            <MenuItem key={option} value={option}>
+                                {option}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                    <FormHelperText>Without label</FormHelperText>
+                </FormControl>
             ),
         },
     ];
 
-    const filteredClients = clients.filter(client =>
-        client.name.toLowerCase().includes(search) ||
-        client.email.toLowerCase().includes(search) ||
-        client.type?.toLowerCase().includes(search) ||
-        (client.isBlocked ? 'Blocked' : 'Active').toLowerCase().includes(search)
+    const filteredTherapists = therapists.filter(therapist =>
+        therapist.name.toLowerCase().includes(search) ||
+        therapist.email.toLowerCase().includes(search) ||
+        therapist.role?.toLowerCase().includes(search) ||
+        (therapist.isBlocked ? 'Blocked' : 'Active').toLowerCase().includes(search)
     );
 
-    const rows = clients.map((client, index) => ({
-        id: client._id,
+    const rows = therapists.map((therapist, index) => ({
+        id: therapist._id,
         slNo: index + 1,
-        name: client.name,
-        email: client.email,
-        therapyType: client.type,
-        clientStatus: client.isBlocked ? 'Blocked' : 'Active',
-        isBlocked: client.isBlocked,
+        name: therapist.name,
+        email: therapist.email,
+        role: therapist.role,
+        verificationStatus: therapist.verificationStatus,
+        moreInfo: 'view',
+        isVerified: therapist.isVerified,
     }));
-
+    console.log(therapists, 'therapist details')
 
     return (
         <Box
@@ -134,4 +146,4 @@ const AdminManageTherapists = () => {
         </Box>
     );
 }
-export default AdminManageTherapists
+export default AdminVerifyTherapists

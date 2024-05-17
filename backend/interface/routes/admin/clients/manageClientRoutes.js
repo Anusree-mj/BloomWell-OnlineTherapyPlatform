@@ -13,8 +13,7 @@ router.get('/view', protectAdmin, async (req, res) => {
                 status: 'ok',
                 clients: clients
             });
-        } else {
-        }
+        } 
     } catch (err) {
         res.status(401).json({ status: 'nok', message: err.message })
         console.log(err)

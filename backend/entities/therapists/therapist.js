@@ -50,6 +50,10 @@ const therapistSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    verificationStatus: {
+        type: String,
+        default: 'pending'
+    },
     isBlocked: {
         type: Boolean,
         default: false

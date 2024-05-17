@@ -18,11 +18,7 @@ const AdminManageClients = () => {
   useEffect(() => {
     const adminData = localStorage.getItem("adminData");
     if (adminData) {
-      const fetchData = async () => {
-        await dispatch(getClientsDetailsAction());
-      };
-
-      fetchData();
+      dispatch(getClientsDetailsAction());
     } else {
       router.push('/admin/login')
     }
@@ -97,7 +93,6 @@ const AdminManageClients = () => {
     clientStatus: client.isBlocked ? 'Blocked' : 'Active',
     isBlocked: client.isBlocked,
   }));
-
 
   return (
     <Box

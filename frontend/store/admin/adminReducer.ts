@@ -65,6 +65,7 @@ export const adminSlice: any = createSlice({
         },
         getTherapistsDetailsSuccessAction: (state, action) => {
             state.isLoading = false;
+            console.log('action payload in successaction', action.payload)
             state.therapists = action.payload;
         },
         getTherapistsDetailsFailureAction: (state, action) => {

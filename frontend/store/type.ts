@@ -27,6 +27,8 @@ export interface TherapistItem {
     experience: string;
     description: string;
     image: string;
+    isVerified: boolean;
+    verificationStatus: string;
     isBlocked: boolean;
 }
 export interface LicenseDetails {

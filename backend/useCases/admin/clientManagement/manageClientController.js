@@ -8,9 +8,9 @@ const getClientsDetailsController = async () => {
         return { clients }
     } catch (err) {
         console.log('Error found', err)
-
     }
 }
+
 // delet clients
 const deleteClientController = async (clientId) => {
     try {
@@ -20,7 +20,6 @@ const deleteClientController = async (clientId) => {
         }
     } catch (err) {
         console.log('Error found', err)
-
     }
 }
 
