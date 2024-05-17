@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { TherapistItem,LicenseDetails } from '../type'
+import { TherapistItem, LicenseDetails } from '../type'
 
 export interface therapistStateType {
     therapist: TherapistItem;
@@ -10,7 +10,7 @@ export interface therapistStateType {
 const initialLicense: LicenseDetails = {
     licenseNo: "",
     country: "",
-    expirationDate: new Date() 
+    expirationDate: new Date()
 };
 
 const initialState: therapistStateType = {
@@ -21,11 +21,13 @@ const initialState: therapistStateType = {
         phone: 0,
         license: initialLicense,
         role: "",
-        expertise:[],
+        expertise: [],
         experience: "",
         description: "",
         image: "",
-        isBlocked: false
+        isBlocked: false,
+        isVerified: false,
+        verificationStatus: ""
     },
     isLoading: false,
     error: null
@@ -48,6 +50,7 @@ export const therapistSlice: any = createSlice({
             state.error = action.payload;
             console.log('eror found', state.error)
         },
+        // save details
         saveTherapistDetailsAction: (state) => {
             console.log('entered in SignUp action')
             state.isLoading = true;
@@ -61,6 +64,22 @@ export const therapistSlice: any = createSlice({
             state.error = action.payload;
             console.log('eror found', state.error)
         },
+        // get therapist profile
+        getTherapistProfileAction: (state) => {
+            console.log('entered in profile action')
+            state.isLoading = true;
+        },
+        getTherapistProfileSuccessAction: (state, action) => {
+            console.log('reached profile success avtiondd')
+            state.isLoading = false;
+            state.therapist = action.payload;
+            console.log(state.therapist,'therapist found in reducer')
+        },
+        getTherapistProfileFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found', state.error)
+        },
     }
 })
 export const {
@@ -69,5 +88,8 @@ export const {
     getTherapistSignUpFailureAction,
     saveTherapistDetailsAction,
     saveTherapistDetailsSuccessAction,
-    saveTherapistDetailsFailureAction
+    saveTherapistDetailsFailureAction,
+    getTherapistProfileAction,
+    getTherapistProfileFailureAction,
+    getTherapistProfileSuccessAction,
 } = therapistSlice.actions;

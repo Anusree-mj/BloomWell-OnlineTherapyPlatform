@@ -31,6 +31,22 @@ const saveTherapistData = async (data) => {
     }
 }
 
+
+
+const getTherapistData = async (therapistId) => {
+    try {
+        const therapist = await Therapists.findOne({ _id: therapistId }).select('-password-createdAt -updatedAt')
+        if (therapist) {
+            return { status: 'ok', therapist }
+        } else {
+            console.log('no therapist found')
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
 export default {
     saveTherapistData,
+    getTherapistData,
 }

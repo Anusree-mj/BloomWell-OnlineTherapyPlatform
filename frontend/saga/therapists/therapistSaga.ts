@@ -1,15 +1,20 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import {
+    getTherapistDetailsApi,
     getTherapistSignupApi,
-    saveTherapistDetailsApi
-} from '@/services/clients/auth';
+    saveTherapistDetailsApi,
+} from '@/services/therapist/auth';
 import {
     getTherapistSignUpAction,
     getTherapistSignUpFailureAction,
     getTherapistSignUpSuccessAction,
     saveTherapistDetailsAction,
     saveTherapistDetailsSuccessAction,
-    saveTherapistDetailsFailureAction
+    saveTherapistDetailsFailureAction,
+    getTherapistProfileAction,
+    getTherapistProfileSuccessAction,
+    getTherapistProfileFailureAction,
+
 } from '@/store/therapists/therapistReducers';
 
 
@@ -59,7 +64,32 @@ function* saveTherapistDetailsActionSaga(action: {
     }
 }
 
+// get therapist profile Saga
+function* getTherapistProfileActionSaga(action: {
+    type: string;
+    payload: {
+        therapistId: ''
+    }
+}): any {
+    try {
+        console.log('entered in saga')
+        const response = yield call<any>(getTherapistDetailsApi, action.payload);
+        if (response.status === 'ok') {
+            console.log('status okkkk')
+            yield put(getTherapistProfileSuccessAction(response.therapist))
+        } else {
+            console.log('status dvvvvvvvvvvvokkkk')
+
+            yield put(getTherapistProfileFailureAction(response.message))
+        }
+    } catch (err) {
+        yield put(getTherapistProfileFailureAction(err))
+    }
+}
+
 export function* therapistWatcher() {
     yield takeEvery(getTherapistSignUpAction, getTherapistSignUpActionSaga);
     yield takeEvery(saveTherapistDetailsAction, saveTherapistDetailsActionSaga);
+    yield takeEvery(getTherapistProfileAction, getTherapistProfileActionSaga);
+
 }
