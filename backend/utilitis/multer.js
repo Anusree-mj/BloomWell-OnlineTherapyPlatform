@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, path.join(__dirname, '../public/profileImages'));
-    },
+    }, 
     filename: function (req, file, cb) {
         // Ensure the filename is unique by appending a timestamp
         const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`;

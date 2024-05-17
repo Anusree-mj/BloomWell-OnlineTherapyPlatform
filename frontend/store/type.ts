@@ -18,9 +18,19 @@ export interface AdminItem {
 }
 export interface TherapistItem {
     _id: string;
-    name:string,
-    email:string,
-    phone:number,
-    licenseNum:string,
-    role:string,
+    name: string,
+    email: string,
+    phone: number,
+    license: LicenseDetails;
+    role: string,
+    expertise: [],
+    experience: string;
+    description: string;
+    image: string;
+    isBlocked: boolean;
+}
+export interface LicenseDetails {
+    licenseNo: string;
+    country?: string;
+    expirationDate?: Date;
 }

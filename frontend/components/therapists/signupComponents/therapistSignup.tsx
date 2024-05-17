@@ -72,7 +72,6 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
                 toast.error('Please enter the otp')
                 return;
             }
-            console.log(roleType, 'roelelele')
             await dispatch(getTherapistSignUpAction({
                 otp, name, email, password, phone, licenseNum, roleType,
                 handleTherapistSignupSuccess

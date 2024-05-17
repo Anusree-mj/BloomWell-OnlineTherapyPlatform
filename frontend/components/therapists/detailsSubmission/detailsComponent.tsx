@@ -7,13 +7,17 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { Box, Button, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
-import { getTherapistSignUpAction, therapistStateType } from '@/store/therapists/therapistReducers';
+import { saveTherapistDetailsAction, therapistStateType } from '@/store/therapists/therapistReducers';
 import ExpertiseComponent from './expertiseComponent';
 import LicenseComponent from './licenseComponent';
 import DescriptionComponent from './descriptionComponent';
 import ProfileComponent from './profilePhotoComponents';
 
 const DetailsComponent = () => {
+    const dispatch = useDispatch()
+    const isLoading = useSelector((state: { therapist: therapistStateType }) => state.therapist.isLoading);
+    const error = useSelector((state: { therapist: therapistStateType }) => state.therapist.error);
+    const router = useRouter();
     const [email, setEmail] = useState('');
     const [licenseNo, setLicenseNo] = useState('')
     const [expertise, setExpertise] = useState<string[]>([]);
@@ -27,6 +31,7 @@ const DetailsComponent = () => {
     const [image, setImage] = useState('')
     const [photoField, setPhotoField] = useState(false);
     const [disableButton, setDisableButton] = useState(false)
+
     useEffect(() => {
         const therapistData = JSON.parse(localStorage.getItem('therapistData') || '{}');
         const { email, license } = therapistData
@@ -34,6 +39,22 @@ const DetailsComponent = () => {
         setEmail(email);
         setLicenseNo(licenseNo);
     }, [])
+
+    const saveTherapistData = async (e: { preventDefault: () => void; }) => {
+        e.preventDefault();
+        try {
+            await dispatch(saveTherapistDetailsAction({
+                email, expertise, country, expiryDate, experience, description,
+                image, handleSaveTherapistDataSuccess
+            }))
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const handleSaveTherapistDataSuccess = () => {
+        router.push('/therapist/welcome')
+    }
     return (
         <Box sx={{
             backgroundColor: '#F7FCC2', display: 'flex',
@@ -98,7 +119,7 @@ const DetailsComponent = () => {
                         setImage={setImage}
                         setDisableButton={setDisableButton}
                     />
-                    <Button
+                    <LoadingButton
                         disabled={!disableButton}
                         variant="contained"
                         sx={{
@@ -109,10 +130,10 @@ const DetailsComponent = () => {
                                 backgroundColor: '#325343',
                                 color: 'white'
                             }
-                        }}
+                        }} onClick={saveTherapistData}
                     >
                         Continue
-                    </Button>
+                    </LoadingButton>
                 </>
             )}
         </Box>

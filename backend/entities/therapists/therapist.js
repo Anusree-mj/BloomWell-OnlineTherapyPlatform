@@ -19,15 +19,24 @@ const therapistSchema = mongoose.Schema({
             type: String,
             required: true
         },
-        state: {
-            type: String,
-        },
         country: {
             type: String,
         },
         expirationDate: {
             type: Date,
         }
+    },
+    expertise: {
+        type: Array,
+    },
+    experience: {
+        type: String,
+    },
+    description: {
+        type: String,
+    },
+    image: {
+        type: String,
     },
     role: {
         type: String,

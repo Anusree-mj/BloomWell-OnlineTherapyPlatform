@@ -20,12 +20,34 @@ router.post('/signup', async (req, res) => {
 })
 
 router.post('/uploadImage', upload.single('file'), async (req, res) => {
-    const file = req.file
-    console.log('entered in upload image router', req.file)
-    const relativeImagePath = req.file.path.replace(/\\/g, '/').split('/public')[1];
-    const imageUrl = `${req.protocol}://${req.get('host')}/public${relativeImagePath}`;
-    console.log(relativeImagePath, imageUrl, 'sdfjsdlkjfskdjflkjlj')
-    res.status(200).json({ imageUrl });
+    try {
+
+        const file = req.file
+        console.log('entered in upload image router', req.file)
+        const relativeImagePath = req.file.path.replace(/\\/g, '/').split('/public')[1];
+        const imageUrl = `${req.protocol}://${req.get('host')}/public${relativeImagePath}`;
+        console.log(relativeImagePath, imageUrl, 'sdfjsdlkjfskdjflkjlj')
+        res.status(200).json({ imageUrl });
+    } catch (err) {
+        console.error('Error in /uploadImage route:', err.message, err.stack);
+        res.status(500).json({ err: 'Internal Server err', details: err.message });
+    }
+})
+
+router.post('/', async (req, res) => {
+    try {
+        const data = req.body;
+        console.log(data, 'data entered in routes')
+        const response = await controllers.therapistControllers.saveTherapistData(data)
+        if (response.status === 'ok') {
+            console.log('details successfully logged in')
+            res.status(200).json({ status: 'ok', therapist: response.therapist });
+        } else {
+            res.status(400).json({ status: 'nok', message: response.message });
+        }
+    } catch (err) {
+        console.log(err)
+    }
 })
 
 export default router;

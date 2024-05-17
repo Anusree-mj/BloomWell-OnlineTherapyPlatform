@@ -1,5 +1,6 @@
 import { generateTherapistsToken } from '../../../utilitis/token.js';
 import clientAuthQueries from '../../../infrastructure/dbQueries/client/clientAuthQueries.js';
+import therapistQuery from '../../../infrastructure/dbQueries/therapist/therapistQuery.js';
 
 
 // signup
@@ -23,7 +24,26 @@ const therapistsSignUp = async (data) => {
     }
 }
 
+// save data 
+const saveTherapistData = async (data) => {
+    try {
+        console.log('entered in signup controller')
+        const response = await therapistQuery.saveTherapistData(data);
+        if (response.status === 'ok') {
+            const { status, therapist } = response
+            console.log(status, therapist, 'details got back in controller');
+            return { status, therapist }
+        } else {
+            const { status, message } = response
+            return { status, message }
+        }
+    } catch (err) {
+        console.log('Error found', err)
+
+    }
+}
 
 export {
     therapistsSignUp,
+    saveTherapistData,
 }

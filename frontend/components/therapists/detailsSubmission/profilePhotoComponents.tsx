@@ -18,9 +18,18 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({
     const uploadPhoto = async () => {
         try {
             if (file) {
-                const response = await axios.post(`http://localhost:8000/therapist/uploadImage`, file);
+
+                const formData = new FormData();
+                formData.append('file', file);
+
+                const response = await axios.post('http://localhost:8000/therapist/uploadImage', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
                 setImage(response.data.imageUrl)
                 toast.success('Image Successfully Uploaded')
+                setDisableButton(true)
             } else {
                 toast.error('No file selected');
             }
@@ -47,7 +56,7 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({
                 boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                 borderRadius: '0.6rem',
             }}>
-                <Avatar src="/broken-image.jpg" sx={{
+                <Avatar src={image ? image : "/broken-image.jpg"} sx={{
                     width: 200, height: 200
                 }} />
                 <TextField

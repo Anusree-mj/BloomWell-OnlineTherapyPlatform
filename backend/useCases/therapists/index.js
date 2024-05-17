@@ -1,6 +1,10 @@
-import { therapistsSignUp } from "./therapistAuth/therapistAuthController.js"
+import {
+    therapistsSignUp,
+    saveTherapistData
+} from "./therapistAuth/therapistAuthController.js"
 const therapistControllers = {
-    therapistsSignUp
+    therapistsSignUp,
+    saveTherapistData
 }
 
 export default therapistControllers
