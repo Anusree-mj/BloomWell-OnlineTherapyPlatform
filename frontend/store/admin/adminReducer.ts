@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { AdminItem } from '../type'
 import { ClientItem } from "../type";
+import { TherapistItem } from "../type";
 
 export interface adminStateType {
     admin: AdminItem;
     clients: ClientItem[];
+    therapists: TherapistItem[];
     isLoading: boolean;
     error: any;
 }
@@ -17,6 +19,7 @@ const initialState: adminStateType = {
         email: '',
     },
     clients: [],
+    therapists: [],
     isLoading: false,
     error: null
 }
@@ -39,7 +42,8 @@ export const adminSlice: any = createSlice({
             state.error = action.payload;
             console.log('eror found', state.error)
         },
-        // get client details
+
+        // get clients details
         getClientsDetailsAction: (state) => {
             console.log('entered in get client details action')
             state.isLoading = true;
@@ -53,6 +57,21 @@ export const adminSlice: any = createSlice({
             state.error = action.payload;
             console.log('eror found', state.error)
         },
+
+        // get therapists details
+        getTherapistsDetailsAction: (state) => {
+            console.log('entered in get therapists details action')
+            state.isLoading = true;
+        },
+        getTherapistsDetailsSuccessAction: (state, action) => {
+            state.isLoading = false;
+            state.therapists = action.payload;
+        },
+        getTherapistsDetailsFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found', state.error)
+        },
     }
 })
 export const {
@@ -61,5 +80,8 @@ export const {
     getAdminLoginFailureAction,
     getClientsDetailsAction,
     getClientsDetailsSuccessAction,
-    getClientsDetailsFailureAction
+    getClientsDetailsFailureAction,
+    getTherapistsDetailsAction,
+    getTherapistsDetailsSuccessAction,
+    getTherapistsDetailsFailureAction,
 } = adminSlice.actions;

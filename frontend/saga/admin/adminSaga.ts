@@ -1,7 +1,8 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import {
     getAdminLoginApi,
-    getClientssDetailsApi
+    getClientssDetailsApi,
+    getTherapistsDetailsApi,
 }
     from '@/services/admin/adminAuth';
 import {
@@ -10,7 +11,10 @@ import {
     getAdminLoginFailureAction,
     getClientsDetailsAction,
     getClientsDetailsFailureAction,
-    getClientsDetailsSuccessAction
+    getClientsDetailsSuccessAction,
+    getTherapistsDetailsAction,
+    getTherapistsDetailsFailureAction,
+    getTherapistsDetailsSuccessAction
 } from '@/store/admin/adminReducer';
 
 
@@ -51,10 +55,26 @@ function* getClientsDetailsActionSaga(): any {
     }
 }
 
+// get therapists details
+function* getTherapistsDetailsActionSaga(): any {
+    try {
+        const response = yield call<any>(getTherapistsDetailsApi);
+        if (response.status === 'ok') {
+            yield put(getClientsDetailsSuccessAction(response.clients))
+            console.log('cleint details', response.clients)
+        } else {
+            yield put(getClientsDetailsFailureAction(response.message))
 
+        }
+    } catch (err) {
+        yield put(getClientsDetailsFailureAction(err))
+    }
+}
 
 
 export function* adminWatcher() {
     yield takeEvery(getAdminLoginAction, getAdminLoginActionSaga);
     yield takeEvery(getClientsDetailsAction, getClientsDetailsActionSaga);
+    yield takeEvery(getTherapistsDetailsAction, getTherapistsDetailsActionSaga);
+
 }

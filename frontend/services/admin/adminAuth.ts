@@ -26,3 +26,15 @@ export const getClientssDetailsApi = async () => {
     });
     return await res.json();
 };
+
+// getTherapists details
+export const getTherapistsDetailsApi = async () => {
+    const res = await fetch(`http://localhost:8000/admin/therapists/view`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+    });
+    return await res.json();
+};

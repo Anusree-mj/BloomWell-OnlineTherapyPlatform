@@ -5,10 +5,11 @@ import Therapists from "../../../entities/therapists/therapist.js";
 
 const saveTherapistData = async (data) => {
     try {
-        const { email, expertise, country, expiryDate, experience, description, image } = data
+        const { email, licenseNo, expertise, country, expiryDate, experience, description, image } = data
         const query = { email: email }
         const update = {
             license: {
+                licenseNo: licenseNo,
                 country: country,
                 expirationDate: expiryDate
             },

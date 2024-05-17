@@ -8,19 +8,22 @@ const authUser = async (email, password) => {
     try {
         console.log('entereed in user controllerrrrrrrrr');
         const response = await userAuthQueries.userDoLogin(email, password);
-        if (response) {
+        if (response.status === 'ok') {
+            console.log('response got from query')
             if (response.role === 'client') {
-                const { client } = response;
+                const { status, client } = response;
                 const token = generateClientToken(client._id);
-                return { status: 'ok', client, token, role: 'client' }
+                return { status, client, token, role: 'client' }
             }
-            // else{
-            //     const { therapist } = response;
-            //     const token = generateTherapistsToken(therapist._id);
-            //     return { status: 'ok', therapist, token,role:'therapist' } 
-            // }
+            else {
+                const { status, therapist } = response;
+                const token = generateTherapistsToken(therapist._id);
+                return { status, therapist, token, role: 'therapist' }
+            }
         } else {
-            return { status: 'nok' }
+            console.log('response nok invalid ')
+            const { status, message } = response
+            return { status, message }
         }
     } catch (error) {
         console.log('Error found', error)
@@ -70,7 +73,7 @@ const getForgotPasswordOTP = async (email) => {
 const verifyOTP = async (email, otp) => {
     try {
         console.log('entered in verify otp controller')
-        const {status} = await userAuthQueries.verifyOTPQuery(email, otp);
+        const { status } = await userAuthQueries.verifyOTPQuery(email, otp);
         if (status === 'ok') {
             return { status: 'ok' }
         } else {

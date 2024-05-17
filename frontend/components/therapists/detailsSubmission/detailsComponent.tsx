@@ -1,8 +1,5 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import TextField from '@mui/material/TextField';
-import FormControl from '@mui/material/FormControl';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Box, Button, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation'
@@ -34,7 +31,10 @@ const DetailsComponent = () => {
 
     useEffect(() => {
         const therapistData = JSON.parse(localStorage.getItem('therapistData') || '{}');
-        const { email, license } = therapistData
+        const { email, license, image } = therapistData
+        if (image) {
+            router.push('/therapist/welcome')
+        }
         const { licenseNo } = license
         setEmail(email);
         setLicenseNo(licenseNo);
@@ -44,7 +44,7 @@ const DetailsComponent = () => {
         e.preventDefault();
         try {
             await dispatch(saveTherapistDetailsAction({
-                email, expertise, country, expiryDate, experience, description,
+                email, licenseNo, expertise, country, expiryDate, experience, description,
                 image, handleSaveTherapistDataSuccess
             }))
         } catch (err) {

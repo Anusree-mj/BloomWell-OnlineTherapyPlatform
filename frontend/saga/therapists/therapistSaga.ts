@@ -40,7 +40,7 @@ function* getTherapistSignUpActionSaga(action: {
 function* saveTherapistDetailsActionSaga(action: {
     type: string;
     payload: {
-        email: '', expertise: [], country: '', expiryDate: '', experience: '', description: '',
+        email: '', licenseNo: '', expertise: [], country: '', expiryDate: '', experience: '', description: '',
         image: '', handleSaveTherapistDataSuccess: () => void
     }
 }): any {

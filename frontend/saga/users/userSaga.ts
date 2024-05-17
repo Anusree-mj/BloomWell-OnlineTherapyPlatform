@@ -20,6 +20,7 @@ function* getLoginActionSaga(action: {
                 action.payload.handleLoginSuccess(response.role)
                 console.log('login success')
             } else {
+                console.log('therapist role entered')
                 yield put(getLoginSuccessAction(response.therapist))
                 localStorage.setItem("therapistData", JSON.stringify(response.therapist));
                 action.payload.handleLoginSuccess(response.role)

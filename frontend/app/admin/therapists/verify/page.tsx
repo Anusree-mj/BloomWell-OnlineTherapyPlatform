@@ -1,8 +1,9 @@
 'use client'
 
 import AdminHeader from "@/components/admin/header/adminHeader";
+import ManageClients from "@/components/admin/clients/manageClientComponent";
 import { Provider } from 'react-redux';
-import store from '../../store'
+import store from "@/store";
 
 const Page = () => {
     return (

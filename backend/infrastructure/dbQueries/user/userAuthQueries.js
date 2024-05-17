@@ -8,20 +8,26 @@ const userDoLogin = async (email, password) => {
     try {
         const user = await User.findOne({ email: email })
         if (user) {
+            console.log('user found')
             const matchPassword = await bcrypt.compare(password, user.password);
             if (matchPassword) {
+                console.log('password matched')
                 if (user.role === 'client') {
+                    console.log('client found')
                     const client = await Client.findOne({ email: email }).select('-password -createdAt -updatedAt');
-                    return { role: 'client', client }
+                    return { status:'ok',role: 'client', client }
                 }
-                // else {
-                //     const therapist = await Therapist.findOne({ email: email }).select('-password -createdAt -updatedAt');
-                //     return { role: 'therapist', therapist }
-                // }
+                else {
+                    console.log('therapist found')
+                    const therapist = await Therapists.findOne({ email: email }).select('-password -createdAt -updatedAt');
+                    return { status:'ok',role: 'therapist', therapist }
+                }
+            } else {
+                return { status: 'nok', message: 'Invalid password' }
             }
 
         } else {
-            console.log('no user')
+            return { status: 'nok', message: 'Invalid email' }
         }
     }
     catch (err) {
