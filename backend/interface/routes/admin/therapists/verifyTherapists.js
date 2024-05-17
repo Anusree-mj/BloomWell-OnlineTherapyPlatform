@@ -41,5 +41,41 @@ router.post('/:therapistId/verify', protectAdmin, async (req, res) => {
         console.log(err)
     }
 })
+// delete therapist
+router.delete('/:therapistId', protectAdmin, async (req, res) => {
+    try {
+        console.log('entered in delete routes')
+        const therapistId = req.params.therapistId
+        const { status } = await controllers.adminControllers.deleteTherapistController(therapistId);
+        if (status === 'ok') {
+            res.status(200).json({
+                status: 'ok',
+                message: 'User blocked succesfully'
+            });
+        } else {
+        }
+    } catch (err) {
+        res.status(401).json({ status: 'nok', message: 'Invalid entry' })
+        console.log(err)
+    }
+})
 
+// edit therapsit
+router.put('/:therapistId', protectAdmin, async (req, res) => {
+    try {
+        console.log('entered in edit routes')
+        const therapistId = req.params.therapistId
+        const { status } = await controllers.adminControllers.editTherapistController(therapistId);
+        if (status === 'ok') {
+            res.status(200).json({
+                status: 'ok',
+                message: 'User unblocked succesfully'
+            });
+        } else {
+        }
+    } catch (err) {
+        res.status(401).json({ status: 'nok', message: 'Invalid entry' })
+        console.log(err)
+    }
+})
 export default router;

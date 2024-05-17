@@ -7,7 +7,9 @@ import {
 
 import {
     getTherapistsDetailsController,
-    verifyTherapistController
+    verifyTherapistController,
+    deleteTherapistController,
+    editTherapistController
 
 } from './therapistManagement/manageTherapistController.js'
 
@@ -17,7 +19,9 @@ const adminControllers = {
     deleteClientController,
     editClientController,
     getTherapistsDetailsController,
-    verifyTherapistController
+    verifyTherapistController,
+    deleteTherapistController,
+    editTherapistController
 }
 
 export default adminControllers

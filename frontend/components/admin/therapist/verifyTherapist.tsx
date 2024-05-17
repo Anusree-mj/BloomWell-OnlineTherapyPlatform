@@ -5,9 +5,9 @@ import { getTherapistsDetailsAction, adminStateType } from "@/store/admin/adminR
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
-import { verifyTherapists } from "@/utilities/admin/therapists/manageTherapist";
+import { verifyTherapists } from "@/utilities/admin/therapists/verifyTherapist";
 import { useRouter } from "next/navigation";
-import { Box, Button, MenuItem, Select, TextField } from "@mui/material";
+import { Box, Button, MenuItem, Select, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 
 const verifyOptions = [
@@ -115,13 +115,26 @@ const AdminVerifyTherapists = () => {
                 ml: { sm: '15rem' }
             }}
         >
-            <TextField
-                label="Search..."
-                variant="outlined"
-                value={search}
-                onChange={handleSearch}
-                sx={{ marginBottom: 2, width: '90%' }}
-            />
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '63rem', maxWidth: '90%',
+            }}>
+                <Typography variant="h6" noWrap component="div" sx={{
+                    color: '#325343',
+                    fontWeight: 800
+                }}>
+                    Verify Therapist
+                </Typography>
+                <TextField
+                    label="Search..."
+                    variant="outlined"
+                    value={search}
+                    onChange={handleSearch}
+                    sx={{ marginBottom: 2, }}
+                />
+            </Box>
             <Box
                 sx={{
                     height: 400,

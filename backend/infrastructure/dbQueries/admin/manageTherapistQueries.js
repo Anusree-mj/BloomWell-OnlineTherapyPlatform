@@ -27,9 +27,31 @@ const verifyTherapistQuery = async (therapistId, verifyStatus) => {
     }
 }
 
+const deleteTherapistsQuery = async (therapistsId) => {
+    try {
+        const therapists = await Therapists.findByIdAndUpdate(therapistsId, { isBlocked: true });
+        if (therapists) {
+            return { status: 'ok' }
+        }
+    } catch (err) {
+        console.log(err.message)
+    }
+}
+
+const editTherapistsQuery = async (therapistsId) => {
+    try {
+        const therapists = await Therapists.findByIdAndUpdate(therapistsId, { isBlocked: false });
+        if (therapists) {
+            return { status: 'ok' }
+        }
+    } catch (err) {
+        console.log(err.message)
+    }
+}
 
 export default {
     getTherapistsDetailsQuery,
     verifyTherapistQuery,
-
+    deleteTherapistsQuery,
+    editTherapistsQuery
 }

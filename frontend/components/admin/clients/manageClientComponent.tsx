@@ -7,7 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import { deleteClient, editClient } from "@/utilities/admin/clients/manageClients";
 import { useRouter } from "next/navigation";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 const AdminManageClients = () => {
   const dispatch = useDispatch();
@@ -105,13 +105,26 @@ const AdminManageClients = () => {
         ml: { sm: '15rem' }
       }}
     >
-      <TextField
-        label="Search..."
-        variant="outlined"
-        value={search}
-        onChange={handleSearch}
-        sx={{ marginBottom: 2, width: '90%' }}
-      />
+       <Box sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '63rem', maxWidth: '90%',
+            }}>
+                <Typography variant="h6" noWrap component="div" sx={{
+                    color: '#325343',
+                    fontWeight: 800
+                }}>
+                    Manage Clients
+                </Typography>
+                <TextField
+                    label="Search..."
+                    variant="outlined"
+                    value={search}
+                    onChange={handleSearch}
+                    sx={{ marginBottom: 2, }}
+                />
+            </Box>
       <Box
         sx={{
           height: 400,

@@ -18,7 +18,6 @@ const verifyTherapists = async (therapistId: string, therapistName: string, veri
     });
 };
 
-
 export {
     verifyTherapists,
 }

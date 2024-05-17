@@ -1,6 +1,6 @@
 import manageTherapistQueries from "../../../infrastructure/dbQueries/admin/manageTherapistQueries.js";
 
-// get clients
+// get therapists
 const getTherapistsDetailsController = async () => {
     try {
         const { therapists } = await manageTherapistQueries.getTherapistsDetailsQuery()
@@ -23,7 +23,34 @@ const verifyTherapistController = async (therapistId, verifyStatus) => {
     }
 }
 
+// delet therapist
+const deleteTherapistController = async (therapistId) => {
+    try {
+        const { status } = await manageTherapistQueries.deleteTherapistsQuery(therapistId);
+        if (status === 'ok') {
+            return { status: 'ok' }
+        }
+    } catch (err) {
+        console.log('Error found', err)
+    }
+}
+
+// edit therapist
+const editTherapistController = async (therapistId) => {
+    try {
+        const { status } = await manageTherapistQueries.editTherapistsQuery(therapistId);
+        if (status === 'ok') {
+            return { status: 'ok' }
+        }
+    } catch (err) {
+        console.log('Error found', err)
+
+    }
+}
+
 export {
     getTherapistsDetailsController,
-    verifyTherapistController
+    verifyTherapistController,
+    deleteTherapistController,
+    editTherapistController
 }
