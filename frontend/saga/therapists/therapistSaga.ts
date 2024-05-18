@@ -1,9 +1,5 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
-import {
-    getTherapistDetailsApi,
-    getTherapistSignupApi,
-    saveTherapistDetailsApi,
-} from '@/services/therapist/auth';
+import { apiCall } from '@/services/api';
 import {
     getTherapistSignUpAction,
     getTherapistSignUpFailureAction,
@@ -27,7 +23,12 @@ function* getTherapistSignUpActionSaga(action: {
     }
 }): any {
     try {
-        const response = yield call<any>(getTherapistSignupApi, action.payload);
+        const response = yield call<any>(apiCall, {
+            method: 'POST',
+            endpoint: 'therapist/signup',
+            body: action.payload
+        });
+
         if (response.status === 'ok') {
             yield put(getTherapistSignUpSuccessAction(response.therapist))
             localStorage.setItem("therapistData", JSON.stringify(response.therapist));
@@ -50,7 +51,12 @@ function* saveTherapistDetailsActionSaga(action: {
     }
 }): any {
     try {
-        const response = yield call<any>(saveTherapistDetailsApi, action.payload);
+        const response = yield call<any>(apiCall, {
+            method: 'POST',
+            endpoint: 'therapist',
+            body: action.payload
+        });
+
         if (response.status === 'ok') {
             yield put(saveTherapistDetailsSuccessAction(response.therapist))
 
@@ -73,7 +79,11 @@ function* getTherapistProfileActionSaga(action: {
 }): any {
     try {
         console.log('entered in saga')
-        const response = yield call<any>(getTherapistDetailsApi, action.payload);
+        const response = yield call<any>(apiCall, {
+            method: 'GET',
+            endpoint: `therapist/${action.payload}`,
+        });
+
         if (response.status === 'ok') {
             console.log('status okkkk')
             yield put(getTherapistProfileSuccessAction(response.therapist))

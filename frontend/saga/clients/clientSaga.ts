@@ -1,11 +1,10 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { getSignupApi } from '@/services/clients/auth';
 import {
-   getClientSignUpAction,
-   getClientSignUpFailureAction,
-   getClientSignUpSuccessAction
+    getClientSignUpAction,
+    getClientSignUpFailureAction,
+    getClientSignUpSuccessAction
 } from '@/store/clients/clientReducer';
-
+import { apiCall } from '@/services/api';
 
 // SignupSaga
 function* getClientSignUpActionSaga(action: {
@@ -13,7 +12,13 @@ function* getClientSignUpActionSaga(action: {
     payload: { otp: number, name: '', email: '', password: '', handleSignupSuccess: () => void }
 }): any {
     try {
-        const response = yield call<any>(getSignupApi, action.payload);
+
+        const response = yield call<any>(apiCall, {
+            method: 'POST',
+            endpoint: 'client/signup',
+            body: action.payload
+        });
+
         if (response.status === 'ok') {
             yield put(getClientSignUpSuccessAction(response.client))
             localStorage.setItem("clientData", JSON.stringify(response.client));
