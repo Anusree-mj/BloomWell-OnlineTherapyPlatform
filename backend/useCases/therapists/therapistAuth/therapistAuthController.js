@@ -1,4 +1,4 @@
-import { generateTherapistsToken } from '../../../utilitis/token.js';
+import { generateToken } from '../../../utilitis/token.js';
 import clientAuthQueries from '../../../infrastructure/dbQueries/client/clientAuthQueries.js';
 import therapistQuery from '../../../infrastructure/dbQueries/therapist/therapistQuery.js';
 
@@ -11,7 +11,7 @@ const therapistsSignUp = async (data) => {
         if (response.status === 'ok') {
             const { therapist } = response;
             console.log(therapist, 'therapist received in controller')
-            const token = generateTherapistsToken(therapist._id)
+            const token = generateToken(therapist._id)
             console.log(token, 'token found in signup')
             return { status: 'ok', therapist, token };
         } else {

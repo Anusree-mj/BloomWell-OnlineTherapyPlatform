@@ -41,7 +41,7 @@ export default function Login() {
         if (role === 'client') {
             router.push('/');
         } else {
-            router.push('/therapist/welcome')
+            router.push('/therapist')
         }
     }
 

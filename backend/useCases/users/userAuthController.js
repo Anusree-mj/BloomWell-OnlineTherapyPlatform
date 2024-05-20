@@ -1,4 +1,4 @@
-import { generateClientToken, generateTherapistsToken } from '../../utilitis/token.js';
+import { generateToken } from '../../utilitis/token.js';
 import userAuthQueries from '../../infrastructure/dbQueries/user/userAuthQueries.js';
 import clientAuthQueries from '../../infrastructure/dbQueries/client/clientAuthQueries.js';
 import { generateOTP, sendOtpByEmail } from '../../utilitis/generateOTP.js';
@@ -12,12 +12,12 @@ const authUser = async (email, password) => {
             console.log('response got from query')
             if (response.role === 'client') {
                 const { status, client } = response;
-                const token = generateClientToken(client._id);
+                const token = generateToken(client._id);
                 return { status, client, token, role: 'client' }
             }
             else {
                 const { status, therapist } = response;
-                const token = generateTherapistsToken(therapist._id);
+                const token = generateToken(therapist._id);
                 return { status, therapist, token, role: 'therapist' }
             }
         } else {

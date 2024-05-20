@@ -53,7 +53,7 @@ const DetailsComponent = () => {
     }
 
     const handleSaveTherapistDataSuccess = () => {
-        router.push('/therapist/welcome')
+        router.push('/therapist/')
     }
     return (
         <Box sx={{

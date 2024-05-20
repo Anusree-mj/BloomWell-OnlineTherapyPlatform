@@ -1,4 +1,4 @@
-import { generateClientToken } from '../../../utilitis/token.js';
+import { generateToken } from '../../../utilitis/token.js';
 import clientAuthQueries from '../../../infrastructure/dbQueries/client/clientAuthQueries.js';
 
 
@@ -6,10 +6,10 @@ import clientAuthQueries from '../../../infrastructure/dbQueries/client/clientAu
 const signUp = async (data) => {
     try {
         console.log('entered in signup controller')
-        const response = await clientAuthQueries.verifyOTP(data,'client');
+        const response = await clientAuthQueries.verifyOTP(data, 'client');
         if (response.status === 'ok') {
             const { client } = response;
-            const token = generateClientToken(client._id)
+            const token = generateToken(client._id)
             console.log(token, 'token found in signup')
             return { status: 'ok', client, token };
         } else {

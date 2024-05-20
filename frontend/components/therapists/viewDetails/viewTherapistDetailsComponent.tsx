@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Box, Typography, Avatar, Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useSelector, useDispatch } from 'react-redux';
@@ -45,23 +45,25 @@ const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistI
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             flexDirection: 'column'
         }}>
-            <Avatar src={therapist.image} sx={{ width: 200, height: 200,mt:4 }} />
+            <Avatar src={therapist.image} sx={{ width: 200, height: 200, mt: 4 }} />
             <Typography variant="h6" noWrap component="div" sx={{ color: '#325343', fontWeight: 800 }}>
                 {therapist.name}
             </Typography>
             <Box sx={{
-                display: 'flex', justifyContent: 'center',
-                flexDirection: 'column', alignItems: 'center', pt: 4, pb: 6
+                display: 'flex', justifyContent: 'center', maxWidth: '100%',
+                flexDirection: 'column', alignItems: 'center', pt: 4, pb: 6,
             }}>
-               
-                <Box sx={{ maxWidth: '80%', width: '90rem', mt: 4 }}>
+
+                <Box sx={{ maxWidth: '95%', width: '90rem', mt: 4 }}>
                     {accordionItems.map((item) => (
                         <Accordion
                             key={item.title}
                             expanded={expandedPanel === item.title}
                             onChange={handleExpansion(item.title)}
                             sx={{
-                                '& .MuiAccordionSummary-content': { fontSize: '1.2rem' },
+                                '& .MuiAccordionSummary-content': {
+                                    fontSize: '1.2rem',
+                                },
                             }}
                         >
                             <AccordionSummary
