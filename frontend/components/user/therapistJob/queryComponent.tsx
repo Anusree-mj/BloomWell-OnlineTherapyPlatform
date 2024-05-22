@@ -1,15 +1,23 @@
+'use client'
 import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import Button from '@mui/material/Button';
+import { useRouter } from 'next/navigation';
 
 const buttonContents = [
-    { role: 'Clinical Social Worker', skills: `(LCSW, LICSW, LISW, LICSW, etc.)` },
-    { role: 'Marriage & Family Therapist', skills: `(, LMFT, LCMFT, LIMFT, etc.)` },
-    { role: 'Mental Health Counselor', skills: `(LMHC, LCMHC, LMHP, LPMHC, etc.)` },
-    { role: 'Professional Counselor', skills: `(LPC, LPCC, LCPC, etc.)` },
+    { role: 'Clinical Social Worker', skills: `LCSW, LICSW, LISW, LICSW, etc.` },
+    { role: 'Marriage & Family Therapist', skills: `(, LMFT, LCMFT, LIMFT, etc.` },
+    { role: 'Mental Health Counselor', skills: `LMHC, LCMHC, LMHP, LPMHC, etc.` },
+    { role: 'Professional Counselor', skills: `LPC, LPCC, LCPC, etc.` },
     { role: 'Psychologist' },
 ]
 const QueryComponent = () => {
+    const router = useRouter()
+    
+    const navigateToRegister = (role: string) => {
+        router.push(`/therapist/register/${role}`)
+    }
+
     return (
         <Box sx={{
             pt: 6, pb: 6,
@@ -46,7 +54,7 @@ const QueryComponent = () => {
                             color: 'white',
                         }
                     }
-                }}>
+                }} onClick={() => { navigateToRegister(item.role) }}>
                     <Box sx={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -64,15 +72,12 @@ const QueryComponent = () => {
                             <Typography sx={{
                                 fontSize: '0.8rem'
                             }}>
-                                {item.skills}
+                                {`(${item.skills})`}
                             </Typography>
                         )}
                     </Box>
                 </Button>
-
             ))}
-
-
         </Box>
     )
 }

@@ -5,10 +5,10 @@ import Footer from '../../../../components/common/footer/footer';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { individualQuestionnaire } from "@/components/common/questionaire/individual";
-import { coupleQuestionnaire } from "@/components/common/questionaire/couple";
-import { teenQuestionnaire} from '@/components/common/questionaire/teen'
-import ClientQuiestionnaire from '@/components/common/questionaire/clientQuestionnaire'
+import { individualQuestionnaire } from "@/components/client/submitDetails/questions/individual";
+import { coupleQuestionnaire } from "@/components/client/submitDetails/questions/couple";
+import { teenQuestionnaire} from '@/components/client/submitDetails/questions/teen'
+import ClientQuiestionnaire from '@/components/client/submitDetails/clientQuestionnaire'
 import store from "@/store";
 import { Provider } from "react-redux";
 

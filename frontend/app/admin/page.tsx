@@ -1,7 +1,6 @@
 'use client'
 
 import AdminHeader from "@/components/admin/header/adminHeader";
-import AdminDashboard from "@/components/admin/clients/manageClientComponent";
 import { Provider } from 'react-redux';
 import store from '../../store'
 
@@ -10,7 +9,6 @@ const Page = () => {
         <Provider store={store}>
             <AdminHeader />
             <div style={{ paddingTop: '5.6rem' }}>
-                <h1>DashBoard</h1>
             </div>
         </Provider>
     );

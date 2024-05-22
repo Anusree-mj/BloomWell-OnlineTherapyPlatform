@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { showConfirmationDialog, handleAction } from '../alertConfig/alertConfig';
+import { showConfirmationDialog, handleAction } from './alertConfig';
 import { getClientsDetailsAction } from '@/store/admin/adminReducer';
 
 const handleConfirmDelete = async (clientId: string, clientName: string) => {

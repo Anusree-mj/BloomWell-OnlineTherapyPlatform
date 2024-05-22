@@ -1,10 +1,10 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
-import { getLoginApi } from '../../services/user';
 import {
     getLoginAction,
     getLoginFailureAction,
     getLoginSuccessAction
 } from '../../store/user/userReducer'
+import { apiCall } from '@/services/api';
 
 // loginSaga
 function* getLoginActionSaga(action: {
@@ -12,7 +12,12 @@ function* getLoginActionSaga(action: {
     payload: { email: '', password: '', handleLoginSuccess: (role: string) => void }
 }): any {
     try {
-        const response = yield call<any>(getLoginApi, action.payload);
+        const response = yield call<any>(apiCall, {
+            method: 'POST',
+            endpoint: 'users/login',
+            body: action.payload
+        });
+
         if (response.status === 'ok') {
             if (response.role === 'client') {
                 yield put(getLoginSuccessAction(response.client))
@@ -20,6 +25,7 @@ function* getLoginActionSaga(action: {
                 action.payload.handleLoginSuccess(response.role)
                 console.log('login success')
             } else {
+                console.log('therapist role entered')
                 yield put(getLoginSuccessAction(response.therapist))
                 localStorage.setItem("therapistData", JSON.stringify(response.therapist));
                 action.payload.handleLoginSuccess(response.role)

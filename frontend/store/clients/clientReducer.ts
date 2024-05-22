@@ -10,11 +10,13 @@ export interface clientStateType {
 
 const initialState: clientStateType = {
     client: {
-        id: '',
+        _id: "",
         name: '',
         email: '',
         type: "",
-        questionnaires: []
+        questionnaires: [],
+        isBlocked: false,
+        age: ""
     },
     isLoading: false,
     error: null
@@ -25,15 +27,30 @@ export const clientSlice: any = createSlice({
     initialState: initialState,
     reducers: {
         // sgnup action
-        getSignUpAction: (state) => {
-            console.log('entered in SignUp action')
+        getClientSignUpAction: (state) => {
+            console.log('entered in ClientSignUp action')
             state.isLoading = true;
         },
-        getSignUpSuccessAction: (state, action) => {
+        getClientSignUpSuccessAction: (state, action) => {
             state.isLoading = false;
             state.client = action.payload;
         },
-        getSignUpFailureAction: (state, action) => {
+        getClientSignUpFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found', state.error)
+        },
+        // save details
+
+        saveClientDetailsAction: (state) => {
+            console.log('entered in SignUp action')
+            state.isLoading = true;
+        },
+        saveClientDetailsSuccessAction: (state, action) => {
+            state.isLoading = false;
+            state.client = action.payload;
+        },
+        saveClientDetailsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
             console.log('eror found', state.error)
@@ -41,7 +58,11 @@ export const clientSlice: any = createSlice({
     }
 })
 export const {
-    getSignUpAction,
-    getSignUpSuccessAction,
-    getSignUpFailureAction
+    getClientSignUpAction,
+    getClientSignUpSuccessAction,
+    getClientSignUpFailureAction,
+    saveClientDetailsAction,
+    saveClientDetailsFailureAction,
+    saveClientDetailsSuccessAction,
+
 } = clientSlice.actions;

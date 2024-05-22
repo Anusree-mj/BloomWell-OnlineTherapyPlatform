@@ -6,14 +6,13 @@ import controllers from '../../../../useCases/index.js'
 // get client details
 router.get('/view', protectAdmin, async (req, res) => {
     try {
-        console.log('entered in get client details')
+        // console.log('admin got in routes', req)
         const { clients } = await controllers.adminControllers.getClientsDetailsController();
         if (clients) {
             res.status(200).json({
                 status: 'ok',
                 clients: clients
             });
-        } else {
         }
     } catch (err) {
         res.status(401).json({ status: 'nok', message: err.message })

@@ -2,23 +2,6 @@ import express from 'express'
 const router = express.Router();
 import controllers from '../../../../useCases/index.js';
 
-
-router.post('/getOtp', async (req, res) => {
-    try {
-        const { email } = req.body;
-        console.log('entered in get otp route')
-        const response = await controllers.clientControllers.getOtp(email)
-        if (response.status==='ok') {
-            console.log('otp sent')
-            res.status(200).json({ status: 'ok' });
-        } else {
-            res.status(400).json({ status: 'nok', message: 'User already exists' })
-        }
-    } catch (err) {
-        console.log(err)
-    }
-})
-
 router.post('/signup', async (req, res) => {
     try {
         const data = req.body;
@@ -33,15 +16,21 @@ router.post('/signup', async (req, res) => {
         console.log(err)
     }
 })
-// router.get('/', protectAdmin, getAdminDashboard);
-// router.post('/addUser', protectAdmin, addUser);
-// router
-//     .route('/user/:userId')
-//     .delete(protectAdmin, deleteUser)
-//     .put(protectAdmin, editUser)
-// .post(protectAdmin, addUser);
 
-
-
+router.post('/', async (req, res) => {
+    try {
+        const data = req.body;
+        console.log(data, 'data entered in routes')
+        const response = await controllers.clientControllers.saveClientData(data)
+        if (response.status === 'ok') {
+            console.log('details successfully logged in')
+            res.status(200).json({ status: 'ok', client: response.client });
+        } else {
+            res.status(400).json({ status: 'nok', message: response.message });
+        }
+    } catch (err) {
+        console.log(err)
+    }
+})
 
 export default router;

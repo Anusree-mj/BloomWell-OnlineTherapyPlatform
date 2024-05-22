@@ -81,7 +81,7 @@ export default function AdminHeader(props: Props) {
       iconTitle: 'Therapists', icon: <PsychologyIcon />, link: '#',
       subItems: [
         { title: 'Manage Therapists', link: '/admin/therapists/view' },
-        { title: 'Verify Therapist', link: '/admin/therapists/add' },
+        { title: 'Verify Therapist', link: '/admin/therapists/verify' },
         { title: 'Manage Connections', link: '/admin/therapists/add' },
         { title: 'Manage Payments', link: '/admin/therapists/add' },
       ]

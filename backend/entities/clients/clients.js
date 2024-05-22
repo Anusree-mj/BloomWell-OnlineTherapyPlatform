@@ -14,6 +14,9 @@ const clientSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    age: {
+        type: String
+    },
     sessionType: {
         type: String,
     },

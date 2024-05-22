@@ -2,19 +2,7 @@ import TempClient from "../../../entities/clients/tempClientModel.js";
 import Client from "../../../entities/clients/clients.js";
 import bcrypt from 'bcryptjs';
 import User from "../../../entities/userModel.js";
-
-const checkUser = async (email) => {
-    try {
-        const user = await Client.findOne({ email: email });
-        if (user) {
-            return { status: 'nok' }
-        } else {
-            return { status: 'ok' }
-        }
-    } catch (err) {
-        console.log(err)
-    }
-}
+import Therapists from "../../../entities/therapists/therapist.js";
 
 const saveOtp = async (email, otp) => {
     try {
@@ -29,28 +17,50 @@ const saveOtp = async (email, otp) => {
     }
 }
 
-const verifyOTP = async (data) => {
+const verifyOTP = async (data, role) => {
     try {
-        const { otp, name, email, password } = data
-        const verify = await TempClient.findOne({ email: email, otp: otp })
+        console.log(role, 'rolel')
+        const verify = await TempClient.findOne({ email: data.email, otp: data.otp })
         if (verify) {
             console.log('otp match')
-            const hashedPassword = await bcrypt.hash(password, 10);
-            await Client.insertMany({
-                name: name,
-                email: email,
-                password: hashedPassword,
-            })
-            await User.insertMany({
-                email: email,
-                password: hashedPassword,
-                role: 'client'
-            })
-            const client = await Client.findOne({ email: email }).select('-password -createdAt -updatedAt');
-            return { status: 'ok', client }
+            if (role === 'client') {
+                const { name, email, password } = data
+                const hashedPassword = await bcrypt.hash(password, 10);
+                await Client.insertMany({
+                    name: name,
+                    email: email,
+                    password: hashedPassword,
+                })
+                await User.insertMany({
+                    email: email,
+                    password: hashedPassword,
+                    role: role
+                })
+                const client = await Client.findOne({ email: email }).select('-password -createdAt -updatedAt');
+                return { status: 'ok', client }
+            } else {
+                const { name, email, password, phone, licenseNum, roleType } = data
+                const hashedPassword = await bcrypt.hash(password, 10);
+                await Therapists.insertMany({
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    license: {
+                        licenseNo: licenseNum
+                    },
+                    role: roleType,
+                    password: hashedPassword,
+                })
+                await User.insertMany({
+                    email: email,
+                    password: hashedPassword,
+                    role: role
+                })
+                const therapist = await Therapists.findOne({ email: email }).select('-password -createdAt -updatedAt');
+                return { status: 'ok', therapist }
+            }
         } else {
             console.log('otp no match')
-
             return { status: 'nok', message: 'Invalid OTP' }
         }
     } catch (err) {
@@ -58,8 +68,31 @@ const verifyOTP = async (data) => {
     }
 }
 
+const saveClientData = async (data) => {
+    try {
+        const { email, type, age, answers } = data
+        const query = { email: email }
+        const update = {
+            sessionType: type,
+            age: age,
+            questionnaire: answers,
+        }
+        const options = { upsert: true }
+        const response = await Client.updateOne(query, update, options)
+        if (response) {
+            const client = await Client.findOne({ email: email }).select('-password -createdAt -updatedAt');
+            return { status: 'ok', client }
+        } else {
+            return { status: 'nok', message: 'Client not found' }
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
 export default {
     saveOtp,
     verifyOTP,
-    checkUser,
+    saveClientData,
 }

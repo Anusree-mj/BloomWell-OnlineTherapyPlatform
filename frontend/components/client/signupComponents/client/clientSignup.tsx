@@ -7,7 +7,7 @@ import axios from 'axios'
 import { Box, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
-import { getSignUpAction, clientStateType } from "@/store/clients/clientReducer";
+import { getClientSignUpAction, clientStateType } from "@/store/clients/clientReducer";
 import OTPInput from '@/components/common/otp/otp';
 
 const ClientSignupComponent = () => {
@@ -38,7 +38,7 @@ const ClientSignupComponent = () => {
             const valid = validation()
             if (valid) {
                 setLoading(true)
-                const response = await axios.post(`http://localhost:8000/client/getOtp`, { email: email });
+                const response = await axios.post(`http://localhost:8000/users/getOtp`, { email: email });
                 if (response.status === 200) {
                     setOtpField(true)
                 }
@@ -63,53 +63,44 @@ const ClientSignupComponent = () => {
                 toast.error('Please enter the otp')
                 return;
             }
-            await dispatch(getSignUpAction({ otp, name, email, password, handleSignupSuccess }))
+            await dispatch(getClientSignUpAction({ otp, name, email, password, handleSignupSuccess }))
         } catch (err) {
             console.log(err)
         }
     }
 
     const handleSignupSuccess = () => {
-        router.push('/client/welcome')
+        router.push('/client/details')
     }
 
     const validation = () => {
         let isValid = true
-        if (!name) {
-            setNameSpan('red')
-            setNameTextSpan('Please provide a valid name')
-            isValid = false
-        } else if (name.trim() === '') {
-            setNameTextSpan('Please provide a valid name')
-            isValid = false
-        } if (!email) {
-            setEmailSpan('red')
-            setEmailTextSpan('Please provide a valid email.')
-            isValid = false
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            setEmailTextSpan('Please provide a valid email.')
-            isValid = false
-        } if (!password) {
-            setPasswordSpan('red')
-            setPasswordTextSpan('Please provide a password of at least 8 characters')
-            isValid = false
-        } else if (password.trim() === '') {
-            setPasswordTextSpan('Password must be at least 8 characters long')
-            isValid = false
-        } else if (password.length < 8) {
-            setPasswordTextSpan('Password must be at least 8 characters long')
-            isValid = false
-        } if (!confrmPassword) {
-            setConfrmPasswordSpan('red')
-            setConfrmPasswordTextSpan(`Please confirm your password`)
-            isValid = false
-        } else if (password !== confrmPassword) {
-            setConfrmPasswordTextSpan(`Password doesn't match`)
-            isValid = false
+        const setValidation = (setSpan: any, setTextSpan: any, message: string) => {
+            setSpan('red');
+            setTextSpan(message);
+            isValid = false;
         }
-        return isValid
-    }
 
+        if (!name || name.trim() === '') {
+            setValidation(setNameSpan, setNameTextSpan, 'Please provide a valid name');
+        }
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            setValidation(setEmailSpan, setEmailTextSpan, 'Please provide a valid email.');
+        }
+        if (!password || password.trim() === '' || password.length < 8) {
+            let message = !password && password.trim() === ''
+                ? 'Please provide a password of at least 8 characters'
+                : 'Password must be at least 8 characters long';
+            setValidation(setPasswordSpan, setPasswordTextSpan, message);
+        }
+        if (!confrmPassword || password !== confrmPassword) {
+            let message = !confrmPassword
+                ? 'Please confirm your password'
+                : 'Password doesn\'t match';
+            setValidation(setConfrmPasswordSpan, setConfrmPasswordTextSpan, message);
+        }
+        return isValid;
+    }
     const clearSpan = (e: { preventDefault: () => void; }, fieldName: string) => {
         e.preventDefault();
         switch (fieldName) {

@@ -202,7 +202,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ email, otp, setOtp, disableButton, 
   })
   const handleResendOTP = async () => {
     try {
-      const response = await axios.post(`http://localhost:8000/client/getOtp`, { email: email });
+      const response = await axios.post(`http://localhost:8000/users/getOtp`, { email: email });
       if (response) {
         setTimer(119)
         setDisableButton(false)
