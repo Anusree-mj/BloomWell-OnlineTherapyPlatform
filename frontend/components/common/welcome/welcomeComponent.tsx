@@ -14,8 +14,7 @@ const WelcomeComponent = ({ welcomeText }: WelcomeComponentProps) => {
   useEffect(() => {
     const clientData = localStorage.getItem('clientData')
     const therapistData = localStorage.getItem('therapistData')
-    console.log('clientData:', clientData);
-    console.log('therapistData:', therapistData);
+   
     if (!clientData && !therapistData) {
       console.log('notsfdsdfsdfsdfdsaaaaa')
       router.push('/login')

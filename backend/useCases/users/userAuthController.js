@@ -36,6 +36,7 @@ const getOtpController = async (email) => {
         const verifyUser = await userAuthQueries.checkUser(email);
         if (verifyUser.status === 'ok') {
             const otp = generateOTP()
+            console.log(otp,'otp')
             const response = await clientAuthQueries.saveOtp(email, otp);
             if (response.status === 'ok') {
                 await sendOtpByEmail(email, otp);
