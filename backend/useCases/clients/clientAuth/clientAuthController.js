@@ -22,7 +22,27 @@ const signUp = async (data) => {
     }
 }
 
+// save data 
+const saveClientData = async (data) => {
+    try {
+        console.log('entered in signup controller')
+        const response = await clientAuthQueries.saveClientData(data);
+        if (response.status === 'ok') {
+            const { status, client } = response
+            console.log(status, client, 'details got back in controller');
+            return { status, client }
+        } else {
+            const { status, message } = response
+            return { status, message }
+        }
+    } catch (err) {
+        console.log('Error found', err)
+
+    }
+}
+
 
 export {
     signUp,
+    saveClientData,
 }

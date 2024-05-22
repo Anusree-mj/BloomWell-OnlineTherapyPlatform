@@ -15,7 +15,8 @@ const initialState: clientStateType = {
         email: '',
         type: "",
         questionnaires: [],
-        isBlocked: false
+        isBlocked: false,
+        age: ""
     },
     isLoading: false,
     error: null
@@ -39,10 +40,29 @@ export const clientSlice: any = createSlice({
             state.error = action.payload;
             console.log('eror found', state.error)
         },
+        // save details
+
+        saveClientDetailsAction: (state) => {
+            console.log('entered in SignUp action')
+            state.isLoading = true;
+        },
+        saveClientDetailsSuccessAction: (state, action) => {
+            state.isLoading = false;
+            state.client = action.payload;
+        },
+        saveClientDetailsFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found', state.error)
+        },
     }
 })
 export const {
     getClientSignUpAction,
     getClientSignUpSuccessAction,
-    getClientSignUpFailureAction
+    getClientSignUpFailureAction,
+    saveClientDetailsAction,
+    saveClientDetailsFailureAction,
+    saveClientDetailsSuccessAction,
+
 } = clientSlice.actions;

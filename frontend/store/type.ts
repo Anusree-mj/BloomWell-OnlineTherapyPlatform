@@ -8,6 +8,7 @@ export interface ClientItem {
     name: string;
     email: string;
     type: string;
+    age: string;
     questionnaires: [];
     isBlocked: boolean
 }

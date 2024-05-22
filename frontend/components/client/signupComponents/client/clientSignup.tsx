@@ -70,7 +70,7 @@ const ClientSignupComponent = () => {
     }
 
     const handleSignupSuccess = () => {
-        router.push('/client/welcome')
+        router.push('/client/details')
     }
 
     const validation = () => {

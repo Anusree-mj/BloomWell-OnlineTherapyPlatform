@@ -1,13 +1,14 @@
 'use client'
 import { useEffect, useState } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import TherapyType from './therapyType';
 import ClientQuestionnaire from './clientQuestionnaire';
 import AgeComponent from './ageComponent';
-
+import { saveClientDetailsAction, clientStateType } from '@/store/clients/clientReducer';
+import { toast } from 'react-toastify';
 
 export interface QuestionnaireItem {
     question: string;
@@ -15,6 +16,11 @@ export interface QuestionnaireItem {
 }
 
 const ClientDetailsComponent = () => {
+    const dispatch = useDispatch()
+    const isLoading = useSelector((state: { client: clientStateType }) => state.client.isLoading);
+    const error = useSelector((state: { client: clientStateType }) => state.client.error);
+    const router = useRouter();
+
     const [typeField, setTypeField] = useState(true);
     const [type, setType] = useState('')
     const [age, setAge] = useState('')
@@ -23,11 +29,28 @@ const ClientDetailsComponent = () => {
     const [questionnaireField, setQuestionnaireField] = useState(false)
     const [answers, setAnswers] = useState<string[]>([])
     const [submitDetails, setSubmitDetails] = useState(false);
+    const [email, setEmail] = useState('');
 
-    const handleDetailSubmission = () => { 
-        
+    useEffect(() => {
+        const clientData = JSON.parse(localStorage.getItem('clientData') || '{}');
+        const { email } = clientData
+        setEmail(email);
+        if (Object.keys(clientData).length === 0) {
+            router.push('/login')
+        }
+    })
+
+    useEffect(() => {
+        toast.error(error);
+    }, [error])
+
+
+    const handleDetailSubmission = () => {
+        dispatch(saveClientDetailsAction({ email,type, age, answers, handleDetailSubmissionSuccess }))
     }
-
+    const handleDetailSubmissionSuccess = () => {
+        router.push('/client/welcome')
+    }
     return (
         <Box sx={{
             backgroundColor: '#F7FCC2', display: 'flex',
@@ -63,7 +86,10 @@ const ClientDetailsComponent = () => {
                     }
                     }>Let's get started.</Typography>
 
-                    <Button variant="contained"
+                    <LoadingButton
+                        loading={isLoading}
+                        loadingPosition="end"
+                        variant="contained"
                         sx={{
                             color: '#325343', mt: 2, borderRadius: '0.7rem',
                             backgroundColor: '#a6de9b', mb: 3,
@@ -73,7 +99,7 @@ const ClientDetailsComponent = () => {
                             }
                         }}
                         onClick={handleDetailSubmission}>
-                        Continue</Button>
+                        Continue</LoadingButton>
 
                 </>
             )}

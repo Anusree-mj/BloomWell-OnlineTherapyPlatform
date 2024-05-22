@@ -17,5 +17,20 @@ router.post('/signup', async (req, res) => {
     }
 })
 
+router.post('/', async (req, res) => {
+    try {
+        const data = req.body;
+        console.log(data, 'data entered in routes')
+        const response = await controllers.clientControllers.saveClientData(data)
+        if (response.status === 'ok') {
+            console.log('details successfully logged in')
+            res.status(200).json({ status: 'ok', client: response.client });
+        } else {
+            res.status(400).json({ status: 'nok', message: response.message });
+        }
+    } catch (err) {
+        console.log(err)
+    }
+})
 
 export default router;

@@ -10,9 +10,9 @@ export interface userStateType {
 
 const initialState: userStateType = {
     user: {
-        id: '',
         name: '',
         email: '',
+        _id: ""
     },
     isLoading: false,
     error: null

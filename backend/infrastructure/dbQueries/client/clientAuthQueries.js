@@ -68,7 +68,31 @@ const verifyOTP = async (data, role) => {
     }
 }
 
+const saveClientData = async (data) => {
+    try {
+        const { email, type, age, answers } = data
+        const query = { email: email }
+        const update = {
+            sessionType: type,
+            age: age,
+            questionnaire: answers,
+        }
+        const options = { upsert: true }
+        const response = await Client.updateOne(query, update, options)
+        if (response) {
+            const client = await Client.findOne({ email: email }).select('-password -createdAt -updatedAt');
+            return { status: 'ok', client }
+        } else {
+            return { status: 'nok', message: 'Client not found' }
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
 export default {
     saveOtp,
     verifyOTP,
+    saveClientData,
 }

@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { saveTherapistDetailsAction, therapistStateType } from '@/store/therapists/therapistReducers';
@@ -9,6 +9,7 @@ import ExpertiseComponent from './expertiseComponent';
 import LicenseComponent from './licenseComponent';
 import DescriptionComponent from './descriptionComponent';
 import ProfileComponent from './profilePhotoComponents';
+import { toast } from 'react-toastify';
 
 const DetailsComponent = () => {
     const dispatch = useDispatch()
@@ -40,16 +41,16 @@ const DetailsComponent = () => {
         setLicenseNo(licenseNo);
     }, [])
 
-    const saveTherapistData = async (e: { preventDefault: () => void; }) => {
-        e.preventDefault();
-        try {
-            await dispatch(saveTherapistDetailsAction({
-                email, licenseNo, expertise, country, expiryDate, experience, description,
-                image, handleSaveTherapistDataSuccess
-            }))
-        } catch (err) {
-            console.log(err)
-        }
+    useEffect(() => {
+        toast.error(error);
+    }, [error])
+
+
+    const saveTherapistData = () => {
+        dispatch(saveTherapistDetailsAction({
+            email, licenseNo, expertise, country, expiryDate, experience, description,
+            image, handleSaveTherapistDataSuccess
+        }))
     }
 
     const handleSaveTherapistDataSuccess = () => {
@@ -121,6 +122,7 @@ const DetailsComponent = () => {
                     />
                     <LoadingButton
                         disabled={!disableButton}
+                        loading={isLoading}
                         variant="contained"
                         sx={{
                             borderRadius: '0.7rem', mt: 2,

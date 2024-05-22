@@ -39,11 +39,17 @@ export default function Login() {
     }
     const handleLoginSuccess = (role: string) => {
         if (role === 'client') {
-            router.push('/');
+            const clientData = JSON.parse(localStorage.getItem('clientData') || '{}');
+            const { questionnaire } = clientData;
+            if (Array.isArray(questionnaire) && questionnaire.length !== 0) {
+                router.push('/client/welcome');
+            } else {
+                router.push('/client/details');
+            }
         } else {
-            router.push('/therapist')
+            router.push('/therapist/welcome');
         }
-    }
+    };
 
     useEffect(() => {
         if (localStorage.getItem('clientData')) {
