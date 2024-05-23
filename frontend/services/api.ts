@@ -1,4 +1,3 @@
-import config from "@/config";
 interface ApiOptions {
     method: string;
     endpoint: string;
@@ -6,8 +5,9 @@ interface ApiOptions {
 }
 
 export const apiCall = async ({ method, endpoint, body = {} }: ApiOptions) => {
+    const apiUrl = process.env.NEXT_PUBLIC_SERVER_API_URL
 
-    const res = await fetch(`${config.SERVER_AP_URL}/${endpoint}`, {
+    const res = await fetch(`${apiUrl}/${endpoint}`, {
         method: method,
         body: method !== 'GET' && body ? JSON.stringify(body) : undefined,
         headers: {
