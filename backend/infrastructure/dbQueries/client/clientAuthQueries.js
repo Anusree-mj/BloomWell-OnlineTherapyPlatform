@@ -39,14 +39,15 @@ const verifyOTP = async (data, role) => {
                 const client = await Client.findOne({ email: email }).select('-password -createdAt -updatedAt');
                 return { status: 'ok', client }
             } else {
-                const { name, email, password, phone, licenseNum, roleType } = data
+                const { name, email, password, phone, licenseNum, roleType, licenseProof } = data
                 const hashedPassword = await bcrypt.hash(password, 10);
                 await Therapists.insertMany({
                     name: name,
                     email: email,
                     phone: phone,
                     license: {
-                        licenseNo: licenseNum
+                        licenseNo: licenseNum,
+                        licenseProof: licenseProof
                     },
                     role: roleType,
                     password: hashedPassword,
