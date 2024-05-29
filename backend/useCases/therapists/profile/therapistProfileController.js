@@ -2,16 +2,17 @@ import therapistQuery from '../../../infrastructure/dbQueries/therapist/therapis
 
 
 // get data 
-const getTherapistData = async (therapistId) => {
+const getTherapistData = async (req, res) => {
     try {
-        console.log('entered in therpist profile controller')
+        const therapistId = req.params.therapistId
         const response = await therapistQuery.getTherapistData(therapistId);
         if (response.status === 'ok') {
             const { status, therapist } = response;
-            return { status, therapist };
+            res.status(200).json({ status: status, therapist });
         } else {
-            return { status: 'nok', message: 'Invalid therapistid' }
+            res.status(400).json({ status: 'nok', message: 'Therapist not found' });
         }
+
     } catch (err) {
         console.log('Error found', err)
 

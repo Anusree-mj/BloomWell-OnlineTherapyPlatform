@@ -1,6 +1,7 @@
 import {
     therapistsSignUp,
-    saveTherapistData
+    saveTherapistData,
+    uploadImage
 } from "./therapistAuth/therapistAuthController.js"
 
 import {
@@ -12,7 +13,8 @@ import {
 const therapistControllers = {
     therapistsSignUp,
     saveTherapistData,
-    getTherapistData
+    getTherapistData,
+    uploadImage,
 }
 
 export default therapistControllers

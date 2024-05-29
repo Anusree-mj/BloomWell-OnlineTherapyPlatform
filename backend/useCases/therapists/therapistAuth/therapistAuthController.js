@@ -4,46 +4,58 @@ import therapistQuery from '../../../infrastructure/dbQueries/therapist/therapis
 
 
 // signup
-const therapistsSignUp = async (data) => {
+const therapistsSignUp = async (req, res) => {
     try {
-        console.log('entered in signup controller')
+        const data = req.body;
         const response = await clientAuthQueries.verifyOTP(data, 'therapists');
         if (response.status === 'ok') {
             const { therapist } = response;
             console.log(therapist, 'therapist received in controller')
             const token = generateToken(therapist._id)
-            console.log(token, 'token found in signup')
-            return { status: 'ok', therapist, token };
+            res.cookie('jwtTherapists', token, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true });
+            res.status(200).json({ status: 'ok', therapist: therapist });
         } else {
             const { message } = response
-            return { status: 'nok', message }
+            res.status(400).json({ status: 'nok', message: message });
         }
     } catch (err) {
         console.log('Error found', err)
-
     }
 }
 
 // save data 
-const saveTherapistData = async (data) => {
+const saveTherapistData = async (req, res) => {
     try {
-        console.log('entered in signup controller')
+        const data = req.body;
         const response = await therapistQuery.saveTherapistData(data);
         if (response.status === 'ok') {
             const { status, therapist } = response
-            console.log(status, therapist, 'details got back in controller');
-            return { status, therapist }
+            res.status(200).json({ status: status, therapist: therapist });
         } else {
             const { status, message } = response
-            return { status, message }
+            res.status(400).json({ status: status, message: message });
         }
+
     } catch (err) {
         console.log('Error found', err)
+    }
+}
 
+const uploadImage = async (req, res) => {
+    try {
+        const file = req.file
+        const relativeImagePath = file.path.replace(/\\/g, '/').split('/public')[1];
+        const imageUrl = `${req.protocol}://${req.get('host')}/public${relativeImagePath}`;
+        console.log(relativeImagePath, imageUrl, 'sdfjsdlkjfskdjflkjlj')
+        res.status(200).json({ imageUrl });
+    } catch (err) {
+        res.status(500).json({ err: 'Internal Server err', details: err.message });
+        console.log('Error found', err)
     }
 }
 
 export {
     therapistsSignUp,
     saveTherapistData,
+    uploadImage,
 }
