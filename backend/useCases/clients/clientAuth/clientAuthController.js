@@ -3,41 +3,39 @@ import clientAuthQueries from '../../../infrastructure/dbQueries/client/clientAu
 
 
 // signup
-const signUp = async (data) => {
+const signUp = async (req, res) => {
     try {
-        console.log('entered in signup controller')
+        const data = req.body;
         const response = await clientAuthQueries.verifyOTP(data, 'client');
         if (response.status === 'ok') {
             const { client } = response;
             const token = generateToken(client._id)
-            console.log(token, 'token found in signup')
-            return { status: 'ok', client, token };
+            res.cookie('jwtClient', token, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true });
+            res.status(200).json({ status: 'ok', client: client });
         } else {
             const { message } = response
-            return { status: 'nok', message }
+            res.status(400).json({ status: 'nok', message: message });
         }
     } catch (err) {
         console.log('Error found', err)
-
     }
 }
 
 // save data 
-const saveClientData = async (data) => {
+const saveClientData = async (req, res) => {
     try {
-        console.log('entered in signup controller')
+        const data = req.body;
         const response = await clientAuthQueries.saveClientData(data);
         if (response.status === 'ok') {
             const { status, client } = response
-            console.log(status, client, 'details got back in controller');
-            return { status, client }
+            res.status(200).json({ status: status, client: client });
         } else {
             const { status, message } = response
-            return { status, message }
+            res.status(400).json({ status: status, message: message });
+
         }
     } catch (err) {
         console.log('Error found', err)
-
     }
 }
 

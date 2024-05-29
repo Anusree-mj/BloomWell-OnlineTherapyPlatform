@@ -2,60 +2,15 @@ import express from 'express'
 const router = express.Router();
 import { protectAdmin } from '../../../middlewares/adminAuthMiddleware.js';
 import controllers from '../../../../useCases/index.js'
+import adminControllers from '../../../../useCases/admin/index.js';
 
 // get client details
-router.get('/view', protectAdmin, async (req, res) => {
-    try {
-        // console.log('admin got in routes', req)
-        const { clients } = await controllers.adminControllers.getClientsDetailsController();
-        if (clients) {
-            res.status(200).json({
-                status: 'ok',
-                clients: clients
-            });
-        }
-    } catch (err) {
-        res.status(401).json({ status: 'nok', message: err.message })
-        console.log(err)
-    }
-})
+router.get('/view', protectAdmin, controllers.adminControllers.getClientsDetailsController);
 
 // delete client
-router.delete('/:clientId', protectAdmin, async (req, res) => {
-    try {
-        console.log('entered in delete routes')
-        const clientId = req.params.clientId
-        const { status } = await controllers.adminControllers.deleteClientController(clientId);
-        if (status === 'ok') {
-            res.status(200).json({
-                status: 'ok',
-                message: 'User blocked succesfully'
-            });
-        } else {
-        }
-    } catch (err) {
-        res.status(401).json({ status: 'nok', message: 'Invalid entry' })
-        console.log(err)
-    }
-})
+router.delete('/:clientId', protectAdmin, controllers.adminControllers.deleteClientController);
 
 // edit client
-router.put('/:clientId', protectAdmin, async (req, res) => {
-    try {
-        console.log('entered in edit routes')
-        const clientId = req.params.clientId
-        const { status } = await controllers.adminControllers.editClientController(clientId);
-        if (status === 'ok') {
-            res.status(200).json({
-                status: 'ok',
-                message: 'User unblocked succesfully'
-            });
-        } else {
-        }
-    } catch (err) {
-        res.status(401).json({ status: 'nok', message: 'Invalid entry' })
-        console.log(err)
-    }
-})
+router.put('/:clientId', protectAdmin, controllers.adminControllers.editClientController)
 
 export default router;

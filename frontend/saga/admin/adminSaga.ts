@@ -31,6 +31,7 @@ function* getAdminLoginActionSaga(action: {
             action.payload.handleAdminLoginSuccess()
             console.log('login success')
         } else {
+            console.log('login not success')
             yield put(getAdminLoginFailureAction(response.message))
 
         }

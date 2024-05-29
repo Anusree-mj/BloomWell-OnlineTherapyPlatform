@@ -5,11 +5,12 @@ import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import LoadingButton from '@mui/lab/LoadingButton';
 import axios from 'axios'
-import { Box, Typography } from '@mui/material';
+import { Box, IconButton, InputAdornment, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTherapistSignUpAction, therapistStateType } from '@/store/therapists/therapistReducers';
 import OTPInput from '@/components/common/otp/otp';
+import UploadIcon from '@mui/icons-material/Upload';
 
 const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType }) => {
     const [name, setName] = useState('');
@@ -32,7 +33,10 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
     const [licenseNumTextSpan, setLicenseNumTextSpan] = useState('')
     const [confrmPasswordSpan, setConfrmPasswordSpan] = useState('black')
     const [confrmPasswordTextSpan, setConfrmPasswordTextSpan] = useState('')
-
+    const [fileSpan, setFileSpan] = useState('black')
+    const [fileTextSpan, setFileTextSpan] = useState('')
+    const [file, setFile] = useState<File | null>(null);
+    const [image, setImage] = useState('')
     const [otpField, setOtpField] = useState(false)
     const [otp, setOtp] = useState('');
     const [disableButton, setDisableButton] = useState(false)
@@ -40,6 +44,32 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
     const isLoading = useSelector((state: { therapist: therapistStateType }) => state.therapist.isLoading);
     const error = useSelector((state: { therapist: therapistStateType }) => state.therapist.error);
     const router = useRouter();
+
+
+    const uploadLicense = async () => {
+        try {
+            setFileSpan('')
+            setFileTextSpan('')
+            if (file) {
+
+                const formData = new FormData();
+                formData.append('file', file);
+
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/therapist/license`,
+                    formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                setImage(response.data.imageUrl)
+                toast.success('License Successfully Uploaded')
+            } else {
+                toast.error('No file selected');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const handleGetOtp = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
@@ -73,7 +103,7 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
                 return;
             }
             await dispatch(getTherapistSignUpAction({
-                otp, name, email, password, phone, licenseNum, roleType,
+                otp, name, email, password, phone, licenseNum, roleType, image,
                 handleTherapistSignupSuccess
             }))
         } catch (err) {
@@ -110,16 +140,16 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
             setValidation(setLicenseNumSpan, setLicenseNumTextSpan, message)
         }
         if (!password || password.trim() === '' || password.length < 8) {
-            let message = !password && password.trim() === ''
-                ? 'Please provide a password of at least 8 characters'
-                : 'Password must be at least 8 characters long';
-            setValidation(setPasswordSpan, setPasswordTextSpan, message);
+            setValidation(setPasswordSpan, setPasswordTextSpan, 'Password atleast of 8 characters');
         }
         if (!confrmPassword || password !== confrmPassword) {
             let message = !confrmPassword
                 ? 'Please confirm your password'
                 : 'Password doesn\'t match';
             setValidation(setConfrmPasswordSpan, setConfrmPasswordTextSpan, message);
+        }
+        if (!image) {
+            setValidation(setFileSpan, setFileTextSpan, 'Please upload your license proof')
         }
         return isValid;
     }
@@ -151,6 +181,10 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
                 setConfrmPasswordSpan('')
                 setConfrmPasswordTextSpan('')
                 break;
+            case 'file':
+                setFileSpan('')
+                setFileTextSpan('')
+                break;
             default:
                 break;
         }
@@ -167,6 +201,15 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
             toast.error(error)
         }
     }, [error])
+
+    const textFieldItems = [
+        { type: 'text', label: 'Name', borderColor: nameSpan, onChangeFnctn: setName, clearSpan: 'name', span: nameTextSpan },
+        { type: 'email', label: 'Email', borderColor: emailSpan, onChangeFnctn: setEmail, clearSpan: 'email', span: emailTextSpan },
+        { type: 'number', label: 'Phone', borderColor: phoneSpan, onChangeFnctn: setPhone, clearSpan: 'phone', span: phoneTextSpan },
+        { type: 'text', label: 'License Number', borderColor: licenseNumSpan, onChangeFnctn: setLicenseNum, clearSpan: 'licenseNum', span: licenseNumTextSpan },
+        { type: 'password', label: 'Password', borderColor: passwordSpan, onChangeFnctn: setPassword, clearSpan: 'password', span: passwordTextSpan },
+        { type: 'password', label: 'Confirm Password', borderColor: confrmPasswordSpan, onChangeFnctn: setConfrmPassword, clearSpan: 'confrmPassword', span: confrmPasswordTextSpan },
+    ];
 
     return (
         <Box sx={{
@@ -189,110 +232,98 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
                     }>Create your therapist account by filling this form so we can start processing
                         your application.</Typography>
                     <FormControl sx={{
-                        width: '30rem', backgroundColor: 'white', mt: 1,
-                        padding: 4, maxWidth: '90%', minHeight: '50vh', height: '90vh',
+                        width: '35rem', backgroundColor: 'white', mt: 1, display: 'flex',
+                        gap: 2, flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                        padding: 4, maxWidth: '90%', minHeight: '60vh',
                         boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                         borderRadius: '0.6rem',
                     }}>
-                        <TextField id="outlined-basic" label="Name" variant="outlined"
-                            required
-                            sx={{
-                                maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
-                                '& .MuiOutlinedInput-root': {
-                                    '& fieldset': {
-                                        borderColor: nameSpan,
-                                    },
-                                },
-                            }} onChange={(e) => { setName(e.target.value) }}
-                            onClick={(e) => clearSpan(e, 'name')}
-                        />
-                        <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
-                        >{nameTextSpan}</span>
-                        <TextField id="outlined-basic" label="Email" variant="outlined"
-                            required
-                            sx={{
-                                maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2', mt: 2,
-                                '& .MuiOutlinedInput-root': {
-                                    '& fieldset': {
-                                        borderColor: emailSpan,
-                                    },
-                                },
-                            }} onChange={(e) => { setEmail(e.target.value) }}
-                            onClick={(e) => clearSpan(e, 'email')}
-                        />
-                        <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
-                        >{emailTextSpan}</span>
-                        <TextField id="outlined-basic" label="Phone" variant="outlined"
-                            required
-                            sx={{
-                                maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2', mt: 2,
-                                '& .MuiOutlinedInput-root': {
-                                    '& fieldset': {
-                                        borderColor: phoneSpan,
-                                    },
-                                },
-                            }} onChange={(e) => { setPhone(e.target.value) }}
-                            onClick={(e) => clearSpan(e, 'phone')}
-                        />
-                        <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
-                        >{phoneTextSpan}</span>
-                        <TextField id="outlined-basic" label="License Number" variant="outlined"
-                            required
-                            sx={{
-                                maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2', mt: 2,
-                                '& .MuiOutlinedInput-root': {
-                                    '& fieldset': {
-                                        borderColor: licenseNumSpan,
-                                    },
-                                },
-                            }} onChange={(e) => { setLicenseNum(e.target.value) }}
-                            onClick={(e) => clearSpan(e, 'licenseNum')}
-                        />
-                        <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
-                        >{licenseNumTextSpan}</span>
-                        <TextField
-                            id="outlined-password-input"
-                            label="Password"
-                            type="password"
-                            required
-                            sx={{
-                                maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
-                                mt: 2,
-                                '& .MuiOutlinedInput-root': {
-                                    '& fieldset': {
-                                        borderColor: passwordSpan,
-                                    },
-                                },
-                            }} onChange={(e) => { setPassword(e.target.value) }}
-                            onClick={(e) => clearSpan(e, 'password')}
-                        />
-                        <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
-                        >{passwordTextSpan}</span>
-                        <TextField
-                            id="outlined-password-input"
-                            label="Confirm Password"
-                            type="password"
-                            required
-                            sx={{
-                                maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
-                                mt: 2,
-                                '& .MuiOutlinedInput-root': {
-                                    '& fieldset': {
-                                        borderColor: confrmPasswordSpan,
-                                    },
-                                },
-                            }} onChange={(e) => { setConfrmPassword(e.target.value) }}
-                            onClick={(e) => clearSpan(e, 'confrmPassword')}
-                        />
-                        <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
-                        >{confrmPasswordTextSpan}</span>
+                        <Box sx={{
+                            display: 'flex', flexWrap: 'wrap', alignItems: 'center',
+                            justifyContent: 'flex-start', width: '40rem',
+                            maxWidth: '100%',
+                        }}>
+                            {textFieldItems.map((item) => (
+                                <Box sx={{
+                                    display: 'flex', flexDirection: 'column', m: 1,
+                                    maxWidth: '100%',
+                                }}>
+                                    <TextField id="outlined-basic"
+                                        label={item.label} type={item.type} variant="outlined"
+                                        required
+                                        sx={{
+                                            maxWidth: '100%',
+                                            backgroundColor: '#F7FCC2',
+                                            '& .MuiOutlinedInput-root': {
+                                                '& fieldset': {
+                                                    borderColor: item.borderColor
+                                                },
+                                            },
+                                        }} onChange={(e) => { item.onChangeFnctn(e.target.value) }}
+                                        onClick={(e) => clearSpan(e, item.clearSpan)}
+                                    />
+                                    <span style={{
+                                        color: 'red', fontSize: '0.8rem',
+                                        marginBottom: '0.6rem', marginLeft: '0.4rem'
+                                    }}>{item.span}</span>
+                                </Box>
+                            ))}
+                            <Box sx={{
+                                ml: 1, maxWidth: '90%',
+                                display: 'flex', flexDirection: 'column',
+                                alignItems: 'flex-start', justifyContent: 'flex-start'
+                            }}>
+                                <TextField
+                                    type="file"
+                                    sx={{
+                                        mt: 1, mb: 2,
+                                        backgroundColor: '#F7FCC2',
+                                        '& .MuiOutlinedInput-root': {
+                                            '& fieldset': {
+                                                borderColor: fileSpan
+                                            },
+                                        },
+                                    }}
+                                    onChange={(e) => {
+                                        const target = e.target as HTMLInputElement;
+                                        if (target.files && target.files.length > 0) {
+                                            setFile(target.files[0]);
+                                        }
+                                    }}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    inputProps={{
+                                        accept: "image/*"
+                                    }}
+                                    InputProps={{
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                <IconButton onClick={uploadLicense}>
+                                                    <UploadIcon />
+                                                </IconButton>
+                                            </InputAdornment>
+                                        ),
+
+                                    }}
+                                    variant="outlined"
+                                    label='Add Your License Image'
+                                />
+                                <span style={{
+                                    color: 'red', fontSize: '0.8rem', marginTop: '-.9rem', marginLeft: '0.5rem',
+                                    textAlign: 'left'
+                                }}>
+                                    {fileTextSpan}</span>
+
+                            </Box>
+                        </Box>
                         <LoadingButton
                             onClick={handleGetOtp}
                             loading={loading}
                             loadingPosition="end"
                             variant="contained"
                             sx={{
-                                mt: 3, borderRadius: '2rem',
+                                mt: 1, borderRadius: '2rem',
                                 maxWidth: '90%', width: '30rem', color: '#325343',
                                 backgroundColor: '#a6de9b',
                                 '&:hover': {
@@ -304,6 +335,7 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
                             Continue
                         </LoadingButton>
                     </FormControl>
+
                 </>
             ) : (
                 <>

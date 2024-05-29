@@ -19,7 +19,7 @@ function* getTherapistSignUpActionSaga(action: {
     type: string;
     payload: {
         otp: number, name: '', email: '', password: '', phone: number, licenseNum: '', roleType: '',
-        handleTherapistSignupSuccess: () => void
+        licenseProof: '', handleTherapistSignupSuccess: () => void
     }
 }): any {
     try {
