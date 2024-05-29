@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from "react-redux"
 import { getTherapistsDetailsAction, adminStateType } from "@/store/admin/adminReducer";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
 import { verifyTherapists } from "@/utilities/admin/therapists/verifyTherapist";
 import { useRouter } from "next/navigation";
 import { Box, Button, MenuItem, Select, TextField, Typography } from "@mui/material";
 import Link from "next/link";
+
 
 const verifyOptions = [
     'Granted',
@@ -45,7 +45,14 @@ const AdminVerifyTherapists = () => {
         { field: "email", headerName: "Email", width: 180 },
         { field: "role", headerName: "Role", width: 220 },
         { field: "verificationStatus", headerName: "Status", width: 100 },
-        { field: "proof", headerName: "License", width: 100 },
+        {
+            field: "proof", headerName: "License", width: 100,
+            renderCell: (params) => (
+                <a href={params.row.proof} target="_blank" rel="noopener noreferrer">
+                    <img src={params.row.proof} alt="license proof" width={50} height={50} style={{ display: 'block', marginTop: '0.6rem' }} />
+                </a>
+            ),
+        },
         {
             field: "moreInfo",
             headerName: "More Info",

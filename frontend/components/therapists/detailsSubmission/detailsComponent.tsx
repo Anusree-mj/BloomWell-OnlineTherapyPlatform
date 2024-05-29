@@ -30,16 +30,16 @@ const DetailsComponent = () => {
     const [photoField, setPhotoField] = useState(false);
     const [disableButton, setDisableButton] = useState(false)
 
-    useEffect(() => {
-        const therapistData = JSON.parse(localStorage.getItem('therapistData') || '{}');
-        const { email, license, image } = therapistData
-        if (image) {
-            router.push('/therapist/welcome')
-        }
-        const { licenseNo } = license
-        setEmail(email);
-        setLicenseNo(licenseNo);
-    }, [])
+    // useEffect(() => {
+    //     const therapistData = JSON.parse(localStorage.getItem('therapistData') || '{}');
+    //     const { email, license, image } = therapistData
+    //     if (image) {
+    //         router.push('/therapist/welcome')
+    //     }
+    //     const { licenseNo } = license
+    //     setEmail(email);
+    //     setLicenseNo(licenseNo);
+    // }, [])
 
     useEffect(() => {
         toast.error(error);
