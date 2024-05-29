@@ -21,6 +21,7 @@ const therapistSchema = mongoose.Schema({
         },
         licenseProof: {
             type: String,
+            required: true
         },
         country: {
             type: String,

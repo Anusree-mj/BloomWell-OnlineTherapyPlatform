@@ -45,6 +45,7 @@ const AdminVerifyTherapists = () => {
         { field: "email", headerName: "Email", width: 180 },
         { field: "role", headerName: "Role", width: 220 },
         { field: "verificationStatus", headerName: "Status", width: 100 },
+        { field: "proof", headerName: "License", width: 100 },
         {
             field: "moreInfo",
             headerName: "More Info",
@@ -62,8 +63,8 @@ const AdminVerifyTherapists = () => {
             sortable: false,
             width: 160,
             renderCell: (params) => (
-                <FormControl sx={{ m: 1, minWidth: 120 }}>
-                    <Select
+                <Box sx={{ m: 1, minWidth: 100, border: 'none', outline: 'none' }}>
+                    <Select sx={{ outline: 'none', border: 'none' }}
                         value={verifystatus}
                         onChange={(e) => verifyTherapists(params.row.id, params.row.name, e.target.value)}
                         displayEmpty
@@ -80,7 +81,7 @@ const AdminVerifyTherapists = () => {
                         ))}
                     </Select>
                     <FormHelperText>Without label</FormHelperText>
-                </FormControl>
+                </Box>
             ),
         },
     ];
@@ -99,6 +100,7 @@ const AdminVerifyTherapists = () => {
         email: therapist.email,
         role: therapist.role,
         verificationStatus: therapist.verificationStatus,
+        proof: therapist.license.licenseProof,
         moreInfo: 'view',
         isVerified: therapist.isVerified,
     }));

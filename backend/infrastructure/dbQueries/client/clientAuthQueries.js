@@ -1,7 +1,7 @@
-import TempClient from "../../../entities/clients/tempClientModel.js";
+import TempUser from "../../../entities/users/tempUsersModel.js";
 import Client from "../../../entities/clients/clients.js";
 import bcrypt from 'bcryptjs';
-import User from "../../../entities/userModel.js";
+import User from "../../../entities/users/userModel.js";
 import Therapists from "../../../entities/therapists/therapist.js";
 
 const saveOtp = async (email, otp) => {
@@ -9,7 +9,7 @@ const saveOtp = async (email, otp) => {
         const query = { email: email }
         const update = { otp: otp }
         const options = { upsert: true }
-        const response = await TempClient.updateOne(query, update, options)
+        const response = await TempUser.updateOne(query, update, options)
         if (response) return { status: 'ok' }
     }
     catch (err) {
@@ -19,59 +19,56 @@ const saveOtp = async (email, otp) => {
 
 const verifyOTP = async (data, role) => {
     try {
-        console.log(role, 'rolel')
-        const verify = await TempClient.findOne({ email: data.email, otp: data.otp })
+        console.log(role, 'role');
+        const verify = await TempUser.findOne({ email: data.email, otp: data.otp });
         if (verify) {
-            console.log('otp match')
+            console.log('OTP matched');
+            let user, newUser;
             if (role === 'client') {
-                const { name, email, password } = data
+                const { name, email, password } = data;
                 const hashedPassword = await bcrypt.hash(password, 10);
-                await Client.insertMany({
+                await User.insertMany({ email: data.email, password: hashedPassword, role: role })
+                newUser = {
                     name: name,
                     email: email,
                     password: hashedPassword,
-                })
-                await User.insertMany({
-                    email: email,
-                    password: hashedPassword,
-                    role: role
-                })
-                const client = await Client.findOne({ email: email }).select('-password -createdAt -updatedAt');
-                return { status: 'ok', client }
+                };
+                user = await Client.create(newUser);
             } else {
-                const { name, email, password, phone, licenseNum, roleType, licenseProof } = data
+                const { name, email, password, phone, licenseNum, roleType, image } = data;
+                console.log('password:', password);
                 const hashedPassword = await bcrypt.hash(password, 10);
-                await Therapists.insertMany({
+                await User.insertMany({ email: data.email, password: hashedPassword, role: role })
+                newUser = {
                     name: name,
                     email: email,
                     phone: phone,
                     license: {
                         licenseNo: licenseNum,
-                        licenseProof: licenseProof
+                        licenseProof: image
                     },
                     role: roleType,
                     password: hashedPassword,
-                })
-                await User.insertMany({
-                    email: email,
-                    password: hashedPassword,
-                    role: role
-                })
-                const therapist = await Therapists.findOne({ email: email }).select('-password -createdAt -updatedAt');
-                return { status: 'ok', therapist }
+                };
+                user = await Therapists.create(newUser);
             }
+            console.log('New user created:', user);
+            return { status: 'ok', user };
         } else {
-            console.log('otp no match')
-            return { status: 'nok', message: 'Invalid OTP' }
+            console.log('OTP does not match');
+            return { status: 'nok', message: 'Invalid OTP' };
         }
     } catch (err) {
-        console.log(err)
+        console.error('Error in verifyOTP:', err);
+        return { status: 'error', message: err.message };
     }
 }
+
 
 const saveClientData = async (data) => {
     try {
         const { email, type, age, answers } = data
+        console.log(data, 'data in save details')
         const query = { email: email }
         const update = {
             sessionType: type,

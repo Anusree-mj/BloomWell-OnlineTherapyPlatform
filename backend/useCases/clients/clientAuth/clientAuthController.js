@@ -8,10 +8,10 @@ const signUp = async (req, res) => {
         const data = req.body;
         const response = await clientAuthQueries.verifyOTP(data, 'client');
         if (response.status === 'ok') {
-            const { client } = response;
-            const token = generateToken(client._id)
+            const { user } = response;
+            const token = generateToken(user._id)
             res.cookie('jwtClient', token, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true });
-            res.status(200).json({ status: 'ok', client: client });
+            res.status(200).json({ status: 'ok', client: user });
         } else {
             const { message } = response
             res.status(400).json({ status: 'nok', message: message });

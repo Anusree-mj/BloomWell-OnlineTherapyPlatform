@@ -35,5 +35,6 @@ export interface TherapistItem {
 export interface LicenseDetails {
     licenseNo: string;
     country?: string;
+    licenseProof?: string;
     expirationDate?: Date;
 }

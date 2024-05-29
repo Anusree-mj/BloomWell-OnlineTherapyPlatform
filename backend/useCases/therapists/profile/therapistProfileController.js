@@ -5,6 +5,7 @@ import therapistQuery from '../../../infrastructure/dbQueries/therapist/therapis
 const getTherapistData = async (req, res) => {
     try {
         const therapistId = req.params.therapistId
+        console.log('therapist id ',therapistId)
         const response = await therapistQuery.getTherapistData(therapistId);
         if (response.status === 'ok') {
             const { status, therapist } = response;
