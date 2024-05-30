@@ -32,9 +32,15 @@ export interface TherapistItem {
     verificationStatus: string;
     isBlocked: boolean;
 }
+
 export interface LicenseDetails {
     licenseNo: string;
     country?: string;
     licenseProof?: string;
     expirationDate?: Date;
+}
+
+export interface ReviewItems {
+    comments: string;
+    clientName: string;
 }

@@ -86,7 +86,7 @@ function* getTherapistProfileActionSaga(action: {
 
         if (response.status === 'ok') {
             console.log('status okkkk')
-            yield put(getTherapistProfileSuccessAction(response.therapist))
+            yield put(getTherapistProfileSuccessAction(response))
         } else {
             console.log('status dvvvvvvvvvvvokkkk')
 

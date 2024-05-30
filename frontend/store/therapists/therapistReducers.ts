@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { TherapistItem, LicenseDetails } from '../type'
+import { TherapistItem, LicenseDetails, ReviewItems } from '../type'
 
 export interface therapistStateType {
     therapist: TherapistItem;
+    reviews: ReviewItems[];
+    ratings: number;
     isLoading: boolean;
     error: any;
 }
@@ -30,7 +32,12 @@ const initialState: therapistStateType = {
         verificationStatus: ""
     },
     isLoading: false,
-    error: null
+    error: null,
+    reviews: [{
+        comments: "",
+        clientName: "",
+    }],
+    ratings: 0
 }
 export const therapistSlice: any = createSlice({
     name: "therapist",
@@ -72,8 +79,10 @@ export const therapistSlice: any = createSlice({
         getTherapistProfileSuccessAction: (state, action) => {
             console.log('reached profile success avtiondd')
             state.isLoading = false;
-            state.therapist = action.payload;
-            console.log(state.therapist,'therapist found in reducer')
+            state.therapist = action.payload.therapist;
+            state.ratings = action.payload.ratings;
+            state.reviews = action.payload.reviews;
+            console.log(state.therapist, 'therapist found in reducer')
         },
         getTherapistProfileFailureAction: (state, action) => {
             state.isLoading = false;
