@@ -45,6 +45,7 @@ function* saveclientDetailsActionSaga(action: {
     }
 }): any {
     try {
+        console.log('data recieved in saga', action.payload)
         const response = yield call<any>(apiCall, {
             method: 'POST',
             endpoint: 'client',

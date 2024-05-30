@@ -11,22 +11,15 @@ export const teenQuestionnaire = [
         question: `How are you related to your child ?`,
         options: ['Mother', 'Father', 'Legal Guardian', 'Other']
     },
-
     {
         question: `Does your child go to school ?`,
         options: ['Yes regularly', 'Yes but they skip some school', 'No']
     },
 
     {
-        question: 'Has your child ever been in therapy before?',
-        options: ['No', 'Yes']
-    },
-
-    {
         question: `How would you rate your child's physical status?`,
         options: ['Good', 'Fair', 'Poor']
     },
-
     {
         question: `How would you rate your child's current eating habits?`,
         options: ['Good', 'Fair', 'Poor']
@@ -36,12 +29,8 @@ export const teenQuestionnaire = [
         options: ['Good', 'Fair', 'Poor']
     },
     {
-        question: 'Is your child currently experiencing anxiety, panic attacks or have any phobias?',
-        options: ['No', 'Yes']
-    },
-    {
-        question: 'Is your child currently experiencing  overwhelming sadness, grief, or depression?',
-        options: ['No', 'Yes']
+        question: 'How would you rate your current financial status?',
+        options: ['Good', 'Fair', 'Poor']
     },
     {
         question: 'When was the last time your child thought about suicide?',
@@ -53,12 +42,8 @@ export const teenQuestionnaire = [
             'Coping with life changes', 'ADHD/ADD', 'School challenges', 'Criminal behaviour', 'None']
     },
     {
-        question: `How would you rate your relationship with your child?`,
-        options: ['Good', 'Fair', 'Poor']
-    },
-    {
-        question: 'How would you rate your current financial status?',
-        options: ['Good', 'Fair', 'Poor']
+        question: 'Has your child ever been in therapy before?',
+        options: ['No', 'Yes']
     },
     {
         question: 'Are there any specific preferences for your therapist?',

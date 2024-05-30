@@ -33,7 +33,6 @@ const ClientQuestionnaire: React.FC<TypeComponentProps> = ({
         setAnswers((prevAnswers) => [...prevAnswers, answer]);
         if (qtnIndex !== questionnaire.length - 1) {
             setQtnIndex((prevQtn) => prevQtn + 1);
-            setAnswers((prevAnswers) => [...prevAnswers, answer]);
             return
         } else {
             setQuestionnaireField(false)
