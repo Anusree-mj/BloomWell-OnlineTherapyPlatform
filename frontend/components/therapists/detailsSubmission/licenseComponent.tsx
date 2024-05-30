@@ -8,10 +8,12 @@ interface LicenseComponentProps {
     country: string;
     expiryDate: Date;
     experience: string;
+    gender: string;
     setCountry: React.Dispatch<React.SetStateAction<string>>;
     setExpiryDate: React.Dispatch<React.SetStateAction<Date>>;
     setLicenseField: React.Dispatch<React.SetStateAction<boolean>>;
     setExperience: React.Dispatch<React.SetStateAction<string>>;
+    setGender: React.Dispatch<React.SetStateAction<string>>;
     setDescriptionField: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -23,9 +25,15 @@ const experienceOptions = [
     '10+ years'
 ];
 
+const genderOptions=[
+    'Male',
+    "Female",
+    'Other'
+]
+
 const LicenseComponent: React.FC<LicenseComponentProps> = ({
     licenseNo, country, expiryDate, setCountry, experience, setExpiryDate, setLicenseField,
-    setExperience, setDescriptionField }) => {
+    setExperience, gender, setGender, setDescriptionField }) => {
 
     const handleNext = () => {
         console.log('countrttttt', country, expiryDate)
@@ -87,7 +95,20 @@ const LicenseComponent: React.FC<LicenseComponentProps> = ({
                         </MenuItem>
                     ))}
                 </TextField>
-
+                <TextField
+                    id="gender"
+                    select
+                    label="Gender"
+                    value={gender}
+                    onChange={(e) => setGender(e.target.value)}
+                    sx={{ width: '100%' }}
+                >
+                    {genderOptions.map((option) => (
+                        <MenuItem key={option} value={option}>
+                            {option}
+                        </MenuItem>
+                    ))}
+                </TextField>
                 <Button
                     onClick={handleNext}
                     variant="contained"

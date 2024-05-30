@@ -46,8 +46,8 @@ function* getTherapistSignUpActionSaga(action: {
 function* saveTherapistDetailsActionSaga(action: {
     type: string;
     payload: {
-        email: '', licenseNo: '', expertise: [], country: '', expiryDate: '', experience: '', description: '',
-        image: '', handleSaveTherapistDataSuccess: () => void
+        email: '', licenseNo: '', expertise: [], country: '', expiryDate: '', experience: '',
+        gender: '', description: '', image: '', handleSaveTherapistDataSuccess: () => void
     }
 }): any {
     try {
@@ -101,5 +101,4 @@ export function* therapistWatcher() {
     yield takeEvery(getTherapistSignUpAction, getTherapistSignUpActionSaga);
     yield takeEvery(saveTherapistDetailsAction, saveTherapistDetailsActionSaga);
     yield takeEvery(getTherapistProfileAction, getTherapistProfileActionSaga);
-
 }

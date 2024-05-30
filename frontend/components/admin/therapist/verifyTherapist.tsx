@@ -40,16 +40,17 @@ const AdminVerifyTherapists = () => {
 
 
     const columns: GridColDef[] = [
-        { field: "slNo", headerName: "Sl.No", width: 60 },
-        { field: "name", headerName: "Name", width: 150 },
-        { field: "email", headerName: "Email", width: 180 },
-        { field: "role", headerName: "Role", width: 220 },
-        { field: "verificationStatus", headerName: "Status", width: 100 },
+        { field: "slNo", headerName: "No", width: 10 },
+        { field: "name", headerName: "Name", width: 120 },
+        { field: "email", headerName: "Email", width: 150 },
+        { field: "role", headerName: "Role", width: 210 },
         {
-            field: "proof", headerName: "License", width: 100,
+            field: "proof", headerName: "License", width: 90,
             renderCell: (params) => (
                 <a href={params.row.proof} target="_blank" rel="noopener noreferrer">
-                    <img src={params.row.proof} alt="license proof" width={50} height={50} style={{ display: 'block', marginTop: '0.6rem' }} />
+                    <img src={params.row.proof} alt="license proof" width={30} height={30}
+                        style={{ paddingTop: '0.8rem' }}
+                    />
                 </a>
             ),
         },
@@ -57,32 +58,39 @@ const AdminVerifyTherapists = () => {
             field: "moreInfo",
             headerName: "More Info",
             sortable: false,
-            width: 100,
+            width: 90,
             renderCell: (params) => (
-                <Link href={`/therapist/${params.row.id}`}
+                <Link href={`/therapist/${params.row.id}`} style={{ textDecoration: 'underline' }}
                 >View
                 </Link>
             ),
         },
+        { field: "verificationStatus", headerName: "Status", width: 90 },
         {
             field: "verify",
             headerName: "Verify",
             sortable: false,
             width: 160,
             renderCell: (params) => (
-                <Box sx={{ m: 1, minWidth: 100, border: 'none', outline: 'none' }}>
-                    <Select sx={{ outline: 'none', border: 'none' }}
+                <Box sx={{
+                    m: 1, minWidth: 100, border: 'none', outline: 'none',
+                }}>
+                    <Select sx={{
+                        outline: 'none', border: 'none',
+                        fontSize: '0.88rem', padding: 0
+                    }}
                         value={verifystatus}
                         onChange={(e) => verifyTherapists(params.row.id, params.row.name, e.target.value)}
                         displayEmpty
                         inputProps={{ 'aria-label': 'Without label' }}
                         disabled={params.row.isVerified}
                     >
-                        <MenuItem value="">
+                        <MenuItem value="" sx={{ fontSize: '0.88rem' }}>
                             <em>None</em>
                         </MenuItem>
                         {verifyOptions.map((option) => (
-                            <MenuItem key={option} value={option}>
+                            <MenuItem key={option} value={option}
+                                sx={{ fontSize: '0.88rem' }}>
                                 {option}
                             </MenuItem>
                         ))}
@@ -161,6 +169,11 @@ const AdminVerifyTherapists = () => {
                         },
                     }}
                     pageSizeOptions={[5, 10]}
+                    sx={{
+                        '& .MuiDataGrid-cell': {
+                            fontSize: '0.88rem',
+                        },
+                    }}
                 />
             </Box>
 

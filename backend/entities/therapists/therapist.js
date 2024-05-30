@@ -21,7 +21,6 @@ const therapistSchema = mongoose.Schema({
         },
         licenseProof: {
             type: String,
-            required: true
         },
         country: {
             type: String,
@@ -35,6 +34,9 @@ const therapistSchema = mongoose.Schema({
     },
     experience: {
         type: String,
+    },
+    gender: {
+        type: String
     },
     description: {
         type: String,

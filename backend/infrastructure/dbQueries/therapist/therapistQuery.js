@@ -5,7 +5,9 @@ import Therapists from "../../../entities/therapists/therapist.js";
 
 const saveTherapistData = async (data) => {
     try {
-        const { email, licenseNo, expertise, country, expiryDate, experience, description, image } = data
+        const { email, licenseNo, expertise, country, expiryDate, experience,
+            gender, description, image } = data
+
         const query = { email: email }
         const update = {
             license: {
@@ -15,6 +17,7 @@ const saveTherapistData = async (data) => {
             },
             expertise: expertise,
             experience: experience,
+            gender: gender,
             description: description,
             image: image
         }
@@ -40,6 +43,7 @@ const getTherapistData = async (therapistId) => {
             return { status: 'ok', therapist }
         } else {
             console.log('no therapist found')
+            return { status: 'nok' }
         }
     }
     catch (err) {

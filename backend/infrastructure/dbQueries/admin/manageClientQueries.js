@@ -3,7 +3,7 @@ import Client from '../../../entities/clients/clients.js';
 
 const getClientsDetailsQuery = async () => {
     try {
-        const clients = await Client.find({}).select('-password');
+        const clients = await Client.find({}).select('-password').sort({ createdAt: -1 });
         return { clients }
     }
     catch (err) {
