@@ -1,7 +1,7 @@
 import Client from '../../../entities/clients/clients.js';
-import User from '../../../entities/userModel.js';
+import User from '../../../entities/users/userModel.js';
 import bcrypt from 'bcryptjs';
-import TempClient from '../../../entities/clients/tempClientModel.js';
+import TempUser from '../../../entities/users/tempUsersModel.js';
 import Therapists from '../../../entities/therapists/therapist.js';
 
 const userDoLogin = async (email, password) => {
@@ -15,12 +15,12 @@ const userDoLogin = async (email, password) => {
                 if (user.role === 'client') {
                     console.log('client found')
                     const client = await Client.findOne({ email: email }).select('-password -createdAt -updatedAt');
-                    return { status:'ok',role: 'client', client }
+                    return { status: 'ok', role: 'client', client }
                 }
                 else {
                     console.log('therapist found')
                     const therapist = await Therapists.findOne({ email: email }).select('-password -createdAt -updatedAt');
-                    return { status:'ok',role: 'therapist', therapist }
+                    return { status: 'ok', role: 'therapist', therapist }
                 }
             } else {
                 return { status: 'nok', message: 'Invalid password' }
@@ -66,7 +66,7 @@ const verifyEmail = async (email) => {
 const verifyOTPQuery = async (email, otp) => {
     try {
         console.log('entered in verify otp query')
-        const verify = await TempClient.findOne({ email: email, otp: otp })
+        const verify = await TempUser.findOne({ email: email, otp: otp })
         if (verify) {
             console.log('verified')
             return { status: 'ok' }

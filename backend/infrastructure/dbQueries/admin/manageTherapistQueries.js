@@ -3,7 +3,8 @@ import Therapists from "../../../entities/therapists/therapist.js";
 
 const getTherapistsDetailsQuery = async () => {
     try {
-        const therapists = await Therapists.find({}).select('-password');
+        const therapists = await Therapists.find({}).select('-password').sort({ createdAt: -1 });
+        console.log('therapistsssssss', therapists)
         return { therapists }
     }
     catch (err) {

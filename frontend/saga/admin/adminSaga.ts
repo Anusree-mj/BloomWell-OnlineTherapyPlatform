@@ -1,8 +1,5 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import {
-    getAdminLoginAction,
-    getAdminLoginSuccessAction,
-    getAdminLoginFailureAction,
     getClientsDetailsAction,
     getClientsDetailsFailureAction,
     getClientsDetailsSuccessAction,
@@ -11,34 +8,6 @@ import {
     getTherapistsDetailsSuccessAction
 } from '@/store/admin/adminReducer';
 import { apiCall } from '@/services/api';
-
-
-// adminLoginSaga
-function* getAdminLoginActionSaga(action: {
-    type: string;
-    payload: { email: '', password: '', handleAdminLoginSuccess: () => void }
-}): any {
-    try {
-        const response = yield call<any>(apiCall, {
-            method: 'POST',
-            endpoint: 'admin/login',
-            body: action.payload
-        });
-
-        if (response.status === 'ok') {
-            yield put(getAdminLoginSuccessAction(response.admin))
-            localStorage.setItem("adminData", JSON.stringify(response.admin));
-            action.payload.handleAdminLoginSuccess()
-            console.log('login success')
-        } else {
-            console.log('login not success')
-            yield put(getAdminLoginFailureAction(response.message))
-
-        }
-    } catch (err) {
-        yield put(getAdminLoginFailureAction(err))
-    }
-}
 
 // get Clients details
 function* getClientsDetailsActionSaga(): any {
@@ -81,7 +50,6 @@ function* getTherapistsDetailsActionSaga(): any {
 
 
 export function* adminWatcher() {
-    yield takeEvery(getAdminLoginAction, getAdminLoginActionSaga);
     yield takeEvery(getClientsDetailsAction, getClientsDetailsActionSaga);
     yield takeEvery(getTherapistsDetailsAction, getTherapistsDetailsActionSaga);
 

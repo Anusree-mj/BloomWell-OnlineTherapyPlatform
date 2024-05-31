@@ -36,7 +36,6 @@ function* getClientSignUpActionSaga(action: {
     }
 }
 
-
 // save clientsDetailsSaga
 function* saveclientDetailsActionSaga(action: {
     type: string;
@@ -45,6 +44,7 @@ function* saveclientDetailsActionSaga(action: {
     }
 }): any {
     try {
+        console.log('data recieved in saga', action.payload)
         const response = yield call<any>(apiCall, {
             method: 'POST',
             endpoint: 'client',
@@ -64,7 +64,7 @@ function* saveclientDetailsActionSaga(action: {
     }
 }
 
-export function* clientWatcher() {
+export function* clientAuthWatcher() {
     yield takeEvery(getClientSignUpAction, getClientSignUpActionSaga);
     yield takeEvery(saveClientDetailsAction, saveclientDetailsActionSaga);
 

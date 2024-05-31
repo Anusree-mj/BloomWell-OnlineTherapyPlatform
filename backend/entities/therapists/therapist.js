@@ -35,6 +35,9 @@ const therapistSchema = mongoose.Schema({
     experience: {
         type: String,
     },
+    gender: {
+        type: String
+    },
     description: {
         type: String,
     },

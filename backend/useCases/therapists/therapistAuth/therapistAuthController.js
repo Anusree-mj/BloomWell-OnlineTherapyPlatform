@@ -9,11 +9,11 @@ const therapistsSignUp = async (req, res) => {
         const data = req.body;
         const response = await clientAuthQueries.verifyOTP(data, 'therapists');
         if (response.status === 'ok') {
-            const { therapist } = response;
-            console.log(therapist, 'therapist received in controller')
-            const token = generateToken(therapist._id)
+            const { user } = response;
+            console.log(user, 'therapist received in controller')
+            const token = generateToken(user._id)
             res.cookie('jwtTherapists', token, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true });
-            res.status(200).json({ status: 'ok', therapist: therapist });
+            res.status(200).json({ status: 'ok', therapist: user });
         } else {
             const { message } = response
             res.status(400).json({ status: 'nok', message: message });

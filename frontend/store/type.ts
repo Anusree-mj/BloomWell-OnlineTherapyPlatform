@@ -31,9 +31,17 @@ export interface TherapistItem {
     isVerified: boolean;
     verificationStatus: string;
     isBlocked: boolean;
+    averageRating?: number
 }
+
 export interface LicenseDetails {
     licenseNo: string;
     country?: string;
+    licenseProof?: string;
     expirationDate?: Date;
+}
+
+export interface ReviewItems {
+    comments: string;
+    clientName: string;
 }

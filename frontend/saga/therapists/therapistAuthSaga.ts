@@ -19,7 +19,7 @@ function* getTherapistSignUpActionSaga(action: {
     type: string;
     payload: {
         otp: number, name: '', email: '', password: '', phone: number, licenseNum: '', roleType: '',
-        licenseProof: '', handleTherapistSignupSuccess: () => void
+        image: '', handleTherapistSignupSuccess: () => void
     }
 }): any {
     try {
@@ -46,8 +46,8 @@ function* getTherapistSignUpActionSaga(action: {
 function* saveTherapistDetailsActionSaga(action: {
     type: string;
     payload: {
-        email: '', licenseNo: '', expertise: [], country: '', expiryDate: '', experience: '', description: '',
-        image: '', handleSaveTherapistDataSuccess: () => void
+        email: '', licenseNo: '', expertise: [], country: '', expiryDate: '', experience: '',
+        gender: '', description: '', image: '', handleSaveTherapistDataSuccess: () => void
     }
 }): any {
     try {
@@ -86,7 +86,7 @@ function* getTherapistProfileActionSaga(action: {
 
         if (response.status === 'ok') {
             console.log('status okkkk')
-            yield put(getTherapistProfileSuccessAction(response.therapist))
+            yield put(getTherapistProfileSuccessAction(response))
         } else {
             console.log('status dvvvvvvvvvvvokkkk')
 
@@ -97,9 +97,8 @@ function* getTherapistProfileActionSaga(action: {
     }
 }
 
-export function* therapistWatcher() {
+export function* therapistAuthWatcher() {
     yield takeEvery(getTherapistSignUpAction, getTherapistSignUpActionSaga);
     yield takeEvery(saveTherapistDetailsAction, saveTherapistDetailsActionSaga);
     yield takeEvery(getTherapistProfileAction, getTherapistProfileActionSaga);
-
 }

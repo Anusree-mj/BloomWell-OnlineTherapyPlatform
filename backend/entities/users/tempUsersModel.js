@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const tempClientSchema = mongoose.Schema({
+const tempUserSchema = mongoose.Schema({
     email: {
         type: String,
         required: true,
@@ -15,6 +15,6 @@ const tempClientSchema = mongoose.Schema({
 })
 
 
-const TempClient = mongoose.model('TempClient', tempClientSchema);
+const TempUser = mongoose.model('TempUser', tempUserSchema);
 
-export default TempClient
+export default TempUser

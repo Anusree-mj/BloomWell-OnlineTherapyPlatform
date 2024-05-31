@@ -19,6 +19,7 @@ const DetailsComponent = () => {
     const [email, setEmail] = useState('');
     const [licenseNo, setLicenseNo] = useState('')
     const [expertise, setExpertise] = useState<string[]>([]);
+    const [gender, setGender] = useState('');
     const [expertiseField, setExpertiseField] = useState(true);
     const [country, setCountry] = useState('');
     const [expiryDate, setExpiryDate] = useState<Date>(new Date);
@@ -48,7 +49,7 @@ const DetailsComponent = () => {
 
     const saveTherapistData = () => {
         dispatch(saveTherapistDetailsAction({
-            email, licenseNo, expertise, country, expiryDate, experience, description,
+            email, licenseNo, expertise, country, expiryDate, experience,gender, description,
             image, handleSaveTherapistDataSuccess
         }))
     }
@@ -83,11 +84,12 @@ const DetailsComponent = () => {
                     }}>
                         Add your license information
                     </Typography>
-                    <LicenseComponent licenseNo={licenseNo} country={country} expiryDate={expiryDate}
+                    <LicenseComponent licenseNo={licenseNo} country={country}
+                        expiryDate={expiryDate}
                         setCountry={setCountry} experience={experience}
                         setExpiryDate={setExpiryDate}
                         setLicenseField={setLicenseField}
-                        setExperience={setExperience}
+                        setExperience={setExperience} gender={gender} setGender={setGender}
                         setDescriptionField={setDescriptionField} />
                 </>
             )}

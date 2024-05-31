@@ -20,12 +20,12 @@ interface TypeComponentProps {
 
 const TherapyType: React.FC<TypeComponentProps> = ({
     setType, setTypeField, setAgeField, questionnaire, setQuestionnaire }) => {
-    const typeItems = ['Individual', 'Couples', 'Teen']
+    const typeItems = ['Individual therapy', 'Couple therapy', 'Teen therapy']
 
     const handleTypeSubmit = (type: string) => {
-        if (type === 'Individual') {
+        if (type === 'Individual therapy') {
             setQuestionnaire(individualQuestionnaire);
-        } else if (type === 'Couples') {
+        } else if (type === 'Couple therapy') {
             setQuestionnaire(coupleQuestionnaire)
         } else {
             setQuestionnaire(teenQuestionnaire)
