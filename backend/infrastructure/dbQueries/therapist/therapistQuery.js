@@ -62,13 +62,12 @@ const getTherapistData = async (therapistId) => {
     }
 }
 
-const calculateRating = (reviews) => {
-    const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
+ const calculateRating = (reviews) => {
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
     const numRatings = reviews.length;
     const averageRating = totalRating / numRatings;
-    const maxRating = 5;
-    const overallRating = (averageRating / maxRating) * maxRating;
-    return overallRating;
+    console.log('average', averageRating)
+    return averageRating;
 }
 export default {
     saveTherapistData,

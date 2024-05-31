@@ -12,7 +12,7 @@ import { apiCall } from '@/services/api';
 function* getConnectionsActionSaga(action: {
     type: string;
     payload: {
-        clientId: ''
+       clientId:''
     }
 }): any {
     try {

@@ -11,7 +11,7 @@ export const teenQuestionnaire = [
         question: `How are you related to your child ?`,
         options: ['Mother', 'Father', 'Legal Guardian', 'Other']
     },
-    
+
     {
         question: `How would you rate your child's physical status?`,
         options: ['Good', 'Fair', 'Poor']
@@ -43,6 +43,6 @@ export const teenQuestionnaire = [
     },
     {
         question: 'Are there any specific preferences for your therapist?',
-        options: ['Male therapist', 'Female therapist']
+        options: ['Male', 'Female', 'Anyone']
     },
 ]

@@ -22,6 +22,6 @@ export const coupleQuestionnaire = [
     },
     {
         question: 'Are there any specific preferences for your therapist?',
-        options: ['Male therapist', 'Female therapist']
+        options: ['Male', 'Female','Anyone']
     },
 ]

@@ -31,6 +31,7 @@ export interface TherapistItem {
     isVerified: boolean;
     verificationStatus: string;
     isBlocked: boolean;
+    averageRating?: number
 }
 
 export interface LicenseDetails {

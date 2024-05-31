@@ -2,13 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { TherapistItem } from '../type'
 
-export interface clientStateType {
+export interface clientConnectionStateType {
     therapist: TherapistItem[];
     isLoading: boolean;
     error: any;
 }
 
-const initialState: clientStateType = {
+const initialState: clientConnectionStateType = {
     therapist: [],
     isLoading: false,
     error: null

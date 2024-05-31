@@ -5,31 +5,56 @@ import User from "../../../entities/users/userModel.js";
 import Therapists from "../../../entities/therapists/therapist.js";
 
 
-
 const connections = async (clientId) => {
     try {
         const client = await Client.findOne({ _id: clientId })
-        console.log('client found', client)
-return client
+        const { sessionType, questionnaire } = client;
+        const prefernce = questionnaire[questionnaire.length - 1];
+        const matchCriteria = {
+            expertise: { $in: [sessionType] },
+            isVerified: true, isBlocked: false
+        }
+        if (prefernce !== 'Anyone') {
+            matchCriteria.gender = prefernce
+        }
 
-        // const { email, type, age, answers } = data
-        // console.log(data, 'data in save details')
-        // const query = { email: email }
-        // const update = {
-        //     sessionType: type,
-        //     age: age,
-        //     questionnaire: answers,
-        // }
-        // const options = { upsert: true }
-        // const response = await Client.updateOne(query, update, options)
-        // if (response) {
-        //     const client = await Client.findOne({ email: email }).select('-password -createdAt -updatedAt');
-        //     return { status: 'ok', client }
-        // } else {
-        //     return { status: 'nok', message: 'Client not found' }
-        // }
+        const therapists = await Therapists.aggregate([
+            { $match: matchCriteria },
+            {
+                $lookup: {
+                    from: 'reviews',
+                    localField: '_id',
+                    foreignField: 'therapistId',
+                    as: 'reviews'
+                }
+            },
+            { $unwind: { path: '$reviews', preserveNullAndEmptyArrays: true } },
+            {
+                $group: {
+                    _id: "$_id",
+                    name: { $first: "$name" },
+                    role: { $first: "$role" },
+                    image: { $first: "$image" },
+                    averageRating: { $avg: "$reviews.rating" }
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    name: 1,                   
+                    role: 1,                   
+                    image: 1,
+                    reviews: 1,
+                    averageRating: { $ifNull: ["$averageRating", 0] }
+                }
+            }
+        ])
+        console.log('Therapistsssssssss', therapists)
+
+        return { status: 'ok', therapists }
     } catch (err) {
         console.log(err)
+        return { status: 'nok', message: err.message }
     }
 }
 
