@@ -48,12 +48,12 @@ export default function TherapistHeader(props: Props) {
     React.useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
         if (therapistData) {
-            const therapistId = '66470e22e869cabadabf9f71'
+            const parsedData = JSON.parse(therapistData);
+            const therapistId = parsedData._id;
             dispatch(getTherapistProfileAction(therapistId));
             if (therapist.isBlocked) {
                 toast.error('User is blocked')
                 router.push('/login')
-
             }
         } else {
             router.push('/login')

@@ -36,7 +36,6 @@ function* getClientSignUpActionSaga(action: {
     }
 }
 
-
 // save clientsDetailsSaga
 function* saveclientDetailsActionSaga(action: {
     type: string;
@@ -65,7 +64,7 @@ function* saveclientDetailsActionSaga(action: {
     }
 }
 
-export function* clientWatcher() {
+export function* clientAuthWatcher() {
     yield takeEvery(getClientSignUpAction, getClientSignUpActionSaga);
     yield takeEvery(saveClientDetailsAction, saveclientDetailsActionSaga);
 

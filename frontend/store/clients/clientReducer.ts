@@ -40,8 +40,8 @@ export const clientSlice: any = createSlice({
             state.error = action.payload;
             console.log('eror found', state.error)
         },
-        // save details
 
+        // save details
         saveClientDetailsAction: (state) => {
             console.log('entered in SignUp action')
             state.isLoading = true;
@@ -55,6 +55,7 @@ export const clientSlice: any = createSlice({
             state.error = action.payload;
             console.log('eror found', state.error)
         },
+       
     }
 })
 export const {
@@ -64,5 +65,6 @@ export const {
     saveClientDetailsAction,
     saveClientDetailsFailureAction,
     saveClientDetailsSuccessAction,
-
+   
+    
 } = clientSlice.actions;

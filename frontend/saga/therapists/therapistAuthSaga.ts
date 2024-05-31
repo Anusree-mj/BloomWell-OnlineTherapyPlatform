@@ -97,7 +97,7 @@ function* getTherapistProfileActionSaga(action: {
     }
 }
 
-export function* therapistWatcher() {
+export function* therapistAuthWatcher() {
     yield takeEvery(getTherapistSignUpAction, getTherapistSignUpActionSaga);
     yield takeEvery(saveTherapistDetailsAction, saveTherapistDetailsActionSaga);
     yield takeEvery(getTherapistProfileAction, getTherapistProfileActionSaga);

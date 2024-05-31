@@ -22,6 +22,8 @@ import adminClientRoutes from './interface/routes/admin/clients/manageClientRout
 import therapistRoutes from './interface/routes/therapists/therapistsAuth/therapistAuthRoute.js'
 import adminTherapistRoutes from './interface/routes/admin/therapists/verifyTherapists.js'
 import therapistProfileRoutes from './interface/routes/therapists/profile/therapistProfileRoutes.js'
+import clientConnectionRoutes from './interface/routes/clients/clientAccessibilities/clientAccessRoutes.js'
+
 const app = express();
 const corsOptions = {
   origin: function (origin, callback) {
@@ -44,10 +46,11 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use('/users', userRoutes)
 app.use('/admin', adminRoutes);
-app.use('/client', clientRoutes);
+app.use('/client', clientRoutes,clientConnectionRoutes);
 app.use('/admin/clients', adminClientRoutes);
 app.use('/therapist', therapistRoutes, therapistProfileRoutes)
 app.use('/admin/therapists', adminTherapistRoutes)
+
 
 app.get('/', (req, res) => res.send('Server is ready'))
 app.use(notFound);

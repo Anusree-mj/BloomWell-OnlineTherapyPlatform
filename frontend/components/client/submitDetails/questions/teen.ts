@@ -11,11 +11,7 @@ export const teenQuestionnaire = [
         question: `How are you related to your child ?`,
         options: ['Mother', 'Father', 'Legal Guardian', 'Other']
     },
-    {
-        question: `Does your child go to school ?`,
-        options: ['Yes regularly', 'Yes but they skip some school', 'No']
-    },
-
+    
     {
         question: `How would you rate your child's physical status?`,
         options: ['Good', 'Fair', 'Poor']
