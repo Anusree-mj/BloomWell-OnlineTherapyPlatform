@@ -3,6 +3,11 @@ import Client from "../../../entities/clients/clients.js";
 import bcrypt from 'bcryptjs';
 import User from "../../../entities/users/userModel.js";
 import Therapists from "../../../entities/therapists/therapist.js";
+import Stripe from "stripe";
+import dotenv from 'dotenv';
+dotenv.config();
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const saveOtp = async (email, otp) => {
     try {
@@ -33,7 +38,8 @@ const verifyOTP = async (data, role) => {
                     email: email,
                     password: hashedPassword,
                 };
-                user = await Client.create(newUser);
+                const client = await Client.create(newUser);
+                user = await createStripeCustomer(client.email, client.name, client._id);
             } else {
                 const { name, email, password, phone, licenseNum, roleType, image } = data;
                 console.log('password:', password);
@@ -61,6 +67,29 @@ const verifyOTP = async (data, role) => {
     } catch (err) {
         console.error('Error in verifyOTP:', err);
         return { status: 'error', message: err.message };
+    }
+}
+
+const createStripeCustomer = async (email, name, clientId) => {
+    try {
+        console.log('stripecustomer details: email:', email, 'name:', name, 'id:', clientId)
+        const stripeCustomer = await stripe.customers.create({
+            email: email,
+            name: name
+        })
+        const query = { _id: clientId }
+        const update = {
+            subscription: {
+                stripeCustomerId: stripeCustomer.id
+            },
+        }
+        const options = { new: true }
+        const updatedUser = await Client.updateOne(query, update, options)
+        const user = await Client.findOne({ _id: clientId });
+        return user;
+    } catch (err) {
+        console.error('Error in verifyOTP:', err);
+        return;
     }
 }
 
@@ -93,4 +122,5 @@ export default {
     saveOtp,
     verifyOTP,
     saveClientData,
+
 }

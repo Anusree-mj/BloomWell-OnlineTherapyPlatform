@@ -23,6 +23,7 @@ import therapistRoutes from './interface/routes/therapists/therapistsAuth/therap
 import adminTherapistRoutes from './interface/routes/admin/therapists/verifyTherapists.js'
 import therapistProfileRoutes from './interface/routes/therapists/profile/therapistProfileRoutes.js'
 import clientConnectionRoutes from './interface/routes/clients/clientAccessibilities/clientAccessRoutes.js'
+import clientPaymentRoutes from './interface/routes/clients/payments/paymentRoutes.js'
 
 const app = express();
 const corsOptions = {
@@ -46,7 +47,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use('/users', userRoutes)
 app.use('/admin', adminRoutes);
-app.use('/client', clientRoutes,clientConnectionRoutes);
+app.use('/client', clientRoutes, clientConnectionRoutes, clientPaymentRoutes);
 app.use('/admin/clients', adminClientRoutes);
 app.use('/therapist', therapistRoutes, therapistProfileRoutes)
 app.use('/admin/therapists', adminTherapistRoutes)

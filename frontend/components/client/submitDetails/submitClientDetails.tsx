@@ -34,6 +34,7 @@ const ClientDetailsComponent = () => {
     useEffect(() => {
         const clientData = JSON.parse(localStorage.getItem('clientData') || '{}');
         const { email } = clientData
+        console.log(email,'email got')
         setEmail(email);
         if (Object.keys(clientData).length === 0) {
             router.push('/login')
@@ -98,7 +99,8 @@ const ClientDetailsComponent = () => {
                                 color: 'white'
                             }
                         }}
-                        onClick={handleDetailSubmission}>
+                        onClick={handleDetailSubmission}
+                        >
                         Continue</LoadingButton>
 
                 </>

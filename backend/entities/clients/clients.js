@@ -37,6 +37,10 @@ const clientSchema = mongoose.Schema({
             type: Date
         }
     },
+    isSubscribed: {
+        type: Boolean,
+        default: false
+    },
     isBlocked: {
         type: Boolean,
         default: false
