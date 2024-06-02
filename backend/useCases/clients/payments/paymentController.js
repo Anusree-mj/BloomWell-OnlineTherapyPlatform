@@ -9,8 +9,7 @@ const getPaymentDetails = async (req, res) => {
         const prices = await stripe.prices.list({
             limit: 3
         });
-        console.log(prices.data, 'reached')
-        res.status(200).json({ prices: prices.data.reverse() });
+        res.status(200).json({ products: prices.data.reverse() });
     } catch (err) {
         console.log('Error found', err);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -19,20 +18,21 @@ const getPaymentDetails = async (req, res) => {
 
 
 const postPaymentDetails = async (req, res) => {
-    const { priceId } = req.body;
-    console.log('reached with id:', priceId)
+    const { productId } = req.body;
     try {
         const session = await stripe.checkout.sessions.create({
             line_items: [
                 {
-                    price: priceId,
+                    price: productId,
                     quantity: 1
                 }
             ],
             mode: 'subscription',
-            ui_mode: 'embedded',
             success_url: `${process.env.NEXT_APP_URL}/client/welcome`,
-            cancel_url: `${process.env.NEXT_APP_URL}/`
+            cancel_url: `${process.env.NEXT_APP_URL}/`,
+            subscription_data: {
+                trial_period_days: 14
+            }
         })
         res.status(200).json({ url: session.url });
 

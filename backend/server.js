@@ -24,6 +24,7 @@ import adminTherapistRoutes from './interface/routes/admin/therapists/verifyTher
 import therapistProfileRoutes from './interface/routes/therapists/profile/therapistProfileRoutes.js'
 import clientConnectionRoutes from './interface/routes/clients/clientAccessibilities/clientAccessRoutes.js'
 import clientPaymentRoutes from './interface/routes/clients/payments/paymentRoutes.js'
+import webhookRoutes from './interface/routes/clients/payments/webhook.js'
 
 const app = express();
 const corsOptions = {
@@ -51,7 +52,7 @@ app.use('/client', clientRoutes, clientConnectionRoutes, clientPaymentRoutes);
 app.use('/admin/clients', adminClientRoutes);
 app.use('/therapist', therapistRoutes, therapistProfileRoutes)
 app.use('/admin/therapists', adminTherapistRoutes)
-
+app.use('/webhook',webhookRoutes)
 
 app.get('/', (req, res) => res.send('Server is ready'))
 app.use(notFound);

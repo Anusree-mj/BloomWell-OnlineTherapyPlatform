@@ -5,8 +5,9 @@ import Typography from '@mui/material/Typography';
 import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import CheckCircleSharpIcon from '@mui/icons-material/CheckCircleSharp';
+import { useRouter } from 'next/navigation';
 
-interface Price {
+interface Product {
     id: string;
     object: string;
     active: boolean;
@@ -40,29 +41,33 @@ const cardItems = [
 ];
 
 const PaymentComponent = () => {
-    const [prices, setPrices] = useState<Price[]>([]);
+    const router = useRouter()
+    const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
-        const fetchPrices = async () => {
+        const fetchProducts = async () => {
             try {
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/payment`,
+                    { withCredentials: true ,}
                 );
                 console.log(response.data, 'data got');
-                setPrices(response.data.prices);
+                setProducts(response.data.products);
             } catch (error) {
-                console.error('Error fetching prices:', error);
+                console.error('Error fetching products:', error);
             }
         };
-        fetchPrices();
+        fetchProducts();
     }, []);
 
-    const handleSubscription = async (e: { preventDefault: () => void; }, priceId: string) => {
+    const handleSubscription = async (e: { preventDefault: () => void; }, productId: string) => {
         try {
             e.preventDefault();
+            console.log('entered in handle subscription')
             const { data } = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/payment`,
-                { priceId: priceId }
+                { productId: productId },
+                { withCredentials: true ,}
             );
-            window.location.assign(data.url)
+            router.push(data.url)
         } catch (error) {
             console.error('Error :', error);
         }
@@ -124,11 +129,11 @@ const PaymentComponent = () => {
                     </Typography>
                 </Box>
 
-                {prices && prices.map((price, index) => {
+                {products && products.map((product, index) => {
                     const item = cardItems[index];
                     return (
                         <Card
-                            key={price.id}
+                            key={product.id}
                             sx={{
                                 width: '20rem',
                                 maxWidth: '80%',
@@ -158,7 +163,7 @@ const PaymentComponent = () => {
                                 <Typography variant="h5" sx={{ fontWeight: 600 }}>
                                     {item.title}<span style={{ fontSize: '1rem', fontWeight: 'lighter' }}>{item.span}</span>
                                 </Typography>
-                                <Typography variant="h4">₹ {price.unit_amount / 100}</Typography>
+                                <Typography variant="h4">₹ {product.unit_amount / 100}</Typography>
                             </Box>
                             <CardContent sx={{ padding: '2rem' }}>
                                 <ul style={{
@@ -169,7 +174,7 @@ const PaymentComponent = () => {
                                     <li><CheckCircleSharpIcon sx={{ color: 'green', fontSize: '1rem' }} /> Weekly live sessions</li>
                                     <li><CheckCircleSharpIcon sx={{ color: 'green', fontSize: '1rem' }} /> 24/7 chat support</li>
                                 </ul>
-                                <Button onClick={(e) => { handleSubscription(e, price.id) }}
+                                <Button onClick={(e) => { handleSubscription(e, product.id) }}
                                     variant="outlined"
                                     sx={{
                                         width: '100%',
