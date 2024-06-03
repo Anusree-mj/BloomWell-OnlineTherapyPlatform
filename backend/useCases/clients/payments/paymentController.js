@@ -19,6 +19,8 @@ const getPaymentDetails = async (req, res) => {
 
 const postPaymentDetails = async (req, res) => {
     const { productId } = req.body;
+    const userId = req.user._id;
+    console.log('userId in checkout stripe session', userId)
     try {
         const session = await stripe.checkout.sessions.create({
             line_items: [
@@ -31,6 +33,9 @@ const postPaymentDetails = async (req, res) => {
             success_url: `${process.env.NEXT_APP_URL}/client/welcome`,
             cancel_url: `${process.env.NEXT_APP_URL}/`,
             subscription_data: {
+                metadata: {
+                    payingUserId: userId.toString()
+                },
                 trial_period_days: 14
             }
         })

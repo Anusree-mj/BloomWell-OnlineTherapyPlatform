@@ -38,8 +38,7 @@ const verifyOTP = async (data, role) => {
                     email: email,
                     password: hashedPassword,
                 };
-                const client = await Client.create(newUser);
-                user = await createStripeCustomer(client.email, client.name, client._id);
+                user = await Client.create(newUser);
             } else {
                 const { name, email, password, phone, licenseNum, roleType, image } = data;
                 console.log('password:', password);
@@ -69,30 +68,6 @@ const verifyOTP = async (data, role) => {
         return { status: 'error', message: err.message };
     }
 }
-
-const createStripeCustomer = async (email, name, clientId) => {
-    try {
-        console.log('stripecustomer details: email:', email, 'name:', name, 'id:', clientId)
-        const stripeCustomer = await stripe.customers.create({
-            email: email,
-            name: name
-        })
-        const query = { _id: clientId }
-        const update = {
-            subscription: {
-                stripeCustomerId: stripeCustomer.id
-            },
-        }
-        const options = { new: true }
-        const updatedUser = await Client.updateOne(query, update, options)
-        const user = await Client.findOne({ _id: clientId });
-        return user;
-    } catch (err) {
-        console.error('Error in verifyOTP:', err);
-        return;
-    }
-}
-
 
 const saveClientData = async (data) => {
     try {

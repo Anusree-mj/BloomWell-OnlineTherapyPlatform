@@ -30,6 +30,7 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
     try {
         const subscription = event.data.object;
         const subscriptionId = subscription.id;
+        const clientId = event.data.object.metadata.payingUserId;
 
         // Handle the event
         switch (event.type) {
@@ -37,9 +38,10 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
                 try {
                     const subscription = event.data.object;
                     console.log('subscription details', subscription)
-                    const query = { 'subscription.stripeCustomerId': subscription.customer };
+                    const query = { _id: clientId };
                     const update = {
-                        'subscription.stripeSubscriptionId': subscriptionId,
+                        stripeCustomerId: subscription.customer,
+                        stripeSubscriptionId:subscriptionId,
                         isSubscribed: true
                     };
                     const option = { upsert: false }
@@ -55,7 +57,7 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
                     const subscription = event.data.object;
                     console.log('subscription details', subscription)
 
-                    const query = { 'subscription.stripeCustomerId': subscription.customer };
+                    const query = { _id: clientId };
                     const update = { isSubscribed: false };
                     const option = { upsert: false }
                     const updatedUser = await Client.updateOne(query, update, option);
