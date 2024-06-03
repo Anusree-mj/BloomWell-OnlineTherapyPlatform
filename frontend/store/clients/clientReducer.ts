@@ -20,7 +20,7 @@ const initialState: clientStateType = {
         sessionType: "",
         stripeCustomerId: "",
         stripeSubscriptionId: "",
-        isConnected: false,
+        isConnected: '',
         isSubscribed: false
     },
     isLoading: false,

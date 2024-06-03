@@ -36,8 +36,8 @@ const clientSchema = mongoose.Schema({
         type: Date
     },
     isConnected: {
-        type: Boolean,
-        default: false
+        type: String,
+        default: 'false'
     },
     isSubscribed: {
         type: Boolean,

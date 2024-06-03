@@ -92,7 +92,7 @@ const saveClientData = async (data) => {
     }
 }
 
-const getClientData = async (clientId) => {
+const getClientDataQuery = async (clientId) => {
     try {
         const client = await Client.findOne({ _id: clientId });
         if (client) {
@@ -109,5 +109,5 @@ export default {
     saveOtp,
     verifyOTP,
     saveClientData,
-    getClientData,
+    getClientDataQuery,
 }

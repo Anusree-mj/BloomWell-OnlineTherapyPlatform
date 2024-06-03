@@ -5,7 +5,8 @@ import {
 } from "./clientAuth/clientAuthController.js"
 
 import {
-    getConnections
+    getConnectionController,
+    postConnectionController,
 } from "./clientConnection/clientConnectionController.js";
 
 import {
@@ -17,10 +18,12 @@ import {
 const clientControllers = {
     signUp,
     saveClientData,
-    getConnections,
+    getConnectionController,
     getPaymentDetails,
     postPaymentDetails,
-    getClientData
+    getClientData,
+    postConnectionController,
+    
 }
 
 export default clientControllers;

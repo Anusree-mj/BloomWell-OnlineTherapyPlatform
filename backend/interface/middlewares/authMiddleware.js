@@ -4,22 +4,28 @@ import Client from '../../entities/clients/clients.js';
 import Therapists from '../../entities/therapists/therapist.js';
 
 const protect = (tokenType) => asyncHandler(async (req, res, next) => {
+    console.log('reached protect')
     let token;
     if (tokenType === 'client') {
         token = req.cookies.jwtClient;
     } else if (tokenType === 'therapist') {
         token = req.cookies.jwtTherapist;
     }
+    console.log('token found',token)
     if (token) {
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            console.log(decoded,'decodeddd')
+            console.log(decoded, 'decodeddd')
+            let user;
             if (tokenType === 'client') {
-                req.user = await Client.findById(decoded.id).select('-password');
-            } else  {
-                req.user = await Therapists.findById(decoded.id).select('-password');
+                user = await Client.findById(decoded.id).select('-password');
+            } else {
+                user = await Therapists.findById(decoded.id).select('-password');
             }
-            console.log(req.user,'req userrr')
+            if (!user.isBlocked) {
+                req.user = user;
+            }
+            console.log(req.user, 'req userrr')
             next();
         } catch (error) {
             res.status(401);

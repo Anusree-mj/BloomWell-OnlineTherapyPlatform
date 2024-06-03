@@ -25,13 +25,13 @@ const AllActivityComponent = () => {
                 toast.error('User is blocked')
                 router.push('/login')
             }
-            if (!client.isConnected) {
-                setConnectionField(true)
+            if (client.isConnected === 'false') {
+                setConnectionField(true);
             }
         } else {
             router.push('/login')
         }
-    })
+    }, [])
 
     return (
         <Box sx={{

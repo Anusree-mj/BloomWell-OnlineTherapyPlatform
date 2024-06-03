@@ -41,8 +41,8 @@ const saveClientData = async (req, res) => {
 // get client data
 const getClientData = async (req, res) => {
     try {
-        const clientId = req.params.clientId;
-        const response = await clientAuthQueries.getClientData(clientId);
+        const clientId = req.user._id
+        const response = await clientAuthQueries.getClientDataQuery(clientId);
         if (response.status === 'ok') {
             const { status, client } = response
             console.log('successfully passed client data')

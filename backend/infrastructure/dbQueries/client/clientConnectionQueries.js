@@ -1,9 +1,6 @@
-import TempUser from "../../../entities/users/tempUsersModel.js";
 import Client from "../../../entities/clients/clients.js";
-import bcrypt from 'bcryptjs';
-import User from "../../../entities/users/userModel.js";
 import Therapists from "../../../entities/therapists/therapist.js";
-
+import Connections from "../../../entities/clients/connection.js";
 
 const connections = async (clientId) => {
     try {
@@ -41,8 +38,8 @@ const connections = async (clientId) => {
             {
                 $project: {
                     _id: 1,
-                    name: 1,                   
-                    role: 1,                   
+                    name: 1,
+                    role: 1,
                     image: 1,
                     reviews: 1,
                     averageRating: { $ifNull: ["$averageRating", 0] }
@@ -58,7 +55,29 @@ const connections = async (clientId) => {
     }
 }
 
+const postConnection = async (clientId, therapistId) => {
+    try {
+        const therapist = await Therapists.findOne({ _id: therapistId });
+        if (!therapist.isBlocked) {
+            const createConnection = await Connections.insertMany({
+                clientId: clientId,
+                therapistId: therapistId,
+            })
+            if (createConnection) {
+                return { status: 'ok', therapistName: therapist.name }
+            }
+        } else {
+            return { status: 'nok', message: "Invalid therapist" }
+        }
+    } catch (err) {
+        console.log(err)
+        return { status: 'nok', message: err.message }
+    }
+}
+
 
 export default {
     connections,
+    postConnection,
+    
 }
