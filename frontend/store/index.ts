@@ -6,6 +6,7 @@ import { clientSlice } from "./clients/clientReducer";
 import { clientConnectionSlice } from "./clients/clientConnectionReducer";
 import { adminSlice } from "./admin/adminReducer";
 import { therapistSlice } from "./therapists/therapistReducers";
+import { therapistConnectionSlice } from "./therapists/therapistConnectionHandlerReducers";
 import rootSaga from '../saga'
 
 
@@ -17,7 +18,8 @@ const store = configureStore({
         client: clientSlice.reducer,
         clientConnection: clientConnectionSlice.reducer,
         admin: adminSlice.reducer,
-        therapist: therapistSlice.reducer
+        therapist: therapistSlice.reducer,
+        therapistConnectionRequests: therapistConnectionSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(sagaMiddleware),

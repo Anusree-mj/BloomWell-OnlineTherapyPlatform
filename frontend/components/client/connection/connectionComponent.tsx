@@ -32,13 +32,12 @@ const ConnectionComponent = () => {
     }, []);
 
     const handleConnection = (therapistId: string) => {
-        dispatch(postConnectionAction({therapistId, handleConnectionSuccess}))
+        dispatch(postConnectionAction({ therapistId, handleConnectionSuccess }))
     }
     const handleConnectionSuccess = (therapistName: string) => {
         Swal.fire({
             title: 'Connection Sent!',
-            text: `Your connection request to ${therapistName} has been sent successfully. Let's wait until the therapist verifies.
-            Stay Healthy!`,
+            text: `Your connection request to ${therapistName} was sent successfully. Please wait for their response. Stay healthy!`,
             icon: 'success',
             confirmButtonText: 'OK'
         }).then((result) => {
@@ -106,7 +105,7 @@ const ConnectionComponent = () => {
                                     {item.role}
                                 </Typography>
                                 <Rating name="read-only" value={item.averageRating} readOnly />
-                                <Link href={`/therapist/view/${item._id}`} style={{
+                                <Link href={`/ therapist / view / ${item._id}`} style={{
                                     marginTop: '0.4rem',
                                     textDecoration: 'underline'
                                 }}
