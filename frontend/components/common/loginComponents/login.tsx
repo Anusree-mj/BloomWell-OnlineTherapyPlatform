@@ -46,10 +46,16 @@ export default function Login() {
             } else if (!isSubscribed) {
                 router.push('/client/payment');
             } else {
-                router.push( '/client/myActivity')
+                router.push('/client/myActivity')
             }
         } else {
-            router.push('/therapist/welcome');
+            const therapistData = JSON.parse(localStorage.getItem('therapistData') || '{}');
+            const { image } = therapistData;
+            if (image) {
+                router.push('/therapist/')
+            } else {
+                router.push('/therapist/welcome');
+            }
         }
     };
 

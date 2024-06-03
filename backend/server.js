@@ -25,9 +25,10 @@ import therapistProfileRoutes from './interface/routes/therapists/profile/therap
 import clientConnectionRoutes from './interface/routes/clients/clientAccessibilities/clientAccessRoutes.js'
 import clientPaymentRoutes from './interface/routes/clients/payments/paymentRoutes.js'
 import webhookRoutes from './interface/routes/clients/payments/webhook.js'
+import therapistAccessRoutes from './interface/routes/therapists/therapistAccessibilities/therapistAccessRoutes.js'
 
 const app = express();
-app.use('/webhook',webhookRoutes);
+app.use('/webhook', webhookRoutes);
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -51,7 +52,7 @@ app.use('/users', userRoutes)
 app.use('/admin', adminRoutes);
 app.use('/client', clientRoutes, clientConnectionRoutes, clientPaymentRoutes);
 app.use('/admin/clients', adminClientRoutes);
-app.use('/therapist', therapistRoutes, therapistProfileRoutes)
+app.use('/therapist', therapistRoutes, therapistAccessRoutes, therapistProfileRoutes)
 app.use('/admin/therapists', adminTherapistRoutes)
 
 

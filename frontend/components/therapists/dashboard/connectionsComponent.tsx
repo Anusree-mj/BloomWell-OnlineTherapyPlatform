@@ -1,14 +1,13 @@
 'use-client'
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getTherapistsDetailsAction, adminStateType } from "@/store/admin/adminReducer";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import FormHelperText from '@mui/material/FormHelperText';
 import { verifyTherapists } from "@/utilities/admin/therapists/verifyTherapist";
 import { useRouter } from "next/navigation";
 import { Box, Button, MenuItem, Select, TextField, Typography } from "@mui/material";
 import Link from "next/link";
-
+import { getTherapistsConnectionRequestAction } from "@/store/therapists/therapistConnectionHandlerReducers";
 
 // const verifyOptions = [
 //     'Granted',
@@ -17,7 +16,6 @@ import Link from "next/link";
 
 const ConnectionRequestsComponent = () => {
     const dispatch = useDispatch();
-    const therapists = useSelector((state: { admin: adminStateType }) => state.admin.therapists);
     const router = useRouter()
     const [search, setSearch] = useState<string>('');
     const [verifystatus, setVerifyStatus] = useState('')
@@ -25,8 +23,7 @@ const ConnectionRequestsComponent = () => {
     useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
         if (therapistData) {
-            dispatch(getTherapistsDetailsAction());
-            console.log(therapists, 'therapist details')
+            dispatch(getTherapistsConnectionRequestAction());
         } else {
             router.push('/login')
         }

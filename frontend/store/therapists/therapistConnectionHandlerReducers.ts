@@ -10,13 +10,9 @@ export interface connectionStateType {
 
 
 const initialState: connectionStateType = {
-    connections: [{
-        name: "",
-        email: "",
-        questionnaires: []
-    }],
     isLoading: false,
     error: null,
+    connections: []
 }
 export const therapistConnectionSlice: any = createSlice({
     name: "therapistConnectionRequests",

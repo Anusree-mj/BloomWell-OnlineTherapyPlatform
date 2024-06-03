@@ -55,7 +55,9 @@ export interface ReviewItems {
 }
 
 export interface ConnectionItems {
-    name: string;
-    email: string;
-    questionnaires: [];
+    _id: string;
+    clientId: ClientItem;
+    therapistId: TherapistItem;
+    status: string;
+    adminVerify: string;
 }
