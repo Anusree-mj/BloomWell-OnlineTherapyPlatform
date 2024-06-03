@@ -40,25 +40,27 @@ export default function Login() {
     const handleLoginSuccess = (role: string) => {
         if (role === 'client') {
             const clientData = JSON.parse(localStorage.getItem('clientData') || '{}');
-            const { questionnaire } = clientData;
-            if (Array.isArray(questionnaire) && questionnaire.length !== 0) {
-                router.push('/client/welcome');
-            } else {
+            const { questionnaire, isSubscribed } = clientData;
+            if (Array.isArray(questionnaire) && questionnaire.length === 0) {
                 router.push('/client/details');
+            } else if (!isSubscribed) {
+                router.push('/client/payment');
+            } else {
+                router.push( '/client/myActivity')
             }
         } else {
             router.push('/therapist/welcome');
         }
     };
 
-    useEffect(() => {
-        if (localStorage.getItem('clientData')) {
-            router.push('/client/welcome')
-        }
-        else if (localStorage.getItem('therapistData')) {
-            router.push('/therapist/welcome')
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (localStorage.getItem('clientData')) {
+    //         router.push('/client/welcome')
+    //     }
+    //     else if (localStorage.getItem('therapistData')) {
+    //         router.push('/therapist/welcome')
+    //     }
+    // }, [])
 
     useEffect(() => {
         if (error) {

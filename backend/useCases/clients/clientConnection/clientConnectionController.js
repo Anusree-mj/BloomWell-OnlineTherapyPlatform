@@ -1,9 +1,9 @@
 import clientConnectionQueries from "../../../infrastructure/dbQueries/client/clientConnectionQueries.js"
 
 // get connections 
-const getConnections = async (req, res) => {
+const getConnectionController = async (req, res) => {
     try {
-        const clientId = req.params.clientId
+        const clientId = req.user._id
         const response = await clientConnectionQueries.connections(clientId)
         if (response.status === 'ok') {
             const { status, therapists } = response
@@ -17,7 +17,27 @@ const getConnections = async (req, res) => {
     }
 }
 
+// post connection
+const postConnectionController = async (req, res) => {
+    try {
+        console.log('reached in controller')
+        const clientId = req.user._id
+        const { therapistId } = req.body;
+        const response = await clientConnectionQueries.postConnection(clientId, therapistId)
+        if (response.status === 'ok') {
+            const { status, therapistName } = response
+            console.log('therapistname found',therapistName)
+            res.status(200).json({ status: status, therapistName: therapistName });
+        } else {
+            const { status, message } = response
+            res.status(400).json({ status: status, message: message });
+        }
+    } catch (err) {
+        console.log('Error found', err)
+    }
+}
 
 export {
-    getConnections,
+    getConnectionController,
+    postConnectionController,
 }

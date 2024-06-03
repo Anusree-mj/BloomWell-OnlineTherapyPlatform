@@ -26,7 +26,7 @@ export default function AdminLogin() {
             const valid = validation()
             if (valid) {
                 // setLoading(true)
-                const response = await axios.post(`http://localhost:8000/users/forgotPassword/getOtp`, { email: email });
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/users/forgotPassword/getOtp`, { email: email });
                 if (response.status === 200) {
                     setOtpField(true)
                     setLoading(false)

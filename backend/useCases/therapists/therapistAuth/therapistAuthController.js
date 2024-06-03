@@ -12,7 +12,7 @@ const therapistsSignUp = async (req, res) => {
             const { user } = response;
             console.log(user, 'therapist received in controller')
             const token = generateToken(user._id)
-            res.cookie('jwtTherapists', token, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true });
+            res.cookie('jwtTherapist', token, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true });
             res.status(200).json({ status: 'ok', therapist: user });
         } else {
             const { message } = response

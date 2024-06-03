@@ -17,8 +17,8 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistId }) => {
     const dispatch = useDispatch();
     const therapist = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
-    const ratings = useSelector((state: { therapist: therapistStateType }) => state.therapist.ratings);
-    const reviews = useSelector((state: { therapist: therapistStateType }) => state.therapist.reviews);
+    const ratings = useSelector((state: { therapist: therapistStateType }) => state.therapist.ratings) || 0;
+    const reviews = useSelector((state: { therapist: therapistStateType }) => state.therapist.reviews) || [];
 
     const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
     const theme = useTheme();
@@ -77,7 +77,10 @@ const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistI
             <Typography variant="h6" noWrap component="div" sx={{ color: '#325343', fontWeight: 800 }}>
                 {therapist.name}
             </Typography>
-            <Rating name="read-only" value={ratings} readOnly />
+            <Rating name="read-only" sx={{mt:1}} value={ratings} readOnly />
+            <Typography sx={{ color: '#325343',fontSize:'0.9rem' }}>
+               ( {reviews.length} reviews)
+            </Typography>
             <Box sx={{
                 display: 'flex', justifyContent: 'center', maxWidth: '100%',
                 flexDirection: 'column', alignItems: 'center', pt: 4, pb: 6,
@@ -122,8 +125,11 @@ const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistI
                             bgcolor: 'background.default',
                         }}
                     >
-                        <Typography>{reviews[activeStep].comments}</Typography>
-                    </Paper>
+                        {reviews.length > 0 ? (
+                            <Typography>{reviews[activeStep].comments}</Typography>
+                        ) : (
+                            <Typography>No reviews available</Typography>
+                        )}                    </Paper>
                     <AutoPlaySwipeableViews
                         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                         index={activeStep}

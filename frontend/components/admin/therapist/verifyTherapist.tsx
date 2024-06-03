@@ -60,7 +60,7 @@ const AdminVerifyTherapists = () => {
             sortable: false,
             width: 90,
             renderCell: (params) => (
-                <Link href={`/therapist/${params.row.id}`} style={{ textDecoration: 'underline' }}
+                <Link href={`/therapist/view/${params.row.id}`} style={{ textDecoration: 'underline' }}
                 >View
                 </Link>
             ),

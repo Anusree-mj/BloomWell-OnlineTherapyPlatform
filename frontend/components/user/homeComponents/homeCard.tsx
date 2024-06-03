@@ -32,7 +32,7 @@ export default function MediaCover() {
       backgroundColor: '#325343', display: 'flex', minHeight: 'calc(100vh - var(--header-height))',
       flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
     }}>
-      <Box sx={{}}>
+      <Box>
 
         <Typography sx={{
           fontSize: { xs: '1.5rem', sm: '2rem' },

@@ -29,6 +29,7 @@ import { getTherapistProfileAction, therapistStateType } from '@/store/therapist
 import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/navigation";
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 const drawerWidth = 240;
 
@@ -88,6 +89,18 @@ export default function TherapistHeader(props: Props) {
             ...prevOpenMenus,
             [menu]: !prevOpenMenus[menu],
         }));
+    };
+
+    const logoutHandler = async () => {
+        try {
+            setAnchorEl(null);
+            Cookies.remove('jwtTherapist');
+            localStorage.removeItem('therapistData');
+            router.push('/login');
+        } catch (error) {
+            toast.error('Logout Failed')
+            console.log(error)
+        }
     };
 
     const navicons = [
@@ -230,7 +243,7 @@ export default function TherapistHeader(props: Props) {
                         >
                             <MenuItem onClick={handleClose}>My Profile</MenuItem>
 
-                            <MenuItem onClick={handleClose}>Logout</MenuItem>
+                            <MenuItem onClick={logoutHandler}>Logout</MenuItem>
                         </Menu>
                     </div>
                 </Toolbar>

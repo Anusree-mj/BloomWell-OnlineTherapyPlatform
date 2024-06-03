@@ -11,7 +11,7 @@ export interface clientConnectionStateType {
 const initialState: clientConnectionStateType = {
     therapist: [],
     isLoading: false,
-    error: null
+    error: null,
 }
 
 export const clientConnectionSlice: any = createSlice({
@@ -31,11 +31,28 @@ export const clientConnectionSlice: any = createSlice({
             state.error = action.payload;
             console.log('eror found', state.error)
         },
+
+        // post connection
+        postConnectionAction: (state) => {
+            state.isLoading = true;
+        },
+        postConnectionSuccessAction: (state) => {
+            state.isLoading = false;
+        },
+        postConnectionFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found', state.error)
+        },
+
     }
 })
 export const {
     getConnectionsAction,
     getConnectionsFailureAction,
     getConnectionsSuccessAction,
+    postConnectionAction,
+    postConnectionFailureAction,
+    postConnectionSuccessAction,
 
 } = clientConnectionSlice.actions;

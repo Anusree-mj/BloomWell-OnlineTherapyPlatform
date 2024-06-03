@@ -1,15 +1,31 @@
 import jwt from 'jsonwebtoken'
 import asyncHandler from 'express-async-handler'
-import User from '../../entities/userModel.js';
+import Client from '../../entities/clients/clients.js';
+import Therapists from '../../entities/therapists/therapist.js';
 
-const protect = asyncHandler(async (req, res, next) => {
+const protect = (tokenType) => asyncHandler(async (req, res, next) => {
+    console.log('reached protect')
     let token;
-    token = req.cookies.jwt;
+    if (tokenType === 'client') {
+        token = req.cookies.jwtClient;
+    } else if (tokenType === 'therapist') {
+        token = req.cookies.jwtTherapist;
+    }
+    console.log('token found',token)
     if (token) {
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-            req.user = await User.findById(decoded.userId).select('-password');
+            console.log(decoded, 'decodeddd')
+            let user;
+            if (tokenType === 'client') {
+                user = await Client.findById(decoded.id).select('-password');
+            } else {
+                user = await Therapists.findById(decoded.id).select('-password');
+            }
+            if (!user.isBlocked) {
+                req.user = user;
+            }
+            console.log(req.user, 'req userrr')
             next();
         } catch (error) {
             res.status(401);
