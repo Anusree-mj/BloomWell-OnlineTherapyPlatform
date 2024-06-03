@@ -27,6 +27,7 @@ import clientPaymentRoutes from './interface/routes/clients/payments/paymentRout
 import webhookRoutes from './interface/routes/clients/payments/webhook.js'
 
 const app = express();
+app.use('/webhook',webhookRoutes);
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -52,7 +53,7 @@ app.use('/client', clientRoutes, clientConnectionRoutes, clientPaymentRoutes);
 app.use('/admin/clients', adminClientRoutes);
 app.use('/therapist', therapistRoutes, therapistProfileRoutes)
 app.use('/admin/therapists', adminTherapistRoutes)
-app.use('/webhook',webhookRoutes)
+
 
 app.get('/', (req, res) => res.send('Server is ready'))
 app.use(notFound);

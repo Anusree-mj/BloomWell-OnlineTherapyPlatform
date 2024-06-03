@@ -3,7 +3,6 @@ import Stripe from "stripe";
 import dotenv from 'dotenv';
 dotenv.config();
 import Client from "../../../../entities/clients/clients.js";
-import bodyParser from 'body-parser';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const router = express.Router();
@@ -13,23 +12,23 @@ const router = express.Router();
 const endpointSecret = process.env.ENDPOINT_SECRET;
 
 
-
-router.post('/', async (req, res) => {
+router.post('/', express.raw({ type: 'application/json' }), async (req, res) => {
+    let event;
     try {
-        const buf = await req.text();
-        const sig = req.headers.get("stripe-signature");
+        console.log('reached in routes')
+        const sig = req.headers["stripe-signature"];
 
-        let event = Stripe.Event;
+        console.log('sig:::', sig)
 
-        try {
-            event = stripe.webhooks.constructEvent(buf, sig, endpointSecret);
-        } catch (err) {
-            console.error(`Error deleting subscription: ${err.message}`);
-             res.status(400).json({ error: { message: `Webhook Error:${err.message}` } })
-        }
+        event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
         console.log("✅ Success:", event.id);
+    } catch (err) {
+        console.error(`Error deleting subscription: ${err.message}`);
+        res.status(400).json({ error: { message: `Webhook Error:${err.message}` } })
+    }
 
-        const subscription = event.data.object.subscription;
+    try {
+        const subscription = event.data.object;
         const subscriptionId = subscription.id;
 
         // Handle the event
@@ -37,12 +36,15 @@ router.post('/', async (req, res) => {
             case 'customer.subscription.created':
                 try {
                     const subscription = event.data.object;
+                    console.log('subscription details', subscription)
                     const query = { 'subscription.stripeCustomerId': subscription.customer };
                     const update = {
                         'subscription.stripeSubscriptionId': subscriptionId,
                         isSubscribed: true
                     };
-                    await Client.updateOne(query, update);
+                    const option = { upsert: false }
+                    const updateUser = await Client.updateOne(query, update, option);
+                    console.log('user updated in subscription created', updateUser)
                     console.log(`Subscription created: ${subscription.id}`);
                 } catch (err) {
                     console.error(`Error updating subscription: ${err.message}`);
@@ -51,9 +53,14 @@ router.post('/', async (req, res) => {
             case 'customer.subscription.deleted':
                 try {
                     const subscription = event.data.object;
+                    console.log('subscription details', subscription)
+
                     const query = { 'subscription.stripeCustomerId': subscription.customer };
                     const update = { isSubscribed: false };
-                    await Client.updateOne(query, update);
+                    const option = { upsert: false }
+                    const updatedUser = await Client.updateOne(query, update, option);
+                    console.log('user updated in subscription created', updatedUser)
+
                     console.log(`Subscription deleted: ${subscription.id}`);
                 } catch (err) {
                     console.error(`Error deleting subscription: ${err.message}`);
@@ -67,8 +74,9 @@ router.post('/', async (req, res) => {
         // Return a 200 response to acknowledge receipt of the event
         res.status(200).send('Event received');
     } catch (err) {
-            res.status(400).json({ error: { message: `Webhook Error:${err.message}` } })
-
+        if (!res.headersSent) {
+            res.status(500).send(`Server Error: ${err.message}`);
+        }
     }
 });
 
