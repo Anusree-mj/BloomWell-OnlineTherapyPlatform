@@ -16,7 +16,12 @@ const initialState: clientStateType = {
         type: "",
         questionnaires: [],
         isBlocked: false,
-        age: ""
+        age: "",
+        sessionType: "",
+        stripeCustomerId: "",
+        stripeSubscriptionId: "",
+        isConnected: false,
+        isSubscribed: false
     },
     isLoading: false,
     error: null
@@ -55,7 +60,22 @@ export const clientSlice: any = createSlice({
             state.error = action.payload;
             console.log('eror found', state.error)
         },
-       
+
+        // get client details
+        getClientDetailsAction: (state) => {
+            console.log('entered in SignUp action')
+            state.isLoading = true;
+        },
+        getClientDetailsSuccessAction: (state, action) => {
+            state.isLoading = false;
+            state.client = action.payload;
+        },
+        getClientDetailsFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found', state.error)
+        },
+
     }
 })
 export const {
@@ -65,6 +85,8 @@ export const {
     saveClientDetailsAction,
     saveClientDetailsFailureAction,
     saveClientDetailsSuccessAction,
-   
-    
+    getClientDetailsAction,
+    getClientDetailsFailureAction,
+    getClientDetailsSuccessAction,
+
 } = clientSlice.actions;

@@ -127,7 +127,7 @@ const ClientSignupComponent = () => {
 
     useEffect(() => {
         if (localStorage.getItem('clientData')) {
-            router.push('/client/welcome')
+            router.push('/client/myActivity')
         }
     }, [])
 

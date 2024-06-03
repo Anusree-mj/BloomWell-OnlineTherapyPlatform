@@ -10,6 +10,11 @@ export interface ClientItem {
     type: string;
     age: string;
     questionnaires: [];
+    sessionType:string;
+    stripeCustomerId:string;
+    stripeSubscriptionId:string;
+    isConnected:boolean;
+    isSubscribed:boolean;
     isBlocked: boolean
 }
 export interface AdminItem {

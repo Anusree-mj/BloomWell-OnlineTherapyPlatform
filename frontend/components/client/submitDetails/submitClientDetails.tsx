@@ -50,7 +50,7 @@ const ClientDetailsComponent = () => {
         dispatch(saveClientDetailsAction({ email,type, age, answers, handleDetailSubmissionSuccess }))
     }
     const handleDetailSubmissionSuccess = () => {
-        router.push('/client/welcome')
+        router.push('/client/payment')
     }
     return (
         <Box sx={{

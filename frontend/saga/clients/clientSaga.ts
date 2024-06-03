@@ -6,6 +6,9 @@ import {
     saveClientDetailsAction,
     saveClientDetailsFailureAction,
     saveClientDetailsSuccessAction,
+    getClientDetailsAction,
+    getClientDetailsFailureAction,
+    getClientDetailsSuccessAction
 
 } from '@/store/clients/clientReducer';
 import { apiCall } from '@/services/api';
@@ -64,8 +67,35 @@ function* saveclientDetailsActionSaga(action: {
     }
 }
 
+
+// get clientDetailsSaga
+function* getClientDetailsActionSaga(action: {
+    type: string;
+    payload: {
+        clientId: ''
+    }
+}): any {
+    try {
+        console.log('data recieved in saga', action.payload)
+        const response = yield call<any>(apiCall, {
+            method: 'GET',
+            endpoint: `client/${action.payload}`,
+        });
+
+        if (response.status === 'ok') {
+            yield put(getClientDetailsSuccessAction(response.client))
+            localStorage.setItem("clientData", JSON.stringify(response.client));
+        } else {
+            yield put(getClientDetailsFailureAction(response.message))
+        }
+    } catch (err) {
+        yield put(getClientDetailsFailureAction(err))
+    }
+}
+
 export function* clientAuthWatcher() {
     yield takeEvery(getClientSignUpAction, getClientSignUpActionSaga);
     yield takeEvery(saveClientDetailsAction, saveclientDetailsActionSaga);
+    yield takeEvery(getClientDetailsAction, getClientDetailsActionSaga);
 
 }

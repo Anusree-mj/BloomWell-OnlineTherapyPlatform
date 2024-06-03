@@ -1,7 +1,7 @@
 import { fork, all } from "redux-saga/effects";
 
 import { userWatcher } from "./users/userSaga";
-import { clientAuthWatcher } from "./clients/clientAuthSaga";
+import { clientAuthWatcher } from "./clients/clientSaga";
 import { clientConnectionWatcher } from "./clients/clientConnectionSaga";
 import { adminAuthWatcher } from "./admin/adminAuthSaga";
 import { adminWatcher } from "./admin/adminSaga";

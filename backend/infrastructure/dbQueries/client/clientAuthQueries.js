@@ -92,10 +92,22 @@ const saveClientData = async (data) => {
     }
 }
 
+const getClientData = async (clientId) => {
+    try {
+        const client = await Client.findOne({ _id: clientId });
+        if (client) {
+            return { status: 'ok', client }
+        } else {
+            return { status: 'nok', message: 'Invalid clientId' }
+        }
+    } catch (err) {
+        console.log('Error found', err.message)
+    }
+}
 
 export default {
     saveOtp,
     verifyOTP,
     saveClientData,
-
+    getClientData,
 }

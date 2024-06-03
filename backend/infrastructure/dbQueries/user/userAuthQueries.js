@@ -15,11 +15,18 @@ const userDoLogin = async (email, password) => {
                 if (user.role === 'client') {
                     console.log('client found')
                     const client = await Client.findOne({ email: email }).select('-password -createdAt -updatedAt');
-                    return { status: 'ok', role: 'client', client }
+                    if (client.isBlocked) {
+                        return { status: 'nok', message: 'User is blocked' }
+                    } else {
+                        return { status: 'ok', role: 'client', client }
+                    }
                 }
                 else {
                     console.log('therapist found')
                     const therapist = await Therapists.findOne({ email: email }).select('-password -createdAt -updatedAt');
+                    if (therapist.isBlocked) {
+                        return { status: 'nok', message: 'User is blocked' }
+                    }
                     return { status: 'ok', role: 'therapist', therapist }
                 }
             } else {

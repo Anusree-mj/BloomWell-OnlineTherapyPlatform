@@ -7,14 +7,15 @@ const saveTherapistData = async (data) => {
     try {
         const { email, licenseNo, expertise, country, expiryDate, experience,
             gender, description, image } = data
-
+        const currentTherapist = await Therapists.findOne({ email: email });
         const query = { email: email }
+        const updatedLicense = {
+            ...currentTherapist.license,
+            country: country,
+            expirationDate: expiryDate
+        };
         const update = {
-            license: {
-                licenseNo: licenseNo,
-                country: country,
-                expirationDate: expiryDate
-            },
+            license: updatedLicense,
             expertise: expertise,
             experience: experience,
             gender: gender,
@@ -62,7 +63,7 @@ const getTherapistData = async (therapistId) => {
     }
 }
 
- const calculateRating = (reviews) => {
+const calculateRating = (reviews) => {
     const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
     const numRatings = reviews.length;
     const averageRating = totalRating / numRatings;

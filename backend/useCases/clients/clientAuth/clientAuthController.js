@@ -32,15 +32,32 @@ const saveClientData = async (req, res) => {
         } else {
             const { status, message } = response
             res.status(400).json({ status: status, message: message });
-
         }
     } catch (err) {
         console.log('Error found', err)
     }
 }
 
+// get client data
+const getClientData = async (req, res) => {
+    try {
+        const clientId = req.params.clientId;
+        const response = await clientAuthQueries.getClientData(clientId);
+        if (response.status === 'ok') {
+            const { status, client } = response
+            console.log('successfully passed client data')
+            res.status(200).json({ status: status, client: client });
+        } else {
+            const { status, message } = response
+            res.status(400).json({ status: status, message: message });
+        }
+    } catch (err) {
+        console.log('Error found', err)
+    }
+}
 
 export {
     signUp,
     saveClientData,
+    getClientData,
 }

@@ -1,15 +1,14 @@
 "use client";
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import PsychologyIcon from '@mui/icons-material/Psychology';
-import AutoGraphIcon from '@mui/icons-material/AutoGraph';
+import ChecklistRtlIcon from '@mui/icons-material/ChecklistRtl';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -18,15 +17,13 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import AccountCircle from '@mui/icons-material/AccountCircle';
+import RateReviewIcon from '@mui/icons-material/RateReview';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Link from 'next/link';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
 import { Avatar } from '@mui/material';
-import { getTherapistProfileAction, therapistStateType } from '@/store/therapists/therapistReducers';
-import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/navigation";
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
@@ -37,25 +34,19 @@ interface Props {
     container?: Element;
 }
 
-export default function TherapistHeader(props: Props) {
-    const dispatch = useDispatch();
-    const therapist = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
+export default function ClienttHeader(props: Props) {
     const router = useRouter()
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-    const [isClosing, setIsClosing] = React.useState(false);
-    const [openMenus, setOpenMenus] = React.useState<{ [key: string]: boolean }>({});
+    const [name, setName] = useState('')
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [isClosing, setIsClosing] = useState(false);
+    const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({});
 
-    React.useEffect(() => {
-        const therapistData = localStorage.getItem("therapistData");
-        if (therapistData) {
-            const parsedData = JSON.parse(therapistData);
-            const therapistId = parsedData._id;
-            dispatch(getTherapistProfileAction(therapistId));
-            if (therapist.isBlocked) {
-                toast.error('User is blocked')
-                router.push('/login')
-            }
+    useEffect(() => {
+        const clientData = localStorage.getItem("clientData");
+        if (clientData) {
+            const parsedData = JSON.parse(clientData);
+            setName(parsedData.name)
         } else {
             router.push('/login')
         }
@@ -91,34 +82,21 @@ export default function TherapistHeader(props: Props) {
         }));
     };
 
-    const logoutHandler = async () => {
-        try {
-            setAnchorEl(null);
-            Cookies.remove('jwtTherapist');
-            localStorage.removeItem('therapistData');
-            router.push('/login');
-        } catch (error) {
-            toast.error('Logout Failed')
-            console.log(error)
-        }
-    };
-
     const navicons = [
         {
-            iconTitle: 'Dashboard', icon: <DashboardIcon />, link: '/#',
+            iconTitle: 'My Activity', icon: <ChecklistRtlIcon />, link: '/#',
             subItems: [
-                { title: 'Active', link: '/therapist' },
-                { title: 'Inactive', link: '/therapist/inactive' },
-                { title: 'Schedules', link: '/therapist/schedules' },
-                { title: 'Connections', link: '/therapist/connections' },
-
+                { title: 'Ongoing', link: '/client/myActivity' },
+                { title: 'All', link: '/client/all' },
             ]
         },
-
         {
-            iconTitle: 'Payments', icon: <PsychologyIcon />, link: '#',
+            iconTitle: 'Notifications', icon: <NotificationsActiveIcon />, link: '#',
         },
-        { iconTitle: 'Quit', icon: <AutoGraphIcon />, link: '/therapist/analytics' },
+        {
+            iconTitle: 'Therapy', icon: <PsychologyIcon />, link: '#',
+        },
+        { iconTitle: 'Complaint', icon: <RateReviewIcon />, link: '/therapist/analytics' },
     ];
 
     const drawer = (
@@ -173,6 +151,19 @@ export default function TherapistHeader(props: Props) {
         </div>
     );
 
+    const logoutHandler = async () => {
+        try {
+            setAnchorEl(null);
+            Cookies.remove('jwtClient');
+            localStorage.removeItem('clientData');
+            setName('');
+            router.push('/login');
+        } catch (error) {
+            toast.error('Logout Failed')
+            console.log(error)
+        }
+    };
+
     const container = props.container ?? undefined;
 
     return (
@@ -216,14 +207,12 @@ export default function TherapistHeader(props: Props) {
                             aria-haspopup="true"
                             onClick={handleMenu}
                             sx={{ color: '#325343' }}>
-                            <Avatar src={therapist ? therapist.image : "/broken-image.jpg"} sx={{
-
-                            }} />                            <Typography sx={{
+                            <Typography sx={{
                                 fontSize: '1rem',
                                 fontWeight: 600, ml: 1,
                                 color: '#325343'
                             }
-                            }>{therapist.name}</Typography>
+                            }>{name}</Typography>
                         </IconButton>
 
                         <Menu

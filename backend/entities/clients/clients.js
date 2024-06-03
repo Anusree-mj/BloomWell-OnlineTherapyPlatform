@@ -35,7 +35,10 @@ const clientSchema = mongoose.Schema({
     stripeCurrentPeriodEnd: {
         type: Date
     },
-
+    isConnected: {
+        type: Boolean,
+        default: false
+    },
     isSubscribed: {
         type: Boolean,
         default: false

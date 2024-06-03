@@ -10,6 +10,7 @@ const storage = multer.diskStorage({
         let destinationPath;
         // Use custom destination if set
         if (req.customDestination) {
+            console.log('license got')
             destinationPath = path.join(__dirname, `../public/${req.customDestination}`);
         } else {
             destinationPath = path.join(__dirname, '../public/profileImages'); // fallback path
