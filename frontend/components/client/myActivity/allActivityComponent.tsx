@@ -15,23 +15,28 @@ const AllActivityComponent = () => {
     const router = useRouter()
     const [connectionField, setConnectionField] = useState(false);
 
+
     useEffect(() => {
         const clientData = localStorage.getItem("clientData");
         if (clientData) {
             const parsedData = JSON.parse(clientData);
             const clientId = parsedData._id;
             dispatch(getClientDetailsAction(clientId));
-            if (client.isBlocked) {
-                toast.error('User is blocked')
-                router.push('/login')
-            }
-            if (client.isConnected === 'false') {
-                setConnectionField(true);
-            }
         } else {
-            router.push('/login')
+            router.push('/login');
         }
-    }, [])
+    }, [dispatch, router]);
+
+    useEffect(() => {
+        if (client && client._id) {
+            if (client.isBlocked) {
+                toast.error('User is blocked');
+                router.push('/login');
+            } else {
+                setConnectionField(!client.isConnected);
+            }
+        }
+    }, [client, router]);
 
     return (
         <Box sx={{

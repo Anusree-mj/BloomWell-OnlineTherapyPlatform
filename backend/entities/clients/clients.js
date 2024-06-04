@@ -17,6 +17,10 @@ const clientSchema = mongoose.Schema({
     age: {
         type: String
     },
+    connectionId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Connections',
+    },
     sessionType: {
         type: String,
     },
@@ -36,8 +40,8 @@ const clientSchema = mongoose.Schema({
         type: Date
     },
     isConnected: {
-        type: String,
-        default: 'false'
+        type: Boolean,
+        default: false
     },
     isSubscribed: {
         type: Boolean,
