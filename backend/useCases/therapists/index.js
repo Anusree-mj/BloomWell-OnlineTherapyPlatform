@@ -9,12 +9,19 @@ import {
 
 } from "./profile/therapistProfileController.js"
 
+import {
+    getConnectionRequestController,
+    manageConnectionRequestController,
+
+} from "./therapistConnections/therapistConnectionController.js"
 
 const therapistControllers = {
     therapistsSignUp,
     saveTherapistData,
     getTherapistData,
     uploadImage,
+    getConnectionRequestController,
+    manageConnectionRequestController,
 }
 
 export default therapistControllers

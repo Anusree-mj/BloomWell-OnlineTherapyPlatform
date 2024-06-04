@@ -13,6 +13,11 @@ import {
 
 } from './therapistManagement/manageTherapistController.js'
 
+import {
+    manageConnectionRequestController,
+    getAllConnectionRequestController,
+} from './therapistManagement/manageConnectionRequests.js'
+
 const adminControllers = {
     authAdmin,
     getClientsDetailsController,
@@ -21,7 +26,11 @@ const adminControllers = {
     getTherapistsDetailsController,
     verifyTherapistController,
     deleteTherapistController,
-    editTherapistController
+    editTherapistController,
+    getAllConnectionRequestController,
+    manageConnectionRequestController,
+
+
 }
 
 export default adminControllers

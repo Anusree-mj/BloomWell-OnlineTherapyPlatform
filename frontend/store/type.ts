@@ -3,6 +3,7 @@ export interface UserItem {
     email: string;
     name: string;
 }
+
 export interface ClientItem {
     _id: string;
     name: string;
@@ -17,11 +18,13 @@ export interface ClientItem {
     isSubscribed: boolean;
     isBlocked: boolean
 }
+
 export interface AdminItem {
     _id: string;
     name: string;
     email: string
 }
+
 export interface TherapistItem {
     _id: string;
     name: string,
@@ -49,4 +52,12 @@ export interface LicenseDetails {
 export interface ReviewItems {
     comments: string;
     clientName: string;
+}
+
+export interface ConnectionItems {
+    _id: string;
+    clientId: ClientItem;
+    therapistId: TherapistItem;
+    status: string;
+    adminVerify: string;
 }

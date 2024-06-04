@@ -14,6 +14,9 @@ router.delete('/:therapistId', protectAdmin, controllers.adminControllers.delete
 
 // edit therapsit
 router.put('/:therapistId', protectAdmin, controllers.adminControllers.editTherapistController)
-
+// get connection requests
+router.get('/connections', protectAdmin, controllers.adminControllers.getAllConnectionRequestController)
+// post connection status
+router.post('/connections', protectAdmin, controllers.adminControllers.manageConnectionRequestController)
 
 export default router;

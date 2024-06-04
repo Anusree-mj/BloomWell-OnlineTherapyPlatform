@@ -4,6 +4,7 @@ import clientConnectionQueries from "../../../infrastructure/dbQueries/client/cl
 const getConnectionController = async (req, res) => {
     try {
         const clientId = req.user._id
+        console.log(clientId.toString(),'clientidddddddddddddddd')
         const response = await clientConnectionQueries.connections(clientId)
         if (response.status === 'ok') {
             const { status, therapists } = response
@@ -26,7 +27,7 @@ const postConnectionController = async (req, res) => {
         const response = await clientConnectionQueries.postConnection(clientId, therapistId)
         if (response.status === 'ok') {
             const { status, therapistName } = response
-            console.log('therapistname found',therapistName)
+            console.log('therapistname found', therapistName)
             res.status(200).json({ status: status, therapistName: therapistName });
         } else {
             const { status, message } = response
