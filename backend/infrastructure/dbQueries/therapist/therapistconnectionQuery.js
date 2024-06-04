@@ -16,6 +16,24 @@ const getConnectionRequests = async (therapistId) => {
     }
 }
 
+const manageConnectionRequest = async (connectionStatus, connectionId) => {
+    try {
+        const query = { _id: connectionId }
+        const update = { status: connectionStatus }
+        const options = { upsert: false }
+        const response = await Connections.updateOne(query, update, options)
+        if (response.modifiedCount <= 1) {
+            return { status: 'ok' }
+        } else {
+            return { status: 'nok',message:'Connection request not found' }
+        }
+
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 export default {
     getConnectionRequests,
+    manageConnectionRequest,
 }
