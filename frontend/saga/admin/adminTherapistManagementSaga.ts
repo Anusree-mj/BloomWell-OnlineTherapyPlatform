@@ -11,7 +11,7 @@ function* getAdminConnectionRequestActionSaga(): any {
     try {
         const response = yield call<any>(apiCall, {
             method: 'GET',
-            endpoint: 'therapist/connections',
+            endpoint: 'admin/therapists/connections',
         });
 
         if (response.status === 'ok') {
