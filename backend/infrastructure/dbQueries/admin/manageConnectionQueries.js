@@ -5,8 +5,7 @@ const getConnectionRequests = async () => {
         console.log('reached connetion query')
         const connections = await Connections.find()
             .populate('clientId', 'name email')
-            .populate('therapistId', 'name email')
-        console.log('connections got', connections)
+            .populate('therapistId', 'name email').sort({ createdAt: -1 });
         if (connections) {
             return { status: 'ok', connections }
         } else {
@@ -20,7 +19,7 @@ const getConnectionRequests = async () => {
 const manageConnectionRequest = async (connectionStatus, connectionId) => {
     try {
         const query = { _id: connectionId }
-        const update = { status: connectionStatus }
+        const update = { adminVerify: connectionStatus }
         const options = { upsert: false }
         const response = await Connections.updateOne(query, update, options)
         if (response.modifiedCount <= 1) {

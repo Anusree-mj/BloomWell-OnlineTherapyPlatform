@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { Box, MenuItem, Select, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { getTherapistsConnectionRequestAction, connectionStateType } from "@/store/therapists/therapistConnectionHandlerReducers";
-import { manageConnectionRequest } from "@/utilities/clients/manageConnectionRequest";
+import { manageConnectionRequest } from "@/utilities/therapists/manageConnectionRequest";
 
 const verifyOptions = [
     'Accept',

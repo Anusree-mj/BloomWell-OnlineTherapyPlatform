@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { showConfirmationDialog, handleAction } from './clientAlertConfig';
+import { showConfirmationDialog, handleAction } from './therapistAlertConfig';
 
 const manageConnectionRequestAction = async (connectionId: string, clientName: string, connectionStatus: string) => {
     await handleAction('Verify', connectionId, clientName, connectionStatus, async () => {

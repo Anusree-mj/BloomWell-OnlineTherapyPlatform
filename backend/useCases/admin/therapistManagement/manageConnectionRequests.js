@@ -21,7 +21,7 @@ const manageConnectionRequestController = async (req, res) => {
     try {
         console.log('reached controller')
         const { connectionStatus, connectionId } = req.body;
-        const response = await therapistConnectionQueries.manageConnectionRequest(connectionStatus, connectionId)
+        const response = await manageConnectionQueries.manageConnectionRequest(connectionStatus, connectionId)
         if (response.status === 'ok') {
             const { status } = response
             res.status(200).json({ status: status });
