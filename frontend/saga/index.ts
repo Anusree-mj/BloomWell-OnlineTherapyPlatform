@@ -7,6 +7,7 @@ import { adminAuthWatcher } from "./admin/adminAuthSaga";
 import { adminWatcher } from "./admin/adminSaga";
 import { therapistAuthWatcher } from "./therapists/therapistAuthSaga";
 import { therapistConnectionRequestWatcher } from "./therapists/therapistConnectionHandlerSaga";
+import { adminTherapistManageWatcher } from "./admin/adminTherapistManagementSaga";
 
 export default function* rootSaga(): any {
     yield all([
@@ -17,5 +18,7 @@ export default function* rootSaga(): any {
         yield fork(adminWatcher),
         yield fork(therapistAuthWatcher),
         yield fork(therapistConnectionRequestWatcher),
+        yield fork(adminTherapistManageWatcher),
+
     ]);
 }

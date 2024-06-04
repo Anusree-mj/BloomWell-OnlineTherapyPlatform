@@ -20,7 +20,7 @@ import adminRoutes from './interface/routes/admin/adminLogin.js';
 import clientRoutes from './interface/routes/clients/clientAuth/clientAuthRoutes.js'
 import adminClientRoutes from './interface/routes/admin/clients/manageClientRoutes.js'
 import therapistRoutes from './interface/routes/therapists/therapistsAuth/therapistAuthRoute.js'
-import adminTherapistRoutes from './interface/routes/admin/therapists/verifyTherapists.js'
+import adminTherapistRoutes from './interface/routes/admin/therapists/manageTherapists.js'
 import therapistProfileRoutes from './interface/routes/therapists/profile/therapistProfileRoutes.js'
 import clientConnectionRoutes from './interface/routes/clients/clientAccessibilities/clientAccessRoutes.js'
 import clientPaymentRoutes from './interface/routes/clients/payments/paymentRoutes.js'

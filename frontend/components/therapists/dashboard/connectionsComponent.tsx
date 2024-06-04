@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import FormHelperText from '@mui/material/FormHelperText';
 import { useRouter } from "next/navigation";
-import { Box, Button, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Box, MenuItem, Select, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { getTherapistsConnectionRequestAction, connectionStateType } from "@/store/therapists/therapistConnectionHandlerReducers";
 import { manageConnectionRequest } from "@/utilities/clients/manageConnectionRequest";

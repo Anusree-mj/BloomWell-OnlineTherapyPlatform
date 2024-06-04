@@ -25,6 +25,7 @@ function* getTherapistsConnectionRequestActionSaga(): any {
         yield put(getTherapistsConnectionRequestFailureAction(err))
     }
 }
+
 export function* therapistConnectionRequestWatcher() {
     yield takeEvery(getTherapistsConnectionRequestAction, getTherapistsConnectionRequestActionSaga);
 }
