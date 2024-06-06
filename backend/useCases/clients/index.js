@@ -15,6 +15,11 @@ import {
 
 } from "./payments/paymentController.js";
 
+import {
+    getOngoingActivitiesController
+
+} from "./clientActivitiesController/clientActivityController.js";
+
 const clientControllers = {
     signUp,
     saveClientData,
@@ -23,7 +28,7 @@ const clientControllers = {
     postPaymentDetails,
     getClientData,
     postConnectionController,
-    
+    getOngoingActivitiesController,
 }
 
 export default clientControllers;

@@ -1,18 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ClientMyActivityItem } from '../type'
+import { ClientOngoingActivityItem } from '../type'
 
 export interface clientMyActivityStateType {
-    myActivity: ClientMyActivityItem ;
+    connectionDetails: {
+        therapistName: '',
+        isActive: boolean
+    };
+    ongoingActivity: ClientOngoingActivityItem[];
     isLoading: boolean;
     error: any;
 }
 
 const initialState: clientMyActivityStateType = {
-    myActivity: {
-        therapistName: '',
+    connectionDetails: {
+        therapistName: "",
         isActive: false
     },
+    ongoingActivity: [],
     isLoading: false,
     error: null,
 }
@@ -27,7 +32,7 @@ export const clientMyActivitySlice: any = createSlice({
         },
         getClientOngoingActivitySuccessAction: (state, action) => {
             state.isLoading = false;
-            state.myActivity = action.payload;
+            state.connectionDetails = action.payload;
         },
         getClientOngoingActivityFailureAction: (state, action) => {
             state.isLoading = false;
@@ -41,5 +46,5 @@ export const {
     getClientOngoingActivityAction,
     getClientOngoingActivityFailureAction,
     getClientOngoingActivitySuccessAction,
-   
+
 } = clientMyActivitySlice.actions;

@@ -63,7 +63,16 @@ export interface AdminItem {
     email: string
 }
 
-export interface ClientMyActivityItem{
-    therapistName:string,
-    isActive:boolean,
+export interface ClientConnection {
+    therapistId: TherapistItem;
+    isActive: boolean,
+}
+
+export interface ClientOngoingActivityItem {
+    _id: string,
+    date: string,
+    time: string,
+    duration: string,
+    remarks: string,
+
 }

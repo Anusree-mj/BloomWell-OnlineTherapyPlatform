@@ -40,8 +40,8 @@ const AdminManageClients = () => {
   const columns: GridColDef[] = [
     { field: "slNo", headerName: "Sl.No", width: 70 },
     { field: "name", headerName: "Name", width: 130 },
-    { field: "email", headerName: "Email", width: 130 },
-    { field: "therapyType", headerName: "Therapy For", width: 130 },
+    { field: "email", headerName: "Email", width: 150 },
+    { field: "therapyType", headerName: "Therapy For", width: 150 },
     { field: "clientStatus", headerName: "ClientStatus", width: 130 },
     {
       field: "edit",
@@ -84,12 +84,12 @@ const AdminManageClients = () => {
     (client.isBlocked ? 'Blocked' : 'Active').toLowerCase().includes(search)
   );
 
-  const rows = clients.map((client, index) => ({
+  const rows = filteredClients.map((client, index) => ({
     id: client._id,
     slNo: index + 1,
     name: client.name,
     email: client.email,
-    therapyType: client.type,
+    therapyType: client.sessionType,
     clientStatus: client.isBlocked ? 'Blocked' : 'Active',
     isBlocked: client.isBlocked,
   }));
@@ -144,8 +144,6 @@ const AdminManageClients = () => {
           pageSizeOptions={[5, 10]}
         />
       </Box>
-
-
     </Box>
   );
 }

@@ -23,7 +23,7 @@ function* getClientOngoingActivityActionSaga(action: {
         });
 
         if (response.status === 'ok') {
-            yield put(getClientOngoingActivitySuccessAction(response.therapists))
+            yield put(getClientOngoingActivitySuccessAction(response.connectionDetails))
         } else {
             yield put(getClientOngoingActivityFailureAction(response.message))
         }

@@ -3,11 +3,7 @@ import Client from "../../../entities/clients/clients.js";
 import bcrypt from 'bcryptjs';
 import User from "../../../entities/users/userModel.js";
 import Therapists from "../../../entities/therapists/therapist.js";
-import Stripe from "stripe";
-import dotenv from 'dotenv';
-dotenv.config();
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const saveOtp = async (email, otp) => {
     try {

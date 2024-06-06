@@ -1,42 +1,82 @@
 'use-client'
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getClientDetailsAction, clientStateType } from "@/store/clients/clientReducer";
+import { getClientOngoingActivityAction, clientMyActivityStateType } from "@/store/clients/clientMyActionReducer";
 import { toast } from 'react-toastify';
 import FormHelperText from '@mui/material/FormHelperText';
 import { useRouter } from "next/navigation";
 import { Box, Button, MenuItem, Select, TextField, Typography } from "@mui/material";
 import Link from "next/link";
+import LetsConnectComponent from "./letsConnectComponent";
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
+const columnItems = [
+    { field: 'no', header: 'No', width: 10 },
+    { field: 'date', header: 'Date', width: 120 },
+    { field: 'time', header: 'Time', width: 100 },
+    { field: 'duration', header: 'Duration', width: 100 },
+    { field: 'goals', header: 'Goals', width: 100, link: '#' },
+    { field: 'worksheets', header: 'Worksheets', width: 100, link: '#' },
+    { field: 'remarks', header: 'Remarks', width: 150 },
+]
 
 const AllActivityComponent = () => {
-    const client = useSelector((state: { client: clientStateType }) => state.client.client);
     const dispatch = useDispatch();
+    const connectionDetails = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.connectionDetails);
+    const ongoingActivity = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.ongoingActivity);
     const router = useRouter()
-    const [connectionField, setConnectionField] = useState(false);
+    const [search, setSearch] = useState<string>('');
 
 
     useEffect(() => {
         const clientData = localStorage.getItem("clientData");
         if (clientData) {
-            const parsedData = JSON.parse(clientData);
-            const clientId = parsedData._id;
-            dispatch(getClientDetailsAction(clientId));
+            dispatch(getClientOngoingActivityAction());
         } else {
             router.push('/login');
         }
     }, [dispatch, router]);
 
-    useEffect(() => {
-        if (client && client._id) {
-            if (client.isBlocked) {
-                toast.error('User is blocked');
-                router.push('/login');
-            } else {
-                setConnectionField(!client.isConnected);
-            }
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value.toLowerCase();
+        setSearch(value);
+    };
+
+
+    const columns: GridColDef[] = columnItems.map(item => {
+        const column: GridColDef = {
+            field: item.field,
+            headerName: item.header,
+            width: item.width,
+        };
+
+        if (item.link) {
+            column.renderCell = (params) => (
+                <Link href={item.link} style={{ textDecoration: 'underline' }}>
+                    View
+                </Link>
+            );
         }
-    }, [client, router]);
+
+        return column;
+    });
+
+    // const filteredConnections = connections.filter(connection =>
+    //     connection.clientId.name.toLowerCase().includes(search) ||
+    //     connection.clientId.email.toLowerCase().includes(search) ||
+    //     connection.status.toLowerCase().includes(search)
+    // );
+
+    // const rows = ongoingActivity.map((activity, index) => ({
+    //     id: activity._id,
+    //     no: index + 1,
+    //     date: activity.date,
+    //     time: activity.time,
+    //     duration: activity.duration,
+    //     goals: 'view',
+    //     worksheets: 'view',
+    //     remarks: activity.remarks
+    // }));
 
     return (
         <Box sx={{
@@ -46,27 +86,51 @@ const AllActivityComponent = () => {
             height: '100vh', mt: 2,
             ml: { sm: '15rem' }
         }}>
-            {connectionField === true ? (
-                <Box sx={{
-                    display: 'flex', flexDirection: 'column', maxWidth: '90%',
-                    width: '30rem', pt: 6, pb: 6, borderRadius: '1rem',
-                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-                    alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'
-                }}>
-                    <Typography>
-                        You haven't connected to any therapist yet!
-                    </Typography>
-                    <Link href="/client/connection" passHref>
-                        <Button component="a" sx={{
-                            my: 2, mx: 2, color: 'white', backgroundColor: '#325343',
-                            display: 'block', fontWeight: 600,
-                        }} variant="contained">
-                            Let's Connect
-                        </Button>
-                    </Link>
-                </Box>
+            {ongoingActivity ? (
+                <>
+                    <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        width: '63rem', maxWidth: '90%',
+                    }}>
+                        <Typography sx={{
+                            color: '#325343', fontSize: '1.2rem',
+                            fontWeight: 800
+                        }}>
+                            Therapist:{` ${connectionDetails.therapistName}`}{connectionDetails.isActive ? '' : ' (Pending verification)'}
+                        </Typography>
+                        <TextField
+                            label="Search..."
+                            variant="outlined"
+                            value={search}
+                            onChange={handleSearch}
+                            sx={{ marginBottom: 2, }}
+                        />
+                    </Box>
+                    <Box
+                        sx={{
+                            height: 400,
+                            width: '90%',
+                            maxWidth: '100%',
+                            border: '1px solid green',
+                        }}
+                    >
+                        <DataGrid
+                            // rows={rows}
+                            columns={columns}
+                            initialState={{
+                                pagination: {
+                                    paginationModel: { page: 0, pageSize: 5 },
+                                },
+                            }}
+                            pageSizeOptions={[5, 10]}
+                        />
+                    </Box>
+                </>
+
             ) : (
-                <>My Activity</>
+                <LetsConnectComponent />
             )}
         </Box>
     )

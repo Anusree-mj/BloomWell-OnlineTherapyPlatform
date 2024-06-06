@@ -96,7 +96,7 @@ const ConnectionRequestsComponent = () => {
         connection.status.toLowerCase().includes(search)
     );
 
-    const rows = connections.map((connection, index) => ({
+    const rows = filteredConnections.map((connection, index) => ({
         id: connection._id,
         no: index + 1,
         name: connection.clientId.name,

@@ -15,7 +15,7 @@ const initialLicense: LicenseDetails = {
     expirationDate: new Date()
 };
 
-const initialState: therapistStateType = {
+ const initialState: therapistStateType = {
     therapist: {
         _id: "",
         name: "",

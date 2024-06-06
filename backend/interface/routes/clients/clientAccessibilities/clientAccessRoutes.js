@@ -9,5 +9,6 @@ router.get('/:clientId', protect('client'), controllers.clientControllers.getCli
 router.get('/connection/:clientId', protect('client'), controllers.clientControllers.getConnectionController)
 // post connections
 router.post('/connection', protect('client'), controllers.clientControllers.postConnectionController)
-
+// get ongoing activity details
+router.get('/myActivity/ongoing',protect('client'),controllers.clientControllers.getOngoingActivitiesController)
 export default router;
