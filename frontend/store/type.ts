@@ -19,12 +19,6 @@ export interface ClientItem {
     isBlocked: boolean
 }
 
-export interface AdminItem {
-    _id: string;
-    name: string;
-    email: string
-}
-
 export interface TherapistItem {
     _id: string;
     name: string,
@@ -60,4 +54,16 @@ export interface ConnectionItems {
     therapistId: TherapistItem;
     status: string;
     adminVerify: string;
+    isActive: boolean;
+}
+
+export interface AdminItem {
+    _id: string;
+    name: string;
+    email: string
+}
+
+export interface ClientMyActivityItem{
+    therapistName:string,
+    isActive:boolean,
 }
