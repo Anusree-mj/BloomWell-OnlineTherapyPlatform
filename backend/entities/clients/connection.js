@@ -17,6 +17,10 @@ const connectionsSchema = mongoose.Schema({
         type: String,
         default: 'pending'
     },
+    isActive: {
+        type: Boolean,
+        default: false
+    }
 }, {
     timestamps: true
 })

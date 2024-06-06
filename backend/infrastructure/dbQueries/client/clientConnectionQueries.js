@@ -63,7 +63,11 @@ const postConnection = async (clientId, therapistId) => {
                 clientId: clientId,
                 therapistId: therapistId,
             })
-            if (createConnection) {
+            if (createConnection.length > 0) {
+                const connectionId = createConnection[0]._id;
+                console.log('connectionId fot', connectionId);
+                await Client.findByIdAndUpdate(clientId, { connectionId: connectionId, isConnected: true });
+
                 return { status: 'ok', therapistName: therapist.name }
             }
         } else {
@@ -79,5 +83,5 @@ const postConnection = async (clientId, therapistId) => {
 export default {
     connections,
     postConnection,
-    
+
 }

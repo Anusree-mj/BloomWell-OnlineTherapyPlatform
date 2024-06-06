@@ -14,17 +14,23 @@ import {
 } from '@/store/clients/clientConnectionReducer';
 import Link from "next/link";
 import Swal from 'sweetalert2';
+import { getClientDetailsAction } from "@/store/clients/clientReducer";
 
 
 const ConnectionComponent = () => {
     const dispatch = useDispatch();
     const router = useRouter()
     const therapists = useSelector((state: { clientConnection: clientConnectionStateType }) => state.clientConnection.therapist);
+    const [clientId, setClientId] = useState('');
 
     useEffect(() => {
         const clientData = localStorage.getItem("clientData");
         if (clientData) {
             const parsedData = JSON.parse(clientData);
+            if (parsedData.isConnected) {
+                router.push('/client/myActivity')
+            }
+            setClientId(parsedData._id);
             dispatch(getConnectionsAction(parsedData._id));
         } else {
             router.push('/login')
@@ -42,6 +48,7 @@ const ConnectionComponent = () => {
             confirmButtonText: 'OK'
         }).then((result) => {
             if (result.isConfirmed) {
+                dispatch(getClientDetailsAction(clientId));
                 router.push('/client/myActivity');
             }
         })

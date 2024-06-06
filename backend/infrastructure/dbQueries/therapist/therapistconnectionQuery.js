@@ -1,4 +1,5 @@
 import Connections from "../../../entities/clients/connection.js";
+import { checkActiveConnection } from "../admin/manageConnectionQueries.js";
 
 const getConnectionRequests = async (therapistId) => {
     try {
@@ -21,11 +22,12 @@ const manageConnectionRequest = async (connectionStatus, connectionId) => {
         const query = { _id: connectionId }
         const update = { status: connectionStatus }
         const options = { upsert: false }
-        const response = await Connections.updateOne(query, update, options)
+        const response = await Connections.updateOne(query, update, options);
+        await checkActiveConnection(connectionId)
         if (response.modifiedCount <= 1) {
             return { status: 'ok' }
         } else {
-            return { status: 'nok',message:'Connection request not found' }
+            return { status: 'nok', message: 'Connection request not found' }
         }
 
     } catch (err) {

@@ -77,9 +77,9 @@ const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistI
             <Typography variant="h6" noWrap component="div" sx={{ color: '#325343', fontWeight: 800 }}>
                 {therapist.name}
             </Typography>
-            <Rating name="read-only" sx={{mt:1}} value={ratings} readOnly />
-            <Typography sx={{ color: '#325343',fontSize:'0.9rem' }}>
-               ( {reviews.length} reviews)
+            <Rating name="read-only" sx={{ mt: 1 }} value={ratings} readOnly />
+            <Typography sx={{ color: '#325343', fontSize: '0.9rem' }}>
+                ( {reviews.length} reviews)
             </Typography>
             <Box sx={{
                 display: 'flex', justifyContent: 'center', maxWidth: '100%',
@@ -112,49 +112,58 @@ const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistI
                         </Accordion>
                     ))}
                 </Box>
+                {/* reviews */}
+                <Box sx={{
+                    maxWidth: '100%', width: '90rem', padding: 2,
+                    display: 'flex', flexDirection: 'column',
+                    justifyContent: 'center', alignItems: 'center',
+                    flexGrow: 1, mt: 2
+                }}>
+                    <Box sx={{
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        backgroundColor: '#F7FCC2', borderRadius: '0.6rem',
+                        padding: 1, mb: 1
+                    }}>
 
-                <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
-                    <Paper
-                        square
-                        elevation={0}
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            height: 50,
-                            pl: 2,
-                            bgcolor: 'background.default',
-                        }}
-                    >
-                        {reviews.length > 0 ? (
-                            <Typography>{reviews[activeStep].comments}</Typography>
-                        ) : (
-                            <Typography>No reviews available</Typography>
-                        )}                    </Paper>
-                    <AutoPlaySwipeableViews
-                        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                        index={activeStep}
-                        onChangeIndex={handleStepChange}
-                        enableMouseEvents
-                    >
-                        {reviews.map((item, index) => (
-                            <div key={index}>
-                                {Math.abs(activeStep - index) <= 2 ? (
-                                    <Box
-                                        component="img"
-                                        sx={{
-                                            height: 255,
-                                            display: 'block',
-                                            maxWidth: 400,
-                                            overflow: 'hidden',
-                                            width: '100%',
-                                        }}
-                                        src={item.clientName}
-                                        alt={item.clientName}
-                                    />
-                                ) : null}
-                            </div>
-                        ))}
-                    </AutoPlaySwipeableViews>
+                        <Paper
+                            square
+                            elevation={0}
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                height: 50,
+                                pl: 2,
+                                backgroundColor: '#F7FCC2',
+                            }}
+                        >
+                            {reviews.length > 0 ? (
+                                <Typography>{reviews[activeStep].comments}</Typography>
+                            ) : (
+                                <Typography>No reviews available</Typography>
+                            )}                    </Paper>
+                        <AutoPlaySwipeableViews
+                            axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                            index={activeStep}
+                            onChangeIndex={handleStepChange}
+                            enableMouseEvents
+                        >
+                            {reviews.map((item, index) => (
+                                <div key={index}>
+                                    {Math.abs(activeStep - index) <= 2 ? (
+                                        <Typography
+                                            sx={{
+                                                fontSize: '1rem', fontWeight: 400, color: '#325343',
+                                                textAlign: 'end', mr: 1
+
+                                            }}
+                                        >-{item.clientName} </Typography>
+
+                                    ) : null}
+                                </div>
+                            ))}
+                        </AutoPlaySwipeableViews>
+                    </Box>
+
                     <MobileStepper
                         steps={maxSteps}
                         position="static"

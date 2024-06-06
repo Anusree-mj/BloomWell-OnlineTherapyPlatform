@@ -45,18 +45,31 @@ const PaymentComponent = () => {
     const [products, setProducts] = useState<Product[]>([]);
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/payment`,
-                    { withCredentials: true ,}
-                );
-                console.log(response.data, 'data got');
-                setProducts(response.data.products);
-            } catch (error) {
-                console.error('Error fetching products:', error);
+        const clientData = localStorage.getItem("clientData");
+        if (!clientData) {
+            router.push('/login')
+        } else {
+            const parsedData = JSON.parse(clientData);
+            if (parsedData.isSubscribed) {
+                router.push('/client/myActivity')
+            } else {
+                console.log('reached in fetch else')
+
+                const fetchProducts = async () => {
+                    try {
+                        console.log('reached in fetch')
+                        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/payment`,
+                            { withCredentials: true, }
+                        );
+                        console.log(response.data, 'data got');
+                        setProducts(response.data.products);
+                    } catch (error) {
+                        console.error('Error fetching products:', error);
+                    }
+                };
+                fetchProducts();
             }
-        };
-        fetchProducts();
+        }
     }, []);
 
     const handleSubscription = async (e: { preventDefault: () => void; }, productId: string) => {
@@ -65,7 +78,7 @@ const PaymentComponent = () => {
             console.log('entered in handle subscription')
             const { data } = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/payment`,
                 { productId: productId },
-                { withCredentials: true ,}
+                { withCredentials: true, }
             );
             router.push(data.url)
         } catch (error) {
