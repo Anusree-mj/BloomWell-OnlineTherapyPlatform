@@ -50,7 +50,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use('/users', userRoutes)
 app.use('/admin', adminRoutes);
-app.use('/client', clientRoutes, clientConnectionRoutes, clientPaymentRoutes);
+app.use('/client', clientRoutes,clientPaymentRoutes, clientConnectionRoutes);
 app.use('/admin/clients', adminClientRoutes);
 app.use('/therapist', therapistRoutes, therapistAccessRoutes, therapistProfileRoutes)
 app.use('/admin/therapists', adminTherapistRoutes)

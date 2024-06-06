@@ -27,6 +27,9 @@ const ConnectionComponent = () => {
         const clientData = localStorage.getItem("clientData");
         if (clientData) {
             const parsedData = JSON.parse(clientData);
+            if (parsedData.isConnected) {
+                router.push('/client/myActivity')
+            }
             setClientId(parsedData._id);
             dispatch(getConnectionsAction(parsedData._id));
         } else {

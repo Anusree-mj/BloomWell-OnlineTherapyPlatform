@@ -35,7 +35,7 @@ const DetailsComponent = () => {
         const therapistData = JSON.parse(localStorage.getItem('therapistData') || '{}');
         const { email, license, image } = therapistData
         if (image) {
-            router.push('/therapist/welcome')
+            router.push('/therapist')
         }
         const { licenseNo } = license
         setEmail(email);

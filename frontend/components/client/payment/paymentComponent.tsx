@@ -53,8 +53,11 @@ const PaymentComponent = () => {
             if (parsedData.isSubscribed) {
                 router.push('/client/myActivity')
             } else {
+                console.log('reached in fetch else')
+
                 const fetchProducts = async () => {
                     try {
+                        console.log('reached in fetch')
                         const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/payment`,
                             { withCredentials: true, }
                         );
