@@ -90,9 +90,26 @@ const verifyOTP = async (req, res) => {
     }
 }
 
+const getNotificationController = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const response = await userAuthQueries.getNotifications(userId);
+        if (response.status === 'ok') {
+            const { status, notifications } = response
+            res.status(200).json({ status: status, notifications: notifications });
+        } else {
+            const { status, message } = response
+            res.status(400).json({ status: status, message: message })
+        }
+    } catch (err) {
+        console.log('Error found', err)
+    }
+}
+
 export {
     authUser,
     getOtpController,
     getForgotPasswordOTP,
     verifyOTP,
+    getNotificationController
 }

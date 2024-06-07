@@ -44,11 +44,14 @@ function* getLoginActionSaga(action: {
 }
 
 // get notifications
-function* getNotificationsActionSaga(): any {
+function* getNotificationsActionSaga(action: {
+    type: string;
+    payload: { userId: '' }
+}): any {
     try {
         const response = yield call<any>(apiCall, {
-            method: 'POST',
-            endpoint: 'users/login',
+            method: 'GET',
+            endpoint: `users/notifications${action.payload}`,
         });
 
         if (response.status === 'ok') {

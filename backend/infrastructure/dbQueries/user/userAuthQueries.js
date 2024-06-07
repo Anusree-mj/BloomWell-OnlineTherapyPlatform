@@ -3,6 +3,7 @@ import User from '../../../entities/users/userModel.js';
 import bcrypt from 'bcryptjs';
 import TempUser from '../../../entities/users/tempUsersModel.js';
 import Therapists from '../../../entities/therapists/therapist.js';
+import Notificatios from '../../../entities/users/notificationModel.js'
 
 const userDoLogin = async (email, password) => {
     try {
@@ -86,9 +87,25 @@ const verifyOTPQuery = async (email, otp) => {
     }
 }
 
+const getNotifications = async (userId) => {
+    try {
+        const notifications = await Notificatios.find({ userId: userId });
+        if (notifications) {
+            return { status: 'ok', notifications }
+        } else {
+            return { status: 'nok', message: 'Invalid request' }
+        }
+
+    } catch (err) {
+        console.log(err)
+        return { status: 'nok', message: 'Invalid request' }
+    }
+}
+
 export default {
     userDoLogin,
     checkUser,
     verifyEmail,
-    verifyOTPQuery
+    verifyOTPQuery,
+    getNotifications
 }

@@ -3,13 +3,15 @@ import {
     getOtpController,
     getForgotPasswordOTP,
     verifyOTP,
+    getNotificationController
 } from './userAuthController.js';
 
-const userAuthControllers = {
+const userControllers = {
     authUser,
     getOtpController,
     getForgotPasswordOTP,
     verifyOTP,
+    getNotificationController
 };
 
-export default userAuthControllers;
+export default userControllers;
