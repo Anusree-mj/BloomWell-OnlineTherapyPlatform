@@ -16,7 +16,17 @@ export interface ClientItem {
     stripeSubscriptionId: string;
     isConnected: string;
     isSubscribed: boolean;
-    isBlocked: boolean
+    isBlocked: boolean;
+    connectionDetails:{
+        _id:string;
+        isActive:boolean;
+        createdAt:string;
+        updatedAt:string
+    };
+    therapistDetails:{
+        _id:string;
+        name:string;
+    }
 }
 
 export interface TherapistItem {

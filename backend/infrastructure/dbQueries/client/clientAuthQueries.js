@@ -3,6 +3,7 @@ import Client from "../../../entities/clients/clients.js";
 import bcrypt from 'bcryptjs';
 import User from "../../../entities/users/userModel.js";
 import Therapists from "../../../entities/therapists/therapist.js";
+import { connections } from "mongoose";
 
 
 const saveOtp = async (email, otp) => {
@@ -90,11 +91,69 @@ const saveClientData = async (data) => {
 
 const getClientDataQuery = async (clientId) => {
     try {
-        const client = await Client.findOne({ _id: clientId });
-        if (client) {
+        let client = await Client.findOne({ _id: clientId }, { password: 0 });
+        if (client.isSubscribed) {
+            console.log('entered in iffffff query')
+            client = await Client.aggregate([
+                {
+                    $match: { _id: clientId }
+                },
+                {
+                    $lookup: {
+                        from: 'connections',
+                        localField: 'connectionId',
+                        foreignField: '_id',
+                        as: 'connectionDetails'
+                    }
+                },
+                {
+                    $unwind: {
+                        path: '$connectionDetails',
+                        preserveNullAndEmptyArrays: true
+                    }
+                },
+                {
+                    $lookup: {
+                        from: 'therapists', // The name of the therapists collection
+                        localField: 'connectionDetails.therapistId',
+                        foreignField: '_id',
+                        as: 'therapistDetails'
+                    }
+                },
+                {
+                    $unwind: {
+                        path: '$therapistDetails',
+                        preserveNullAndEmptyArrays: true
+                    }
+                },
+                {
+                    $project: {
+                        name: 1,
+                        email: 1,
+                        age: 1,
+                        sessionType: 1,
+                        questionnaire: 1,
+                        connectionDetails: {
+                            _id: 1,
+                            isActive: 1,
+                            createdAt: 1,
+                            updatedAt: 1
+                        },
+                        therapistDetails: {
+                            _id: 1,
+                            name: 1,
+                            // Include other fields from the therapist document if needed
+                        }
+                    }
+                }
+            ]);
+            console.log('clietn  aggregation', client)
+
             return { status: 'ok', client }
         } else {
-            return { status: 'nok', message: 'Invalid clientId' }
+            console.log('passing else')
+            return { status: 'ok', client }
+
         }
     } catch (err) {
         console.log('Error found', err.message)

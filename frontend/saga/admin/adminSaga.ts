@@ -1,8 +1,8 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import {
-    getClientsDetailsAction,
-    getClientsDetailsFailureAction,
-    getClientsDetailsSuccessAction,
+    getAllClientsDetailsAction,
+    getAllClientsDetailsFailureAction,
+    getAllClientsDetailsSuccessAction,
     getTherapistsDetailsAction,
     getTherapistsDetailsFailureAction,
     getTherapistsDetailsSuccessAction
@@ -10,7 +10,7 @@ import {
 import { apiCall } from '@/services/api';
 
 // get Clients details
-function* getClientsDetailsActionSaga(): any {
+function* getAllClientsDetailsActionSaga(): any {
     try {
         const response = yield call<any>(apiCall, {
             method: 'GET',
@@ -18,14 +18,14 @@ function* getClientsDetailsActionSaga(): any {
         });
 
         if (response.status === 'ok') {
-            yield put(getClientsDetailsSuccessAction(response.clients))
+            yield put(getAllClientsDetailsSuccessAction(response.clients))
             console.log('cleint details', response.clients)
         } else {
-            yield put(getClientsDetailsFailureAction(response.message))
+            yield put(getAllClientsDetailsFailureAction(response.message))
 
         }
     } catch (err) {
-        yield put(getClientsDetailsFailureAction(err))
+        yield put(getAllClientsDetailsFailureAction(err))
     }
 }
 
@@ -50,7 +50,7 @@ function* getTherapistsDetailsActionSaga(): any {
 
 
 export function* adminWatcher() {
-    yield takeEvery(getClientsDetailsAction, getClientsDetailsActionSaga);
+    yield takeEvery(getAllClientsDetailsAction, getAllClientsDetailsActionSaga);
     yield takeEvery(getTherapistsDetailsAction, getTherapistsDetailsActionSaga);
 
 }

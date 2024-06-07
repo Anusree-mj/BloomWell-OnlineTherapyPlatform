@@ -1,7 +1,7 @@
 'use-client'
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getClientsDetailsAction, adminStateType } from "@/store/admin/adminReducer";
+import { getAllClientsDetailsAction, adminStateType } from "@/store/admin/adminReducer";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
@@ -18,7 +18,7 @@ const AdminManageClients = () => {
   useEffect(() => {
     const adminData = localStorage.getItem("adminData");
     if (adminData) {
-      dispatch(getClientsDetailsAction());
+      dispatch(getAllClientsDetailsAction());
     } else {
       router.push('/admin/login')
     }
