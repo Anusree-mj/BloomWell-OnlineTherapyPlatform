@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-import { TherapistItem } from '../type'
+import { TherapistItem } from "../therapists/type";
 
 export interface clientConnectionStateType {
     therapist: TherapistItem[];

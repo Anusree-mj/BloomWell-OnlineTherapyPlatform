@@ -27,11 +27,13 @@ const ConnectionComponent = () => {
         const clientData = localStorage.getItem("clientData");
         if (clientData) {
             const parsedData = JSON.parse(clientData);
-            if (parsedData.isConnected) {
+            const client = parsedData[0]
+            if (client.isConnected) {
                 router.push('/client/myActivity')
+            } else {
+                setClientId(client._id);
+                dispatch(getConnectionsAction(client._id));
             }
-            setClientId(parsedData._id);
-            dispatch(getConnectionsAction(parsedData._id));
         } else {
             router.push('/login')
         }
@@ -112,7 +114,7 @@ const ConnectionComponent = () => {
                                     {item.role}
                                 </Typography>
                                 <Rating name="read-only" value={item.averageRating} readOnly />
-                                <Link href={`/ therapist / view / ${item._id}`} style={{
+                                <Link href={`/therapist/view/${item._id}`} style={{
                                     marginTop: '0.4rem',
                                     textDecoration: 'underline'
                                 }}

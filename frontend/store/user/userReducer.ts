@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { UserItem } from '../type'
+import { UserItem } from './type'
 
 export interface userStateType {
     user: UserItem;

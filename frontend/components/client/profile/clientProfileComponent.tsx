@@ -34,9 +34,7 @@ const ClientProfileComponent = () => {
 
     useEffect(() => {
         const clientData = localStorage.getItem("clientData");
-        if (clientData) {
-            dispatch(getClientDetailsAction());
-        } else {
+        if (!clientData) {
             router.push('/login');
         }
     }, []);
@@ -87,7 +85,7 @@ const ClientProfileComponent = () => {
             <Box sx={{ width: '100%', maxWidth: '90%' }}>
 
                 <Typography sx={{
-                    alignSelf: 'flex-start',ml:'0.3rem',
+                    alignSelf: 'flex-start', ml: '0.3rem',
                     color: '#325343', fontWeight: 800, fontSize: '1.5rem', mt: 4
                 }}>My Profile</Typography>
                 <PersonalInfoComponent personalInfoItems={personalInfoItems} />

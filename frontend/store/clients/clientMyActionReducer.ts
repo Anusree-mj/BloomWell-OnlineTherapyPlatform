@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-import { ClientOngoingActivityItem } from '../type'
+import { ClientOngoingActivityItem } from "./type";
 
 export interface clientMyActivityStateType {
     connectionDetails: {

@@ -69,17 +69,11 @@ function* saveclientDetailsActionSaga(action: {
 
 
 // get clientDetailsSaga
-function* getClientDetailsActionSaga(action: {
-    type: string;
-    payload: {
-        clientId: ''
-    }
-}): any {
+function* getClientDetailsActionSaga(): any {
     try {
-        console.log('data recieved in saga', action.payload)
         const response = yield call<any>(apiCall, {
             method: 'GET',
-            endpoint: `client/${action.payload}`,
+            endpoint: `client/details`,
         });
 
         if (response.status === 'ok') {

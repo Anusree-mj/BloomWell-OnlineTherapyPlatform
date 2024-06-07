@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ConnectionItems } from '../type'
+import { ConnectionItems } from "../admin/type";
 
 export interface connectionStateType {
-    connections:ConnectionItems[];
+    connections: ConnectionItems[];
     isLoading: boolean;
     error: any;
 }
@@ -32,11 +32,11 @@ export const therapistConnectionSlice: any = createSlice({
             state.error = action.payload;
             console.log('eror found', state.error)
         },
-       
+
     }
 })
 export const {
     getTherapistsConnectionRequestAction,
     getTherapistsConnectionRequestSuccessAction,
-    getTherapistsConnectionRequestFailureAction,    
+    getTherapistsConnectionRequestFailureAction,
 } = therapistConnectionSlice.actions;

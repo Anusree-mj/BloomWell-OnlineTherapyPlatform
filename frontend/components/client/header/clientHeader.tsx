@@ -23,10 +23,11 @@ import MenuItem from '@mui/material/MenuItem';
 import Link from 'next/link';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
-import { Avatar } from '@mui/material';
+import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/navigation";
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
+import { clientStateType, getClientDetailsAction } from "@/store/clients/clientReducer";
 
 const drawerWidth = 240;
 
@@ -35,7 +36,9 @@ interface Props {
 }
 
 export default function ClienttHeader(props: Props) {
+    const dispatch = useDispatch();
     const router = useRouter()
+    const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
     const [name, setName] = useState('')
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -45,12 +48,18 @@ export default function ClienttHeader(props: Props) {
     useEffect(() => {
         const clientData = localStorage.getItem("clientData");
         if (clientData) {
-            const parsedData = JSON.parse(clientData);
-            setName(parsedData.name)
+            dispatch(getClientDetailsAction())
         } else {
             router.push('/login')
         }
     }, []);
+
+    useEffect(() => {
+        if (clientDetails && Array.isArray(clientDetails) && clientDetails.length > 0) {
+            const client = clientDetails[0];
+            setName(client.name)
+        }
+    }, [clientDetails])
 
     const handleDrawerClose = () => {
         setIsClosing(true);
@@ -156,12 +165,16 @@ export default function ClienttHeader(props: Props) {
             setAnchorEl(null);
             Cookies.remove('jwtClient');
             localStorage.removeItem('clientData');
-            setName('');
             router.push('/login');
         } catch (error) {
             toast.error('Logout Failed')
             console.log(error)
         }
+    };
+
+    const handleProfileClick = () => {
+        setAnchorEl(null);
+        router.push('/client/profile')
     };
 
     const container = props.container ?? undefined;
@@ -230,7 +243,7 @@ export default function ClienttHeader(props: Props) {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem onClick={handleClose}>My Profile</MenuItem>
+                            <MenuItem onClick={handleProfileClick}>My Profile</MenuItem>
 
                             <MenuItem onClick={logoutHandler}>Logout</MenuItem>
                         </Menu>

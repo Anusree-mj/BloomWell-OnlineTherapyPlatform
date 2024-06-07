@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ConnectionItems } from '../type'
+import { ConnectionItems } from "./type";
 
 export interface connectionStateType {
     connections:ConnectionItems[];

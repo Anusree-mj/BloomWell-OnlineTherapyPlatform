@@ -1,6 +1,7 @@
 import Client from "../../../entities/clients/clients.js";
 import Therapists from "../../../entities/therapists/therapist.js";
 import Connections from "../../../entities/clients/connection.js";
+import Notifications from "../../../entities/users/notificationModel.js";
 
 const connections = async (clientId) => {
     try {
@@ -59,6 +60,12 @@ const postConnection = async (clientId, therapistId) => {
     try {
         const therapist = await Therapists.findOne({ _id: therapistId });
         if (!therapist.isBlocked) {
+            await Notifications.insertMany({
+                userId: clientId,
+                userType: 'Client',
+                head: 'Connection Request Sent',
+                message: `Your connection request to Dr. ${therapist.name} has been successfully sent and is now under verification. We will notify you once it's completed. Stay Happy, Stay Healthy!`,
+            })
             const createConnection = await Connections.insertMany({
                 clientId: clientId,
                 therapistId: therapistId,
