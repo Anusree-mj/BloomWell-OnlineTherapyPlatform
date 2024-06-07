@@ -16,13 +16,17 @@ export interface ClientItem {
     stripeSubscriptionId: string;
     isConnected: string;
     isSubscribed: boolean;
-    isBlocked: boolean
-}
-
-export interface AdminItem {
-    _id: string;
-    name: string;
-    email: string
+    isBlocked: boolean;
+    connectionDetails:{
+        _id:string;
+        isActive:boolean;
+        createdAt:string;
+        updatedAt:string
+    };
+    therapistDetails:{
+        _id:string;
+        name:string;
+    }
 }
 
 export interface TherapistItem {
@@ -60,4 +64,21 @@ export interface ConnectionItems {
     therapistId: TherapistItem;
     status: string;
     adminVerify: string;
+    isActive: boolean;
+}
+
+export interface AdminItem {
+    _id: string;
+    name: string;
+    email: string
+}
+
+
+export interface ClientOngoingActivityItem {
+    _id: string,
+    date: string,
+    time: string,
+    duration: string,
+    remarks: string,
+
 }

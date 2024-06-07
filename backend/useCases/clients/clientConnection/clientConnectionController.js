@@ -4,7 +4,6 @@ import clientConnectionQueries from "../../../infrastructure/dbQueries/client/cl
 const getConnectionController = async (req, res) => {
     try {
         const clientId = req.user._id
-        console.log(clientId.toString(),'clientidddddddddddddddd')
         const response = await clientConnectionQueries.connections(clientId)
         if (response.status === 'ok') {
             const { status, therapists } = response

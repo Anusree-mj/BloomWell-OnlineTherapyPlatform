@@ -44,15 +44,15 @@ export const adminSlice: any = createSlice({
         },
 
         // get clients details
-        getClientsDetailsAction: (state) => {
+        getAllClientsDetailsAction: (state) => {
             console.log('entered in get client details action')
             state.isLoading = true;
         },
-        getClientsDetailsSuccessAction: (state, action) => {
+        getAllClientsDetailsSuccessAction: (state, action) => {
             state.isLoading = false;
             state.clients = action.payload;
         },
-        getClientsDetailsFailureAction: (state, action) => {
+        getAllClientsDetailsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
             console.log('eror found', state.error)
@@ -79,9 +79,9 @@ export const {
     getAdminLoginAction,
     getAdminLoginSuccessAction,
     getAdminLoginFailureAction,
-    getClientsDetailsAction,
-    getClientsDetailsSuccessAction,
-    getClientsDetailsFailureAction,
+    getAllClientsDetailsAction,
+    getAllClientsDetailsSuccessAction,
+    getAllClientsDetailsFailureAction,
     getTherapistsDetailsAction,
     getTherapistsDetailsSuccessAction,
     getTherapistsDetailsFailureAction,

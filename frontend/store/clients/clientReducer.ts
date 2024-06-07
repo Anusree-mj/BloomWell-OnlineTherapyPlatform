@@ -21,7 +21,17 @@ const initialState: clientStateType = {
         stripeCustomerId: "",
         stripeSubscriptionId: "",
         isConnected: '',
-        isSubscribed: false
+        isSubscribed: false,
+        connectionDetails: {
+            _id: '',
+            isActive: false,
+            createdAt: '',
+            updatedAt: ''
+        },
+        therapistDetails: {
+            _id: "",
+            name: ""
+        }
     },
     isLoading: false,
     error: null
@@ -63,11 +73,11 @@ export const clientSlice: any = createSlice({
 
         // get client details
         getClientDetailsAction: (state) => {
-            console.log('entered in SignUp action')
             state.isLoading = true;
         },
         getClientDetailsSuccessAction: (state, action) => {
             state.isLoading = false;
+            console.log('client details:', action.payload)
             state.client = action.payload;
         },
         getClientDetailsFailureAction: (state, action) => {
