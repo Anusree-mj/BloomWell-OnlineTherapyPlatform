@@ -133,16 +133,21 @@ const getClientDataQuery = async (clientId) => {
                         age: 1,
                         sessionType: 1,
                         questionnaire: 1,
+                        stripeCustomerId:1,
+                        stripeSubscriptionId:1,
+                        stripePriceId:1,
+                        stripeCurrentPeriodEnd:1,
+                        isConnected:1,
+                        isSubscribed:1,
+                        isBlocked:1,
                         connectionDetails: {
                             _id: 1,
                             isActive: 1,
                             createdAt: 1,
-                            updatedAt: 1
                         },
                         therapistDetails: {
                             _id: 1,
                             name: 1,
-                            // Include other fields from the therapist document if needed
                         }
                     }
                 }

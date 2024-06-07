@@ -4,11 +4,11 @@ import controllers from '../../../../useCases/index.js';
 import { protect } from '../../../middlewares/authMiddleware.js'
 
 // get client details
-router.get('/:clientId', protect('client'), controllers.clientControllers.getClientData)
+router.get('/details', protect('client'), controllers.clientControllers.getClientData)
 // get connections
 router.get('/connection/:clientId', protect('client'), controllers.clientControllers.getConnectionController)
 // post connections
 router.post('/connection', protect('client'), controllers.clientControllers.postConnectionController)
 // get ongoing activity details
-router.get('/myActivity/ongoing',protect('client'),controllers.clientControllers.getOngoingActivitiesController)
+router.get('/myActivity/ongoing', protect('client'), controllers.clientControllers.getOngoingActivitiesController)
 export default router;
