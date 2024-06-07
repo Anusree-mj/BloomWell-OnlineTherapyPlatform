@@ -15,7 +15,7 @@ const initialLicense: LicenseDetails = {
     expirationDate: new Date()
 };
 
- const initialState: therapistStateType = {
+const initialState: therapistStateType = {
     therapist: {
         _id: "",
         name: "",
@@ -29,7 +29,8 @@ const initialLicense: LicenseDetails = {
         image: "",
         isBlocked: false,
         isVerified: false,
-        verificationStatus: ""
+        verificationStatus: "",
+        gender: ''
     },
     isLoading: false,
     error: null,

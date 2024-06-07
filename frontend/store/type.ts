@@ -17,15 +17,15 @@ export interface ClientItem {
     isConnected: string;
     isSubscribed: boolean;
     isBlocked: boolean;
-    connectionDetails:{
-        _id:string;
-        isActive:boolean;
-        createdAt:string;
-        updatedAt:string
+    connectionDetails: {
+        _id: string;
+        isActive: boolean;
+        createdAt: string;
+        updatedAt: string
     };
-    therapistDetails:{
-        _id:string;
-        name:string;
+    therapistDetails: {
+        _id: string;
+        name: string;
     }
 }
 
@@ -43,7 +43,8 @@ export interface TherapistItem {
     isVerified: boolean;
     verificationStatus: string;
     isBlocked: boolean;
-    averageRating?: number
+    averageRating?: number;
+    gender: string
 }
 
 export interface LicenseDetails {

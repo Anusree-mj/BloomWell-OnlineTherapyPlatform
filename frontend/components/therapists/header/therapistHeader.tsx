@@ -74,10 +74,14 @@ export default function TherapistHeader(props: Props) {
         setAnchorEl(event.currentTarget);
     };
 
+    const handleProfileClick = () => {
+        setAnchorEl(null);
+        router.push('/therapist/profile')
+    };
     const handleClose = () => {
         setAnchorEl(null);
-    };
 
+    }
     const handleDrawerToggle = () => {
         if (!isClosing) {
             setMobileOpen(!mobileOpen);
@@ -241,7 +245,7 @@ export default function TherapistHeader(props: Props) {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem onClick={handleClose}>My Profile</MenuItem>
+                            <MenuItem onClick={handleProfileClick}>My Profile</MenuItem>
 
                             <MenuItem onClick={logoutHandler}>Logout</MenuItem>
                         </Menu>

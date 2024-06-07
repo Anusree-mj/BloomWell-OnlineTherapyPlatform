@@ -37,7 +37,7 @@ const saveTherapistData = async (data) => {
 
 const getTherapistData = async (therapistId) => {
     try {
-        const therapist = await Therapists.findOne({ _id: therapistId }).select('-password-createdAt -updatedAt')
+        const therapist = await Therapists.findOne({ _id: therapistId }).select('-password -createdAt -updatedAt')
         if (therapist) {
             const therapistReviews = await Reviews.find({ therapistId: therapistId });
             const ratings = calculateRating(therapistReviews);
