@@ -4,7 +4,13 @@ export interface UserItem {
     name: string;
 }
 
-
+export interface NotificationItem {
+    _id: string;
+    head: string;
+    message: string;
+    isRead: boolean;
+    createdAt: string;
+}
 
 
 

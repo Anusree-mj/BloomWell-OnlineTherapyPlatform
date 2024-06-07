@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { UserItem } from './type'
+import { UserItem, NotificationItem } from './type'
 
 export interface userStateType {
     user: UserItem;
+    notifications: NotificationItem
     isLoading: boolean;
     error: any;
 }
@@ -15,7 +16,14 @@ const initialState: userStateType = {
         _id: ""
     },
     isLoading: false,
-    error: null
+    error: null,
+    notifications: {
+        _id: "",
+        head: "",
+        message: "",
+        isRead: false,
+        createdAt: ""
+    }
 }
 
 export const userSlice: any = createSlice({
@@ -36,10 +44,26 @@ export const userSlice: any = createSlice({
             state.error = action.payload;
             console.log('eror found', state.error)
         },
+        getNotificationsAction: (state) => {
+            console.log('entered in login action')
+            state.isLoading = true;
+        },
+        getNotificationsSuccessAction: (state, action) => {
+            state.isLoading = false;
+            state.notifications = action.payload;
+        },
+        getNotificationsFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found', state.error)
+        },
     }
 })
 export const {
     getLoginAction,
     getLoginSuccessAction,
-    getLoginFailureAction
+    getLoginFailureAction,
+    getNotificationsAction,
+    getNotificationsFailureAction,
+    getNotificationsSuccessAction
 } = userSlice.actions;
