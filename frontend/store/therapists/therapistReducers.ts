@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { TherapistItem, LicenseDetails, ReviewItems } from '../type'
+import { TherapistItem, LicenseDetails, ReviewItems } from "./type";
 
 export interface therapistStateType {
     therapist: TherapistItem;

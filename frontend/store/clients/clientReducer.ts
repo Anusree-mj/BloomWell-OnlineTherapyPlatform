@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ClientItem } from '../type'
-
+import { ClientItem } from "./type";
 export interface clientStateType {
     client: ClientItem;
     isLoading: boolean;

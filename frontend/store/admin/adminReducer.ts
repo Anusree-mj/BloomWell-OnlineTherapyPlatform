@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { AdminItem } from '../type'
-import { ClientItem } from "../type";
-import { TherapistItem } from "../type";
+import { AdminItem } from "./type";
+import { ClientItem } from "../clients/type";
+import { TherapistItem } from "../therapists/type";
 
 export interface adminStateType {
     admin: AdminItem;
