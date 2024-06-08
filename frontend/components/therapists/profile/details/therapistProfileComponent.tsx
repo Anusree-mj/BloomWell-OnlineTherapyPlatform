@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { Avatar, Box, Button, Typography } from "@mui/material";
 import { therapistStateType } from '@/store/therapists/therapistReducers';
@@ -27,7 +27,7 @@ const TherapistProfileComponent = () => {
         experience: '',
         expertise: []
     })
-   
+
     useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
         if (!therapistData) {

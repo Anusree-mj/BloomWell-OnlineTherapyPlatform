@@ -25,7 +25,7 @@ const experienceOptions = [
     '10+ years'
 ];
 
-const genderOptions=[
+export const genderOptions=[
     'Male',
     "Female",
     'Other'
