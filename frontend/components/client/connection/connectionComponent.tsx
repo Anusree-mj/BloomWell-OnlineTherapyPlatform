@@ -27,12 +27,11 @@ const ConnectionComponent = () => {
         const clientData = localStorage.getItem("clientData");
         if (clientData) {
             const parsedData = JSON.parse(clientData);
-            const client = parsedData[0]
-            if (client.isConnected) {
+            if (parsedData.isConnected) {
                 router.push('/client/myActivity')
             } else {
-                setClientId(client._id);
-                dispatch(getConnectionsAction(client._id));
+                setClientId(parsedData._id);
+                dispatch(getConnectionsAction(parsedData._id));
             }
         } else {
             router.push('/login')

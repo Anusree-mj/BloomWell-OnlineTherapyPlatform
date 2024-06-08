@@ -1,5 +1,5 @@
 'use client'
-import { LoginHeader } from "@/components/common/headers/loginHeader"
+import ClientProfiletHeader from "@/components/client/header/clientProfileHeader";
 import Footer from "@/components/common/footer/footer"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,7 +12,7 @@ const Page = () => {
     return (
         <Provider store={store}>
             <ToastContainer />
-            <LoginHeader />
+            <ClientProfiletHeader />
             <ClientProfileComponent />
             <Footer />
         </Provider>

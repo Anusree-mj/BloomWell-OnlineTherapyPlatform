@@ -2,7 +2,10 @@ import { takeEvery, put, call } from 'redux-saga/effects';
 import {
     getLoginAction,
     getLoginFailureAction,
-    getLoginSuccessAction
+    getLoginSuccessAction,
+    getNotificationsAction,
+    getNotificationsFailureAction,
+    getNotificationsSuccessAction
 } from '../../store/user/userReducer'
 import { apiCall } from '@/services/api';
 
@@ -40,6 +43,30 @@ function* getLoginActionSaga(action: {
     }
 }
 
+// get notifications
+function* getNotificationsActionSaga(action: {
+    type: string;
+    payload: { userId: '' }
+}): any {
+    try {
+        const response = yield call<any>(apiCall, {
+            method: 'GET',
+            endpoint: `users/notifications/${action.payload}`,
+        });
+
+        if (response.status === 'ok') {
+            yield put(getNotificationsSuccessAction(response.notifications))
+        } else {
+            yield put(getNotificationsFailureAction(response.message))
+        }
+    } catch (err) {
+        yield put(getNotificationsFailureAction(err))
+    }
+}
+
+
 export function* userWatcher() {
     yield takeEvery(getLoginAction, getLoginActionSaga);
+    yield takeEvery(getNotificationsAction, getNotificationsActionSaga);
+
 }
