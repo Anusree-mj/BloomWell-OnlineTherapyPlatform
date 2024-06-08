@@ -5,7 +5,8 @@ import {
 } from "./therapistAuth/therapistAuthController.js"
 
 import {
-    getTherapistData
+    getTherapistData,
+    getTherapistProfileDataController
 
 } from "./profile/therapistProfileController.js"
 
@@ -19,6 +20,7 @@ const therapistControllers = {
     therapistsSignUp,
     saveTherapistData,
     getTherapistData,
+    getTherapistProfileDataController,
     uploadImage,
     getConnectionRequestController,
     manageConnectionRequestController,

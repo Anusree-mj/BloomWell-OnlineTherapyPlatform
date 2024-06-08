@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { Avatar, Box, Button, Typography } from "@mui/material";
-import { getTherapistProfileAction, therapistStateType } from '@/store/therapists/therapistReducers';
+import { therapistStateType } from '@/store/therapists/therapistReducers';
 import PersonalInfoComponent from "./personalComponent";
 import AboutInfoComponent from "./aboutComponent";
 import ProffessionalInfoComponent from "./experienceExpertiseComponent";
 import PasswordComponent from "@/components/client/profile/passwordComponent";
 
 const TherapistProfileComponent = () => {
-    const dispatch = useDispatch();
     const therapistDetails = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
     const router = useRouter();
     const [personalInfoItems, setPersonalInfoItems] = useState({
@@ -28,18 +27,10 @@ const TherapistProfileComponent = () => {
         experience: '',
         expertise: []
     })
-    const [subscriptionInfoItems, setSubscriptionInfoItems] = useState({
-        subscribedFor: 'Nil',
-        expiresAt: 'Nil',
-        subscribedAt: 'sdf'
-    })
-
+   
     useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
-        if (therapistData) {
-            const parsedData = JSON.parse(therapistData);
-            dispatch(getTherapistProfileAction(parsedData._id));
-        } else {
+        if (!therapistData) {
             router.push('/login');
         }
     }, []);

@@ -10,7 +10,6 @@ import SubscriptionInfoComponent from "./subscriptionInfoComponent";
 import PasswordComponent from "./passwordComponent";
 
 const ClientProfileComponent = () => {
-    const dispatch = useDispatch();
     const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
     const router = useRouter();
     const [hasConnectionInfo, setHasConnectionInfo] = useState(false)

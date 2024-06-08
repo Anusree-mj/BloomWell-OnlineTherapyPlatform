@@ -5,7 +5,7 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useSelector, useDispatch } from 'react-redux';
-import { getTherapistProfileAction, therapistStateType } from '@/store/therapists/therapistReducers';
+import { getTherapistDetailsAction, therapistStateType } from '@/store/therapists/therapistReducers';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
@@ -37,7 +37,7 @@ const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistI
         setActiveStep(step);
     };
     useEffect(() => {
-        dispatch(getTherapistProfileAction(therapistId));
+        dispatch(getTherapistDetailsAction(therapistId));
     }, []);
 
     const [expandedPanel, setExpandedPanel] = useState<string | false>(false);

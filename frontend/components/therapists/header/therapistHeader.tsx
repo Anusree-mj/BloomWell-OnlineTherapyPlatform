@@ -41,6 +41,8 @@ export default function TherapistHeader(props: Props) {
     const dispatch = useDispatch();
     const therapist = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
     const router = useRouter()
+    const error = useSelector((state: { therapist: therapistStateType }) => state.therapist.error);
+
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [isClosing, setIsClosing] = React.useState(false);
@@ -49,17 +51,20 @@ export default function TherapistHeader(props: Props) {
     React.useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
         if (therapistData) {
-            const parsedData = JSON.parse(therapistData);
-            const therapistId = parsedData._id;
-            dispatch(getTherapistProfileAction(therapistId));
-            if (therapist.isBlocked) {
-                toast.error('User is blocked')
-                router.push('/login')
-            }
+            dispatch(getTherapistProfileAction());            
         } else {
             router.push('/login')
         }
     }, []);
+
+    React.useEffect(() => {
+        if (error) {
+            toast.error(error);
+            if (error === 'User is blocked') {
+                router.push('/login')
+            }
+        }
+    }, [error]);
 
     const handleDrawerClose = () => {
         setIsClosing(true);
