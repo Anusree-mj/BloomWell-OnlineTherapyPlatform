@@ -73,11 +73,11 @@ export const therapistSlice: any = createSlice({
             console.log('eror found', state.error)
         },
         // get therapist profile
-        getTherapistProfileAction: (state) => {
+        getTherapistDetailsAction: (state) => {
             console.log('entered in profile action')
             state.isLoading = true;
         },
-        getTherapistProfileSuccessAction: (state, action) => {
+        getTherapistDetailsSuccessAction: (state, action) => {
             console.log('reached profile success avtiondd')
             state.isLoading = false;
             state.therapist = action.payload.therapist;
@@ -85,10 +85,26 @@ export const therapistSlice: any = createSlice({
             state.reviews = action.payload.reviews;
             console.log(state.therapist, 'therapist found in reducer')
         },
-        getTherapistProfileFailureAction: (state, action) => {
+        getTherapistDetailsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
             console.log('eror found', state.error)
+        },
+
+        // get therapistDetails
+        getTherapistProfileAction: (state) => {
+            state.isLoading = true;
+        },
+        getTherapistProfileSuccessAction: (state, action) => {
+            console.log('reached profile success avtiondd')
+            state.isLoading = false;
+            state.therapist = action.payload;
+            console.log(state.therapist, 'therapist found in reducer')
+        },
+        getTherapistProfileFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found in profile details', state.error)
         },
     }
 })
@@ -99,7 +115,11 @@ export const {
     saveTherapistDetailsAction,
     saveTherapistDetailsSuccessAction,
     saveTherapistDetailsFailureAction,
+    getTherapistDetailsAction,
+    getTherapistDetailsFailureAction,
+    getTherapistDetailsSuccessAction,
     getTherapistProfileAction,
     getTherapistProfileFailureAction,
     getTherapistProfileSuccessAction,
+
 } = therapistSlice.actions;

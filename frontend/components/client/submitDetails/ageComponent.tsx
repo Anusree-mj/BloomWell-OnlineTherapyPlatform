@@ -12,8 +12,8 @@ interface TypeComponentProps {
     setQuestionnaireField: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const teenAgeItems = ['11', '12', '13', '14', '15', '16', '17'];
-const ageItems = ['18-20 years old', '20-30 years old', '31-40 years old', '41-50 years old',
+export const teenAgeItems = ['11', '12', '13', '14', '15', '16', '17'];
+export const ageItems = ['18-20 years old', '20-30 years old', '31-40 years old', '41-50 years old',
     '51-60 years old', '61-70 years old', '70 above'];
 
 const AgeComponent: React.FC<TypeComponentProps> = ({
@@ -55,7 +55,7 @@ const AgeComponent: React.FC<TypeComponentProps> = ({
                         mt: 2
                     }}
                 >
-                    {type === 'Teen' ? (
+                    {type === 'Teen therapy' ? (
                         <>
                             {teenAgeItems.map((option) => (
                                 <MenuItem key={option} value={option}

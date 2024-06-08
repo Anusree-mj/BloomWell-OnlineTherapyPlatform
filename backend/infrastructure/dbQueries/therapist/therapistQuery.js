@@ -35,7 +35,7 @@ const saveTherapistData = async (data) => {
     }
 }
 
-const getTherapistData = async (therapistId) => {
+const getTherapistDataWithReviews = async (therapistId) => {
     try {
         const therapist = await Therapists.findOne({ _id: therapistId }).select('-password -createdAt -updatedAt')
         if (therapist) {
@@ -70,7 +70,24 @@ const calculateRating = (reviews) => {
     console.log('average', averageRating)
     return averageRating;
 }
+
+
+const getTherapistData = async (therapistId) => {
+    try {
+        const therapist = await Therapists.findOne({ _id: therapistId }).select('-password -createdAt -updatedAt');;
+        console.log('therapist details got in queryyyyyyyyyyyy', therapist)
+        if (therapist) {
+            return { status: 'ok', therapist }
+        } else {
+            return { status: 'nok', message: 'Therapist not found' }
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 export default {
     saveTherapistData,
+    getTherapistDataWithReviews,
     getTherapistData,
 }

@@ -36,7 +36,12 @@ const SubscriptionInfoComponent: React.FC<SubscriptionInfoProps> = ({ Subscripti
                     </Box>
                 ))}
                 <Button variant="contained"
-                    sx={{ alignSelf: 'flex-start', mt: 1, backgroundColor: '#325343' }}
+                    sx={{ alignSelf: 'flex-start', mt: 1, backgroundColor: '#325343',
+                        '&:hover': {
+                                backgroundColor: '#49873D',
+                                color: 'white',
+                            }
+                     }}
                 >Cancel</Button>
             </>
         </Box>

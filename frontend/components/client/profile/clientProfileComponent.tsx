@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { Box, Typography } from "@mui/material";
-import { getClientDetailsAction, clientStateType } from "@/store/clients/clientReducer";
+import {  clientStateType } from "@/store/clients/clientReducer";
 import PersonalInfoComponent from "./personalInfoComponent";
 import MedicalInfoComponent from "./medicalInfoComponent";
 import ConnectionInfoComponent from "./connectionInfoComponent";
@@ -10,7 +10,6 @@ import SubscriptionInfoComponent from "./subscriptionInfoComponent";
 import PasswordComponent from "./passwordComponent";
 
 const ClientProfileComponent = () => {
-    const dispatch = useDispatch();
     const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
     const router = useRouter();
     const [hasConnectionInfo, setHasConnectionInfo] = useState(false)

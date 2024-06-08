@@ -7,10 +7,12 @@ import {
     saveTherapistDetailsAction,
     saveTherapistDetailsSuccessAction,
     saveTherapistDetailsFailureAction,
+    getTherapistDetailsAction,
+    getTherapistDetailsFailureAction,
+    getTherapistDetailsSuccessAction,
     getTherapistProfileAction,
-    getTherapistProfileSuccessAction,
     getTherapistProfileFailureAction,
-
+    getTherapistProfileSuccessAction,
 } from '@/store/therapists/therapistReducers';
 
 
@@ -70,8 +72,8 @@ function* saveTherapistDetailsActionSaga(action: {
     }
 }
 
-// get therapist profile Saga
-function* getTherapistProfileActionSaga(action: {
+// get therapist view details Saga
+function* getTherapistDetailsActionSaga(action: {
     type: string;
     payload: {
         therapistId: ''
@@ -86,10 +88,28 @@ function* getTherapistProfileActionSaga(action: {
 
         if (response.status === 'ok') {
             console.log('status okkkk')
-            yield put(getTherapistProfileSuccessAction(response))
+            yield put(getTherapistDetailsSuccessAction(response))
         } else {
             console.log('status dvvvvvvvvvvvokkkk')
 
+            yield put(getTherapistDetailsFailureAction(response.message))
+        }
+    } catch (err) {
+        yield put(getTherapistDetailsFailureAction(err))
+    }
+}
+
+// get therapist profile
+function* getTherapistProfileActionSaga(): any {
+    try {
+        const response = yield call<any>(apiCall, {
+            method: 'GET',
+            endpoint: 'therapist/profile',
+        });
+        if (response.status === 'ok') {
+            yield put(getTherapistProfileSuccessAction(response.therapist))
+            localStorage.setItem("therapistData", JSON.stringify(response.therapist));
+        } else {
             yield put(getTherapistProfileFailureAction(response.message))
         }
     } catch (err) {
@@ -97,8 +117,11 @@ function* getTherapistProfileActionSaga(action: {
     }
 }
 
+
 export function* therapistAuthWatcher() {
     yield takeEvery(getTherapistSignUpAction, getTherapistSignUpActionSaga);
     yield takeEvery(saveTherapistDetailsAction, saveTherapistDetailsActionSaga);
+    yield takeEvery(getTherapistDetailsAction, getTherapistDetailsActionSaga);
     yield takeEvery(getTherapistProfileAction, getTherapistProfileActionSaga);
+
 }

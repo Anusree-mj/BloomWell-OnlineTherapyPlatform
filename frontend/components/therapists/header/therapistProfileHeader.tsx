@@ -6,22 +6,22 @@ import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/navigation";
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
-import { clientStateType, getClientDetailsAction } from "@/store/clients/clientReducer";
+import { getTherapistProfileAction, therapistStateType } from '@/store/therapists/therapistReducers';
 import Link from 'next/link';
 import { Button } from '@mui/material';
 
 
 
 
-const ClientProfileHeader = () => {
+const TherapistProfileHeader = () => {
     const dispatch = useDispatch();
     const router = useRouter()
-    const error = useSelector((state: { client: clientStateType }) => state.client.error);
+    const error = useSelector((state: { therapist: therapistStateType }) => state.therapist.error);
 
     React.useEffect(() => {
         const clientData = localStorage.getItem("clientData");
         if (clientData) {
-            dispatch(getClientDetailsAction())
+            dispatch(getTherapistProfileAction())
         } else {
             router.push('/login')
         }
@@ -66,7 +66,7 @@ const ClientProfileHeader = () => {
                         width={80}
                         height={30}
                     />
-                    <Link href={'/client/myActivity'} passHref>
+                    <Link href={'/therapist'} passHref>
                         <Typography component="a"
                             variant="h6"
                             noWrap
@@ -98,4 +98,4 @@ const ClientProfileHeader = () => {
         </Box>
     );
 }
-export default ClientProfileHeader;
+export default TherapistProfileHeader;

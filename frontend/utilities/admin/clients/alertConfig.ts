@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 import store from '@/store';
-import { getClientsDetailsAction } from '@/store/admin/adminReducer';
+import { getAllClientsDetailsAction } from '@/store/admin/adminReducer';
 
 export interface ActionOptions {
   title: string;
@@ -48,7 +48,7 @@ export const showSuccessAlert = (message: string) => {
     timerProgressBar: true,
     showConfirmButton: false,
   }).then(() => {
-    store.dispatch(getClientsDetailsAction());
+    store.dispatch(getAllClientsDetailsAction());
   });
 };
 
