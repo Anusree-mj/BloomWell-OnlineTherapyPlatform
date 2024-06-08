@@ -5,6 +5,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import { individualQuestionnaire } from '../../submitDetails/questions/individual';
 import { teenQuestionnaire } from '../../submitDetails/questions/teen';
 import { coupleQuestionnaire } from '../../submitDetails/questions/couple';
+import EditMedicalInfoComponent from '../edit/editMedicalInfo';
 
 interface MedicalInfoProps {
     medicalInfoItems: {
@@ -15,6 +16,8 @@ interface MedicalInfoProps {
 
 const MedicalInfoComponent: React.FC<MedicalInfoProps> = ({ medicalInfoItems }) => {
     const [showMore, setShowMore] = useState(false);
+    const [editMedicalInfo, setEditMedicalInfo] = useState(false)
+
     useEffect(() => {
         console.log('medical info itemssssss', medicalInfoItems)
     }, [])
@@ -40,23 +43,28 @@ const MedicalInfoComponent: React.FC<MedicalInfoProps> = ({ medicalInfoItems }) 
         }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography sx={{ fontWeight: 800, fontSize: '1rem', color: '#325343' }}>Medical Info (Filled In Questionnaires) </Typography>
-                <EditNoteIcon sx={{ fontWeight: 800, color: '#325343' }} />
+                <EditNoteIcon sx={{ fontWeight: 800, color: '#325343' }} onClick={() => { setEditMedicalInfo(true) }} />
             </Box>
             <Divider sx={{ mb: 2 }} />
-
-            {displayedQuestions.map((question, index) => (
-                <Box key={index} sx={{ mt: 1 }}>
-                    <Typography sx={{ fontWeight: 600, fontSize: '1rem', color: '#325343' }}>{question.question}</Typography>
-                    <Typography sx={{ fontWeight: 200, fontSize: '1rem', color: '#325343' }}>{medicalInfoItems.questionnaire[index]}</Typography>
-                </Box>
-            ))}
-            {questions.length > 3 && (
-                <Button variant='text' onClick={toggleShowMore} sx={{
-                    mt: 2, alignSelf: 'flex-start', textTransform: 'none', p: 0, fontWeight: 800,
-                    color: '#325343', textDecoration: 'underline', fontSize: '0.9rem',
-                }}>
-                    {showMore ? 'Show Less' : 'Show more'}
-                </Button>
+            {!editMedicalInfo ? (
+                <>
+                    {displayedQuestions.map((question, index) => (
+                        <Box key={index} sx={{ mt: 1 }}>
+                            <Typography sx={{ fontWeight: 600, fontSize: '1rem', color: '#325343' }}>{question.question}</Typography>
+                            <Typography sx={{ fontWeight: 200, fontSize: '1rem', color: '#325343' }}>{medicalInfoItems.questionnaire[index]}</Typography>
+                        </Box>
+                    ))}
+                    {questions.length > 3 && (
+                        <Button variant='text' onClick={toggleShowMore} sx={{
+                            mt: 2, alignSelf: 'flex-start', textTransform: 'none', p: 0, fontWeight: 800,
+                            color: '#325343', textDecoration: 'underline', fontSize: '0.9rem',
+                        }}>
+                            {showMore ? 'Show Less' : 'Show more'}
+                        </Button>
+                    )}
+                </>
+            ) : (
+                <EditMedicalInfoComponent setEditMedicalInfo={setEditMedicalInfo} questions={questions} />
             )}
         </Box>
     );

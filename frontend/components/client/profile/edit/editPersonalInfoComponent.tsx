@@ -14,10 +14,10 @@ interface PersonalInfo {
 }
 
 interface EditPersonalInfoProps {
-    setEditInfo: React.Dispatch<React.SetStateAction<boolean>>;
+    setPersonalEditInfo: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditInfo }) => {
+const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setPersonalEditInfo }) => {
     const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
     const [changeEmail, setChangeEmail] = useState(false);
     const [editPersonalInfo, setEditPersonalInfo] = useState<PersonalInfo>({
@@ -180,7 +180,7 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditInf
                             backgroundColor: '#49873D',
                             color: 'white',
                         }
-                    }} onClick={() => { setEditInfo(false) }}
+                    }} onClick={() => { setPersonalEditInfo(false) }}
                 >Cancel</Button>
             </Box>
         </Box>
