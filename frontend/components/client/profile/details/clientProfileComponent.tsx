@@ -86,7 +86,7 @@ const ClientProfileComponent = () => {
                     color: '#325343', fontWeight: 800, fontSize: '1.5rem', mt: 4
                 }}>My Profile</Typography>
                 <PersonalInfoComponent personalInfoItems={personalInfoItems} />
-                {/* <MedicalInfoComponent medicalInfoItems={medicalInfoItems} /> */}
+                <MedicalInfoComponent medicalInfoItems={medicalInfoItems} />
                 < ConnectionInfoComponent connectionInfoItems={connectionInfoItems}
                     hasConnectionInfo={hasConnectionInfo} />
                 <SubscriptionInfoComponent SubscriptionItems={subscriptionInfoItems} />

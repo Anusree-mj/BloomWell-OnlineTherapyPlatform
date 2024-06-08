@@ -2,7 +2,7 @@ import { Divider, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useState } from 'react'
 import EditNoteIcon from '@mui/icons-material/EditNote';
-import EditPersonalInfoComponent from './editPersonalInfoComponent';
+import EditPersonalInfoComponent from '../edit/editPersonalInfoComponent';
 
 interface PersonalInfoProps {
     personalInfoItems: {

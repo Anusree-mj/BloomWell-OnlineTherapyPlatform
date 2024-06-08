@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import { clientStateType } from "@/store/clients/clientReducer";
 import { Box } from '@mui/system';
 import { Button, MenuItem, TextField } from '@mui/material';
-import { ageItems, teenAgeItems } from '../submitDetails/ageComponent';
-import { typeItems } from '../submitDetails/therapyType';
+import { ageItems, teenAgeItems } from '../../submitDetails/ageComponent';
+import { typeItems } from '../../submitDetails/therapyType';
 
 interface PersonalInfo {
     name: string,

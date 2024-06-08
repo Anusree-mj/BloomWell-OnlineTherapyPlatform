@@ -6,7 +6,7 @@ import { therapistStateType } from '@/store/therapists/therapistReducers';
 import PersonalInfoComponent from "./personalComponent";
 import AboutInfoComponent from "./aboutComponent";
 import ProffessionalInfoComponent from "./experienceExpertiseComponent";
-import PasswordComponent from "@/components/client/profile/passwordComponent";
+import PasswordComponent from "@/components/client/profile/details/passwordComponent";
 
 const TherapistProfileComponent = () => {
     const therapistDetails = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);

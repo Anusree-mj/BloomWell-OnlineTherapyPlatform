@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { Divider, Typography, Button } from '@mui/material';
 import { Box } from '@mui/system';
 import EditNoteIcon from '@mui/icons-material/EditNote';
-import { individualQuestionnaire } from '../submitDetails/questions/individual';
-import { teenQuestionnaire } from '../submitDetails/questions/teen';
-import { coupleQuestionnaire } from '../submitDetails/questions/couple';
+import { individualQuestionnaire } from '../../submitDetails/questions/individual';
+import { teenQuestionnaire } from '../../submitDetails/questions/teen';
+import { coupleQuestionnaire } from '../../submitDetails/questions/couple';
 
 
 const PasswordComponent = () => {
