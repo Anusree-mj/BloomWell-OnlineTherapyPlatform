@@ -18,9 +18,9 @@ interface TypeComponentProps {
 }
 
 
+export const typeItems = ['Individual therapy', 'Couple therapy', 'Teen therapy']
 const TherapyType: React.FC<TypeComponentProps> = ({
     setType, setTypeField, setAgeField, questionnaire, setQuestionnaire }) => {
-    const typeItems = ['Individual therapy', 'Couple therapy', 'Teen therapy']
 
     const handleTypeSubmit = (type: string) => {
         if (type === 'Individual therapy') {
@@ -36,7 +36,7 @@ const TherapyType: React.FC<TypeComponentProps> = ({
     }
 
     return (
-       <>
+        <>
             <Typography sx={{
                 fontSize: { xs: '1.5rem', sm: '2rem' },
                 textAlign: 'center', color: '#325343', mt: 4, mb: 1

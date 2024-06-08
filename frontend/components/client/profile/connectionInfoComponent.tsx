@@ -23,7 +23,7 @@ const ConnectionInfoComponent: React.FC<ConnectionInfoProps> = ({ connectionInfo
     ]
     return (
         <Box sx={{
-           backgroundColor: 'white', display: 'flex', mt: '2rem',
+            backgroundColor: 'white', display: 'flex', mt: '2rem',
             flexDirection: 'column', p: 3, borderRadius: '1rem', boxShadow: '1px 4px 10px rgba(0, 0, 0, 0.3)',
         }}>
             <Typography sx={{
@@ -40,7 +40,13 @@ const ConnectionInfoComponent: React.FC<ConnectionInfoProps> = ({ connectionInfo
                         </Box>
                     ))}
                     <Button variant="contained"
-                        sx={{ alignSelf: 'flex-start', mt: 1, backgroundColor: '#325343' }}
+                        sx={{
+                            alignSelf: 'flex-start', mt: 1, backgroundColor: '#325343',
+                            '&:hover': {
+                                backgroundColor: '#49873D',
+                                color: 'white',
+                            }
+                        }}
                     >Cancel</Button>
                 </>
             ) : (
@@ -48,7 +54,13 @@ const ConnectionInfoComponent: React.FC<ConnectionInfoProps> = ({ connectionInfo
                     <Typography sx={{ fontWeight: 600, fontSize: '1rem', color: '#325343' }} >
                         Not Connected With Any Yet </Typography>
                     <Button variant="contained"
-                        sx={{ alignSelf: 'flex-start', mt: 1, backgroundColor: '#325343' }}
+                        sx={{
+                            alignSelf: 'flex-start', mt: 1, backgroundColor: '#325343',
+                            '&:hover': {
+                                backgroundColor: '#49873D',
+                                color: 'white',
+                            }
+                        }}
                     >Let's Connect</Button>
                 </>
             )}

@@ -97,22 +97,19 @@ export default function MediaCover() {
       </Box>
       <Link href={"/client/register"} passHref>
         <Button variant="contained"
-        component="a"
-        sx={{
-          mt: 4,
-          backgroundColor: '#95C08D',
-          color: '#325343',
-          borderRadius: '0.6rem',
-          pt: 1,
-          pb: 1,
-          '&:hover': {
-            backgroundColor: '#49873D',
-            color: 'white',
-            '& .MuiTypography-root': {
+          component="a"
+          sx={{
+            mt: 4,
+            backgroundColor: '#95C08D',
+            color: '#325343',
+            borderRadius: '0.6rem',
+            pt: 1,
+            pb: 1,
+            '&:hover': {
+              backgroundColor: '#49873D',
               color: 'white',
             }
-          }
-        }}>Get Started</Button>
+          }}>Get Started</Button>
       </Link>
     </Box>
   );
