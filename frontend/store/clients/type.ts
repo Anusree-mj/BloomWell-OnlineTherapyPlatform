@@ -4,7 +4,7 @@ export interface ClientItem {
     email: string;
     type: string;
     age: string;
-    questionnaires: [];
+    questionnaire: [];
     sessionType: string;
     stripeCustomerId: string;
     stripeSubscriptionId: string;

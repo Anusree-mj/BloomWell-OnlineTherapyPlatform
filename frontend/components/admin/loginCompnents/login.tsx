@@ -29,7 +29,7 @@ export default function AdminLogin() {
             toast.error('Please provide valid password');
         }
         try {
-            await dispatch(getAdminLoginAction({ email, password, handleAdminLoginSuccess }));
+             dispatch(getAdminLoginAction({ email, password, handleAdminLoginSuccess }));
         } catch (error) {
             console.error('Login error:', error);
         }

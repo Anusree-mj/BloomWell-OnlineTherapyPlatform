@@ -133,13 +133,13 @@ const getClientDataQuery = async (clientId) => {
                         age: 1,
                         sessionType: 1,
                         questionnaire: 1,
-                        stripeCustomerId:1,
-                        stripeSubscriptionId:1,
-                        stripePriceId:1,
-                        stripeCurrentPeriodEnd:1,
-                        isConnected:1,
-                        isSubscribed:1,
-                        isBlocked:1,
+                        stripeCustomerId: 1,
+                        stripeSubscriptionId: 1,
+                        stripePriceId: 1,
+                        stripeCurrentPeriodEnd: 1,
+                        isConnected: 1,
+                        isSubscribed: 1,
+                        isBlocked: 1,
                         connectionDetails: {
                             _id: 1,
                             isActive: 1,
@@ -152,9 +152,8 @@ const getClientDataQuery = async (clientId) => {
                     }
                 }
             ]);
-            console.log('clietn  aggregation', client)
 
-            return { status: 'ok', client }
+            return { status: 'ok', client: client[0] }
         } else {
             console.log('passing else')
             return { status: 'ok', client }

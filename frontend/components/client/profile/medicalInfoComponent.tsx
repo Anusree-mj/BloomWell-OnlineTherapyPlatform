@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Divider, Typography, Button } from '@mui/material';
 import { Box } from '@mui/system';
 import EditNoteIcon from '@mui/icons-material/EditNote';
@@ -15,7 +15,9 @@ interface MedicalInfoProps {
 
 const MedicalInfoComponent: React.FC<MedicalInfoProps> = ({ medicalInfoItems }) => {
     const [showMore, setShowMore] = useState(false);
-
+    useEffect(() => {
+        console.log('medical info itemssssss', medicalInfoItems)
+    }, [])
     let questions = [];
     if (medicalInfoItems.sessionType === 'Individual therapy') {
         questions = individualQuestionnaire;

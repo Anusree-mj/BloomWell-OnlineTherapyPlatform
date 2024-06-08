@@ -4,7 +4,7 @@ import { UserItem, NotificationItem } from './type'
 
 export interface userStateType {
     user: UserItem;
-    notifications: NotificationItem
+    notifications: NotificationItem[];
     isLoading: boolean;
     error: any;
 }
@@ -17,13 +17,7 @@ const initialState: userStateType = {
     },
     isLoading: false,
     error: null,
-    notifications: {
-        _id: "",
-        head: "",
-        message: "",
-        isRead: false,
-        createdAt: ""
-    }
+    notifications: [],
 }
 
 export const userSlice: any = createSlice({

@@ -3,7 +3,7 @@ import User from '../../../entities/users/userModel.js';
 import bcrypt from 'bcryptjs';
 import TempUser from '../../../entities/users/tempUsersModel.js';
 import Therapists from '../../../entities/therapists/therapist.js';
-import Notificatios from '../../../entities/users/notificationModel.js'
+import Notifications from '../../../entities/users/notificationModel.js'
 
 const userDoLogin = async (email, password) => {
     try {
@@ -89,9 +89,29 @@ const verifyOTPQuery = async (email, otp) => {
 
 const getNotifications = async (userId) => {
     try {
-        const notifications = await Notificatios.find({ userId: userId });
+        const notifications = await Notifications.find({ userId: userId });
         if (notifications) {
             return { status: 'ok', notifications }
+        } else {
+            return { status: 'nok', message: 'Invalid request' }
+        }
+
+    } catch (err) {
+        console.log(err)
+        return { status: 'nok', message: 'Invalid request' }
+    }
+}
+
+const readNotification = async (notificationId) => {
+    try {
+        const query = { _id: notificationId }
+        const update = { isRead: true }
+        const options = { upsert: false }
+        const response = await Notifications.updateOne(query, update, options)
+
+        if (response.modifiedCount <= 1) {
+            console.log('response', response)
+            return { status: 'ok' }
         } else {
             return { status: 'nok', message: 'Invalid request' }
         }
@@ -107,5 +127,6 @@ export default {
     checkUser,
     verifyEmail,
     verifyOTPQuery,
-    getNotifications
+    getNotifications,
+    readNotification,
 }

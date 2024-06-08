@@ -93,6 +93,7 @@ const verifyOTP = async (req, res) => {
 const getNotificationController = async (req, res) => {
     try {
         const userId = req.params.userId;
+        console.log('reached in controller with userId', userId)
         const response = await userAuthQueries.getNotifications(userId);
         if (response.status === 'ok') {
             const { status, notifications } = response
@@ -106,10 +107,27 @@ const getNotificationController = async (req, res) => {
     }
 }
 
+const readNotificationController = async (req, res) => {
+    try {
+        const notificationId = req.params.notificationId;
+        console.log('reached in controller with notificatoinId', notificationId)
+        const response = await userAuthQueries.readNotification(notificationId);
+        if (response.status === 'ok') {
+            const { status } = response
+            res.status(200).json({ status: status });
+        } else {
+            const { status, message } = response
+            res.status(400).json({ status: status, message: message })
+        }
+    } catch (err) {
+        console.log('Error found', err)
+    }
+}
 export {
     authUser,
     getOtpController,
     getForgotPasswordOTP,
     verifyOTP,
-    getNotificationController
+    getNotificationController,
+    readNotificationController
 }

@@ -3,7 +3,8 @@ import {
     getOtpController,
     getForgotPasswordOTP,
     verifyOTP,
-    getNotificationController
+    getNotificationController,
+    readNotificationController,
 } from './userAuthController.js';
 
 const userControllers = {
@@ -11,7 +12,8 @@ const userControllers = {
     getOtpController,
     getForgotPasswordOTP,
     verifyOTP,
-    getNotificationController
+    getNotificationController,
+    readNotificationController,
 };
 
 export default userControllers;

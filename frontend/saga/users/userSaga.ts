@@ -51,13 +51,11 @@ function* getNotificationsActionSaga(action: {
     try {
         const response = yield call<any>(apiCall, {
             method: 'GET',
-            endpoint: `users/notifications${action.payload}`,
+            endpoint: `users/notifications/${action.payload}`,
         });
 
         if (response.status === 'ok') {
-            yield put(getNotificationsSuccessAction(response.therapist))
-            localStorage.setItem("therapistData", JSON.stringify(response.notifications));
-            console.log('Therapistsignup success')
+            yield put(getNotificationsSuccessAction(response.notifications))
         } else {
             yield put(getNotificationsFailureAction(response.message))
         }

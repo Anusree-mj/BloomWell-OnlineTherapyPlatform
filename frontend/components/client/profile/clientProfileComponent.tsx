@@ -40,34 +40,32 @@ const ClientProfileComponent = () => {
     }, []);
 
     useEffect(() => {
-        if (clientDetails && Array.isArray(clientDetails) && clientDetails.length > 0) {
-            const client = clientDetails[0];
-            setPersonalInfoItems({
-                name: client.name || '',
-                email: client.email || '',
-                age: client.age || '',
-                sessionType: client.sessionType || ''
-            });
+        setPersonalInfoItems({
+            name: clientDetails.name || '',
+            email: clientDetails.email || '',
+            age: clientDetails.age || '',
+            sessionType: clientDetails.sessionType || ''
+        });
 
-            setMedicalInfoItems({
-                sessionType: client.sessionType,
-                questionnaire: client.questionnaire
-            })
-            if (client.connectionDetails) {
-                setConnectionInfoItems({
-                    therapistId: client.therapistDetails._id,
-                    therapistName: client.therapistDetails.name,
-                    connectionId: client.connectionDetails._id,
-                    connectionStatus: client.connectionDetails.isActive,
-                    connectedAt: new Date(client.connectionDetails?.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric'
-                    })
+        setMedicalInfoItems({
+            sessionType: clientDetails.sessionType,
+            questionnaire: clientDetails.questionnaire
+        })
+        if (clientDetails.connectionDetails) {
+            setConnectionInfoItems({
+                therapistId: clientDetails.therapistDetails._id,
+                therapistName: clientDetails.therapistDetails.name,
+                connectionId: clientDetails.connectionDetails._id,
+                connectionStatus: clientDetails.connectionDetails.isActive,
+                connectedAt: new Date(clientDetails.connectionDetails?.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
                 })
-            }
-            setHasConnectionInfo(true)
+            })
         }
+        setHasConnectionInfo(true)
+        console.log('client details got in profile', clientDetails)
     }, [clientDetails])
 
     return (
@@ -89,7 +87,7 @@ const ClientProfileComponent = () => {
                     color: '#325343', fontWeight: 800, fontSize: '1.5rem', mt: 4
                 }}>My Profile</Typography>
                 <PersonalInfoComponent personalInfoItems={personalInfoItems} />
-                <MedicalInfoComponent medicalInfoItems={medicalInfoItems} />
+                {/* <MedicalInfoComponent medicalInfoItems={medicalInfoItems} /> */}
                 < ConnectionInfoComponent connectionInfoItems={connectionInfoItems}
                     hasConnectionInfo={hasConnectionInfo} />
                 <SubscriptionInfoComponent SubscriptionItems={subscriptionInfoItems} />

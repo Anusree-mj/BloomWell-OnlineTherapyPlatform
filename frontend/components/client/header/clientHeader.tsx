@@ -39,7 +39,6 @@ export default function ClienttHeader(props: Props) {
     const dispatch = useDispatch();
     const router = useRouter()
     const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
-    const [name, setName] = useState('')
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
@@ -53,13 +52,6 @@ export default function ClienttHeader(props: Props) {
             router.push('/login')
         }
     }, []);
-
-    useEffect(() => {
-        if (clientDetails && Array.isArray(clientDetails) && clientDetails.length > 0) {
-            const client = clientDetails[0];
-            setName(client.name)
-        }
-    }, [clientDetails])
 
     const handleDrawerClose = () => {
         setIsClosing(true);
@@ -100,7 +92,7 @@ export default function ClienttHeader(props: Props) {
             ]
         },
         {
-            iconTitle: 'Notifications', icon: <NotificationsActiveIcon />, link: '#',
+            iconTitle: 'Notifications', icon: <NotificationsActiveIcon />, link: '/client/notifications',
         },
         {
             iconTitle: 'Therapy', icon: <PsychologyIcon />, link: '#',
@@ -225,7 +217,7 @@ export default function ClienttHeader(props: Props) {
                                 fontWeight: 600, ml: 1,
                                 color: '#325343'
                             }
-                            }>{name}</Typography>
+                            }>{clientDetails.name}</Typography>
                         </IconButton>
 
                         <Menu
