@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { Avatar, Box, Button, Typography } from "@mui/material";
 import { therapistStateType } from '@/store/therapists/therapistReducers';
 import PersonalInfoComponent from "./personalComponent";
 import AboutInfoComponent from "./aboutComponent";
 import ProffessionalInfoComponent from "./experienceExpertiseComponent";
-import PasswordComponent from "@/components/client/profile/passwordComponent";
+import PasswordComponent from "@/components/client/profile/details/passwordComponent";
 
 const TherapistProfileComponent = () => {
     const therapistDetails = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
@@ -27,7 +27,7 @@ const TherapistProfileComponent = () => {
         experience: '',
         expertise: []
     })
-   
+
     useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
         if (!therapistData) {

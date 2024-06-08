@@ -2,7 +2,7 @@ import { Divider, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useState } from 'react'
 import EditNoteIcon from '@mui/icons-material/EditNote';
-import EditPersonalInfoComponent from './editPersonalInfoComponent';
+import EditPersonalInfoComponent from '../edit/editPersonalInfoComponent';
 
 interface PersonalInfoProps {
     personalInfoItems: {
@@ -14,7 +14,7 @@ interface PersonalInfoProps {
 }
 
 const PersonalInfoComponent: React.FC<PersonalInfoProps> = ({ personalInfoItems }) => {
-    const [editInfo, setEditInfo] = useState(false)
+    const [editPersonalInfo, setPersonalEditInfo] = useState(false)
     const typographyItems = [
         { title: 'Name', value: personalInfoItems.name },
         { title: 'Email', value: personalInfoItems.email },
@@ -29,10 +29,10 @@ const PersonalInfoComponent: React.FC<PersonalInfoProps> = ({ personalInfoItems 
         }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography sx={{ fontWeight: 800, fontSize: '1rem', color: '#325343' }}>Personal Info</Typography>
-                <EditNoteIcon sx={{ fontWeight: 800, color: '#325343' }} onClick={() => { setEditInfo(true) }} />
+                <EditNoteIcon sx={{ fontWeight: 800, color: '#325343' }} onClick={() => { setPersonalEditInfo(true) }} />
             </Box>
             <Divider sx={{ mb: 2 }} />
-            {!editInfo ? (
+            {!editPersonalInfo ? (
                 <>
                     {typographyItems.map((item) => (
                         <Box key={item.title} sx={{ display: 'flex', pt: '0.2rem' }}>
@@ -42,7 +42,7 @@ const PersonalInfoComponent: React.FC<PersonalInfoProps> = ({ personalInfoItems 
                     ))}
                 </>
             ) : (
-                <EditPersonalInfoComponent setEditInfo={setEditInfo} />
+                <EditPersonalInfoComponent setPersonalEditInfo={setPersonalEditInfo} />
             )}
 
         </Box>

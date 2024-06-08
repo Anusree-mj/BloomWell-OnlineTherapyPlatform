@@ -1,47 +1,56 @@
 import { useState } from 'react'
 import { useSelector } from "react-redux";
-import { clientStateType } from "@/store/clients/clientReducer";
+import { therapistStateType } from '@/store/therapists/therapistReducers';
 import { Box } from '@mui/system';
 import { Button, MenuItem, TextField } from '@mui/material';
-import { ageItems, teenAgeItems } from '../submitDetails/ageComponent';
-import { typeItems } from '../submitDetails/therapyType';
+import { genderOptions } from '../../detailsSubmission/licenseComponent';
+import { therapistRoleContents } from '@/components/user/therapistJob/queryComponent';
+
 
 interface PersonalInfo {
     name: string,
     email: string,
-    age: string,
-    sessionPreferred: string
+    phone: number,
+    gender: string,
+    role: string,
+    phoneSpan: string
 }
 
 interface EditPersonalInfoProps {
-    setEditInfo: React.Dispatch<React.SetStateAction<boolean>>;
+    setEditPersonalInfo: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditInfo }) => {
-    const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
+const EditTherapistPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditPersonalInfo }) => {
+    const therapistDetails = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
     const [changeEmail, setChangeEmail] = useState(false);
-    const [editPersonalInfo, setEditPersonalInfo] = useState<PersonalInfo>({
-        name: clientDetails.name,
-        email: clientDetails.email,
-        age: clientDetails.age,
-        sessionPreferred: clientDetails.sessionType
+    const [editPersonalInfos, setEditPersonalInfos] = useState<PersonalInfo>({
+        name: therapistDetails.name,
+        email: therapistDetails.email,
+        phone: therapistDetails.phone,
+        gender: therapistDetails.gender,
+        role: therapistDetails.role,
+        phoneSpan: ''
     })
     const [validColor, setValidColor] = useState<PersonalInfo>({
         name: 'black',
         email: 'black',
-        age: 'black',
-        sessionPreferred: 'black'
+        phone: 0,
+        phoneSpan: 'black',
+        gender: 'black',
+        role: 'black'
     })
     const [spanText, setSpanText] = useState<PersonalInfo>({
         name: '',
         email: '',
-        age: '',
-        sessionPreferred: ''
+        phoneSpan: '',
+        phone: 0,
+        role: '',
+        gender: ''
     })
 
     const handleInputChange = (key: string, value: string) => {
         if (key === 'email') setChangeEmail(true)
-        setEditPersonalInfo(prevState => ({
+        setEditPersonalInfos(prevState => ({
             ...prevState,
             [key]: value
         }));
@@ -69,7 +78,7 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditInf
             }}>
 
                 <TextField id="outlined-basic" label="Name" variant="outlined"
-                    required value={editPersonalInfo.name} type="text"
+                    required value={editPersonalInfos.name} type="text"
                     sx={{
                         maxWidth: '100%', width: '30rem', mt: 2,
                         boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
@@ -89,7 +98,7 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditInf
                 maxWidth: '100%', width: '30rem', mt: 4,
             }}>
                 <TextField id="outlined-basic" label="Email" variant="outlined"
-                    required value={editPersonalInfo.email} type="email"
+                    required value={editPersonalInfos.email} type="email"
                     sx={{
                         boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                         '& .MuiOutlinedInput-root': {
@@ -103,11 +112,32 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditInf
                 <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
                 >{spanText.email}</span>
             </Box>
+            <Box sx={{
+                display: 'flex', flexDirection: 'column',
+                maxWidth: '100%', width: '30rem', mt: 2,
+            }}>
+
+                <TextField id="outlined-basic" label="Phone Number" variant="outlined"
+                    required value={editPersonalInfos.phone} type="number"
+                    sx={{
+                        maxWidth: '100%', width: '30rem', mt: 2,
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        '& .MuiOutlinedInput-root': {
+                            '& fieldset': {
+                                borderColor: validColor.phoneSpan,
+                            },
+                        },
+                    }} onChange={(e) => { handleInputChange('phone', e.target.value) }}
+                    onClick={() => handleClearSpan('phoneSpan')}
+                />
+                <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
+                >{spanText.phoneSpan}</span>
+            </Box>
             <TextField
                 id="experience"
                 select
                 label="Age"
-                value={editPersonalInfo.age}
+                value={editPersonalInfos.gender}
                 onChange={(e) => handleInputChange('age', e.target.value)}
                 sx={{
                     maxWidth: '100%', width: '30rem', mt: 3,
@@ -119,26 +149,19 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditInf
                     },
                 }}
             >
-                {editPersonalInfo.sessionPreferred === 'Teen therapy' ? (
-                    teenAgeItems.map((option) => (
-                        <MenuItem key={option} value={option}>
-                            {option}
-                        </MenuItem>
-                    ))
-                ) : (
-                    ageItems.map((option) => (
-                        <MenuItem key={option} value={option}>
-                            {option}
-                        </MenuItem>
-                    ))
-                )}
+                {genderOptions.map((option) => (
+                    <MenuItem key={option} value={option}>
+                        {option}
+                    </MenuItem>
+                ))}
+
             </TextField>
 
             <TextField
                 id="experience"
                 select
                 label="Session Preferred"
-                value={editPersonalInfo.sessionPreferred}
+                value={editPersonalInfos.role}
                 sx={{
                     maxWidth: '100%', width: '30rem', mt: 3,
                     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
@@ -149,12 +172,12 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditInf
                     },
                 }}
             >
-                {typeItems.map((option) => (
-                    <MenuItem key={option} value={option}
+                {therapistRoleContents.map((option) => (
+                    <MenuItem key={option.role} value={option.role}
                         onClick={() => {
-                            handleInputChange('sessionPreferred', option)
+                            handleInputChange('sessionPreferred', option.role)
                         }}>
-                        {option}
+                        {option.role}
                     </MenuItem>
                 ))}
             </TextField>
@@ -180,11 +203,11 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditInf
                             backgroundColor: '#49873D',
                             color: 'white',
                         }
-                    }} onClick={() => { setEditInfo(false) }}
+                    }} onClick={() => { setEditPersonalInfo(false) }}
                 >Cancel</Button>
             </Box>
         </Box>
     )
 }
 
-export default EditPersonalInfoComponent
+export default EditTherapistPersonalInfoComponent

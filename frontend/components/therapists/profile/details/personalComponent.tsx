@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Avatar, Button, Divider, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import EditTherapistPersonalInfoComponent from '../edit/editTherapistPersonalInfo';
 
 interface PersonalInfoProps {
     personalInfoItem: {
@@ -15,6 +16,7 @@ interface PersonalInfoProps {
 }
 
 const PersonalInfoComponent: React.FC<PersonalInfoProps> = ({ personalInfoItem }) => {
+    const [editPersonalInfo, setEditPersonalInfo] = useState(false)
 
     const typographyItems = [
         { title: 'Name', value: personalInfoItem.name },
@@ -30,17 +32,22 @@ const PersonalInfoComponent: React.FC<PersonalInfoProps> = ({ personalInfoItem }
         }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography sx={{ fontWeight: 800, fontSize: '1rem', color: '#325343' }}>Personal Info</Typography>
-                <EditNoteIcon sx={{ fontWeight: 800, color: '#325343' }} />
+                <EditNoteIcon sx={{ fontWeight: 800, color: '#325343' }} onClick={() => { setEditPersonalInfo(true) }} />
             </Box>
             <Divider sx={{ mb: 2 }} />
-            <>
-                {typographyItems.map((item) => (
-                    <Box key={item.title} sx={{ display: 'flex', pt: '0.2rem' }}>
-                        <Typography sx={{ fontWeight: 600, fontSize: '1rem', color: '#325343' }} >{item.title} : </Typography>
-                        <Typography sx={{ fontWeight: 200, fontSize: '1rem', color: '#325343', ml: '0.2rem' }} >{item.value}</Typography>
-                    </Box>
-                ))}
-            </>
+            {!editPersonalInfo ? (
+                <>
+                    {typographyItems.map((item) => (
+                        <Box key={item.title} sx={{ display: 'flex', pt: '0.2rem' }}>
+                            <Typography sx={{ fontWeight: 600, fontSize: '1rem', color: '#325343' }} >{item.title} : </Typography>
+                            <Typography sx={{ fontWeight: 200, fontSize: '1rem', color: '#325343', ml: '0.2rem' }} >{item.value}</Typography>
+                        </Box>
+                    ))}
+                </>
+
+            ) : (
+                <EditTherapistPersonalInfoComponent setEditPersonalInfo={setEditPersonalInfo} />
+            )}
         </Box>
     )
 }

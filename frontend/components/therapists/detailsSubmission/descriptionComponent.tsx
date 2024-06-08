@@ -41,7 +41,7 @@ const DescriptionComponent: React.FC<DescriptionComponentProps> = ({
                 boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                 borderRadius: '0.6rem',
             }}>
-                <TextField
+                <TextField 
                     id="description"
                     label="Description"
                     multiline

@@ -4,7 +4,7 @@ import Typography from '@mui/joy/Typography';
 import Button from '@mui/material/Button';
 import { useRouter } from 'next/navigation';
 
-const buttonContents = [
+export const therapistRoleContents = [
     { role: 'Clinical Social Worker', skills: `LCSW, LICSW, LISW, LICSW, etc.` },
     { role: 'Marriage & Family Therapist', skills: `(, LMFT, LCMFT, LIMFT, etc.` },
     { role: 'Mental Health Counselor', skills: `LMHC, LCMHC, LMHP, LPMHC, etc.` },
@@ -13,7 +13,7 @@ const buttonContents = [
 ]
 const QueryComponent = () => {
     const router = useRouter()
-    
+
     const navigateToRegister = (role: string) => {
         router.push(`/therapist/register/${role}`)
     }
@@ -36,7 +36,7 @@ const QueryComponent = () => {
                 letterSpacing: '0.1rem'
             }
             }>Select an option to get started</Typography>
-            {buttonContents.map((item, index) => (
+            {therapistRoleContents.map((item, index) => (
 
                 <Button key={index} variant="contained" sx={{
                     mt: 2,
