@@ -39,6 +39,8 @@ export default function ClienttHeader(props: Props) {
     const dispatch = useDispatch();
     const router = useRouter()
     const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
+    const error = useSelector((state: { client: clientStateType }) => state.client.error);
+
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [isClosing, setIsClosing] = useState(false);
@@ -52,6 +54,15 @@ export default function ClienttHeader(props: Props) {
             router.push('/login')
         }
     }, []);
+
+    useEffect(() => {
+        if (error) {
+            toast.error(error);
+            if (error === 'User is blocked') {
+                router.push('/login')
+            }
+        }
+    }, [error]);
 
     const handleDrawerClose = () => {
         setIsClosing(true);

@@ -11,7 +11,7 @@ const protect = (tokenType) => asyncHandler(async (req, res, next) => {
     } else if (tokenType === 'therapist') {
         token = req.cookies.jwtTherapist;
     }
-    console.log('token found',token)
+    console.log('token found', token)
     if (token) {
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -24,9 +24,11 @@ const protect = (tokenType) => asyncHandler(async (req, res, next) => {
             }
             if (!user.isBlocked) {
                 req.user = user;
+                console.log(req.user, 'req userrr')
+                next();
+            } else {
+                res.status(401).json({ message: 'User is blocked' });
             }
-            console.log(req.user, 'req userrr')
-            next();
         } catch (error) {
             res.status(401);
             throw new Error('Not authorized, invalid token')

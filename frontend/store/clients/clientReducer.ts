@@ -13,7 +13,6 @@ const initialState: clientStateType = {
         name: '',
         email: '',
         type: "",
-        questionnaires: [],
         isBlocked: false,
         age: "",
         sessionType: "",
@@ -30,7 +29,8 @@ const initialState: clientStateType = {
         therapistDetails: {
             _id: "",
             name: ""
-        }
+        },
+        questionnaire: []
     },
     isLoading: false,
     error: null

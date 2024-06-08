@@ -13,10 +13,9 @@ import { Button } from '@mui/material';
 
 
 
-const ClientProfileHeader = () => {
+const TherapistProfileHeader = () => {
     const dispatch = useDispatch();
     const router = useRouter()
-    const error = useSelector((state: { client: clientStateType }) => state.client.error);
 
     React.useEffect(() => {
         const clientData = localStorage.getItem("clientData");
@@ -26,15 +25,6 @@ const ClientProfileHeader = () => {
             router.push('/login')
         }
     }, []);
-
-    React.useEffect(() => {
-        if (error) {
-            toast.error(error);
-            if (error === 'User is blocked') {
-                router.push('/login')
-            }
-        }
-    }, [error]);
 
     const logoutHandler = async () => {
         try {
@@ -98,4 +88,4 @@ const ClientProfileHeader = () => {
         </Box>
     );
 }
-export default ClientProfileHeader;
+export default TherapistProfileHeader;
