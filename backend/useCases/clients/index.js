@@ -17,8 +17,9 @@ import {
 
 import {
     getOngoingActivitiesController
-
 } from "./clientActivitiesController/clientActivityController.js";
+
+import { editPersonalInfoController } from "./clientProfile/profileController.js";
 
 const clientControllers = {
     signUp,
@@ -29,6 +30,7 @@ const clientControllers = {
     getClientData,
     postConnectionController,
     getOngoingActivitiesController,
+    editPersonalInfoController
 }
 
 export default clientControllers;

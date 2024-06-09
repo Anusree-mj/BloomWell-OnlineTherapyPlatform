@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { useSelector } from "react-redux";
-import { clientStateType } from "@/store/clients/clientReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { getClientDetailsAction, clientStateType } from "@/store/clients/clientReducer";
 import { Box } from '@mui/system';
 import { Button, MenuItem, TextField } from '@mui/material';
 import { ageItems, teenAgeItems } from '../../submitDetails/ageComponent';
 import { typeItems } from '../../submitDetails/therapyType';
+import axios from 'axios';
 
 interface PersonalInfo {
     name: string,
@@ -17,7 +18,13 @@ interface EditPersonalInfoProps {
     setPersonalEditInfo: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface ValidSpanItems {
+    name: string,
+    email: string
+}
+
 const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setPersonalEditInfo }) => {
+    const dispatch = useDispatch()
     const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
     const [changeEmail, setChangeEmail] = useState(false);
     const [editPersonalInfo, setEditPersonalInfo] = useState<PersonalInfo>({
@@ -26,17 +33,13 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setPersona
         age: clientDetails.age,
         sessionPreferred: clientDetails.sessionType
     })
-    const [validColor, setValidColor] = useState<PersonalInfo>({
+    const [validColor, setValidColor] = useState<ValidSpanItems>({
         name: 'black',
         email: 'black',
-        age: 'black',
-        sessionPreferred: 'black'
     })
-    const [spanText, setSpanText] = useState<PersonalInfo>({
+    const [spanText, setSpanText] = useState<ValidSpanItems>({
         name: '',
         email: '',
-        age: '',
-        sessionPreferred: ''
     })
 
     const handleInputChange = (key: string, value: string) => {
@@ -57,6 +60,54 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setPersona
             [key]: 'black'
         }));
     };
+
+    const handleEdit = async () => {
+        try {
+            console.log('entered in edit fnctn')
+            const valid = checkValidity();
+            if (!valid) {
+                return;
+            } else {
+                const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/profile/personal`,
+                    { personalInfo: editPersonalInfo }, { withCredentials: true, });
+                if (response.status === 200) {
+                    setPersonalEditInfo(false)
+                    dispatch(getClientDetailsAction())
+                }
+            }
+        } catch (err) {
+            console.log('Error found:', err)
+        }
+    }
+
+    const checkValidity = () => {
+        let isValid = true;
+        if (editPersonalInfo.name.trim() === '') {
+            isValid = false;
+            handleBorderChange('name')
+            setSpanText(prevState => ({
+                ...prevState,
+                name: '* This field is required'
+            }))
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(editPersonalInfo.email)) {
+            isValid = false;
+            handleBorderChange('email')
+            setSpanText(prevState => ({
+                ...prevState,
+                email: '* Provide valid email'
+            }))
+        }
+        return isValid;
+    }
+
+    const handleBorderChange = (key: string) => {
+        setValidColor(prevState => ({
+            ...prevState,
+            [key]: 'red'
+        }))
+    }
+
 
     return (
         <Box sx={{
@@ -114,7 +165,7 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setPersona
                     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
-                            borderColor: validColor.name,
+                            borderColor: 'black',
                         },
                     },
                 }}
@@ -144,7 +195,7 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setPersona
                     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
-                            borderColor: validColor.name,
+                            borderColor: 'black',
                         },
                     },
                 }}
@@ -171,7 +222,7 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setPersona
                             color: '#325343',
                             border: '2px solid #95C08D'
                         },
-                    }}
+                    }} onClick={handleEdit}
                 >Edit</Button>
                 <Button variant="contained"
                     sx={{
