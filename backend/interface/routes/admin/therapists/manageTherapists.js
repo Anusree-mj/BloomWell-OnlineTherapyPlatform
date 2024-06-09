@@ -6,6 +6,9 @@ import controllers from '../../../../useCases/index.js'
 // get therapists details
 router.get('/view', protectAdmin, controllers.adminControllers.getTherapistsDetailsController)
 
+// get therapist details for admin view and client view
+router.get('/:therapistId', controllers.therapistControllers.getTherapistData)
+
 // verify therapist
 router.post('/:therapistId/verify', protectAdmin, controllers.adminControllers.verifyTherapistController)
 

@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { useSelector } from "react-redux";
-import { therapistStateType } from '@/store/therapists/therapistReducers';
+import { useDispatch, useSelector } from "react-redux";
+import { getTherapistProfileAction, therapistStateType } from '@/store/therapists/therapistReducers';
 import { Box } from '@mui/system';
 import { Button, MenuItem, TextField, Typography } from '@mui/material';
+import axios from 'axios';
 
 
 
@@ -16,9 +17,32 @@ interface AboutInfo {
 
 
 const EditTherapistAboutComponent: React.FC<EditPersonalInfoProps> = ({ setEditAboutInfo }) => {
+    const dispatch = useDispatch()
     const therapistDetails = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
-
+    const [isChange, setIsChange] = useState(false)
     const [description, setDescription] = useState(therapistDetails.description);
+
+    const handleEdit = async () => {
+        try {
+            if (!isChange) {
+                setEditAboutInfo(false);
+                return;
+            } else {
+
+                console.log('reached els')
+                const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/therapist/profile/description`,
+                    { description: description }, { withCredentials: true, });
+                if (response.status === 200) {
+                    setEditAboutInfo(false)
+                    dispatch(getTherapistProfileAction())
+                }
+            }
+
+        } catch (err) {
+            console.log('Error found:', err)
+        }
+    }
+
 
     return (
         <Box sx={{
@@ -32,7 +56,7 @@ const EditTherapistAboutComponent: React.FC<EditPersonalInfoProps> = ({ setEditA
                 multiline
                 rows={4}
                 value={description}
-                onChange={(e) => { setDescription(e.target.value) }}
+                onChange={(e) => { setDescription(e.target.value), setIsChange(true) }}
                 sx={{ width: '100%' }}
             />
             <Box sx={{
@@ -48,7 +72,7 @@ const EditTherapistAboutComponent: React.FC<EditPersonalInfoProps> = ({ setEditA
                             color: '#325343',
                             border: '2px solid #95C08D'
                         },
-                    }}
+                    }} onClick={handleEdit}
                 >Edit</Button>
                 <Button variant="contained"
                     sx={{

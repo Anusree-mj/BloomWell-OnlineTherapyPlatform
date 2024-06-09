@@ -6,7 +6,9 @@ import {
 
 import {
     getTherapistData,
-    getTherapistProfileDataController
+    getTherapistProfileDataController,
+    editTherapistPersonalInfoController,
+    editTherapistDescriptionController,
 
 } from "./profile/therapistProfileController.js"
 
@@ -24,6 +26,9 @@ const therapistControllers = {
     uploadImage,
     getConnectionRequestController,
     manageConnectionRequestController,
+    editTherapistPersonalInfoController,
+    editTherapistDescriptionController,
+    
 }
 
 export default therapistControllers

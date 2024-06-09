@@ -83,7 +83,7 @@ function* getTherapistDetailsActionSaga(action: {
         console.log('entered in saga')
         const response = yield call<any>(apiCall, {
             method: 'GET',
-            endpoint: `therapist/${action.payload}`,
+            endpoint: `admin/therapists/${action.payload}`,
         });
 
         if (response.status === 'ok') {
