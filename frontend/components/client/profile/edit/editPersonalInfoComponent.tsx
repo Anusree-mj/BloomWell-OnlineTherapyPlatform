@@ -27,6 +27,7 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setPersona
     const dispatch = useDispatch()
     const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
     const [changeEmail, setChangeEmail] = useState(false);
+    const [isChange, setIsChange] = useState(false)
     const [editPersonalInfo, setEditPersonalInfo] = useState<PersonalInfo>({
         name: clientDetails.name,
         email: clientDetails.email,
@@ -43,6 +44,7 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setPersona
     })
 
     const handleInputChange = (key: string, value: string) => {
+        setIsChange(true)
         if (key === 'email') setChangeEmail(true)
         setEditPersonalInfo(prevState => ({
             ...prevState,
@@ -63,7 +65,10 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setPersona
 
     const handleEdit = async () => {
         try {
-            console.log('entered in edit fnctn')
+            if (!isChange) {
+                setPersonalEditInfo(false);
+                return;
+            }
             const valid = checkValidity();
             if (!valid) {
                 return;

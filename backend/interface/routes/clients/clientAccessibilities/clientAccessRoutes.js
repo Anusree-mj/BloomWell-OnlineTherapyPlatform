@@ -14,5 +14,6 @@ router.get('/myActivity/ongoing', protect('client'), controllers.clientControlle
 
 // edit profile 
 router.put('/profile/personal', protect('client'), controllers.clientControllers.editPersonalInfoController)
+router.put('/profile/medical', protect('client'), controllers.clientControllers.editMedicalInfoController)
 
 export default router;

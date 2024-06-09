@@ -16,10 +16,28 @@ const editClientPersonalInfo = async (clientId, personalInfo) => {
     }
     catch (err) {
         console.log(err)
-        return{status:'nok',message:'Invalid entry'}
+        return { status: 'nok', message: 'Invalid entry' }
+    }
+}
+
+const editClientMedicalInfo = async (clientId, medicalInfo) => {
+    try {
+        const { questionnaire } = medicalInfo
+        const query = { _id: clientId }
+        const update = {
+            questionnaire: questionnaire
+        }
+        const options = { upsert: false }
+        const response = await Client.updateOne(query, update, options)
+        if (response.modifiedCount > 0) return { status: 'ok' }
+    }
+    catch (err) {
+        console.log(err)
+        return { status: 'nok', message: 'Invalid entry' }
     }
 }
 
 export default {
-    editClientPersonalInfo
+    editClientPersonalInfo,
+    editClientMedicalInfo
 }

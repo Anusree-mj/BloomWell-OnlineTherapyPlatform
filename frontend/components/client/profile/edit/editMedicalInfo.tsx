@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { useSelector } from "react-redux";
-import { clientStateType } from "@/store/clients/clientReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { getClientDetailsAction, clientStateType } from "@/store/clients/clientReducer";
 import { Box } from '@mui/system';
 import { Button, MenuItem, TextField, Typography } from '@mui/material';
+import axios from 'axios';
 
 
 
@@ -21,12 +22,15 @@ interface MedicalInfo {
 
 const EditMedicalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditMedicalInfo, questions }) => {
     const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
+    const dispatch = useDispatch()
 
+    const [isChange, setIsChange] = useState(false);
     const [editMedicalInfos, setEditMedicalInfos] = useState<MedicalInfo>({
         questionnaire: clientDetails.questionnaire
     })
 
     const handleInputChange = (index: number, value: string) => {
+        setIsChange(true)
         setEditMedicalInfos(prevState => {
             const newQuestionnaire = [...prevState.questionnaire];
             newQuestionnaire[index] = value;
@@ -34,14 +38,32 @@ const EditMedicalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditMedi
         });
     };
 
+    const handleEdit = async () => {
+        try {
+            if (!isChange) {
+                setEditMedicalInfo(false);
+                return;
+            }
+            const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/profile/medical`,
+                { medicalInfo: editMedicalInfos }, { withCredentials: true, });
+            if (response.status === 200) {
+                setEditMedicalInfo(false)
+                dispatch(getClientDetailsAction())
+            }
+
+        } catch (err) {
+            console.log('Error found:', err)
+        }
+    }
+
     return (
         <Box sx={{
             display: 'flex', flexWrap: 'wrap', alignItems: 'center',
-            justifyContent: 'space-around', width: '80rem', maxWidth: '90%',
+            justifyContent: 'space-around', width: '80rem', maxWidth: '100%',
         }}>
             {questions.map((item, index) => (
                 <Box sx={{
-                    display: 'flex', flexDirection: 'column', mt: 3
+                    display: 'flex', flexDirection: 'column', mt: 3, maxWidth: '90%'
                 }}>
                     <Typography sx={{
                         color: '#325343',
@@ -86,7 +108,7 @@ const EditMedicalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditMedi
                             color: '#325343',
                             border: '2px solid #95C08D'
                         },
-                    }}
+                    }} onClick={handleEdit}
                 >Edit</Button>
                 <Button variant="contained"
                     sx={{

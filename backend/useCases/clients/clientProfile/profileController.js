@@ -19,7 +19,25 @@ const editPersonalInfoController = async (req, res) => {
     }
 }
 
+const editMedicalInfoController = async (req, res) => {
+    try {
+        console.log('reached profile')
+        const clientId = req.user._id
+        const medicalInfo = req.body.medicalInfo;
+
+        const response = await clientProfileQuery.editClientMedicalInfo(clientId, medicalInfo);
+        if (response.status === 'ok') {
+            const { status } = response
+            res.status(200).json({ status: status });
+        } else {
+            res.status(400).json({ status: 'nok', message: 'Something went wrong' });
+        }
+    } catch (err) {
+        console.log('Error found', err)
+    }
+}
 
 export {
     editPersonalInfoController,
+    editMedicalInfoController,
 }
