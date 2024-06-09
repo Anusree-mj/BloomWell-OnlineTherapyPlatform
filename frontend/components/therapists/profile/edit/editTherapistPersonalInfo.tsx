@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { useSelector } from "react-redux";
-import { therapistStateType } from '@/store/therapists/therapistReducers';
+import { useDispatch, useSelector } from "react-redux";
+import { getTherapistProfileAction, therapistStateType } from '@/store/therapists/therapistReducers';
 import { Box } from '@mui/system';
 import { Button, MenuItem, TextField } from '@mui/material';
 import { genderOptions } from '../../detailsSubmission/licenseComponent';
 import { therapistRoleContents } from '@/components/user/therapistJob/queryComponent';
+import axios from 'axios';
 
 
 interface PersonalInfo {
@@ -13,7 +14,11 @@ interface PersonalInfo {
     phone: number,
     gender: string,
     role: string,
-    phoneSpan: string
+}
+interface validateInfo {
+    name: string,
+    email: string,
+    phone: string,
 }
 
 interface EditPersonalInfoProps {
@@ -22,6 +27,8 @@ interface EditPersonalInfoProps {
 
 const EditTherapistPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditPersonalInfo }) => {
     const therapistDetails = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
+    const dispatch = useDispatch()
+    const [isChange, setIsChange] = useState(false)
     const [changeEmail, setChangeEmail] = useState(false);
     const [editPersonalInfos, setEditPersonalInfos] = useState<PersonalInfo>({
         name: therapistDetails.name,
@@ -29,26 +36,80 @@ const EditTherapistPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ s
         phone: therapistDetails.phone,
         gender: therapistDetails.gender,
         role: therapistDetails.role,
-        phoneSpan: ''
     })
-    const [validColor, setValidColor] = useState<PersonalInfo>({
+    const [validColor, setValidColor] = useState<validateInfo>({
         name: 'black',
         email: 'black',
-        phone: 0,
-        phoneSpan: 'black',
-        gender: 'black',
-        role: 'black'
+        phone: 'black',
+
     })
-    const [spanText, setSpanText] = useState<PersonalInfo>({
+    const [spanText, setSpanText] = useState<validateInfo>({
         name: '',
         email: '',
-        phoneSpan: '',
-        phone: 0,
-        role: '',
-        gender: ''
+        phone: '',
     })
 
+    const handleEdit = async () => {
+        try {
+            if (!isChange) {
+                setEditPersonalInfo(false);
+                return;
+            }
+            const valid = checkValidity();
+            if (!valid) {
+                return;
+            }
+             else {
+                const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/therapist/profile/personal`,
+                    { personalInfo: editPersonalInfos }, { withCredentials: true, });
+                if (response.status === 200) {
+                    setEditPersonalInfo(false)
+                    dispatch(getTherapistProfileAction())
+                }
+            }
+        } catch (err) {
+            console.log('Error found:', err)
+        }
+    }
+
+    const checkValidity = () => {
+        let isValid = true;
+        if (editPersonalInfos.name.trim() === '') {
+            isValid = false;
+            handleBorderChange('name')
+            setSpanText(prevState => ({
+                ...prevState,
+                name: '* This field is required'
+            }))
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(editPersonalInfos.email)) {
+            isValid = false;
+            handleBorderChange('email')
+            setSpanText(prevState => ({
+                ...prevState,
+                email: '* Provide valid email'
+            }))
+        }
+        if (!/^\d{10}$/.test(editPersonalInfos.phone.toString())) {
+            isValid = false;
+            handleBorderChange('email')
+            setSpanText(prevState => ({
+                ...prevState,
+                phone: '* Provide valid phone number'
+            }))
+        }
+        return isValid;
+    }
+
+    const handleBorderChange = (key: string) => {
+        setValidColor(prevState => ({
+            ...prevState,
+            [key]: 'red'
+        }))
+    }
+
     const handleInputChange = (key: string, value: string) => {
+        setIsChange(true)
         if (key === 'email') setChangeEmail(true)
         setEditPersonalInfos(prevState => ({
             ...prevState,
@@ -124,27 +185,27 @@ const EditTherapistPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ s
                         boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                         '& .MuiOutlinedInput-root': {
                             '& fieldset': {
-                                borderColor: validColor.phoneSpan,
+                                borderColor: validColor.phone,
                             },
                         },
                     }} onChange={(e) => { handleInputChange('phone', e.target.value) }}
-                    onClick={() => handleClearSpan('phoneSpan')}
+                    onClick={() => handleClearSpan('phone')}
                 />
                 <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
-                >{spanText.phoneSpan}</span>
+                >{spanText.phone}</span>
             </Box>
             <TextField
                 id="experience"
                 select
-                label="Age"
+                label="Fender"
                 value={editPersonalInfos.gender}
-                onChange={(e) => handleInputChange('age', e.target.value)}
+                onChange={(e) => handleInputChange('gender', e.target.value)}
                 sx={{
                     maxWidth: '100%', width: '30rem', mt: 3,
                     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
-                            borderColor: validColor.name,
+                            borderColor: 'black',
                         },
                     },
                 }}
@@ -160,14 +221,14 @@ const EditTherapistPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ s
             <TextField
                 id="experience"
                 select
-                label="Session Preferred"
+                label="Role"
                 value={editPersonalInfos.role}
                 sx={{
                     maxWidth: '100%', width: '30rem', mt: 3,
                     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
-                            borderColor: validColor.name,
+                            borderColor: 'black',
                         },
                     },
                 }}
@@ -175,7 +236,7 @@ const EditTherapistPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ s
                 {therapistRoleContents.map((option) => (
                     <MenuItem key={option.role} value={option.role}
                         onClick={() => {
-                            handleInputChange('sessionPreferred', option.role)
+                            handleInputChange('role', option.role)
                         }}>
                         {option.role}
                     </MenuItem>
@@ -194,7 +255,7 @@ const EditTherapistPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ s
                             color: '#325343',
                             border: '2px solid #95C08D'
                         },
-                    }}
+                    }} onClick={handleEdit}
                 >Edit</Button>
                 <Button variant="contained"
                     sx={{

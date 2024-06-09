@@ -1,5 +1,5 @@
 import therapistQuery from '../../../infrastructure/dbQueries/therapist/therapistQuery.js';
-
+import therapotProfileQuery from '../../../infrastructure/dbQueries/therapist/therapotProfileQuery.js';
 
 // get data 
 const getTherapistData = async (req, res) => {
@@ -39,9 +39,48 @@ const getTherapistProfileDataController = async (req, res) => {
     }
 }
 
+// edit profile
+const editTherapistPersonalInfoController = async (req, res) => {
+    try {
+        console.log('reached profile')
+        const therapistId = req.user._id
+        const personalInfo = req.body.personalInfo;
+
+        const response = await therapotProfileQuery.editTherapisttPersonalInfo(therapistId, personalInfo);
+        if (response.status === 'ok') {
+            const { status } = response
+            res.status(200).json({ status: status });
+        } else {
+            res.status(400).json({ status: 'nok', message: 'Something went wrong' });
+        }
+    } catch (err) {
+        console.log('Error found', err)
+    }
+}
+
+const editTherapistDescriptionController = async (req, res) => {
+    try {
+        console.log('reached description profile')
+        const therapistId = req.user._id
+        const aboutInfo = req.body.description;
+
+        const response = await therapotProfileQuery.editTherapistDescrptionInfo(therapistId, aboutInfo);
+        if (response.status === 'ok') {
+            const { status } = response
+            res.status(200).json({ status: status });
+        } else {
+            res.status(400).json({ status: 'nok', message: 'Something went wrong' });
+        }
+    } catch (err) {
+        console.log('Error found', err)
+    }
+}
 
 
 export {
     getTherapistData,
-    getTherapistProfileDataController
+    getTherapistProfileDataController,
+    editTherapistPersonalInfoController,
+    editTherapistDescriptionController,
+
 }
