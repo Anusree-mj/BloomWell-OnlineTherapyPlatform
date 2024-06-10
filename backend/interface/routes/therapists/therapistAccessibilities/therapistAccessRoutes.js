@@ -7,5 +7,7 @@ import { protect } from '../../../middlewares/authMiddleware.js'
 router.get('/connections', protect('therapist'), controllers.therapistControllers.getConnectionRequestController)
 // post connection request status
 router.post('/connections', protect('therapist'), controllers.therapistControllers.manageConnectionRequestController)
+// get rejected connections
+router.get('/rejected/connections', protect('therapist'), controllers.therapistControllers.getRejectedConnectionsController)
 
 export default router;

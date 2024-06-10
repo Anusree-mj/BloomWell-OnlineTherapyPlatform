@@ -89,7 +89,7 @@ const verifyOTPQuery = async (email, otp) => {
 
 const getNotifications = async (userId) => {
     try {
-        const notifications = await Notifications.find({ userId: userId });
+        const notifications = await Notifications.find({ userId: userId }).sort({ createdAt: -1 });
         if (notifications) {
             return { status: 'ok', notifications }
         } else {

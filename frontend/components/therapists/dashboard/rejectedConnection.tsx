@@ -2,23 +2,16 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import FormHelperText from '@mui/material/FormHelperText';
 import { useRouter } from "next/navigation";
-import { Box, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import Link from "next/link";
-import { getTherapistsConnectionRequestAction, connectionStateType } from "@/store/therapists/therapistConnectionHandlerReducers";
-import { manageConnectionRequest } from "@/utilities/therapists/manageConnectionRequest";
+import { getTherapistsRejectedConnectionsAction, connectionStateType } from "@/store/therapists/therapistConnectionHandlerReducers";
 
-const verifyOptions = [
-    'Accept',
-    'Reject',
-];
 
-const ConnectionRequestsComponent = () => {
+const RejectedConnectionsComponent = () => {
     const dispatch = useDispatch();
     const router = useRouter()
     const [search, setSearch] = useState<string>('');
-    const [verifystatus, setVerifyStatus] = useState('')
     const connections = useSelector((state: {
         therapistConnectionRequests: connectionStateType
     }) => state.therapistConnectionRequests.connections);
@@ -26,7 +19,7 @@ const ConnectionRequestsComponent = () => {
     useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
         if (therapistData) {
-            dispatch(getTherapistsConnectionRequestAction());
+            dispatch(getTherapistsRejectedConnectionsAction());
         } else {
             router.push('/login')
         }
@@ -43,51 +36,23 @@ const ConnectionRequestsComponent = () => {
         { field: "no", headerName: "No", width: 10 },
         { field: "name", headerName: "Name", width: 120 },
         { field: "email", headerName: "Email", width: 150 },
+        { field: "reason", headerName: "Rejected Reason", width: 230 },
         {
-            field: "medicalInfo",
-            headerName: "Medical Info",
+            field: "addReason",
+            headerName: "Add Reason",
             sortable: false,
-            width: 120,
+            width: 90,
             renderCell: (params) => (
-                <Link href={`/client/view/${params.row.id}`} style={{ textDecoration: 'underline' }}
-                >View
-                </Link>
+                params.row.reason ? (
+                    <Typography sx={{ color: 'gray', mt: '0.8rem' }}>Added</Typography>
+                ) : (
+                    <Link href={`/therapist/dashboard/connections/rejected/addReason/${params.row.id}`} style={{ textDecoration: 'underline' }}>
+                        ADD
+                    </Link>
+                )
             ),
         },
-        { field: "verificationStatus", headerName: "Status", width: 90 },
-        {
-            field: "verify",
-            headerName: "Verify",
-            sortable: false,
-            width: 160,
-            renderCell: (params) => (
-                <Box sx={{
-                    m: 1, minWidth: 100, border: 'none', outline: 'none',
-                }}>
-                    <Select sx={{
-                        outline: 'none', border: 'none',
-                        fontSize: '0.88rem', padding: 0
-                    }}
-                        value={verifystatus}
-                        onChange={(e) => manageConnectionRequest(params.row.id, params.row.name, e.target.value)}
-                        displayEmpty
-                        inputProps={{ 'aria-label': 'Without label' }}
-                        disabled={params.row.verificationStatus !== 'pending'}
-                    >
-                        <MenuItem value="" sx={{ fontSize: '0.88rem' }}>
-                            <em>None</em>
-                        </MenuItem>
-                        {verifyOptions.map((option) => (
-                            <MenuItem key={option} value={option}
-                                sx={{ fontSize: '0.88rem' }}>
-                                {option}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                    <FormHelperText>Without label</FormHelperText>
-                </Box>
-            ),
-        },
+
     ];
 
     const filteredConnections = connections.filter(connection =>
@@ -101,12 +66,12 @@ const ConnectionRequestsComponent = () => {
         no: index + 1,
         name: connection.clientId.name,
         email: connection.clientId.email,
-        verificationStatus: connection.status,
-        medicalInfo: 'view',
+        reason: connection.reasonForRejection,
+        addReason: 'ADD',
     }));
 
-    const handleGetRejectedLists = () => {
-        router.push('/therapist/dashboard/connections/rejected')
+    const handleGetAll = () => {
+        router.push('/therapist/dashboard/connections')
     }
 
     return (
@@ -145,8 +110,8 @@ const ConnectionRequestsComponent = () => {
                 <Typography noWrap component="div" sx={{
                     color: '#325343', mb: 1, textDecoration: 'underline',
                     fontWeight: 600, alignSelf: 'flex-start', cursor: 'pointer'
-                }} onClick={handleGetRejectedLists} >
-                    Rejected Connections
+                }} onClick={handleGetAll} >
+                    All Connections
                 </Typography>
             </Box>
             <Box
@@ -178,4 +143,4 @@ const ConnectionRequestsComponent = () => {
         </Box>
     );
 }
-export default ConnectionRequestsComponent
+export default RejectedConnectionsComponent

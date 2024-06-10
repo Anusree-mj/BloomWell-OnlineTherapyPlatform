@@ -18,6 +18,7 @@ import {
 import {
     getConnectionRequestController,
     manageConnectionRequestController,
+    getRejectedConnectionsController,
 
 } from "./therapistConnections/therapistConnectionController.js"
 
@@ -34,6 +35,7 @@ const therapistControllers = {
     changePasswordController,
     changeProfileImage,
     editProffessionalInfoController,
+    getRejectedConnectionsController,
 }
 
 export default therapistControllers

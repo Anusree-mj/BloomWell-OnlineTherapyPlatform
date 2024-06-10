@@ -37,7 +37,29 @@ const postConnectionController = async (req, res) => {
     }
 }
 
+// disconnect connection
+const disconnectController = async (req, res) => {
+    try {
+        console.log('reached in disconnect')
+        const clientId = req.user._id
+        const { reason, connectionId } = req.body;
+        const response = await clientConnectionQueries.disconnect(clientId, connectionId, reason)
+        if (response.status === 'ok') {
+            console.log('disconnected succesfully')
+            res.status(200).json({ status: 'ok' });
+        } else {
+            console.log('Disconnection failed')
+            const { status, message } = response
+            res.status(400).json({ status: status, message: message });
+        }
+    } catch (err) {
+        console.log('Error found', err)
+    }
+}
+
+
 export {
     getConnectionController,
     postConnectionController,
+    disconnectController,
 }

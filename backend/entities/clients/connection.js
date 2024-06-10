@@ -23,7 +23,10 @@ const connectionsSchema = mongoose.Schema({
     },
     reasonForDisconnection: {
         type: String
-    }
+    },
+    reasonForRejection: {
+        type: String
+    },
 }, {
     timestamps: true
 })

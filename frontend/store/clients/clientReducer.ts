@@ -16,8 +16,8 @@ const initialState: clientStateType = {
         isBlocked: false,
         age: "",
         sessionType: "",
-        isConnected: '',
-        isAnUser:false,
+        isConnected: false,
+        isAnUser: false,
         isSubscribed: false,
         connectionDetails: {
             _id: '',

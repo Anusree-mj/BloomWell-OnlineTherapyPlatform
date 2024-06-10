@@ -86,7 +86,7 @@ const AllActivityComponent = () => {
             height: '100vh', mt: 2,
             ml: { sm: '15rem' }
         }}>
-            {ongoingActivity ? (
+            {connectionDetails.therapistName !== '' ? (
                 <>
                     <Box sx={{
                         display: 'flex',

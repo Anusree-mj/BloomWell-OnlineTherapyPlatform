@@ -7,13 +7,19 @@ import { Provider } from 'react-redux';
 import store from "@/store";
 import AddRejectingReasonComponent from "@/components/admin/therapist/addRejectingReason";
 
-export default function Page({ params }: { params: { therapistId: string } }) {
+const reasonItems = [
+    'Invalid or Expired License', 'Insufficient Experience', 'Incomplete or Incorrect Information',
+    'Background Check Issues', 'Not taking therapists at the moment'
+]
+const url = 'admin/therapists/rejected'
+export default function Page({ params }: { params: { reasonId: string } }) {
     return (
         <Provider store={store}>
             <ToastContainer />
             <AdminSingleHeader />
             <div style={{ paddingTop: '1rem' }}>
-                <AddRejectingReasonComponent therapistId={params.therapistId} />
+                <AddRejectingReasonComponent reasonId={params.reasonId} reasonItems={reasonItems}
+                    url={url} />
             </div>
             <Footer />
         </Provider>

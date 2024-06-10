@@ -5,7 +5,7 @@ import Client from "../../../entities/clients/clients.js"
 const getOngoingActivityDetails = async (clientId) => {
     try {
         const client = await Client.findOne({ _id: clientId })
-        if (client.isAnUser) {
+        if (client.isConnected) {
             const clientConnection = await Connections.findOne({ _id: client.connectionId }).populate(
                 'therapistId', 'name'
             )
@@ -15,6 +15,7 @@ const getOngoingActivityDetails = async (clientId) => {
             };
             return { status: 'ok', connectionDetails }
         } else {
+            console.log('No ongoing activity')
             return { status: 'nok', message: 'Client not connected' }
         }
     }
