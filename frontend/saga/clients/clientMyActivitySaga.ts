@@ -21,7 +21,7 @@ function* getClientOngoingActivityActionSaga(action: {
             method: 'GET',
             endpoint: `client/myActivity/ongoing`,
         });
-
+        console.log('reaponse got in ongoing saga', response)
         if (response.status === 'ok') {
             yield put(getClientOngoingActivitySuccessAction(response.connectionDetails))
         } else {

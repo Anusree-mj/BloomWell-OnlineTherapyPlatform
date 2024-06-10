@@ -1,4 +1,5 @@
 import Connections from "../../../entities/clients/connection.js";
+import Notifications from '../../../entities/users/notificationModel.js'
 
 const getConnectionRequests = async () => {
     try {
@@ -22,8 +23,12 @@ const manageConnectionRequest = async (connectionStatus, connectionId) => {
         const update = { adminVerify: connectionStatus }
         const options = { upsert: false }
         const response = await Connections.updateOne(query, update, options)
-        await checkActiveConnection(connectionId)
         if (response.modifiedCount <= 1) {
+            const connection = await Connections.findById(connectionId)
+                .populate('therapistId', 'name');
+            const therapistName = connection.therapistId.name;
+            const clientId = connection.clientId;
+            await checkActiveConnection(connectionId, therapistName, clientId)
             return { status: 'ok' }
         } else {
             return { status: 'nok', message: 'Connection request not found' }
@@ -33,8 +38,16 @@ const manageConnectionRequest = async (connectionStatus, connectionId) => {
     }
 }
 
-export const checkActiveConnection = async (connectionId) => {
+export const checkActiveConnection = async (connectionId, therapistName, clientId) => {
     try {
+        const message = `Your connection request has been accepted by ${therapistName}. You can now start your sessions. Welcome aboard!`;
+        const updateNotification = await Notifications.insertMany({
+            userId: clientId,
+            userType: 'Client',
+            head: 'Connection Request Updated',
+            message: message,
+        })
+        console.log('update notif', updateNotification)
         const query = {
             _id: connectionId,
             adminVerify: 'Accept',

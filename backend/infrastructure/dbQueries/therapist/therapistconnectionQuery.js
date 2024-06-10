@@ -23,8 +23,12 @@ const manageConnectionRequest = async (connectionStatus, connectionId) => {
         const update = { status: connectionStatus }
         const options = { upsert: false }
         const response = await Connections.updateOne(query, update, options);
-        await checkActiveConnection(connectionId)
         if (response.modifiedCount <= 1) {
+            const connection = await Connections.findById(connectionId)
+                .populate('therapistId', 'name');
+            const therapistName = connection.therapistId.name;
+            const clientId = connection.clientId;
+            await checkActiveConnection(connectionId, therapistName, clientId);
             return { status: 'ok' }
         } else {
             return { status: 'nok', message: 'Connection request not found' }

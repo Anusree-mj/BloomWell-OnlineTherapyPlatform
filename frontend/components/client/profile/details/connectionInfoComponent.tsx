@@ -47,7 +47,7 @@ const ConnectionInfoComponent: React.FC<ConnectionInfoProps> = ({ connectionInfo
                                 color: 'white',
                             }
                         }}
-                    >Cancel</Button>
+                    >DisConnect</Button>
                 </>
             ) : (
                 <>
