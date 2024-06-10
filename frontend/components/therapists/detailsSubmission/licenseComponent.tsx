@@ -18,7 +18,7 @@ interface LicenseComponentProps {
 }
 
 
-const experienceOptions = [
+export const experienceOptions = [
     '1-2 years',
     '2-5 years',
     '5-10 years',

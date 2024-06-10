@@ -11,9 +11,9 @@ interface ExpertiseComponentProps {
 }
 
 const expertiseButtonItems = ['Couple therapy', 'Individual therapy', 'Teen therapy', 'Stress',
-    'Depression', 'Anxiety Disorders', 'Trauma Recovery', 'Postpartum', 'Addiction', 'Intimacy and Connection',
-    'Pre-marital Counselling', 'Parenting skills', 'Sexual Dysfunction', 'Communication Issues',
-    'Relationship Enrichment', 'Adolescent Development', 'Peer Relationships', 'Social Skills', 'Suicidal Ideation',
+    'Depression', 'Anxiety Disorders', 'Trauma Recovery', 'Postpartum', 'Addiction', 
+     'Parenting skills', 'Sexual Dysfunction', 'Communication Issues',
+    'Relationship Enrichment', 'Social Skills', 'Suicidal Ideation',
     'Family Conflict'
 ]
 

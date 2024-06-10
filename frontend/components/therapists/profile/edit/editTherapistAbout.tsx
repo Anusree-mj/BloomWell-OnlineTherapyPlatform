@@ -2,17 +2,13 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { getTherapistProfileAction, therapistStateType } from '@/store/therapists/therapistReducers';
 import { Box } from '@mui/system';
-import { Button, MenuItem, TextField, Typography } from '@mui/material';
+import { Button,TextField } from '@mui/material';
 import axios from 'axios';
 
 
 
 interface EditPersonalInfoProps {
     setEditAboutInfo: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-interface AboutInfo {
-    description: string
 }
 
 

@@ -1,21 +1,25 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import { Avatar, Box, Button, Typography } from "@mui/material";
+import { Avatar, Box, Button, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
 import { therapistStateType } from '@/store/therapists/therapistReducers';
 import PersonalInfoComponent from "./personalComponent";
+import TherapistProfileImageComponent from "./profileImageComponent";
 import AboutInfoComponent from "./aboutComponent";
-import ProffessionalInfoComponent from "./experienceExpertiseComponent";
+import ProffessionalInfoComponent from "./proffessionalInfoComponent";
 import PasswordComponent from "@/components/client/profile/details/passwordComponent";
+import axios from "axios";
+import { toast } from "react-toastify";
+import UploadIcon from '@mui/icons-material/Upload';
 
 const TherapistProfileComponent = () => {
     const therapistDetails = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
     const router = useRouter();
+    const [image, setImage] = useState('')
     const [personalInfoItems, setPersonalInfoItems] = useState({
         name: '',
         email: '',
         phone: 0,
-        image: '',
         gender: '',
         role: ''
     })
@@ -40,11 +44,10 @@ const TherapistProfileComponent = () => {
             name: therapistDetails.name,
             email: therapistDetails.email,
             phone: therapistDetails.phone,
-            image: therapistDetails.image,
             gender: therapistDetails.gender,
             role: therapistDetails.role
         });
-
+        setImage(therapistDetails.image)
         setDescription(therapistDetails.description)
         setProffessionalInfo({
             licenseNo: therapistDetails.license.licenseNo,
@@ -72,24 +75,11 @@ const TherapistProfileComponent = () => {
                     alignSelf: 'flex-start', ml: '0.3rem',
                     color: '#325343', fontWeight: 800, fontSize: '1.5rem', mt: 4
                 }}>My Profile</Typography>
-                <Box sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'column',
-                }}>
-                    <Avatar src={personalInfoItems.image} sx={{
-                        width: 200, height: 200,
-                        alignSelf: 'center'
-                    }} />
-                    <Button variant="contained"
-                        sx={{ mt: 1, backgroundColor: '#325343' }}
-                    >Change</Button>
-                </Box>
+                <TherapistProfileImageComponent image={image} setImage={setImage} />
                 <PersonalInfoComponent personalInfoItem={personalInfoItems} />
                 <AboutInfoComponent description={description} />
                 <ProffessionalInfoComponent proffessionalInfo={proffessionalInfo} />
-                <PasswordComponent role='therapist'/>
+                <PasswordComponent role='therapist' />
             </Box>
         </Box>
     );

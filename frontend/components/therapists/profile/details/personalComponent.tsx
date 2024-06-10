@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-import { Avatar, Button, Divider, Typography } from '@mui/material'
+import { Divider, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import EditTherapistPersonalInfoComponent from '../edit/editTherapistPersonalInfo';
 
-interface PersonalInfoProps {
+export interface PersonalInfoProps {
     personalInfoItem: {
         name: string,
         email: string,
         phone: number,
-        image: string,
         gender: string,
         role: string
     },

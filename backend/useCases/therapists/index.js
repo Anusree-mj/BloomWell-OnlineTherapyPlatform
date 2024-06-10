@@ -10,6 +10,9 @@ import {
     editTherapistPersonalInfoController,
     editTherapistDescriptionController,
     changePasswordController,
+    changeProfileImage,
+    editProffessionalInfoController
+
 } from "./profile/therapistProfileController.js"
 
 import {
@@ -29,6 +32,8 @@ const therapistControllers = {
     editTherapistPersonalInfoController,
     editTherapistDescriptionController,
     changePasswordController,
+    changeProfileImage,
+    editProffessionalInfoController,
 }
 
 export default therapistControllers

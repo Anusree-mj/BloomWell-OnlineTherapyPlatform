@@ -197,7 +197,7 @@ const EditTherapistPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ s
             <TextField
                 id="experience"
                 select
-                label="Fender"
+                label="Gender"
                 value={editPersonalInfos.gender}
                 onChange={(e) => handleInputChange('gender', e.target.value)}
                 sx={{

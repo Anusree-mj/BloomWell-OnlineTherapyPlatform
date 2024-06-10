@@ -1,8 +1,8 @@
 export interface LicenseDetails {
     licenseNo: string;
-    country?: string;
-    licenseProof?: string;
-    expirationDate?: Date;
+    country: string;
+    licenseProof: string;
+    expirationDate: Date;
 }
 
 export interface ReviewItems {
