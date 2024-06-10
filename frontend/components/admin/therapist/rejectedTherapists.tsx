@@ -13,7 +13,6 @@ const RejectedTherapistsComponent = () => {
     const therapists = useSelector((state: { admin: adminStateType }) => state.admin.therapists);
     const router = useRouter()
     const [search, setSearch] = useState<string>('');
-    const [verifystatus, setVerifyStatus] = useState('')
 
     useEffect(() => {
         const adminData = localStorage.getItem("adminData");
@@ -36,16 +35,20 @@ const RejectedTherapistsComponent = () => {
         { field: "slNo", headerName: "No", width: 10 },
         { field: "name", headerName: "Name", width: 120 },
         { field: "email", headerName: "Email", width: 150 },
-        { field: "reason", headerName: "Rejected Reason", width: 200 },
+        { field: "reason", headerName: "Rejected Reason", width: 230 },
         {
             field: "addReason",
             headerName: "Add Reason",
             sortable: false,
             width: 90,
             renderCell: (params) => (
-                <Link href={`/therapist/view/${params.row.id}`} style={{ textDecoration: 'underline' }}
-                >ADD
-                </Link>
+                params.row.reason ? (
+                    <Typography sx={{ color: 'gray', mt: '0.8rem' }}>Added</Typography>
+                ) : (
+                    <Link href={`/admin/therapists/rejected/addReason/${params.row.id}`} style={{ textDecoration: 'underline' }}>
+                        ADD
+                    </Link>
+                )
             ),
         },
     ];
@@ -62,7 +65,7 @@ const RejectedTherapistsComponent = () => {
         slNo: index + 1,
         name: therapist.name,
         email: therapist.email,
-        reason: therapist.reason,
+        reason: therapist.reasonForRejection,
         addReason: 'ADD',
     }));
 

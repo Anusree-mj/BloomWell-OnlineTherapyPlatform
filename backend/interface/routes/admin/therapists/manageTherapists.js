@@ -24,6 +24,6 @@ router.post('/connections', protectAdmin, controllers.adminControllers.manageCon
 
 // get rejected therapists
 router.get('/rejected', protectAdmin, controllers.adminControllers.getRejectedTherapistController)
-
+router.post('/rejected', protectAdmin, controllers.adminControllers.postRejectedReasonController)
 
 export default router;
