@@ -6,9 +6,8 @@ export interface ClientItem {
     age: string;
     questionnaire: [];
     sessionType: string;
-    stripeCustomerId: string;
-    stripeSubscriptionId: string;
     isConnected: string;
+    isAnUser: boolean;
     isSubscribed: boolean;
     isBlocked: boolean;
     connectionDetails: {
@@ -20,6 +19,16 @@ export interface ClientItem {
     therapistDetails: {
         _id: string;
         name: string;
+    }
+    subscription: {
+        stripeCustomerId: string;
+        stripeSubscriptionId: string;
+        stripePriceId: string;
+        stripeCurrentPeriodEnd: string;
+        stripeCurrentPeriodStart: string;
+        stripeTrialEnd: string;
+        amount: number;
+        status: string;
     }
 }
 

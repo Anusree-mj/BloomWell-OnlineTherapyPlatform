@@ -89,7 +89,7 @@ const TherapistProfileComponent = () => {
                 <PersonalInfoComponent personalInfoItem={personalInfoItems} />
                 <AboutInfoComponent description={description} />
                 <ProffessionalInfoComponent proffessionalInfo={proffessionalInfo} />
-                <PasswordComponent />
+                <PasswordComponent role='therapist'/>
             </Box>
         </Box>
     );

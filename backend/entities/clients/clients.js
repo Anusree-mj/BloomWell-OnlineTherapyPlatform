@@ -27,17 +27,36 @@ const clientSchema = mongoose.Schema({
     questionnaire: {
         type: Array,
     },
-    stripeCustomerId: {
-        type: String
+    subscription: {
+        stripeCustomerId: {
+            type: String
+        },
+        stripeSubscriptionId: {
+            type: String
+        },
+        stripePriceId: {
+            type: String
+        },
+        stripeCurrentPeriodEnd: {
+            type: String
+        },
+        stripeCurrentPeriodStart: {
+            type: String
+        },
+        stripeTrialEnd: {
+            type: String
+        },
+        amount: {
+            type: Number
+        },
+        status: {
+            type: String,
+            default: 'active'
+        }
     },
-    stripeSubscriptionId: {
-        type: String
-    },
-    stripePriceId: {
-        type: String
-    },
-    stripeCurrentPeriodEnd: {
-        type: Date
+    isAnUser: {
+        type: Boolean,
+        default: false
     },
     isConnected: {
         type: Boolean,

@@ -16,9 +16,8 @@ const initialState: clientStateType = {
         isBlocked: false,
         age: "",
         sessionType: "",
-        stripeCustomerId: "",
-        stripeSubscriptionId: "",
         isConnected: '',
+        isAnUser:false,
         isSubscribed: false,
         connectionDetails: {
             _id: '',
@@ -30,7 +29,17 @@ const initialState: clientStateType = {
             _id: "",
             name: ""
         },
-        questionnaire: []
+        questionnaire: [],
+        subscription: {
+            stripeCustomerId: "",
+            stripeSubscriptionId: "",
+            stripePriceId: "",
+            stripeCurrentPeriodEnd: "",
+            stripeCurrentPeriodStart: "",
+            stripeTrialEnd: "",
+            amount: 0,
+            status: ""
+        }
     },
     isLoading: false,
     error: null
