@@ -20,6 +20,9 @@ const connectionsSchema = mongoose.Schema({
     isActive: {
         type: Boolean,
         default: false
+    },
+    reasonForDisconnection: {
+        type: String
     }
 }, {
     timestamps: true
