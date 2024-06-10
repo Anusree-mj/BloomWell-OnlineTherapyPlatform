@@ -65,9 +65,26 @@ const changePassword = async (therapistId, changPasswordInfo) => {
     }
 }
 
+const changeImage = async (therapistId, image) => {
+    try {
+        const query = { _id: therapistId };
+        const update = { image: image };
+        const options = { upsert: false };
+        const updateImage = await Therapists.updateOne(query, update, options);
+        if (updateImage.modifiedCount > 0) {
+            return { status: 'ok' }
+        } else {
+            return { status: 'nok', message: 'something went wrong' }
+        }
+    } catch (err) {
+        console.log(err)
+        return { status: 'nok', message: 'Something went wrong' }
+    }
+}
 
 export default {
     editTherapisttPersonalInfo,
     editTherapistDescrptionInfo,
     changePassword,
+    changeImage,
 }

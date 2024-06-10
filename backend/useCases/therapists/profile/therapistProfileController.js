@@ -1,5 +1,5 @@
 import therapistQuery from '../../../infrastructure/dbQueries/therapist/therapistQuery.js';
-import therapotProfileQuery from '../../../infrastructure/dbQueries/therapist/therapotProfileQuery.js';
+import therapisttProfileQuery from '../../../infrastructure/dbQueries/therapist/therapisttProfileQuery.js';
 
 // get data 
 const getTherapistData = async (req, res) => {
@@ -46,7 +46,7 @@ const editTherapistPersonalInfoController = async (req, res) => {
         const therapistId = req.user._id
         const personalInfo = req.body.personalInfo;
 
-        const response = await therapotProfileQuery.editTherapisttPersonalInfo(therapistId, personalInfo);
+        const response = await therapisttProfileQuery.editTherapisttPersonalInfo(therapistId, personalInfo);
         if (response.status === 'ok') {
             const { status } = response
             res.status(200).json({ status: status });
@@ -64,7 +64,7 @@ const editTherapistDescriptionController = async (req, res) => {
         const therapistId = req.user._id
         const aboutInfo = req.body.description;
 
-        const response = await therapotProfileQuery.editTherapistDescrptionInfo(therapistId, aboutInfo);
+        const response = await therapisttProfileQuery.editTherapistDescrptionInfo(therapistId, aboutInfo);
         if (response.status === 'ok') {
             const { status } = response
             res.status(200).json({ status: status });
@@ -82,7 +82,7 @@ const changePasswordController = async (req, res) => {
         const therapistId = req.user._id
         const { changPasswordInfo } = req.body;
 
-        const response = await therapotProfileQuery.changePassword(therapistId, changPasswordInfo);
+        const response = await therapisttProfileQuery.changePassword(therapistId, changPasswordInfo);
         if (response.status === 'ok') {
             const { status } = response
             res.status(200).json({ status: status });
@@ -96,6 +96,25 @@ const changePasswordController = async (req, res) => {
     }
 }
 
+const changeProfileImage = async (req, res) => {
+    try {
+        console.log('reached profile image controller')
+        const therapistId = req.user._id;
+        const { image } = req.body
+        const response = await therapisttProfileQuery.changeImage(therapistId, image);
+        if (response.status === 'ok') {
+            const { status } = response
+            res.status(200).json({ status: status });
+        } else {
+            console.log('sending else status')
+            const { status, message } = response
+            res.status(400).json({ status: status, message: message });
+        }
+    } catch (err) {
+        res.status(500).json({ err: 'Internal Server err', details: err.message });
+        console.log('Error found', err)
+    }
+}
 
 export {
     getTherapistData,
@@ -103,4 +122,5 @@ export {
     editTherapistPersonalInfoController,
     editTherapistDescriptionController,
     changePasswordController,
+    changeProfileImage,
 }
