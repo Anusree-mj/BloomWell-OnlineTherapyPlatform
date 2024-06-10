@@ -8,6 +8,7 @@ import {
 import {
     getConnectionController,
     postConnectionController,
+    disconnectController,
 } from "./clientConnection/clientConnectionController.js";
 
 import {
@@ -41,6 +42,7 @@ const clientControllers = {
     editPersonalInfoController,
     editMedicalInfoController,
     changePasswordController,
+    disconnectController,
     // googleSignup,
 }
 

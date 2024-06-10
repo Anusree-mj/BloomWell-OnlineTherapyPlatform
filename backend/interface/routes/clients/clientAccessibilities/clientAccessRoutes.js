@@ -9,6 +9,8 @@ router.get('/details', protect('client'), controllers.clientControllers.getClien
 router.get('/connection/:clientId', protect('client'), controllers.clientControllers.getConnectionController)
 // post connections
 router.post('/connection', protect('client'), controllers.clientControllers.postConnectionController)
+// disconnect connection
+router.put('/connection', protect('client'), controllers.clientControllers.disconnectController)
 // get ongoing activity details
 router.get('/myActivity/ongoing', protect('client'), controllers.clientControllers.getOngoingActivitiesController)
 

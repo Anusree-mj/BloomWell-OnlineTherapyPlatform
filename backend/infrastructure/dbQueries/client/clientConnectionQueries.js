@@ -86,9 +86,31 @@ const postConnection = async (clientId, therapistId) => {
     }
 }
 
+const disconnect = async (clientId, connectionId, reason) => {
+    try {
+        await Client.findByIdAndUpdate(clientId, { isConnected: false });
+        const query = { _id: connectionId };
+        const update = {
+            isActive: false,
+            reasonForDisconnection: reason
+        }
+        const options = { upsert: true };
+        const response = await Connections.updateOne(query, update, options)
+        if (response.modifiedCount > 0) {
+            return { status: 'ok' }
+        }
+        else {
+            return { status: 'nok', message: "Invalid connection id" }
+        }
+    } catch (err) {
+        console.log(err)
+        return { status: 'nok', message: err.message }
+    }
+}
+
 
 export default {
     connections,
     postConnection,
-
+    disconnect,
 }
