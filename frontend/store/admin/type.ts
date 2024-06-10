@@ -15,4 +15,6 @@ export interface ConnectionItems {
     status: string;
     adminVerify: string;
     isActive: boolean;
+    reasonForDisconnection: string;
+    reasonForRejection: string
 }

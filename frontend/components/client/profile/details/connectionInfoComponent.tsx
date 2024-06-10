@@ -55,8 +55,8 @@ const ConnectionInfoComponent: React.FC<ConnectionInfoProps> = ({ connectionInfo
                         </>
                     ) : (
                         <>
-                            <Typography sx={{ fontWeight: 600, fontSize: '1rem', color: '#325343' }} >
-                                Not Connected With Any Yet </Typography>
+                            <Typography sx={{ fontWeight: 600, fontSize: '1rem', color: '#931414' }} >
+                                Not Connected ! </Typography>
                             <Button variant="contained"
                                 sx={{
                                     alignSelf: 'flex-start', mt: 1, backgroundColor: '#325343',

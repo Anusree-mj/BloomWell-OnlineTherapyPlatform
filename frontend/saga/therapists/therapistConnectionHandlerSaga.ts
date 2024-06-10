@@ -3,7 +3,11 @@ import { apiCall } from '@/services/api';
 import {
     getTherapistsConnectionRequestAction,
     getTherapistsConnectionRequestFailureAction,
-    getTherapistsConnectionRequestSuccessAction
+    getTherapistsConnectionRequestSuccessAction,
+    getTherapistsRejectedConnectionsAction,
+    getTherapistsRejectedConnectionsFailureAction,
+    getTherapistsRejectedConnectionsSuccessAction,
+
 } from '@/store/therapists/therapistConnectionHandlerReducers';
 
 // therapist connection request saga
@@ -26,6 +30,28 @@ function* getTherapistsConnectionRequestActionSaga(): any {
     }
 }
 
+// therapist rejected connection request saga
+function* getTherapistsRejectedConnectionsActionSaga(): any {
+    try {
+        const response = yield call<any>(apiCall, {
+            method: 'GET',
+            endpoint: 'therapist/rejected/connections',
+        });
+
+        if (response.status === 'ok') {
+            yield put(getTherapistsRejectedConnectionsSuccessAction(response.connections))
+            console.log('connection details', response.connections)
+        } else {
+            yield put(getTherapistsRejectedConnectionsFailureAction(response.message))
+
+        }
+    } catch (err) {
+        yield put(getTherapistsRejectedConnectionsFailureAction(err))
+    }
+}
+
 export function* therapistConnectionRequestWatcher() {
     yield takeEvery(getTherapistsConnectionRequestAction, getTherapistsConnectionRequestActionSaga);
+    yield takeEvery(getTherapistsRejectedConnectionsAction, getTherapistsRejectedConnectionsActionSaga);
+
 }
