@@ -87,5 +87,5 @@ export {
     signUp,
     saveClientData,
     getClientData,
-    googleSignup,
+    // googleSignup,
 }

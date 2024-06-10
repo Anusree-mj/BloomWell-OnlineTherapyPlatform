@@ -7,7 +7,7 @@ import controllers from '../../../../useCases/index.js'
 router.get('/view', protectAdmin, controllers.adminControllers.getTherapistsDetailsController)
 
 // get therapist details for admin view and client view
-router.get('/:therapistId', controllers.therapistControllers.getTherapistData)
+router.get('/view/:therapistId', controllers.therapistControllers.getTherapistData)
 
 // verify therapist
 router.post('/:therapistId/verify', protectAdmin, controllers.adminControllers.verifyTherapistController)
@@ -21,5 +21,9 @@ router.put('/:therapistId', protectAdmin, controllers.adminControllers.editThera
 router.get('/connections', protectAdmin, controllers.adminControllers.getAllConnectionRequestController)
 // post connection status
 router.post('/connections', protectAdmin, controllers.adminControllers.manageConnectionRequestController)
+
+// get rejected therapists
+router.get('/rejected', protectAdmin, controllers.adminControllers.getRejectedTherapistController)
+
 
 export default router;

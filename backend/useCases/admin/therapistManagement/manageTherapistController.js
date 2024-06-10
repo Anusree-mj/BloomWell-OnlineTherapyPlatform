@@ -70,9 +70,27 @@ const editTherapistController = async (req, res) => {
     }
 }
 
+// get rejected therapists
+const getRejectedTherapistController = async (req, res) => {
+    try {
+        const { therapists } = await manageTherapistQueries.getRejectedTherapistQuery()
+        if (therapists) {
+            res.status(200).json({
+                status: 'ok',
+                therapists: therapists
+            });
+        }
+    } catch (err) {
+        res.status(401).json({ status: 'nok', message: err.message })
+        console.log('Error found', err)
+
+    }
+}
+
 export {
     getTherapistsDetailsController,
     verifyTherapistController,
     deleteTherapistController,
-    editTherapistController
+    editTherapistController,
+    getRejectedTherapistController,
 }

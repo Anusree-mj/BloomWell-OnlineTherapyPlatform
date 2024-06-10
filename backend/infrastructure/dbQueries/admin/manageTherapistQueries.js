@@ -50,9 +50,21 @@ const editTherapistsQuery = async (therapistsId) => {
     }
 }
 
+const getRejectedTherapistQuery = async () => {
+    try {
+        const therapists = await Therapists.find({verificationStatus:'Denied'}).select('-password').sort({ createdAt: -1 });
+        console.log('therapistsssssss', therapists)
+        return { therapists }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
 export default {
     getTherapistsDetailsQuery,
     verifyTherapistQuery,
     deleteTherapistsQuery,
-    editTherapistsQuery
+    editTherapistsQuery,
+    getRejectedTherapistQuery
 }
