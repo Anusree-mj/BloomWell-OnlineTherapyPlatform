@@ -7,7 +7,6 @@ import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import List from '@mui/material/List';
@@ -18,13 +17,12 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import Menu from '@mui/material/Menu';
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import MenuItem from '@mui/material/MenuItem';
 import Link from 'next/link';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
-import { Avatar } from '@mui/material';
+import { Avatar, Menu } from '@mui/material';
 import { getTherapistProfileAction, therapistStateType } from '@/store/therapists/therapistReducers';
 import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/navigation";
@@ -51,7 +49,7 @@ export default function TherapistHeader(props: Props) {
     React.useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
         if (therapistData) {
-            dispatch(getTherapistProfileAction());            
+            dispatch(getTherapistProfileAction());
         } else {
             router.push('/login')
         }
@@ -123,7 +121,10 @@ export default function TherapistHeader(props: Props) {
 
             ]
         },
-
+        {
+            iconTitle: 'Notifications', icon: <NotificationsActiveIcon />,
+            link: `/therapist/notifications/${therapist._id}`,
+        },
         {
             iconTitle: 'Payments', icon: <PsychologyIcon />, link: '#',
         },

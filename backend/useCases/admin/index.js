@@ -9,7 +9,10 @@ import {
     getTherapistsDetailsController,
     verifyTherapistController,
     deleteTherapistController,
-    editTherapistController
+    editTherapistController,
+    getRejectedTherapistController,
+    postRejectedReasonController,
+
 
 } from './therapistManagement/manageTherapistController.js'
 
@@ -29,8 +32,8 @@ const adminControllers = {
     editTherapistController,
     getAllConnectionRequestController,
     manageConnectionRequestController,
-
-
+    getRejectedTherapistController,
+    postRejectedReasonController,
 }
 
 export default adminControllers

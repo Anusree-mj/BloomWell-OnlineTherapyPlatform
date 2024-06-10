@@ -12,7 +12,8 @@ export interface therapistStateType {
 const initialLicense: LicenseDetails = {
     licenseNo: "",
     country: "",
-    expirationDate: new Date()
+    expirationDate: new Date(),
+    licenseProof: ""
 };
 
 const initialState: therapistStateType = {

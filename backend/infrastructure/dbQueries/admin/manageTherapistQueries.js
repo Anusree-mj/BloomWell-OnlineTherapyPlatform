@@ -1,5 +1,5 @@
 import Therapists from "../../../entities/therapists/therapist.js";
-
+import Notifications from "../../../entities/users/notificationModel.js";
 
 const getTherapistsDetailsQuery = async () => {
     try {
@@ -14,6 +14,16 @@ const getTherapistsDetailsQuery = async () => {
 
 const verifyTherapistQuery = async (therapistId, verifyStatus) => {
     try {
+        if (verifyStatus === 'Granted') {
+            const message = `Congratulations! Your profile has been successfully verified. Welcome to our platform! We are excited to have you on board.`;
+            await Notifications.insertMany({
+                userId: therapistId,
+                userType: 'Therapists',
+                head: 'Profile Updated',
+                message: message,
+            })
+        }
+console.log('reached out')
         const therapist = await Therapists.findByIdAndUpdate(therapistId, {
             verificationStatus: verifyStatus,
             isVerified: true
@@ -50,9 +60,51 @@ const editTherapistsQuery = async (therapistsId) => {
     }
 }
 
+const getRejectedTherapistQuery = async () => {
+    try {
+        const therapists = await Therapists.find({ verificationStatus: 'Denied' }).select('-password').sort({ createdAt: -1 });
+        console.log('therapistsssssss', therapists)
+        return { therapists }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+const postRejectedReasonQuery = async (therapistId, reason) => {
+    try {
+        const message = `Your profile has been reviewed, and we regret to inform you that it has been rejected due to the following reason: "${reason}". Please feel free to update your information and reapply. If you have any questions or need further assistance, do not hesitate to contact our support team.`;
+
+        await Notifications.insertMany({
+            userId: therapistId,
+            userType: 'Therapists',
+            head: 'Profile Updated',
+            message: message,
+        })
+        const query = { _id: therapistId };
+        const update = { reasonForRejection: reason };
+        const options = { upsert: true };
+        const updatedTherapist = await Therapists.updateOne(query, update, options);
+        console.log(updatedTherapist, 'updsfasdfdsfsdf')
+        if (updatedTherapist.modifiedCount > 0) {
+            return { status: 'ok' }
+        } else {
+            return { status: 'nok', message: 'Something went wrong' }
+        }
+
+    }
+    catch (err) {
+        console.log(err)
+        return { status: 'nok', message: err.message }
+    }
+}
+
 export default {
     getTherapistsDetailsQuery,
     verifyTherapistQuery,
     deleteTherapistsQuery,
-    editTherapistsQuery
+    editTherapistsQuery,
+    getRejectedTherapistQuery,
+    postRejectedReasonQuery,
+
 }

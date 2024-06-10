@@ -6,15 +6,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import ClienttHeader from '@/components/client/header/clientHeader';
 import NotificationsComponent from '@/components/client/notifications/notificationComponent';
 
-const Page = () => {
+export default function Page({ params }: { params: { userId: string } }) {
     return (
         <Provider store={store}>
             <ToastContainer />
             <ClienttHeader />
             <div style={{ paddingTop: '5.6rem' }}>
-                <NotificationsComponent />
+                <NotificationsComponent  userId={params.userId}/>
             </div>
         </Provider>
     );
 }
-export default Page

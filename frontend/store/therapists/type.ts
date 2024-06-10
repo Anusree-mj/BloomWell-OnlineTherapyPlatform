@@ -25,5 +25,6 @@ export interface TherapistItem {
     verificationStatus: string;
     isBlocked: boolean;
     averageRating?: number;
-    gender: string
+    gender: string;
+    reasonForRejection?: string;
 }

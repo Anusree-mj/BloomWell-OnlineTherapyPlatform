@@ -70,9 +70,47 @@ const editTherapistController = async (req, res) => {
     }
 }
 
+// get rejected therapists
+const getRejectedTherapistController = async (req, res) => {
+    try {
+        const { therapists } = await manageTherapistQueries.getRejectedTherapistQuery()
+        if (therapists) {
+            res.status(200).json({
+                status: 'ok',
+                therapists: therapists
+            });
+        }
+    } catch (err) {
+        res.status(401).json({ status: 'nok', message: err.message })
+        console.log('Error found', err)
+    }
+}
+
+// post rejected reason
+const postRejectedReasonController = async (req, res) => {
+    try {
+        const { reason, therapistId } = req.body
+        console.log('entered in post rejectcontroller with', reason, therapistId)
+        const response = await manageTherapistQueries.postRejectedReasonQuery(therapistId, reason);
+        if (response.status === 'ok') {
+            res.status(200).json({ status: response.status });
+        } else {
+            const { status, message } = response
+            res.status(200).json({ status: status, message: message });
+        }
+    }
+    catch (err) {
+        res.status(401).json({ status: 'nok', message: err.message })
+        console.log('Error found', err)
+    }
+}
+
 export {
     getTherapistsDetailsController,
     verifyTherapistController,
     deleteTherapistController,
-    editTherapistController
+    editTherapistController,
+    getRejectedTherapistController,
+    postRejectedReasonController,
+
 }

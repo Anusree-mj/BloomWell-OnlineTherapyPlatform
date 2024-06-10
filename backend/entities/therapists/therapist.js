@@ -60,6 +60,9 @@ const therapistSchema = mongoose.Schema({
         type: String,
         default: 'pending'
     },
+    reasonForRejection: {
+        type: String,
+    },
     isBlocked: {
         type: Boolean,
         default: false
