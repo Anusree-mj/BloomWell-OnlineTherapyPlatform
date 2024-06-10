@@ -26,6 +26,12 @@ const saveTherapistData = async (data) => {
         const response = await Therapists.updateOne(query, update, options)
         if (response) {
             const therapist = await Therapists.findOne({ email: email }).select('-password -createdAt -updatedAt');
+            await Notifications.insertMany({
+                userId: therapist._id,
+                userType: 'Therapists',
+                head: 'Welcome to BloomWell',
+                message: "We are delighted to have you with us. You can start your therapy sessions once your profile has been verified.",
+            })
             return { status: 'ok', therapist }
         } else {
             return { status: 'nok', message: 'Therapist not found' }
