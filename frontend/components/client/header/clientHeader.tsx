@@ -103,7 +103,8 @@ export default function ClienttHeader(props: Props) {
             ]
         },
         {
-            iconTitle: 'Notifications', icon: <NotificationsActiveIcon />, link: '/client/notifications',
+            iconTitle: 'Notifications', icon: <NotificationsActiveIcon />,
+            link: `/client/notifications/${clientDetails._id}`,
         },
         {
             iconTitle: 'Therapy', icon: <PsychologyIcon />, link: '#',

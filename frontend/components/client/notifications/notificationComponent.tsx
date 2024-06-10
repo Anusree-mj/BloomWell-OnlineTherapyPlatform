@@ -7,18 +7,16 @@ import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import axios from 'axios';
 
-const NotificationsComponent = () => {
+const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
     const dispatch = useDispatch();
     const notifications = useSelector((state: { user: userStateType }) => state.user.notifications);
-    const [clientId, setClientId] = useState('')
     const [expandedNotifications, setExpandedNotifications] = useState<{ [key: string]: boolean }>({ '': false });
 
     useEffect(() => {
         const clientData = localStorage.getItem("clientData");
         if (clientData) {
             const parsedData = JSON.parse(clientData);
-            setClientId(parsedData._id)
-            dispatch(getNotificationsAction(parsedData._id));
+            dispatch(getNotificationsAction(userId));
         }
     }, [dispatch]);
 
@@ -32,7 +30,7 @@ const NotificationsComponent = () => {
             if (!isRead) {
                 const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/users/notifications/${notificationId}`, {}, { withCredentials: true });
                 if (response.data.status === 'ok') {
-                    dispatch(getNotificationsAction(clientId))
+                    dispatch(getNotificationsAction(userId))
                 }
             } else {
                 return
