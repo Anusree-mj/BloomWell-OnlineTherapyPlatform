@@ -4,7 +4,7 @@ import { Box } from '@mui/system'
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import EditTherapistPersonalInfoComponent from '../edit/editTherapistPersonalInfo';
 
-interface PersonalInfoProps {
+export interface PersonalInfoProps {
     personalInfoItem: {
         name: string,
         email: string,

@@ -6,7 +6,7 @@ import { therapistStateType } from '@/store/therapists/therapistReducers';
 import PersonalInfoComponent from "./personalComponent";
 import TherapistProfileImageComponent from "./profileImageComponent";
 import AboutInfoComponent from "./aboutComponent";
-import ProffessionalInfoComponent from "./experienceExpertiseComponent";
+import ProffessionalInfoComponent from "./proffessionalInfoComponent";
 import PasswordComponent from "@/components/client/profile/details/passwordComponent";
 import axios from "axios";
 import { toast } from "react-toastify";

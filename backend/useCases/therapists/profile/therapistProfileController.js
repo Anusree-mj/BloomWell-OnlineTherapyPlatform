@@ -81,7 +81,6 @@ const changePasswordController = async (req, res) => {
         console.log('reached change password controller therapist')
         const therapistId = req.user._id
         const { changPasswordInfo } = req.body;
-
         const response = await therapisttProfileQuery.changePassword(therapistId, changPasswordInfo);
         if (response.status === 'ok') {
             const { status } = response
@@ -116,6 +115,25 @@ const changeProfileImage = async (req, res) => {
     }
 }
 
+const editProffessionalInfoController = async (req, res) => {
+    try {
+        console.log('reached edit proffessional info')
+        const therapistId = req.user._id
+        const {proffessionalInfo} = req.body;
+
+        const response = await therapisttProfileQuery.editProffessionalInfo(therapistId, proffessionalInfo);
+        if (response.status === 'ok') {
+            const { status } = response
+            res.status(200).json({ status: status });
+        } else {
+            res.status(400).json({ status: 'nok', message: 'Something went wrong' });
+        }
+    } catch (err) {
+        console.log('Error found', err)
+    }
+}
+
+
 export {
     getTherapistData,
     getTherapistProfileDataController,
@@ -123,4 +141,5 @@ export {
     editTherapistDescriptionController,
     changePasswordController,
     changeProfileImage,
+    editProffessionalInfoController,
 }

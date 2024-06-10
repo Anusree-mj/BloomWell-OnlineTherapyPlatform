@@ -13,5 +13,5 @@ router.put('/profile/personal', protect('therapist'), controllers.therapistContr
 router.put('/profile/description', protect('therapist'), controllers.therapistControllers.editTherapistDescriptionController)
 router.put('/profile/changePassword', protect('therapist'), controllers.therapistControllers.changePasswordController)
 router.put('/profile/image', protect('therapist'),controllers.therapistControllers.changeProfileImage)
-
+router.put('/profile/proffessional',protect('therapist'),controllers.therapistControllers.editProffessionalInfoController)
 export default router;
