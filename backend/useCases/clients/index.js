@@ -11,7 +11,8 @@ import {
 
 import {
     getPaymentDetails,
-    postPaymentDetails
+    postPaymentDetails,
+    cancelSubscription
 
 } from "./payments/paymentController.js";
 
@@ -21,7 +22,9 @@ import {
 
 import {
     editPersonalInfoController,
-    editMedicalInfoController
+    editMedicalInfoController,
+    changePasswordController,
+
 } from "./clientProfile/profileController.js";
 
 const clientControllers = {
@@ -30,11 +33,13 @@ const clientControllers = {
     getConnectionController,
     getPaymentDetails,
     postPaymentDetails,
+    cancelSubscription,
     getClientData,
     postConnectionController,
     getOngoingActivitiesController,
     editPersonalInfoController,
     editMedicalInfoController,
+    changePasswordController,
 }
 
 export default clientControllers;

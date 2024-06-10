@@ -47,7 +47,35 @@ const postPaymentDetails = async (req, res) => {
     }
 }
 
+const cancelSubscription = async (req, res) => {
+    const { stripeSubscriptionId } = req.body;
+    const userId = req.user._id;
+    console.log('stripeIDdddddddd',stripeSubscriptionId);
+    
+    try {
+        console.log('entered in try of sdfjsdfjsdjflsdjflsdfsdfsdf')
+        const subscription = await stripe.subscriptions.update(
+            stripeSubscriptionId, 
+            {
+                cancel_at_period_end: true,
+                metadata: {
+                    payingUserId: userId.toString()
+                }
+            }
+        );
+        console.log('Subscription Update Response:', subscription);
+
+        res.status(200).json({ subscription });
+    } catch (err) {
+        console.error('Error found', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
 export {
     getPaymentDetails,
     postPaymentDetails,
+    cancelSubscription,
+
 }

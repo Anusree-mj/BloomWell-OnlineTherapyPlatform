@@ -5,7 +5,7 @@ import Client from "../../../entities/clients/clients.js"
 const getOngoingActivityDetails = async (clientId) => {
     try {
         const client = await Client.findOne({ _id: clientId })
-        if (client.isSubscribed) {
+        if (client.isAnUser) {
             const clientConnection = await Connections.findOne({ _id: client.connectionId }).populate(
                 'therapistId', 'name'
             )

@@ -40,10 +40,10 @@ export default function Login() {
     const handleLoginSuccess = (role: string) => {
         if (role === 'client') {
             const clientData = JSON.parse(localStorage.getItem('clientData') || '{}');
-            const { questionnaire, isSubscribed } = clientData;
+            const { questionnaire, isAnUser } = clientData;
             if (Array.isArray(questionnaire) && questionnaire.length === 0) {
                 router.push('/client/details');
-            } else if (!isSubscribed) {
+            } else if (!isAnUser) {
                 router.push('/client/payment');
             } else {
                 router.push('/client/myActivity')

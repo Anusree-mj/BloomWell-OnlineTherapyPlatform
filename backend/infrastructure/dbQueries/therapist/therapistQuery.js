@@ -86,6 +86,8 @@ const getTherapistData = async (therapistId) => {
     }
 }
 
+
+
 export default {
     saveTherapistData,
     getTherapistDataWithReviews,

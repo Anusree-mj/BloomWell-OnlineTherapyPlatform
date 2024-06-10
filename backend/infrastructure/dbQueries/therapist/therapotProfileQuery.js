@@ -1,5 +1,5 @@
 import Therapists from "../../../entities/therapists/therapist.js"
-
+import bcrypt from 'bcryptjs';
 const editTherapisttPersonalInfo = async (therapistId, personalInfo) => {
     try {
         const { name, email, phone, role, gender } = personalInfo
@@ -39,8 +39,35 @@ const editTherapistDescrptionInfo = async (therapistId, aboutInfo) => {
     }
 }
 
+const changePassword = async (therapistId, changPasswordInfo) => {
+    try {
+        const { currentPassword, newPassword } = changPasswordInfo;
+        console.log('reached change pasword query with:', currentPassword, newPassword)
+
+        const therapist = await Therapists.findOne({ _id: therapistId });
+        const matchPassword = await bcrypt.compare(currentPassword, therapist.password);
+
+        if (matchPassword) {
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+            const query = { _id: therapistId }
+            const update = { password: hashedPassword };
+            const options = { upsert: false }
+            await Therapists.updateOne(query, update, options);
+            return { status: 'ok' }
+        } else {
+            console.log('password doesnt match')
+            return { status: 'nok', message: 'Invalid password' }
+        }
+    }
+    catch (err) {
+        console.log(err)
+        return { status: 'nok', message: 'Something went wrong' }
+    }
+}
+
 
 export default {
     editTherapisttPersonalInfo,
     editTherapistDescrptionInfo,
+    changePassword,
 }

@@ -50,7 +50,7 @@ const PaymentComponent = () => {
             router.push('/login')
         } else {
             const parsedData = JSON.parse(clientData);
-            if (parsedData.isSubscribed) {
+            if (parsedData.isAnUser) {
                 router.push('/client/myActivity')
             } else {
                 console.log('reached in fetch else')
@@ -188,23 +188,6 @@ const PaymentComponent = () => {
                                     <li><CheckCircleSharpIcon sx={{ color: 'green', fontSize: '1rem' }} /> 24/7 chat support</li>
                                 </ul>
                                 <Button onClick={(e) => { handleSubscription(e, product.id) }}
-                                    variant="outlined"
-                                    sx={{
-                                        width: '100%',
-                                        mt: 2,
-                                        borderRadius: '0.7rem',
-                                        border: `1px solid ${item.end}`,
-                                        color: '#325343',
-                                        '&:hover': {
-                                            border: `1px solid ${item.end}`,
-                                            backgroundColor: item.start,
-                                            color: '#325343'
-                                        }
-                                    }}
-                                >
-                                    Subscribe
-                                </Button>
-                                <Button
                                     variant="contained"
                                     sx={{
                                         width: '100%',
@@ -213,13 +196,14 @@ const PaymentComponent = () => {
                                         backgroundColor: item.end,
                                         color: 'white',
                                         '&:hover': {
-                                            backgroundColor: '#49873D',
-                                            color: 'white'
+                                            backgroundColor: item.start,
+                                            color: '#325343'
                                         }
                                     }}
                                 >
-                                    Apply for financial aid
+                                    Subscribe
                                 </Button>
+
                             </CardContent>
                             <Box
                                 className="waves"

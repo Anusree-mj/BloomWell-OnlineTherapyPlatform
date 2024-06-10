@@ -10,4 +10,5 @@ router.get('/profile', protect('therapist'), controllers.therapistControllers.ge
 // edit profile
 router.put('/profile/personal', protect('therapist'), controllers.therapistControllers.editTherapistPersonalInfoController)
 router.put('/profile/description', protect('therapist'), controllers.therapistControllers.editTherapistDescriptionController)
+router.put('/profile/changePassword', protect('therapist'), controllers.therapistControllers.changePasswordController)
 export default router;

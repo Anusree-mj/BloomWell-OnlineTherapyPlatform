@@ -92,7 +92,7 @@ const saveClientData = async (data) => {
 const getClientDataQuery = async (clientId) => {
     try {
         let client = await Client.findOne({ _id: clientId }, { password: 0 });
-        if (client.isSubscribed) {
+        if (client.isAnUser) {
             console.log('entered in iffffff query')
             client = await Client.aggregate([
                 {
@@ -133,11 +133,9 @@ const getClientDataQuery = async (clientId) => {
                         age: 1,
                         sessionType: 1,
                         questionnaire: 1,
-                        stripeCustomerId: 1,
-                        stripeSubscriptionId: 1,
-                        stripePriceId: 1,
-                        stripeCurrentPeriodEnd: 1,
+                        subscription: 1,
                         isConnected: 1,
+                        isAnUser: 1,
                         isSubscribed: 1,
                         isBlocked: 1,
                         connectionDetails: {
@@ -152,7 +150,7 @@ const getClientDataQuery = async (clientId) => {
                     }
                 }
             ]);
-
+            console.log('data being passedin profile', client[0])
             return { status: 'ok', client: client[0] }
         } else {
             console.log('passing else')

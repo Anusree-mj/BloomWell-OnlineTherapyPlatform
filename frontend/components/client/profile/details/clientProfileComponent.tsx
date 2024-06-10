@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { Box, Typography } from "@mui/material";
-import {  clientStateType } from "@/store/clients/clientReducer";
+import { clientStateType } from "@/store/clients/clientReducer";
 import PersonalInfoComponent from "./personalInfoComponent";
 import MedicalInfoComponent from "./medicalInfoComponent";
 import ConnectionInfoComponent from "./connectionInfoComponent";
@@ -26,9 +26,14 @@ const ClientProfileComponent = () => {
         connectedAt: ''
     })
     const [subscriptionInfoItems, setSubscriptionInfoItems] = useState({
-        subscribedFor: 'Nil',
-        expiresAt: 'Nil',
-        subscribedAt: 'sdf'
+        stripeCustomerId: '',
+        stripeSubscriptionId: '',
+        stripePriceId: '',
+        stripeCurrentPeriodEnd: '',
+        stripeCurrentPeriodStart: '',
+        stripeTrialEnd: '',
+        amount: 0,
+        status:''
     })
 
     useEffect(() => {
@@ -63,6 +68,18 @@ const ClientProfileComponent = () => {
                 })
             })
         }
+
+        setSubscriptionInfoItems({
+            stripeCustomerId: clientDetails.subscription.stripeCustomerId,
+            stripeSubscriptionId: clientDetails.subscription.stripeSubscriptionId,
+            stripePriceId: clientDetails.subscription.stripePriceId,
+            stripeCurrentPeriodEnd: clientDetails.subscription.stripeCurrentPeriodEnd,
+            stripeCurrentPeriodStart: clientDetails.subscription.stripeCurrentPeriodStart,
+            stripeTrialEnd: clientDetails.subscription.stripeTrialEnd,
+            amount: clientDetails.subscription.amount,
+            status:clientDetails.subscription.status
+        })
+
         setHasConnectionInfo(true)
         console.log('client details got in profile', clientDetails)
     }, [clientDetails])
@@ -90,7 +107,7 @@ const ClientProfileComponent = () => {
                 < ConnectionInfoComponent connectionInfoItems={connectionInfoItems}
                     hasConnectionInfo={hasConnectionInfo} />
                 <SubscriptionInfoComponent SubscriptionItems={subscriptionInfoItems} />
-                <PasswordComponent />
+                <PasswordComponent role='client'/>
             </Box>
         </Box>
     );
