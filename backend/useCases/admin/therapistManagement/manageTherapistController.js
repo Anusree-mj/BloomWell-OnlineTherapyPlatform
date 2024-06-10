@@ -89,9 +89,8 @@ const getRejectedTherapistController = async (req, res) => {
 // post rejected reason
 const postRejectedReasonController = async (req, res) => {
     try {
-        const { reason, therapistId } = req.body
-        console.log('entered in post rejectcontroller with', reason, therapistId)
-        const response = await manageTherapistQueries.postRejectedReasonQuery(therapistId, reason);
+        const { reason, reasonId } = req.body
+        const response = await manageTherapistQueries.postRejectedReasonQuery(reasonId, reason);
         if (response.status === 'ok') {
             res.status(200).json({ status: response.status });
         } else {

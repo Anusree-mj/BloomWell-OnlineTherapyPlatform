@@ -6,17 +6,18 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import { useRouter } from "next/navigation";
 
-const reasonItems = [
-    'Invalid or Expired License', 'Insufficient Experience', 'Incomplete or Incorrect Information',
-    'Background Check Issues', 'Not taking therapists at the moment'
-]
-const AddRejectingReasonComponent: React.FC<{ therapistId: string; }> = ({ therapistId }) => {
+interface ReasonComponentProps {
+    reasonId: string,
+    reasonItems: string[],
+    url: string,
+}
+const AddRejectingReasonComponent: React.FC<ReasonComponentProps> = ({ reasonId, reasonItems, url }) => {
     const router = useRouter();
 
     const submitReason = async (item: string) => {
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/admin/therapists/rejected`,
-                { reason: item, therapistId: therapistId }, { withCredentials: true, }
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/${url}`,
+                { reason: item, reasonId }, { withCredentials: true, }
             );
             if (response.status === 200) {
                 toast.success('Reason successfully updated');

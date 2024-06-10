@@ -111,7 +111,7 @@ const RejectedTherapistsComponent = () => {
                     color: '#325343', mb: 1, textDecoration: 'underline',
                     fontWeight: 600, alignSelf: 'flex-start', cursor: 'pointer'
                 }} onClick={handleGetAll} >
-                    All
+                    All Therapists
                 </Typography>
             </Box>
             <Box
