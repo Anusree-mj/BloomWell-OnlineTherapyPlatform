@@ -23,7 +23,8 @@ const ClientProfileComponent = () => {
         therapistName: '',
         connectionId: '',
         connectionStatus: false,
-        connectedAt: ''
+        connectedAt: '',
+        isConnected: false
     })
     const [subscriptionInfoItems, setSubscriptionInfoItems] = useState({
         stripeCustomerId: '',
@@ -33,7 +34,7 @@ const ClientProfileComponent = () => {
         stripeCurrentPeriodStart: '',
         stripeTrialEnd: '',
         amount: 0,
-        status:''
+        status: ''
     })
 
     useEffect(() => {
@@ -58,6 +59,7 @@ const ClientProfileComponent = () => {
         if (clientDetails.connectionDetails) {
             setConnectionInfoItems({
                 therapistId: clientDetails.therapistDetails._id,
+                isConnected: clientDetails.isConnected,
                 therapistName: clientDetails.therapistDetails.name,
                 connectionId: clientDetails.connectionDetails._id,
                 connectionStatus: clientDetails.connectionDetails.isActive,
@@ -77,7 +79,7 @@ const ClientProfileComponent = () => {
             stripeCurrentPeriodStart: clientDetails.subscription.stripeCurrentPeriodStart,
             stripeTrialEnd: clientDetails.subscription.stripeTrialEnd,
             amount: clientDetails.subscription.amount,
-            status:clientDetails.subscription.status
+            status: clientDetails.subscription.status
         })
 
         setHasConnectionInfo(true)
@@ -107,7 +109,7 @@ const ClientProfileComponent = () => {
                 < ConnectionInfoComponent connectionInfoItems={connectionInfoItems}
                     hasConnectionInfo={hasConnectionInfo} />
                 <SubscriptionInfoComponent SubscriptionItems={subscriptionInfoItems} />
-                <PasswordComponent role='client'/>
+                <PasswordComponent role='client' />
             </Box>
         </Box>
     );

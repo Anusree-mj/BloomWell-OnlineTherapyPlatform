@@ -1,6 +1,7 @@
 import { Button, Divider, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
+import React, { useState } from 'react'
+import DisconnectComponent from '../edit/disconnectComponent'
 
 interface ConnectionInfoProps {
     connectionInfoItems: {
@@ -8,14 +9,15 @@ interface ConnectionInfoProps {
         therapistName: string,
         connectionId: string,
         connectionStatus: boolean,
-        connectedAt: string
+        connectedAt: string,
+        isConnected: boolean
     },
     hasConnectionInfo: boolean
 }
 
 const ConnectionInfoComponent: React.FC<ConnectionInfoProps> = ({ connectionInfoItems, hasConnectionInfo }) => {
     console.log('Personal Info Items:', connectionInfoItems);
-
+    const [isDisConnect, setIsDisConnect] = useState(false)
     const typographyItems = [
         { title: 'Therapist Name', value: connectionInfoItems.therapistName },
         { title: 'Status', value: `${connectionInfoItems.connectionStatus ? 'Connected' : 'Verifying'}` },
@@ -31,38 +33,44 @@ const ConnectionInfoComponent: React.FC<ConnectionInfoProps> = ({ connectionInfo
                 mb: 1
             }}>Connection Info</Typography>
             <Divider sx={{ mb: 2 }} />
-            {hasConnectionInfo ? (
+            {!isDisConnect ? (
                 <>
-                    {typographyItems.map((item) => (
-                        <Box key={item.title} sx={{ display: 'flex', pt: '0.2rem' }}>
-                            <Typography sx={{ fontWeight: 600, fontSize: '1rem', color: '#325343' }} >{item.title} : </Typography>
-                            <Typography sx={{ fontWeight: 200, fontSize: '1rem', color: '#325343', ml: '0.2rem' }} >{item.value}</Typography>
-                        </Box>
-                    ))}
-                    <Button variant="contained"
-                        sx={{
-                            alignSelf: 'flex-start', mt: 1, backgroundColor: '#325343',
-                            '&:hover': {
-                                backgroundColor: '#49873D',
-                                color: 'white',
-                            }
-                        }}
-                    >DisConnect</Button>
+                    {connectionInfoItems.isConnected ? (
+                        <>
+                            {typographyItems.map((item) => (
+                                <Box key={item.title} sx={{ display: 'flex', pt: '0.2rem' }}>
+                                    <Typography sx={{ fontWeight: 600, fontSize: '1rem', color: '#325343' }} >{item.title} : </Typography>
+                                    <Typography sx={{ fontWeight: 200, fontSize: '1rem', color: '#325343', ml: '0.2rem' }} >{item.value}</Typography>
+                                </Box>
+                            ))}
+                            <Button variant="contained"
+                                sx={{
+                                    alignSelf: 'flex-start', mt: 1, backgroundColor: '#325343',
+                                    '&:hover': {
+                                        backgroundColor: '#49873D',
+                                        color: 'white',
+                                    }
+                                }} onClick={() => { setIsDisConnect(true) }}
+                            >DisConnect</Button>
+                        </>
+                    ) : (
+                        <>
+                            <Typography sx={{ fontWeight: 600, fontSize: '1rem', color: '#325343' }} >
+                                Not Connected With Any Yet </Typography>
+                            <Button variant="contained"
+                                sx={{
+                                    alignSelf: 'flex-start', mt: 1, backgroundColor: '#325343',
+                                    '&:hover': {
+                                        backgroundColor: '#49873D',
+                                        color: 'white',
+                                    }
+                                }}
+                            >Let's Connect</Button>
+                        </>
+                    )}
                 </>
             ) : (
-                <>
-                    <Typography sx={{ fontWeight: 600, fontSize: '1rem', color: '#325343' }} >
-                        Not Connected With Any Yet </Typography>
-                    <Button variant="contained"
-                        sx={{
-                            alignSelf: 'flex-start', mt: 1, backgroundColor: '#325343',
-                            '&:hover': {
-                                backgroundColor: '#49873D',
-                                color: 'white',
-                            }
-                        }}
-                    >Let's Connect</Button>
-                </>
+                <DisconnectComponent setIsDisConnect={setIsDisConnect} connectionId={connectionInfoItems.connectionId} />
             )}
 
         </Box>

@@ -6,7 +6,7 @@ export interface ClientItem {
     age: string;
     questionnaire: [];
     sessionType: string;
-    isConnected: string;
+    isConnected: boolean;
     isAnUser: boolean;
     isSubscribed: boolean;
     isBlocked: boolean;
