@@ -70,7 +70,7 @@ const RejectedTherapistsComponent = () => {
     }));
 
     const handleGetAll = () => {
-        router.push('/admin/therapist/verify')
+        router.push('/admin/therapists/verify')
     }
 
     return (

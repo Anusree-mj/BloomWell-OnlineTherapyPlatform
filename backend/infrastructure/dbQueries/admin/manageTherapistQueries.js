@@ -14,6 +14,16 @@ const getTherapistsDetailsQuery = async () => {
 
 const verifyTherapistQuery = async (therapistId, verifyStatus) => {
     try {
+        if (verifyStatus === 'Granted') {
+            const message = `Congratulations! Your profile has been successfully verified. Welcome to our platform! We are excited to have you on board.`;
+            await Notifications.insertMany({
+                userId: therapistId,
+                userType: 'Therapists',
+                head: 'Profile Updated',
+                message: message,
+            })
+        }
+console.log('reached out')
         const therapist = await Therapists.findByIdAndUpdate(therapistId, {
             verificationStatus: verifyStatus,
             isVerified: true
@@ -75,7 +85,7 @@ const postRejectedReasonQuery = async (therapistId, reason) => {
         const update = { reasonForRejection: reason };
         const options = { upsert: true };
         const updatedTherapist = await Therapists.updateOne(query, update, options);
-        console.log(updatedTherapist,'updsfasdfdsfsdf')
+        console.log(updatedTherapist, 'updsfasdfdsfsdf')
         if (updatedTherapist.modifiedCount > 0) {
             return { status: 'ok' }
         } else {
