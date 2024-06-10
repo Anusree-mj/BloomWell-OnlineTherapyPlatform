@@ -1,6 +1,31 @@
 import { generateToken } from '../../../utilitis/token.js';
 import clientAuthQueries from '../../../infrastructure/dbQueries/client/clientAuthQueries.js';
+// import { OAuth2Client } from 'google-auth-library';
+import dotenv from 'dotenv';
+dotenv.config();
 
+// // google signup
+// const googleSignup = async (req, res) => {
+//     try {
+//         res.header('Referrer-Policy', 'no-referrer-when-downgrade')
+//         const redirectUrl = 'http://localhost:3000/'
+//         const oAuth2Client = new OAuth2Client(
+//             process.env.CLIENT_ID,
+//             process.env.CLIENT_SECRET,
+//             redirectUrl
+//         );
+
+//         const authorizeUrl = oAuth2Client.generateAuthUrl({
+//             access_type: 'offline',
+//             scope: 'https://www.googleapis.com/auth/userinfo.profile openid',
+//             prompt: 'consent'
+//         })
+//         res.json({ url: authorizeUrl })
+
+//     } catch (err) {
+//         console.log('Error found', err)
+//     }
+// }
 
 // signup
 const signUp = async (req, res) => {
@@ -20,6 +45,7 @@ const signUp = async (req, res) => {
         console.log('Error found', err)
     }
 }
+
 
 // save data 
 const saveClientData = async (req, res) => {
@@ -61,4 +87,5 @@ export {
     signUp,
     saveClientData,
     getClientData,
+    googleSignup,
 }

@@ -1,7 +1,8 @@
 import {
     signUp,
     saveClientData,
-    getClientData
+    getClientData,
+    googleSignup,
 } from "./clientAuth/clientAuthController.js"
 
 import {
@@ -40,6 +41,7 @@ const clientControllers = {
     editPersonalInfoController,
     editMedicalInfoController,
     changePasswordController,
+    googleSignup,
 }
 
 export default clientControllers;
