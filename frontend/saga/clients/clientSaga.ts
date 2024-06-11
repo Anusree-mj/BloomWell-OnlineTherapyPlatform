@@ -25,7 +25,6 @@ function* getClientSignUpActionSaga(action: {
             endpoint: 'client/signup',
             body: action.payload
         });
-
         if (response.status === 'ok') {
             yield put(getClientSignUpSuccessAction(response.client))
             localStorage.setItem("clientData", JSON.stringify(response.client));
@@ -53,7 +52,6 @@ function* saveclientDetailsActionSaga(action: {
             endpoint: 'client',
             body: action.payload
         });
-
         if (response.status === 'ok') {
             yield put(saveClientDetailsSuccessAction(response.client))
 
@@ -75,7 +73,6 @@ function* getClientDetailsActionSaga(): any {
             method: 'GET',
             endpoint: `client/details`,
         });
-
         if (response.status === 'ok') {
             yield put(getClientDetailsSuccessAction(response.client))
             localStorage.setItem("clientData", JSON.stringify(response.client));

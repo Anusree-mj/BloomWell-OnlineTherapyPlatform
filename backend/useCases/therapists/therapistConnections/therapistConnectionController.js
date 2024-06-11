@@ -56,9 +56,27 @@ const getRejectedConnectionsController = async (req, res) => {
     }
 }
 
+// post rejected reason
+const postConnectionRejectionReasonController = async (req, res) => {
+    try {
+        const { reason, reasonId } = req.body
+        const response = await therapistConnectionQueries.postRejectedReasonQuery(reasonId, reason);
+        if (response.status === 'ok') {
+            res.status(200).json({ status: response.status });
+        } else {
+            const { status, message } = response
+            res.status(200).json({ status: status, message: message });
+        }
+    }
+    catch (err) {
+        res.status(401).json({ status: 'nok', message: err.message })
+        console.log('Error found', err)
+    }
+}
+
 export {
     getConnectionRequestController,
     manageConnectionRequestController,
     getRejectedConnectionsController,
-
+    postConnectionRejectionReasonController
 }

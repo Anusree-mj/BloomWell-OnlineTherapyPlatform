@@ -6,7 +6,6 @@ import Therapists from '../../entities/therapists/therapist.js';
 const protect = (tokenType) => asyncHandler(async (req, res, next) => {
     console.log('reached protect')
     let token;
-    console.log('reaques',req.cookies.jwtClient)
     if (tokenType === 'client') {
         token = req.cookies.jwtClient;
     } else if (tokenType === 'therapist') {
@@ -25,7 +24,6 @@ const protect = (tokenType) => asyncHandler(async (req, res, next) => {
             }
             if (!user.isBlocked) {
                 req.user = user;
-                console.log(req.user, 'req userrr')
                 next();
             } else {
                 res.status(401).json({ message: 'User is blocked' });

@@ -11,7 +11,8 @@ const reasonItems = [
     'Invalid or Expired License', 'Insufficient Experience', 'Incomplete or Incorrect Information',
     'Background Check Issues', 'Not taking therapists at the moment'
 ]
-const url = 'admin/therapists/rejected'
+const postUrl = 'admin/therapists/rejected'
+const successUrl = 'admin/therapists/rejected'
 export default function Page({ params }: { params: { reasonId: string } }) {
     return (
         <Provider store={store}>
@@ -19,7 +20,7 @@ export default function Page({ params }: { params: { reasonId: string } }) {
             <AdminSingleHeader />
             <div style={{ paddingTop: '1rem' }}>
                 <AddRejectingReasonComponent reasonId={params.reasonId} reasonItems={reasonItems}
-                    url={url} />
+                    postUrl={postUrl} successUrl={successUrl} />
             </div>
             <Footer />
         </Provider>

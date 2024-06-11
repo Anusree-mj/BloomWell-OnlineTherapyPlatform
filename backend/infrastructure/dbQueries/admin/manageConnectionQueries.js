@@ -1,5 +1,6 @@
 import Connections from "../../../entities/clients/connection.js";
 import Notifications from '../../../entities/users/notificationModel.js'
+import Client from "../../../entities/clients/clients.js";
 
 const getConnectionRequests = async () => {
     try {
@@ -28,7 +29,17 @@ const manageConnectionRequest = async (connectionStatus, connectionId) => {
                 .populate('therapistId', 'name');
             const therapistName = connection.therapistId.name;
             const clientId = connection.clientId;
-            await checkActiveConnection(connectionId, therapistName, clientId)
+            if (connectionStatus === 'Accept') {
+                await checkActiveConnection(connectionId, therapistName, clientId);
+            } else {
+                await Client.findByIdAndUpdate(clientId, { isConnected: false });
+                await Notifications.insertMany({
+                    userId: clientId,
+                    userType: 'Client',
+                    head: 'Connection Request Updated',
+                    message: 'We regret to inform you that your connection request was declined. Please feel free to connect with other therapists. If you need assistance, contact our support team.',
+                })
+            }
             return { status: 'ok' }
         } else {
             return { status: 'nok', message: 'Connection request not found' }

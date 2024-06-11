@@ -49,12 +49,12 @@ const ConnectionRequestsComponent = () => {
             sortable: false,
             width: 120,
             renderCell: (params) => (
-                <Link href={`/client/view/${params.row.id}`} style={{ textDecoration: 'underline' }}
+                <Link href={`/client/medicalInfo/${params.row.clientId}`} style={{ textDecoration: 'underline' }}
                 >View
                 </Link>
             ),
         },
-        { field: "verificationStatus", headerName: "Status", width: 90 },
+        { field: "verificationStatus", headerName: "Status", width: 200 },
         {
             field: "verify",
             headerName: "Verify",
@@ -72,7 +72,7 @@ const ConnectionRequestsComponent = () => {
                         onChange={(e) => manageConnectionRequest(params.row.id, params.row.name, e.target.value)}
                         displayEmpty
                         inputProps={{ 'aria-label': 'Without label' }}
-                        disabled={params.row.verificationStatus !== 'pending'}
+                        disabled={params.row.verificationStatus !== 'pending' || params.row.verificationStatus !== 'Rejected by admin'}
                     >
                         <MenuItem value="" sx={{ fontSize: '0.88rem' }}>
                             <em>None</em>
@@ -98,10 +98,11 @@ const ConnectionRequestsComponent = () => {
 
     const rows = filteredConnections.map((connection, index) => ({
         id: connection._id,
+        clientId: connection.clientId._id,
         no: index + 1,
         name: connection.clientId.name,
         email: connection.clientId.email,
-        verificationStatus: connection.status,
+        verificationStatus: connection.adminVerify === 'Reject' ? 'Rejected by admin' : connection.status,
         medicalInfo: 'view',
     }));
 

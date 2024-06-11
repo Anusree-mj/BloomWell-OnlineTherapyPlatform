@@ -13,55 +13,85 @@ import OTPInput from '@/components/common/otp/otp';
 import UploadIcon from '@mui/icons-material/Upload';
 
 const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType }) => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [licenseNum, setLicenseNum] = useState('');
-    const [password, setPassword] = useState('');
-    const [confrmPassword, setConfrmPassword] = useState('');
+    const dispatch = useDispatch();
+    const router = useRouter();
+    const [signupInfo, setSignupInfo] = useState({
+        name: '',
+        email: '',
+        phone: 0,
+        image: '',
+        licenseNum: '',
+        password: '',
+        confrmPassword: '',
+    })
+    const [borderChange, setBorderChange] = useState({
+        name: 'black',
+        email: 'black',
+        phone: 'black',
+        licenseNum: 'black',
+        password: 'black',
+        confrmPassword: 'black',
+        file: 'black'
+    })
+    const [spanText, setSpanText] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        licenseNum: '',
+        password: '',
+        confrmPassword: '',
+        file: ''
+    })
 
     const [loading, setLoading] = useState(false)
-    const [nameSpan, setNameSpan] = useState('black')
-    const [nameTextSpan, setNameTextSpan] = useState('')
-    const [emailSpan, setEmailSpan] = useState('black')
-    const [emailTextSpan, setEmailTextSpan] = useState('')
-    const [passwordSpan, setPasswordSpan] = useState('black')
-    const [passwordTextSpan, setPasswordTextSpan] = useState('')
-    const [phoneSpan, setPhoneSpan] = useState('black')
-    const [phoneTextSpan, setPhoneTextSpan] = useState('')
-    const [licenseNumSpan, setLicenseNumSpan] = useState('black')
-    const [licenseNumTextSpan, setLicenseNumTextSpan] = useState('')
-    const [confrmPasswordSpan, setConfrmPasswordSpan] = useState('black')
-    const [confrmPasswordTextSpan, setConfrmPasswordTextSpan] = useState('')
-    const [fileSpan, setFileSpan] = useState('black')
-    const [fileTextSpan, setFileTextSpan] = useState('')
     const [file, setFile] = useState<File | null>(null);
-    const [image, setImage] = useState('')
     const [otpField, setOtpField] = useState(false)
     const [otp, setOtp] = useState('');
     const [disableButton, setDisableButton] = useState(false)
-    const dispatch = useDispatch();
     const isLoading = useSelector((state: { therapist: therapistStateType }) => state.therapist.isLoading);
     const error = useSelector((state: { therapist: therapistStateType }) => state.therapist.error);
-    const router = useRouter();
 
-
+    const handleBorderChange = (key: string) => {
+        setBorderChange(prevState => ({
+            ...prevState,
+            [key]: 'red'
+        }))
+    }
+    const handleSpanChange = (key: string, message: string) => {
+        setSpanText(prevState => ({
+            ...prevState,
+            [key]: message
+        }))
+    }
+    const handleClearSpan = (key: string) => {
+        setSpanText(prevState => ({
+            ...prevState,
+            [key]: ''
+        }));
+        setBorderChange(prevState => ({
+            ...prevState,
+            [key]: 'black'
+        }));
+    };
+    const handleInputChange = (key: string, value: string) => {
+        setSignupInfo(prevState => ({
+            ...prevState,
+            [key]: value
+        }));
+    };
     const uploadLicense = async () => {
         try {
-            setFileSpan('')
-            setFileTextSpan('')
+            handleClearSpan('file');
             if (file) {
-
                 const formData = new FormData();
                 formData.append('file', file);
-
                 const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/therapist/license`,
                     formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 });
-                setImage(response.data.imageUrl)
+                handleInputChange('image', response.data.imageUrl)
                 toast.success('License Successfully Uploaded')
             } else {
                 toast.error('No file selected');
@@ -77,7 +107,7 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
             const valid = validation()
             if (valid) {
                 setLoading(true)
-                const response = await axios.post(`http://localhost:8000/users/getOtp`, { email: email });
+                const response = await axios.post(`http://localhost:8000/users/getOtp`, { email: signupInfo.email });
                 if (response.status === 200) {
                     setOtpField(true)
                 }
@@ -102,6 +132,7 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
                 toast.error('Please enter the otp')
                 return;
             }
+            const { name, email, password, phone, licenseNum, image } = signupInfo
             await dispatch(getTherapistSignUpAction({
                 otp, name, email, password, phone, licenseNum, roleType, image,
                 handleTherapistSignupSuccess
@@ -117,77 +148,48 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
 
     const validation = () => {
         let isValid = true
-
-        const setValidation = (setSpan: any, setTextSpan: any, message: string) => {
-            setSpan('red');
-            setTextSpan(message);
+        let message = '';
+        if (!signupInfo.name || signupInfo.name.trim() === '') {
             isValid = false;
+            message = 'Please provide a valid name'
+            handleBorderChange('name'); handleSpanChange('name', message)
         }
-
-        if (!name || name.trim() === '') {
-            setValidation(setNameSpan, setNameTextSpan, 'Please provide a valid name');
+        if (!signupInfo.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(signupInfo.email)) {
+            isValid = false;
+            message = 'Please provide a valid email.'
+            handleBorderChange('email'); handleSpanChange('email', message)
         }
-        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            setValidation(setEmailSpan, setEmailTextSpan, 'Please provide a valid email.');
+        if (!signupInfo.phone || !/^\d{10}$/.test(signupInfo.phone.toString())) {
+            isValid = false;
+            message = 'Please provide a valid phone number'
+            handleBorderChange('phone'); handleSpanChange('phone', message)
         }
-        if (!phone || !/^\d{10}$/.test(phone)) {
-            setValidation(setPhoneSpan, setPhoneTextSpan, 'Please provide a valid phone number')
-        }
-        if (!licenseNum || licenseNum.trim() === '' || !/^[A-Za-z]{3}\/\d+$/.test(licenseNum)) {
-            let message = !licenseNum && licenseNum.trim() === ''
+        if (!signupInfo.licenseNum || signupInfo.licenseNum.trim() === '' || !/^[A-Za-z]{3}\/\d+$/.test(signupInfo.licenseNum)) {
+            isValid = false;
+            message = !signupInfo.licenseNum && signupInfo.licenseNum.trim() === ''
                 ? 'Please provide a valid license number'
                 : 'License number format is invalid. Format should be ABC/12345'
-            setValidation(setLicenseNumSpan, setLicenseNumTextSpan, message)
+            handleBorderChange('licenseNum'); handleSpanChange('licenseNum', message)
         }
-        if (!password || password.trim() === '' || password.length < 8) {
-            setValidation(setPasswordSpan, setPasswordTextSpan, 'Password atleast of 8 characters');
+        if (!signupInfo.password || signupInfo.password.trim() === '' || signupInfo.password.length < 8) {
+            isValid = false;
+            message = 'Password atleast of 8 characters'
+            handleBorderChange('password'); handleSpanChange('password', message)
         }
-        if (!confrmPassword || password !== confrmPassword) {
-            let message = !confrmPassword
+        if (!signupInfo.confrmPassword || signupInfo.password !== signupInfo.confrmPassword) {
+            isValid = false;
+            message = !signupInfo.confrmPassword
                 ? 'Please confirm your password'
                 : 'Password doesn\'t match';
-            setValidation(setConfrmPasswordSpan, setConfrmPasswordTextSpan, message);
+
+            handleBorderChange('confrmPassword'); handleSpanChange('confrmPassword', message)
         }
-        if (!image) {
-            setValidation(setFileSpan, setFileTextSpan, 'Please upload your license proof')
+        if (!signupInfo.image) {
+            isValid = false;
+            message = 'Please upload your license proof'
+            handleBorderChange('file'); handleSpanChange('file', message)
         }
         return isValid;
-    }
-
-    const clearSpan = (e: { preventDefault: () => void; }, fieldName: string) => {
-        e.preventDefault();
-        switch (fieldName) {
-            case 'name':
-                setNameTextSpan('');
-                setNameSpan('');
-                break;
-            case 'email':
-                setEmailTextSpan('');
-                setEmailSpan('');
-                break;
-            case 'phone':
-                setPhoneSpan('');
-                setPhoneTextSpan('');
-                break;
-            case 'licenseNum':
-                setLicenseNumTextSpan('');
-                setLicenseNumSpan('');
-                break;
-            case 'password':
-                setPasswordSpan('')
-                setPasswordTextSpan('')
-                break;
-            case 'confrmPassword':
-                setConfrmPasswordSpan('')
-                setConfrmPasswordTextSpan('')
-                break;
-            case 'file':
-                setFileSpan('')
-                setFileTextSpan('')
-                break;
-            default:
-                break;
-        }
     }
 
     useEffect(() => {
@@ -203,12 +205,12 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
     }, [error])
 
     const textFieldItems = [
-        { type: 'text', label: 'Name', borderColor: nameSpan, onChangeFnctn: setName, clearSpan: 'name', span: nameTextSpan },
-        { type: 'email', label: 'Email', borderColor: emailSpan, onChangeFnctn: setEmail, clearSpan: 'email', span: emailTextSpan },
-        { type: 'number', label: 'Phone', borderColor: phoneSpan, onChangeFnctn: setPhone, clearSpan: 'phone', span: phoneTextSpan },
-        { type: 'text', label: 'License Number', borderColor: licenseNumSpan, onChangeFnctn: setLicenseNum, clearSpan: 'licenseNum', span: licenseNumTextSpan },
-        { type: 'password', label: 'Password', borderColor: passwordSpan, onChangeFnctn: setPassword, clearSpan: 'password', span: passwordTextSpan },
-        { type: 'password', label: 'Confirm Password', borderColor: confrmPasswordSpan, onChangeFnctn: setConfrmPassword, clearSpan: 'confrmPassword', span: confrmPasswordTextSpan },
+        { type: 'text', label: 'Name', borderColor: borderChange.name, key: 'name', spanText: spanText.name },
+        { type: 'email', label: 'Email', borderColor: borderChange.email, key: 'email', spanText: spanText.email },
+        { type: 'number', label: 'Phone', borderColor: borderChange.phone, key: 'phone', spanText: spanText.phone },
+        { type: 'text', label: 'License Number', borderColor: borderChange.licenseNum, key: 'licenseNum', spanText: spanText.licenseNum },
+        { type: 'password', label: 'Password', borderColor: borderChange.password, key: 'password', spanText: spanText.password },
+        { type: 'password', label: 'Confirm Password', borderColor: borderChange.confrmPassword, key: 'confrmPassword', spanText: spanText.confrmPassword },
     ];
 
     return (
@@ -259,13 +261,13 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
                                                     borderColor: item.borderColor
                                                 },
                                             },
-                                        }} onChange={(e) => { item.onChangeFnctn(e.target.value) }}
-                                        onClick={(e) => clearSpan(e, item.clearSpan)}
+                                        }} onChange={(e) => { handleInputChange(item.key, e.target.value) }}
+                                        onClick={() => handleClearSpan(item.key)}
                                     />
                                     <span style={{
                                         color: 'red', fontSize: '0.8rem',
                                         marginBottom: '0.6rem', marginLeft: '0.4rem'
-                                    }}>{item.span}</span>
+                                    }}>{item.spanText}</span>
                                 </Box>
                             ))}
                             <Box sx={{
@@ -280,7 +282,7 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
                                         backgroundColor: '#F7FCC2',
                                         '& .MuiOutlinedInput-root': {
                                             '& fieldset': {
-                                                borderColor: fileSpan
+                                                borderColor: borderChange.file
                                             },
                                         },
                                     }}
@@ -313,7 +315,7 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
                                     color: 'red', fontSize: '0.8rem', marginTop: '-.9rem', marginLeft: '0.5rem',
                                     textAlign: 'left'
                                 }}>
-                                    {fileTextSpan}</span>
+                                    {spanText.file}</span>
 
                             </Box>
                         </Box>
@@ -349,7 +351,7 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
                         boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                         borderRadius: '0.6rem',
                     }}>
-                        <OTPInput email={email} otp={otp} setOtp={setOtp} disableButton={disableButton}
+                        <OTPInput email={signupInfo.email} otp={otp} setOtp={setOtp} disableButton={disableButton}
                             setDisableButton={setDisableButton} />
                         {!disableButton && (
                             <LoadingButton
@@ -373,7 +375,6 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
                     </FormControl>
                 </>
             )}
-
         </Box>
     )
 }

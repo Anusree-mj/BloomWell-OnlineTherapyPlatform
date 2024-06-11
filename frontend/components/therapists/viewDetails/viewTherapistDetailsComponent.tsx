@@ -8,11 +8,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getTherapistDetailsAction, therapistStateType } from '@/store/therapists/therapistReducers';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-
-
-
 
 const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistId }) => {
     const dispatch = useDispatch();
@@ -25,20 +20,13 @@ const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistI
     const [activeStep, setActiveStep] = useState(0);
     const maxSteps = reviews.length;
 
-    const handleNext = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-
     const handleStepChange = (step: number) => {
         setActiveStep(step);
     };
+
     useEffect(() => {
         dispatch(getTherapistDetailsAction(therapistId));
-    }, []);
+    }, [dispatch, therapistId]);
 
     const [expandedPanel, setExpandedPanel] = useState<string | false>(false);
 
@@ -114,17 +102,17 @@ const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistI
                 </Box>
                 {/* reviews */}
                 <Box sx={{
-                    maxWidth: '100%', width: '90rem', padding: 2,
+                    maxWidth: '100%', width: '90rem', 
                     display: 'flex', flexDirection: 'column',
                     justifyContent: 'center', alignItems: 'center',
-                    flexGrow: 1, mt: 2
+                    flexGrow: 1, mt: 6, backgroundColor: '#325343',
+                    minHeight: '40vh',
                 }}>
                     <Box sx={{
                         boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                         backgroundColor: '#F7FCC2', borderRadius: '0.6rem',
-                        padding: 1, mb: 1
+                        p: 2, mb: 1, width: '50rem', maxWidth: '90%'
                     }}>
-
                         <Paper
                             square
                             elevation={0}
@@ -132,7 +120,7 @@ const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistI
                                 display: 'flex',
                                 alignItems: 'center',
                                 height: 50,
-                                pl: 2,
+                                pl: 2,mt:2,
                                 backgroundColor: '#F7FCC2',
                             }}
                         >
@@ -140,7 +128,8 @@ const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistI
                                 <Typography>{reviews[activeStep].comments}</Typography>
                             ) : (
                                 <Typography>No reviews available</Typography>
-                            )}                    </Paper>
+                            )}
+                        </Paper>
                         <AutoPlaySwipeableViews
                             axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                             index={activeStep}
@@ -154,7 +143,6 @@ const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistI
                                             sx={{
                                                 fontSize: '1rem', fontWeight: 400, color: '#325343',
                                                 textAlign: 'end', mr: 1
-
                                             }}
                                         >-{item.clientName} </Typography>
 
@@ -164,34 +152,10 @@ const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistI
                         </AutoPlaySwipeableViews>
                     </Box>
 
-                    <MobileStepper
+                    <MobileStepper sx={{ backgroundColor: 'transparent' }}
                         steps={maxSteps}
                         position="static"
-                        activeStep={activeStep}
-                        nextButton={
-                            <Button
-                                size="small"
-                                onClick={handleNext}
-                                disabled={activeStep === maxSteps - 1}
-                            >
-                                Next
-                                {theme.direction === 'rtl' ? (
-                                    <KeyboardArrowLeft />
-                                ) : (
-                                    <KeyboardArrowRight />
-                                )}
-                            </Button>
-                        }
-                        backButton={
-                            <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                                {theme.direction === 'rtl' ? (
-                                    <KeyboardArrowRight />
-                                ) : (
-                                    <KeyboardArrowLeft />
-                                )}
-                                Back
-                            </Button>
-                        }
+                        activeStep={activeStep} backButton={undefined} nextButton={undefined}                        // nextButton and backButton props are removed to hide the buttons
                     />
                 </Box>
             </Box>

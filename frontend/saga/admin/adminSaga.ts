@@ -5,7 +5,10 @@ import {
     getAllClientsDetailsSuccessAction,
     getTherapistsDetailsAction,
     getTherapistsDetailsFailureAction,
-    getTherapistsDetailsSuccessAction
+    getTherapistsDetailsSuccessAction,
+    getSingleClientsDetailsAction,
+    getSingleClientsDetailsFailureAction,
+    getSingleClientsDetailsSuccessAction,
 } from '@/store/admin/adminReducer';
 import { apiCall } from '@/services/api';
 
@@ -26,6 +29,27 @@ function* getAllClientsDetailsActionSaga(): any {
         }
     } catch (err) {
         yield put(getAllClientsDetailsFailureAction(err))
+    }
+}
+// get single client
+function* getSingleClientsDetailsActionSaga(action: {
+    type: string;
+    payload: { clientId: '' }
+}): any {
+    try {
+        console.log('actionpayload', action.payload)
+        const response = yield call<any>(apiCall, {
+            method: 'GET',
+            endpoint: `admin/clients/view/${action.payload.clientId}`,
+        });
+        if (response.status === 'ok') {
+            yield put(getSingleClientsDetailsSuccessAction(response.client))
+        } else {
+            yield put(getSingleClientsDetailsFailureAction(response.message))
+
+        }
+    } catch (err) {
+        yield put(getSingleClientsDetailsFailureAction(err))
     }
 }
 
@@ -52,5 +76,6 @@ function* getTherapistsDetailsActionSaga(): any {
 export function* adminWatcher() {
     yield takeEvery(getAllClientsDetailsAction, getAllClientsDetailsActionSaga);
     yield takeEvery(getTherapistsDetailsAction, getTherapistsDetailsActionSaga);
+    yield takeEvery(getSingleClientsDetailsAction, getSingleClientsDetailsActionSaga);
 
 }

@@ -47,7 +47,6 @@ const connections = async (clientId) => {
                 }
             }
         ])
-        console.log('Therapistsssssssss', therapists)
 
         return { status: 'ok', therapists }
     } catch (err) {

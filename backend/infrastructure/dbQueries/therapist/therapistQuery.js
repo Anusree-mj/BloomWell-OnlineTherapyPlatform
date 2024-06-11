@@ -81,7 +81,6 @@ const calculateRating = (reviews) => {
 const getTherapistData = async (therapistId) => {
     try {
         const therapist = await Therapists.findOne({ _id: therapistId }).select('-password -createdAt -updatedAt');;
-        console.log('therapist details got in queryyyyyyyyyyyy', therapist)
         if (therapist) {
             return { status: 'ok', therapist }
         } else {
