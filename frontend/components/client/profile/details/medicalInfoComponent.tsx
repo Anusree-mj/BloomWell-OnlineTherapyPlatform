@@ -11,10 +11,11 @@ interface MedicalInfoProps {
     medicalInfoItems: {
         sessionType: string,
         questionnaire: string[]
-    }
+    },
+    readOnly: boolean
 }
 
-const MedicalInfoComponent: React.FC<MedicalInfoProps> = ({ medicalInfoItems }) => {
+const MedicalInfoComponent: React.FC<MedicalInfoProps> = ({ medicalInfoItems, readOnly }) => {
     const [showMore, setShowMore] = useState(false);
     const [editMedicalInfo, setEditMedicalInfo] = useState(false)
 
@@ -43,7 +44,9 @@ const MedicalInfoComponent: React.FC<MedicalInfoProps> = ({ medicalInfoItems }) 
         }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography sx={{ fontWeight: 800, fontSize: '1rem', color: '#325343' }}>Medical Info (Filled In Questionnaires) </Typography>
-                <EditNoteIcon sx={{ fontWeight: 800, color: '#325343' }} onClick={() => { setEditMedicalInfo(true) }} />
+                {!readOnly && (
+                    <EditNoteIcon sx={{ fontWeight: 800, color: '#325343' }} onClick={() => { setEditMedicalInfo(true) }} />
+                )}
             </Box>
             <Divider sx={{ mb: 2 }} />
             {!editMedicalInfo ? (

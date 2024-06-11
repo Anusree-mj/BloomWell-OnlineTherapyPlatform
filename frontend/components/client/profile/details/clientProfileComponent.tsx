@@ -36,14 +36,12 @@ const ClientProfileComponent = () => {
         amount: 0,
         status: ''
     })
-
     useEffect(() => {
         const clientData = localStorage.getItem("clientData");
         if (!clientData) {
             router.push('/login');
         }
     }, []);
-
     useEffect(() => {
         setPersonalInfoItems({
             name: clientDetails.name || '',
@@ -51,7 +49,6 @@ const ClientProfileComponent = () => {
             age: clientDetails.age || '',
             sessionType: clientDetails.sessionType || ''
         });
-
         setMedicalInfoItems({
             sessionType: clientDetails.sessionType,
             questionnaire: clientDetails.questionnaire
@@ -70,7 +67,6 @@ const ClientProfileComponent = () => {
                 })
             })
         }
-
         setSubscriptionInfoItems({
             stripeCustomerId: clientDetails.subscription.stripeCustomerId,
             stripeSubscriptionId: clientDetails.subscription.stripeSubscriptionId,
@@ -105,7 +101,7 @@ const ClientProfileComponent = () => {
                     color: '#325343', fontWeight: 800, fontSize: '1.5rem', mt: 4
                 }}>My Profile</Typography>
                 <PersonalInfoComponent personalInfoItems={personalInfoItems} />
-                <MedicalInfoComponent medicalInfoItems={medicalInfoItems} />
+                <MedicalInfoComponent medicalInfoItems={medicalInfoItems} readOnly={false} />
                 < ConnectionInfoComponent connectionInfoItems={connectionInfoItems}
                     hasConnectionInfo={hasConnectionInfo} />
                 <SubscriptionInfoComponent SubscriptionItems={subscriptionInfoItems} />

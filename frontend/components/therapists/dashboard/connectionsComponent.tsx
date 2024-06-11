@@ -49,7 +49,7 @@ const ConnectionRequestsComponent = () => {
             sortable: false,
             width: 120,
             renderCell: (params) => (
-                <Link href={`/client/view/${params.row.id}`} style={{ textDecoration: 'underline' }}
+                <Link href={`/client/medicalInfo/${params.row.clientId}`} style={{ textDecoration: 'underline' }}
                 >View
                 </Link>
             ),
@@ -98,6 +98,7 @@ const ConnectionRequestsComponent = () => {
 
     const rows = filteredConnections.map((connection, index) => ({
         id: connection._id,
+        clientId: connection.clientId._id,
         no: index + 1,
         name: connection.clientId.name,
         email: connection.clientId.email,

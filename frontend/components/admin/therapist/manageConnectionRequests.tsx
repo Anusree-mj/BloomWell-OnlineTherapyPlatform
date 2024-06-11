@@ -48,7 +48,7 @@ const AdminConnectionRequestsComponent = () => {
             sortable: false,
             width: 80,
             renderCell: (params) => (
-                <Link href={`/client/view/${params.row.clientId}`} style={{ textDecoration: 'underline' }}
+                <Link href={`/client/medicalInfo/${params.row.clientId}`} style={{ textDecoration: 'underline' }}
                 >View
                 </Link>
             ),
@@ -112,7 +112,7 @@ const AdminConnectionRequestsComponent = () => {
     const rows = filteredConnections.map((connection, index) => ({
         id: connection._id,
         therapistId: connection.therapistId._id,
-        connectionId: connection.clientId._id,
+        clientId: connection.clientId._id,
         no: index + 1,
         therapistName: connection.therapistId.name,
         clientName: connection.clientId.name,
