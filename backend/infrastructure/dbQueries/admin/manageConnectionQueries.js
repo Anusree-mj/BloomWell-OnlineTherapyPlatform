@@ -33,6 +33,12 @@ const manageConnectionRequest = async (connectionStatus, connectionId) => {
                 await checkActiveConnection(connectionId, therapistName, clientId);
             } else {
                 await Client.findByIdAndUpdate(clientId, { isConnected: false });
+                await Notifications.insertMany({
+                    userId: clientId,
+                    userType: 'Client',
+                    head: 'Connection Request Updated',
+                    message: 'We regret to inform you that your connection request was declined. Please feel free to connect with other therapists. If you need assistance, contact our support team.',
+                })
             }
             return { status: 'ok' }
         } else {

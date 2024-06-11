@@ -41,30 +41,31 @@ const AdminConnectionRequestsComponent = () => {
 
     const columns: GridColDef[] = [
         { field: "no", headerName: "No", width: 10 },
-        { field: "therapistName", headerName: "Therapist Name", width: 120 },
-        {
-            field: "viewTherapist",
-            headerName: "Therapist",
-            sortable: false,
-            width: 120,
-            renderCell: (params) => (
-                <Link href={`/therapist/view/${params.row.therapistId}`} style={{ textDecoration: 'underline' }}
-                >View
-                </Link>
-            ),
-        },
-        { field: "clientName", headerName: "Client Name", width: 120 },
+        { field: "clientName", headerName: "Client Name", width: 100 },
         {
             field: "viewClient",
             headerName: "Client",
             sortable: false,
-            width: 120,
+            width: 80,
             renderCell: (params) => (
                 <Link href={`/client/view/${params.row.clientId}`} style={{ textDecoration: 'underline' }}
                 >View
                 </Link>
             ),
         },
+        { field: "therapistName", headerName: "Therapist Name", width: 120 },
+        {
+            field: "viewTherapist",
+            headerName: "Therapist",
+            sortable: false,
+            width: 80,
+            renderCell: (params) => (
+                <Link href={`/therapist/view/${params.row.therapistId}`} style={{ textDecoration: 'underline' }}
+                >View
+                </Link>
+            ),
+        },
+        { field: "therapistVerificationStatus", headerName: "Therapist Verification Status", width: 240 },
         { field: "verificationStatus", headerName: "Status", width: 90 },
         {
             field: "verify",
@@ -84,7 +85,7 @@ const AdminConnectionRequestsComponent = () => {
                             params.row.clientName, e.target.value)}
                         displayEmpty
                         inputProps={{ 'aria-label': 'Without label' }}
-                        disabled={params.row.verificationStatus !== 'pending'}
+                        disabled={params.row.verificationStatus !== 'pending' || params.row.therapistStatus === 'Reject'}
                     >
                         <MenuItem value="" sx={{ fontSize: '0.88rem' }}>
                             <em>None</em>
@@ -108,13 +109,17 @@ const AdminConnectionRequestsComponent = () => {
         connection.status.toLowerCase().includes(search)
     );
 
-    const rows = connections.map((connection, index) => ({
+    const rows = filteredConnections.map((connection, index) => ({
         id: connection._id,
         therapistId: connection.therapistId._id,
         connectionId: connection.clientId._id,
         no: index + 1,
         therapistName: connection.therapistId.name,
         clientName: connection.clientId.name,
+        therapistStatus: connection.status,
+        therapistVerificationStatus: connection.status === 'Reject' ? `Rejected,\nReason: ${connection.reasonForRejection}`
+            : connection.status === 'Accept' ? 'Accepted'
+                : connection.status,
         verificationStatus: connection.adminVerify,
         viewTherapist: 'view',
         viewClient: 'view'

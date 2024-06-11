@@ -4,7 +4,6 @@ import Notifications from "../../../entities/users/notificationModel.js";
 const getTherapistsDetailsQuery = async () => {
     try {
         const therapists = await Therapists.find({}).select('-password').sort({ createdAt: -1 });
-        console.log('therapistsssssss', therapists)
         return { therapists }
     }
     catch (err) {
@@ -63,7 +62,6 @@ const editTherapistsQuery = async (therapistsId) => {
 const getRejectedTherapistQuery = async () => {
     try {
         const therapists = await Therapists.find({ verificationStatus: 'Denied' }).select('-password').sort({ createdAt: -1 });
-        console.log('therapistsssssss', therapists)
         return { therapists }
     }
     catch (err) {
