@@ -9,28 +9,48 @@ import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { getClientSignUpAction, clientStateType } from "@/store/clients/clientReducer";
 import OTPInput from '@/components/common/otp/otp';
+import { sign } from 'crypto';
 
 const ClientSignupComponent = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confrmPassword, setConfrmPassword] = useState('');
+    const dispatch = useDispatch();
+    const router = useRouter();
+    const [signupInfo, setSignupInfo] = useState({
+        name: '',
+        email: '',
+        password: '',
+        confrmPassword: ''
+    })
+    const [borderChange, setBorderChange] = useState({
+        name: 'black',
+        email: 'black',
+        password: 'black',
+        confrmPassword: 'black'
+    })
+    const [spanText, setSpanText] = useState({
+        name: '',
+        email: '',
+        password: '',
+        confrmPassword: ''
+    })
     const [loading, setLoading] = useState(false)
-    const [nameSpan, setNameSpan] = useState('black')
-    const [nameTextSpan, setNameTextSpan] = useState('')
-    const [emailSpan, setEmailSpan] = useState('black')
-    const [emailTextSpan, setEmailTextSpan] = useState('')
-    const [passwordSpan, setPasswordSpan] = useState('black')
-    const [passwordTextSpan, setPasswordTextSpan] = useState('')
-    const [confrmPasswordSpan, setConfrmPasswordSpan] = useState('black')
-    const [confrmPasswordTextSpan, setConfrmPasswordTextSpan] = useState('')
     const [otpField, setOtpField] = useState(false)
     const [otp, setOtp] = useState('');
     const [disableButton, setDisableButton] = useState(false)
-    const dispatch = useDispatch();
     const isLoading = useSelector((state: { client: clientStateType }) => state.client.isLoading);
     const error = useSelector((state: { client: clientStateType }) => state.client.error);
-    const router = useRouter();
+
+
+    useEffect(() => {
+        if (localStorage.getItem('clientData')) {
+            router.push('/client/myActivity')
+        }
+    }, [])
+
+    useEffect(() => {
+        if (error) {
+            toast.error(error)
+        }
+    }, [error])
 
     const handleGetOtp = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
@@ -38,7 +58,8 @@ const ClientSignupComponent = () => {
             const valid = validation()
             if (valid) {
                 setLoading(true)
-                const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/users/getOtp`, { email: email });
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/users/getOtp`,
+                    { email: signupInfo.email });
                 if (response.status === 200) {
                     setOtpField(true)
                 }
@@ -63,6 +84,7 @@ const ClientSignupComponent = () => {
                 toast.error('Please enter the otp')
                 return;
             }
+            const { name, email, password } = signupInfo
             await dispatch(getClientSignUpAction({ otp, name, email, password, handleSignupSuccess }))
         } catch (err) {
             console.log(err)
@@ -73,75 +95,71 @@ const ClientSignupComponent = () => {
         router.push('/client/details')
     }
 
+    const handleBorderChange = (key: string) => {
+        setBorderChange(prevState => ({
+            ...prevState,
+            [key]: 'red'
+        }))
+    }
+    const handleSpanChange = (key: string, message: string) => {
+        setSpanText(prevState => ({
+            ...prevState,
+            [key]: message
+        }))
+    }
     const validation = () => {
         let isValid = true
-        const setValidation = (setSpan: any, setTextSpan: any, message: string) => {
-            setSpan('red');
-            setTextSpan(message);
-            isValid = false;
+        let message = '';
+        if (!signupInfo.name || signupInfo.name.trim() === '') {
+            isValid = false
+            message = 'Please provide a valid name'
+            handleBorderChange('name'); handleSpanChange('name', message)
         }
-
-        if (!name || name.trim() === '') {
-            setValidation(setNameSpan, setNameTextSpan, 'Please provide a valid name');
+        if (!signupInfo.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(signupInfo.email)) {
+            isValid = false
+            message = 'Please provide a valid email.'
+            handleBorderChange('email'); handleSpanChange('email', message)
         }
-        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            setValidation(setEmailSpan, setEmailTextSpan, 'Please provide a valid email.');
-        }
-        if (!password || password.trim() === '' || password.length < 8) {
-            let message = !password && password.trim() === ''
+        if (!signupInfo.password || signupInfo.password.trim() === ''
+            || signupInfo.password.length < 8) {
+            isValid = false
+            let message = !signupInfo.password && signupInfo.password.trim() === ''
                 ? 'Please provide a password of at least 8 characters'
                 : 'Password must be at least 8 characters long';
-            setValidation(setPasswordSpan, setPasswordTextSpan, message);
+            handleBorderChange('password'); handleSpanChange('password', message)
         }
-        if (!confrmPassword || password !== confrmPassword) {
-            let message = !confrmPassword
+        if (!signupInfo.confrmPassword || signupInfo.password !== signupInfo.confrmPassword) {
+            isValid = false
+            let message = !signupInfo.confrmPassword
                 ? 'Please confirm your password'
                 : 'Password doesn\'t match';
-            setValidation(setConfrmPasswordSpan, setConfrmPasswordTextSpan, message);
+            handleBorderChange('confrmPassword'); handleSpanChange('confrmPassword', message)
         }
         return isValid;
     }
-    const clearSpan = (e: { preventDefault: () => void; }, fieldName: string) => {
-        e.preventDefault();
-        switch (fieldName) {
-            case 'name':
-                setNameTextSpan('');
-                setNameSpan('');
-                break;
-            case 'email':
-                setEmailTextSpan('');
-                setEmailSpan('');
-                break;
-            case 'password':
-                setPasswordSpan('')
-                setPasswordTextSpan('')
-                break;
-            case 'confrmPassword':
-                setConfrmPasswordSpan('')
-                setConfrmPasswordTextSpan('')
-                break;
-            default:
-                break;
-        }
-    }
+    const handleClearSpan = (key: string) => {
+        setSpanText(prevState => ({
+            ...prevState,
+            [key]: ''
+        }));
+        setBorderChange(prevState => ({
+            ...prevState,
+            [key]: 'black'
+        }));
+    };
 
-    useEffect(() => {
-        if (localStorage.getItem('clientData')) {
-            router.push('/client/myActivity')
-        }
-    }, [])
-
-    useEffect(() => {
-        if (error) {
-            toast.error(error)
-        }
-    }, [error])
+    const handleInputChange = (key: string, value: string) => {
+        setSignupInfo(prevState => ({
+            ...prevState,
+            [key]: value
+        }));
+    };
 
     return (
         <Box sx={{
             backgroundColor: '#F7FCC2', display: 'flex',
             justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
-            height: '85vh', paddingBottom: '2rem'
+            paddingBottom: '2rem'
         }}>
             {otpField !== true ? (
                 <>
@@ -168,28 +186,28 @@ const ClientSignupComponent = () => {
                                 maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
                                 '& .MuiOutlinedInput-root': {
                                     '& fieldset': {
-                                        borderColor: nameSpan,
+                                        borderColor: borderChange.name,
                                     },
                                 },
-                            }} onChange={(e) => { setName(e.target.value) }}
-                            onClick={(e) => clearSpan(e, 'name')}
+                            }} onChange={(e) => { handleInputChange('name', e.target.value) }}
+                            onClick={() => handleClearSpan('name')}
                         />
                         <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
-                        >{nameTextSpan}</span>
+                        >{spanText.name}</span>
                         <TextField id="outlined-basic" label="Email" variant="outlined"
                             required
                             sx={{
                                 maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2', mt: 2,
                                 '& .MuiOutlinedInput-root': {
                                     '& fieldset': {
-                                        borderColor: emailSpan,
+                                        borderColor: borderChange.email,
                                     },
                                 },
-                            }} onChange={(e) => { setEmail(e.target.value) }}
-                            onClick={(e) => clearSpan(e, 'email')}
+                            }} onChange={(e) => { handleInputChange('email', e.target.value) }}
+                            onClick={(e) => handleClearSpan('email')}
                         />
                         <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
-                        >{emailTextSpan}</span>
+                        >{spanText.email}</span>
                         <TextField
                             id="outlined-password-input"
                             label="Password"
@@ -200,14 +218,14 @@ const ClientSignupComponent = () => {
                                 mt: 2,
                                 '& .MuiOutlinedInput-root': {
                                     '& fieldset': {
-                                        borderColor: passwordSpan,
+                                        borderColor: borderChange.password,
                                     },
                                 },
-                            }} onChange={(e) => { setPassword(e.target.value) }}
-                            onClick={(e) => clearSpan(e, 'password')}
+                            }} onChange={(e) => { handleInputChange('password', e.target.value) }}
+                            onClick={(e) => handleClearSpan('password')}
                         />
                         <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
-                        >{passwordTextSpan}</span>
+                        >{spanText.password}</span>
                         <TextField
                             id="outlined-password-input"
                             label="Confirm Password"
@@ -218,14 +236,14 @@ const ClientSignupComponent = () => {
                                 mt: 2,
                                 '& .MuiOutlinedInput-root': {
                                     '& fieldset': {
-                                        borderColor: confrmPasswordSpan,
+                                        borderColor: borderChange.confrmPassword,
                                     },
                                 },
-                            }} onChange={(e) => { setConfrmPassword(e.target.value) }}
-                            onClick={(e) => clearSpan(e, 'confrmPassword')}
+                            }} onChange={(e) => { handleInputChange('confrmPassword', e.target.value) }}
+                            onClick={(e) => handleClearSpan('confrmPassword')}
                         />
                         <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
-                        >{confrmPasswordTextSpan}</span>
+                        >{spanText.confrmPassword}</span>
                         <LoadingButton
                             onClick={handleGetOtp}
                             loading={loading}
@@ -257,7 +275,7 @@ const ClientSignupComponent = () => {
                         boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                         borderRadius: '0.6rem',
                     }}>
-                        <OTPInput email={email} otp={otp} setOtp={setOtp} disableButton={disableButton}
+                        <OTPInput email={signupInfo.email} otp={otp} setOtp={setOtp} disableButton={disableButton}
                             setDisableButton={setDisableButton} />
                         {!disableButton && (
                             <LoadingButton
