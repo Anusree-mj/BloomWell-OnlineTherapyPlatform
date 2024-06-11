@@ -9,19 +9,20 @@ import { useRouter } from "next/navigation";
 interface ReasonComponentProps {
     reasonId: string,
     reasonItems: string[],
-    url: string,
+    postUrl: string,
+    successUrl: string
 }
-const AddRejectingReasonComponent: React.FC<ReasonComponentProps> = ({ reasonId, reasonItems, url }) => {
+const AddRejectingReasonComponent: React.FC<ReasonComponentProps> = ({ reasonId, reasonItems, postUrl,successUrl }) => {
     const router = useRouter();
 
     const submitReason = async (item: string) => {
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/${url}`,
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/${postUrl}`,
                 { reason: item, reasonId }, { withCredentials: true, }
             );
             if (response.status === 200) {
                 toast.success('Reason successfully updated');
-                router.push('/admin/therapists/rejected')
+                router.push(`/${successUrl}`)
             }
         }
         catch (err) {

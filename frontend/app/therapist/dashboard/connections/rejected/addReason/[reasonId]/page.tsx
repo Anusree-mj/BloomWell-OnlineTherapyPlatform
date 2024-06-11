@@ -11,7 +11,8 @@ const reasonItems = [
     'Scheduling Conflicts', 'Specialization Mismatch', 'Personal Reasons',
     'Client Needs Specialized Care', 'Not connecting  at the moment'
 ]
-const url = '#'
+const postUrl = 'therapist/rejected/connections'
+const successUrl = 'therapist/dashboard/connections/rejected'
 export default function Page({ params }: { params: { reasonId: string } }) {
     return (
         <Provider store={store}>
@@ -19,7 +20,7 @@ export default function Page({ params }: { params: { reasonId: string } }) {
             <TherapistHeader />
             <div style={{ paddingTop: '1rem' }}>
                 <AddRejectingReasonComponent reasonId={params.reasonId} reasonItems={reasonItems}
-                    url={url} />
+                    postUrl={postUrl} successUrl={successUrl} />
             </div>
             <Footer />
         </Provider>

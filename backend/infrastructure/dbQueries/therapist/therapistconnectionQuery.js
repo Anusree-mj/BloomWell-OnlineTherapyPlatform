@@ -1,5 +1,7 @@
 import Connections from "../../../entities/clients/connection.js";
+import Client from "../../../entities/clients/clients.js";
 import { checkActiveConnection } from "../admin/manageConnectionQueries.js";
+import Notifications from "../../../entities/users/notificationModel.js";
 
 const getConnectionRequests = async (therapistId) => {
     try {
@@ -33,6 +35,39 @@ const getRejectedConnections = async (therapistId) => {
     }
 }
 
+const postRejectedReasonQuery = async (connectionId, reason) => {
+    try {
+        console.log('Readched post rejection reason query')
+        const connection = await Connections.findOne({ _id: connectionId });
+        const clientId = connection.clientId;
+        console.log('clientId got', clientId)
+        const message = `We regret to inform you that your connection request was declined due to: "${reason}". Please feel free to connect with other therapists. If you need assistance, contact our support team.`;
+
+        await Notifications.insertMany({
+            userId: clientId,
+            userType: 'Client',
+            head: 'Connection Request Updated',
+            message: message,
+        })
+        const query = { _id: connectionId };
+        const update = { reasonForRejection: reason };
+        const options = { upsert: true };
+        const updatedConnection = await Connections.updateOne(query, update, options);
+        console.log(updatedConnection, 'updsfasdfdsfsdf')
+        if (updatedConnection.modifiedCount > 0) {
+            return { status: 'ok' }
+        } else {
+            return { status: 'nok', message: 'Something went wrong' }
+        }
+
+    }
+    catch (err) {
+        console.log(err)
+        return { status: 'nok', message: err.message }
+    }
+}
+
+
 const manageConnectionRequest = async (connectionStatus, connectionId) => {
     try {
         const query = { _id: connectionId }
@@ -44,7 +79,11 @@ const manageConnectionRequest = async (connectionStatus, connectionId) => {
                 .populate('therapistId', 'name');
             const therapistName = connection.therapistId.name;
             const clientId = connection.clientId;
-            await checkActiveConnection(connectionId, therapistName, clientId);
+            if (connectionStatus === 'Accept') {
+                await checkActiveConnection(connectionId, therapistName, clientId);
+            } else {
+                await Client.findByIdAndUpdate(clientId, { isConnected: false });
+            }
             return { status: 'ok' }
         } else {
             return { status: 'nok', message: 'Connection request not found' }
@@ -59,5 +98,5 @@ export default {
     getConnectionRequests,
     manageConnectionRequest,
     getRejectedConnections,
-
+    postRejectedReasonQuery,
 }

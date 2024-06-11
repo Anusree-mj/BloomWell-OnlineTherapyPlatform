@@ -1,5 +1,6 @@
 import Connections from "../../../entities/clients/connection.js";
 import Notifications from '../../../entities/users/notificationModel.js'
+import Client from "../../../entities/clients/clients.js";
 
 const getConnectionRequests = async () => {
     try {
@@ -28,7 +29,11 @@ const manageConnectionRequest = async (connectionStatus, connectionId) => {
                 .populate('therapistId', 'name');
             const therapistName = connection.therapistId.name;
             const clientId = connection.clientId;
-            await checkActiveConnection(connectionId, therapistName, clientId)
+            if (connectionStatus === 'Accept') {
+                await checkActiveConnection(connectionId, therapistName, clientId);
+            } else {
+                await Client.findByIdAndUpdate(clientId, { isConnected: false });
+            }
             return { status: 'ok' }
         } else {
             return { status: 'nok', message: 'Connection request not found' }
