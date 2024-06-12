@@ -1,5 +1,5 @@
-"use client";
 import * as React from 'react';
+import { io } from 'socket.io-client'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -28,7 +28,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/navigation";
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
-
+import AlertComponent from '@/components/common/alert';
 const drawerWidth = 240;
 
 interface Props {
@@ -36,6 +36,7 @@ interface Props {
 }
 
 export default function TherapistHeader(props: Props) {
+    const socket = io(`${process.env.NEXT_PUBLIC_SERVER_API_URL}`);
     const dispatch = useDispatch();
     const therapist = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
     const router = useRouter()
@@ -45,7 +46,8 @@ export default function TherapistHeader(props: Props) {
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [isClosing, setIsClosing] = React.useState(false);
     const [openMenus, setOpenMenus] = React.useState<{ [key: string]: boolean }>({});
-
+    const [alertMessage, setAlertMessage] = React.useState<string>('');
+    const [viewUrl, setViewUrl] = React.useState('')
     React.useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
         if (therapistData) {
@@ -54,6 +56,16 @@ export default function TherapistHeader(props: Props) {
             router.push('/login')
         }
     }, []);
+
+    React.useEffect(() => {
+        socket.on('recieve_message', (data) => {
+            console.log('data reached in header', data)
+            setAlertMessage(`New Connection from ${data.clientName}`);
+        })
+        return () => {
+            socket.off('recieve_message');
+        }
+    }, [socket])
 
     React.useEffect(() => {
         if (error) {
@@ -297,6 +309,9 @@ export default function TherapistHeader(props: Props) {
                     {drawer}
                 </Drawer>
             </Box>
+            {alertMessage && (
+                <AlertComponent message={alertMessage} viewURL={'/therapist/dashboard/connections'} />
+            )}
         </Box>
     );
 }

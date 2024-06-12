@@ -150,7 +150,6 @@ const getClientDataQuery = async (clientId) => {
                     }
                 }
             ]);
-            console.log('data being passedin profile', client[0])
             return { status: 'ok', client: client[0] }
         } else {
             console.log('passing else')

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
+import { io } from 'socket.io-client'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -18,11 +18,12 @@ import { getClientDetailsAction } from "@/store/clients/clientReducer";
 
 
 const ConnectionComponent = () => {
+    const socket = io(`${process.env.NEXT_PUBLIC_SERVER_API_URL}`);
     const dispatch = useDispatch();
     const router = useRouter()
     const therapists = useSelector((state: { clientConnection: clientConnectionStateType }) => state.clientConnection.therapist);
     const [clientId, setClientId] = useState('');
-
+    const [clientName, setClientName] = useState('')
     useEffect(() => {
         const clientData = localStorage.getItem("clientData");
         if (clientData) {
@@ -31,6 +32,7 @@ const ConnectionComponent = () => {
                 router.push('/client/myActivity')
             } else {
                 setClientId(parsedData._id);
+                setClientName(parsedData.name)
                 dispatch(getConnectionsAction(parsedData._id));
             }
         } else {
@@ -39,6 +41,7 @@ const ConnectionComponent = () => {
     }, []);
 
     const handleConnection = (therapistId: string) => {
+        socket.emit('send_message', { clientName })
         dispatch(postConnectionAction({ therapistId, handleConnectionSuccess }))
     }
     const handleConnectionSuccess = (therapistName: string) => {

@@ -32,13 +32,10 @@ const ConnectionRequestsComponent = () => {
         }
     }, []);
 
-
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value.toLowerCase();
         setSearch(value);
     };
-
-
     const columns: GridColDef[] = [
         { field: "no", headerName: "No", width: 10 },
         { field: "name", headerName: "Name", width: 120 },
@@ -89,13 +86,11 @@ const ConnectionRequestsComponent = () => {
             ),
         },
     ];
-
     const filteredConnections = connections.filter(connection =>
         connection.clientId.name.toLowerCase().includes(search) ||
         connection.clientId.email.toLowerCase().includes(search) ||
         connection.status.toLowerCase().includes(search)
     );
-
     const rows = filteredConnections.map((connection, index) => ({
         id: connection._id,
         clientId: connection.clientId._id,
@@ -105,7 +100,6 @@ const ConnectionRequestsComponent = () => {
         verificationStatus: connection.adminVerify === 'Reject' ? 'Rejected by admin' : connection.status,
         medicalInfo: 'view',
     }));
-
     const handleGetRejectedLists = () => {
         router.push('/therapist/dashboard/connections/rejected')
     }
