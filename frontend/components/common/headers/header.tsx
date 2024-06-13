@@ -17,9 +17,6 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Image from 'next/image';
 import Link from 'next/link';
-interface Props {
-  window?: () => Window;
-}
 
 const drawerWidth = 240;
 const navItems = [
@@ -29,8 +26,7 @@ const navItems = [
   { name: 'Therapist Jobs', link: '/therapistJob' },
 ];
 
-export default function DrawerAppBar(props: Props) {
-  const { window } = props;
+export default function DrawerAppBar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -111,7 +107,6 @@ export default function DrawerAppBar(props: Props) {
     </Box >
   );
 
-  const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -209,13 +204,12 @@ export default function DrawerAppBar(props: Props) {
       </AppBar>
       <nav>
         <Drawer
-          container={container}
           variant="temporary"
           open={mobileOpen}
           onClose={handleDrawerToggle}
           anchor="right"
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true, 
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },

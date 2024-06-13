@@ -1,10 +1,8 @@
 import * as React from 'react';
-import { io } from 'socket.io-client'
+import { io } from 'socket.io-client';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PsychologyIcon from '@mui/icons-material/Psychology';
@@ -22,85 +20,84 @@ import MenuItem from '@mui/material/MenuItem';
 import Link from 'next/link';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
-import { Avatar, Menu } from '@mui/material';
+import { Avatar, Menu, Container, Tooltip, Button } from '@mui/material';
 import { getTherapistProfileAction, therapistStateType } from '@/store/therapists/therapistReducers';
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import AlertComponent from '@/components/common/alert';
-const drawerWidth = 240;
+import Image from 'next/image';
 
 interface Props {
     container?: Element;
 }
 
+const drawerWidth = 240;
+
 export default function TherapistHeader(props: Props) {
     const socket = io(`${process.env.NEXT_PUBLIC_SERVER_API_URL}`);
     const dispatch = useDispatch();
     const therapist = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
-    const router = useRouter()
+    const router = useRouter();
     const error = useSelector((state: { therapist: therapistStateType }) => state.therapist.error);
 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-    const [isClosing, setIsClosing] = React.useState(false);
-    const [openMenus, setOpenMenus] = React.useState<{ [key: string]: boolean }>({});
+    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const [alertMessage, setAlertMessage] = React.useState<string>('');
-    const [viewUrl, setViewUrl] = React.useState('')
+    const [anchorElDashboard, setAnchorElDashboard] = React.useState<null | HTMLElement>(null);
+    const [openMenus, setOpenMenus] = React.useState<{ [key: string]: boolean }>({});
+
     React.useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
         if (therapistData) {
             dispatch(getTherapistProfileAction());
         } else {
-            router.push('/login')
+            router.push('/login');
         }
     }, []);
 
     React.useEffect(() => {
         socket.on('recieve_message', (data) => {
-            console.log('data reached in header', data)
+            console.log('data reached in header', data);
             setAlertMessage(`New Connection from ${data.clientName}`);
-        })
+        });
         return () => {
             socket.off('recieve_message');
         }
-    }, [socket])
+    }, [socket]);
 
     React.useEffect(() => {
         if (error) {
             toast.error(error);
             if (error === 'User is blocked') {
-                router.push('/login')
+                router.push('/login');
             }
         }
     }, [error]);
 
-    const handleDrawerClose = () => {
-        setIsClosing(true);
-        setMobileOpen(false);
+    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElNav(event.currentTarget);
     };
 
-    const handleDrawerTransitionEnd = () => {
-        setIsClosing(false);
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
     };
 
-    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
+    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElUser(event.currentTarget);
     };
 
-    const handleProfileClick = () => {
-        setAnchorEl(null);
-        router.push('/therapist/profile')
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
     };
-    const handleClose = () => {
-        setAnchorEl(null);
 
-    }
-    const handleDrawerToggle = () => {
-        if (!isClosing) {
-            setMobileOpen(!mobileOpen);
-        }
+    const handleOpenDashboardMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElDashboard(event.currentTarget);
+    };
+
+    const handleCloseDashboardMenu = () => {
+        setAnchorElDashboard(null);
     };
 
     const handleMenuToggle = (menu: string) => {
@@ -110,205 +107,238 @@ export default function TherapistHeader(props: Props) {
         }));
     };
 
+    const handleProfileClick = () => {
+        handleCloseUserMenu();
+        router.push('/therapist/profile');
+    };
+
     const logoutHandler = async () => {
         try {
-            setAnchorEl(null);
+            handleCloseUserMenu();
             Cookies.remove('jwtTherapist');
             localStorage.removeItem('therapistData');
             router.push('/login');
         } catch (error) {
-            toast.error('Logout Failed')
-            console.log(error)
+            toast.error('Logout Failed');
+            console.log(error);
         }
     };
 
     const navicons = [
         {
-            iconTitle: 'Dashboard', icon: <DashboardIcon />, link: '/#',
+            iconTitle: 'Activities', link: '/#',
             subItems: [
                 { title: 'Active', link: '/therapist/dashboard/active' },
                 { title: 'Inactive', link: '/therapist/dashboard/inactive' },
-                { title: 'Schedules', link: '/therapist/dashboard/schedules' },
-                { title: 'Connections', link: '/therapist/dashboard/connections' },
-
             ]
         },
         {
-            iconTitle: 'Notifications', icon: <NotificationsActiveIcon />,
-            link: `/therapist/notifications/${therapist._id}`,
+            iconTitle: 'Schedules',
+            link: `/therapist/dashboard/schedules`,
         },
         {
-            iconTitle: 'Payments', icon: <PsychologyIcon />, link: '#',
+            iconTitle: 'Manage Connections',
+            link: `/therapist/dashboard/connections`,
         },
-        { iconTitle: 'Quit', icon: <AutoGraphIcon />, link: '/therapist/analytics' },
+        { iconTitle: 'Quit', link: '/therapist/analytics' },
+        {
+            iconTitle: 'Payments', link: '#',
+        },
+        {
+            iconTitle: 'Notifications',
+            link: `/therapist/notifications/${therapist._id}`,
+        },
     ];
 
-    const drawer = (
-        <div>
-            <Toolbar />
-            <Divider />
-            <List>
-                {navicons.map((item, index) => (
-                    item.subItems ? (
-                        <div key={index}>
-                            <ListItemButton onClick={() => handleMenuToggle(item.iconTitle)}>
-                                <ListItemIcon sx={{ color: 'white' }}>
-                                    {item.icon}
-                                </ListItemIcon>
-                                <ListItemText primary={item.iconTitle}
-                                    primaryTypographyProps={{
-                                        sx: { fontWeight: 600 }
-                                    }}
-                                />
-                                <ExpandMoreIcon />
-                            </ListItemButton>
-                            <Collapse in={openMenus[item.iconTitle]} timeout="auto" unmountOnExit>
-                                <List component="div" disablePadding>
-                                    {item.subItems.map((subItem, subIndex) => (
-                                        <Link href={subItem.link} passHref key={subIndex}>
-                                            <ListItemButton component="a" sx={{ pl: 4 }}>
-                                                <ListItemText primary={subItem.title} />
-                                            </ListItemButton>
-                                        </Link>
-                                    ))}
-                                </List>
-                            </Collapse>
-                        </div>
-                    ) : (
-                        <Link href={item.link} passHref key={index}>
-                            <ListItem disablePadding>
-                                <ListItemButton component="a">
-                                    <ListItemIcon sx={{ color: 'white' }}>
-                                        {item.icon}
-                                    </ListItemIcon>
-                                    <ListItemText primary={item.iconTitle}
-                                        primaryTypographyProps={{
-                                            sx: { fontWeight: 600 }
-                                        }}
-                                    />
-                                </ListItemButton>
-                            </ListItem>
-                        </Link>
-                    )
-                ))}
-            </List>
-        </div>
-    );
-
-    const container = props.container ?? undefined;
+    const settings = [
+        { title: 'Profile', action: handleProfileClick },
+        { title: 'Logout', action: logoutHandler },
+    ];
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{
+            flexGrow: 1,
+        }}>
             <CssBaseline />
-            <AppBar
-                position="fixed"
-                sx={{
-                    width: { sm: `calc(100% - ${drawerWidth}px)` },
-                    ml: { sm: `${drawerWidth}px` },
-                    backgroundColor: 'white',
-                }}
-            >
-                <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
-                        sx={{
-                            mr: 2,
-                            display: {
-                                sm: 'none',
-                            },
-                            color: '#325343'
-                        }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap component="div" sx={{
-                        color: '#325343',
-                        fontWeight: 800
-                    }}>
-                        BloomWell
-                    </Typography>
-                    <div>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleMenu}
-                            sx={{ color: '#325343' }}>
-                            <Avatar src={therapist ? therapist.image : "/broken-image.jpg"} sx={{
-
-                            }} />                            <Typography sx={{
-                                fontSize: '1rem',
-                                fontWeight: 600, ml: 1,
-                                color: '#325343'
-                            }
-                            }>{therapist.name}</Typography>
-                        </IconButton>
-
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorEl}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
+            <AppBar position="static" sx={{ backgroundColor: '#325343' }}>
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="a"
+                            href="#"
+                            sx={{
+                                mr: 2,
+                                display: { xs: 'none', md: 'flex' },
+                                alignItems: 'center',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
                             }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
                         >
-                            <MenuItem onClick={handleProfileClick}>My Profile</MenuItem>
+                            <Image
+                                src="/logo.png"
+                                alt="logo"
+                                width={80}
+                                height={30}
+                                style={{ marginRight: '8px' }}
+                            />
+                            BloomWell
+                        </Typography>
 
-                            <MenuItem onClick={logoutHandler}>Logout</MenuItem>
-                        </Menu>
-                    </div>
-                </Toolbar>
+                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                            <IconButton
+                                size="large"
+                                aria-label="open drawer"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleOpenNavMenu}
+                                color="inherit"
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <Menu
+                                id="menu-appbar"
+                                anchorEl={anchorElNav}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                                open={Boolean(anchorElNav)}
+                                onClose={handleCloseNavMenu}
+                                sx={{
+                                    display: { xs: 'block', md: 'none' },
+                                }}
+                            >
+                                {navicons.map((item, index) => (
+                                    item.subItems ? (
+                                        <div key={index}>
+                                            <ListItemButton onClick={() => handleMenuToggle(item.iconTitle)}>
+                                                <ListItemText primary={item.iconTitle} />
+                                                <ExpandMoreIcon />
+                                            </ListItemButton>
+                                            <Collapse in={openMenus[item.iconTitle]} timeout="auto" unmountOnExit>
+                                                <List component="div" disablePadding>
+                                                    {item.subItems.map((subItem, subIndex) => (
+                                                        <Link href={subItem.link} passHref key={subIndex}>
+                                                            <ListItemButton component="a" sx={{ pl: 4 }}>
+                                                                <ListItemText primary={subItem.title} />
+                                                            </ListItemButton>
+                                                        </Link>
+                                                    ))}
+                                                </List>
+                                            </Collapse>
+                                        </div>
+                                    ) : (
+                                        <Link href={item.link} passHref key={index}>
+                                            <MenuItem onClick={handleCloseNavMenu}>
+                                                <ListItemText primary={item.iconTitle} />
+                                            </MenuItem>
+                                        </Link>
+                                    )
+                                ))}
+                            </Menu>
+                        </Box>
+                        <Typography
+                            variant="h5"
+                            noWrap
+                            component="a"
+                            href="#"
+                            sx={{
+                                mr: 2,
+                                display: { xs: 'flex', md: 'none' },
+                                flexGrow: 1,
+                                alignItems: 'center',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
+                            }}
+                        >
+                            <Image
+                                src="/logo.png"
+                                alt="logo"
+                                width={80}
+                                height={30}
+                                style={{ marginRight: '8px' }}
+                            />
+                            BloomWell
+                        </Typography>
+                        <Box sx={{
+                            flexGrow: 1, display: { xs: 'none', md: 'flex' },
+                            alignItems: 'center', justifyContent: 'center'
+                        }}>
+                            {navicons.map((item, index) => (
+                                item.subItems ? (
+                                    <div key={index}>
+                                        <ListItemButton
+                                            onClick={() => handleMenuToggle(item.iconTitle)}
+                                            sx={{ display: 'flex', alignItems: 'center' }} // Add custom style here
+                                        >
+                                            <ListItemText primary={item.iconTitle} />
+                                            <ExpandMoreIcon />
+                                        </ListItemButton>
+                                        <Collapse in={openMenus[item.iconTitle]} timeout="auto" unmountOnExit>
+                                            <List component="div" disablePadding>
+                                                {item.subItems.map((subItem, subIndex) => (
+                                                    <Link href={subItem.link} passHref key={subIndex}>
+                                                        <ListItemButton component="a" sx={{ pl: 4 }}>
+                                                            <ListItemText primary={subItem.title} />
+                                                        </ListItemButton>
+                                                    </Link>
+                                                ))}
+                                            </List>
+                                        </Collapse>
+                                    </div>
+                                ) : (
+                                    <Link href={item.link} passHref key={index}>
+                                        <MenuItem onClick={handleCloseNavMenu}>
+                                            <ListItemText primary={item.iconTitle} />
+                                        </MenuItem>
+                                    </Link>
+                                )
+                            ))}
+
+                        </Box>
+                        <Box sx={{ flexGrow: 0 }}>
+                            <Tooltip title="Open settings">
+                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <Avatar src={therapist ? therapist.image : "/broken-image.jpg"} />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                sx={{ mt: '45px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                {settings.map((setting, index) => (
+                                    <MenuItem key={index} onClick={setting.action}>
+                                        <Typography textAlign="center">{setting.title}</Typography>
+                                    </MenuItem>
+                                ))}
+                            </Menu>
+                        </Box>
+                    </Toolbar>
+                </Container>
             </AppBar>
-
-            <Box
-                component="nav"
-                sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-                aria-label="mailbox folders"
-            >
-                <Drawer
-                    container={container}
-                    variant="temporary"
-                    open={mobileOpen}
-                    onTransitionEnd={handleDrawerTransitionEnd}
-                    onClose={handleDrawerClose}
-                    ModalProps={{
-                        keepMounted: true, // Better open performance on mobile.
-                    }}
-                    sx={{
-                        display: { xs: 'block', sm: 'none' },
-                        '& .MuiDrawer-paper': {
-                            backgroundColor: '#325343', boxSizing: 'border-box',
-                            width: drawerWidth, color: 'white'
-                        },
-                    }}
-                >
-                    {drawer}
-                </Drawer>
-                <Drawer
-                    variant="permanent"
-                    sx={{
-                        display: { xs: 'none', sm: 'block' },
-                        '& .MuiDrawer-paper': {
-                            backgroundColor: '#325343', boxSizing: 'border-box',
-                            width: drawerWidth, color: 'white'
-                        },
-                    }}
-                    open
-                >
-                    {drawer}
-                </Drawer>
-            </Box>
             {alertMessage && (
                 <AlertComponent message={alertMessage} viewURL={'/therapist/dashboard/connections'} />
             )}

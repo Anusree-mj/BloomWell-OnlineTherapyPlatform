@@ -7,7 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import { deleteTherapist, editTherapist } from "@/utilities/admin/therapists/manageTherapists";
 import { useRouter } from "next/navigation";
-import { Button, } from "@mui/material";
+import { Box, Button, } from "@mui/material";
 import TableComponent from "@/components/common/tableComponent";
 
 const AdminManageTherapists = () => {
@@ -80,7 +80,11 @@ const AdminManageTherapists = () => {
     }));
     const head = 'Manage Therapist';
     return (
-        <TableComponent rows={rows} columns={columns} head={head} subHead={[]} />
+        <Box sx={{
+            ml: { xs: 'none', sm: '15rem' }
+        }}>
+            <TableComponent rows={rows} columns={columns} head={head} subHead={[]} />
+        </Box>
     );
 }
 export default AdminManageTherapists

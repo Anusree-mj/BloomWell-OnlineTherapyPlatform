@@ -105,12 +105,17 @@ const AdminVerifyTherapists = () => {
     }));
     const head = 'Verify Therapist';
     const subHead = [
-        { name: 'All', url: 'admin/therapists/verify',select:true },
-        { name: 'Rejected', url: 'admin/therapists/rejected',select:false }
+        { name: 'All', url: 'admin/therapists/verify', select: true },
+        { name: 'Rejected', url: 'admin/therapists/rejected', select: false }
     ]
 
     return (
-        <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
+        <Box sx={{
+            ml: { xs: 'none', sm: '15rem' }
+        }}>
+
+            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
+        </Box>
     );
 }
 export default AdminVerifyTherapists

@@ -60,7 +60,11 @@ const RejectedTherapistsComponent = () => {
     ]
 
     return (
-        <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
+        <Box sx={{
+            ml: { xs: 'none', sm: '15rem' }
+        }}>
+            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
+        </Box>
     );
 }
 export default RejectedTherapistsComponent

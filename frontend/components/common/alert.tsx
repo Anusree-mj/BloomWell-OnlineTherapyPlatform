@@ -26,7 +26,7 @@ const AlertComponent: React.FC<SnackbarMessageProps> = ({ message, viewURL }) =>
     }
     return (
         <Box sx={{ width: 500 }}>
-            <Snackbar
+            <Snackbar sx={{ mt: 8 }}
                 anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
                 open={open}
                 onClose={handleClose}
