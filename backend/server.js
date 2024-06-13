@@ -6,6 +6,8 @@ import { notFound, errorHandler } from './interface/middlewares/errorMiddleware.
 import connectDb from './infrastructure/config/db.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import { Server } from 'socket.io';
+import { createServer } from 'http';
 
 const __filename = fileURLToPath(import.meta.url); // Get the current file's path
 const __dirname = path.dirname(__filename);
@@ -28,6 +30,7 @@ import webhookRoutes from './interface/routes/clients/payments/webhook.js'
 import therapistAccessRoutes from './interface/routes/therapists/therapistAccessibilities/therapistAccessRoutes.js'
 
 const app = express();
+const server = createServer(app);
 app.use('/webhook', webhookRoutes);
 const corsOptions = {
   origin: function (origin, callback) {
@@ -42,6 +45,19 @@ const corsOptions = {
 
 app.options('*', cors(corsOptions));
 app.use(cors(corsOptions));
+const io = new Server(server, {
+  cors: (corsOptions)
+}) 
+
+io.on('connection', (socket) => {
+  console.log('User connected', socket.id);
+
+  socket.on('send_message', (data) => {
+    console.log('sdfsdfsdfsddddddddd')
+    socket.broadcast.emit('recieve_message', data)
+  })
+});
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -50,7 +66,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use('/users', userRoutes)
 app.use('/admin', adminRoutes);
-app.use('/client', clientRoutes,clientPaymentRoutes, clientConnectionRoutes);
+app.use('/client', clientRoutes, clientPaymentRoutes, clientConnectionRoutes);
 app.use('/admin/clients', adminClientRoutes);
 app.use('/therapist', therapistRoutes, therapistAccessRoutes, therapistProfileRoutes)
 app.use('/admin/therapists', adminTherapistRoutes)
@@ -59,4 +75,4 @@ app.use('/admin/therapists', adminTherapistRoutes)
 app.get('/', (req, res) => res.send('Server is ready'))
 app.use(notFound);
 app.use(errorHandler);
-app.listen(port, () => console.log(`Server started on port ${port}`));
+server.listen(port, () => console.log(`Server started on port ${port}`));

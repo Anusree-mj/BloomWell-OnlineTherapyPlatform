@@ -59,7 +59,6 @@ const AddRejectingReasonComponent: React.FC<ReasonComponentProps> = ({ reasonId,
                     ))}
                 </FormGroup>
             </Box>
-
         </Box>
     )
 }

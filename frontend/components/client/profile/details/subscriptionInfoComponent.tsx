@@ -2,9 +2,10 @@ import { Button, Divider, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import axios from 'axios'
 import { toast } from 'react-toastify';
-import { useDispatch,  } from "react-redux";
+import { useDispatch, } from "react-redux";
 import { getClientDetailsAction } from "@/store/clients/clientReducer";
 import Swal from 'sweetalert2';
+import { useRouter } from 'next/navigation';
 
 interface SubscriptionInfoProps {
     SubscriptionItems: {
@@ -21,7 +22,7 @@ interface SubscriptionInfoProps {
 
 const SubscriptionInfoComponent: React.FC<SubscriptionInfoProps> = ({ SubscriptionItems }) => {
     const dispatch = useDispatch();
-
+    const router = useRouter();
     const formatSubscriptionPlan = (amount: number) => {
         let planDetails = '';
 
@@ -73,6 +74,9 @@ const SubscriptionInfoComponent: React.FC<SubscriptionInfoProps> = ({ Subscripti
             console.log('Err found', err)
         }
     }
+    const handlePayment = () => {
+        router.push('/client/payment')
+    }
 
     const confirmCancelSubscription = () => {
         Swal.fire({
@@ -85,6 +89,7 @@ const SubscriptionInfoComponent: React.FC<SubscriptionInfoProps> = ({ Subscripti
         }).then((result) => {
             if (result.isConfirmed) {
                 handleCancelSubscription();
+                dispatch(getClientDetailsAction())
             }
         });
     };
@@ -116,27 +121,29 @@ const SubscriptionInfoComponent: React.FC<SubscriptionInfoProps> = ({ Subscripti
                         }} >
                             You have cancelled your subscription. You can use our service until the subscription period ends </Typography>
                         <Button variant="contained"
-                            sx={{maxWidth:'80%',width:'10rem',
+                            sx={{
+                                maxWidth: '80%', width: '10rem',
                                 alignSelf: 'flex-start', mt: 1, backgroundColor: '#325343',
                                 '&:hover': {
                                     backgroundColor: '#49873D',
                                     color: 'white',
                                 }
-                            }} onClick={confirmCancelSubscription}
+                            }} onClick={handlePayment}
                         >Subscribe</Button>
                     </>
                 )}
                 {SubscriptionItems.status !== 'cancelled' && (
-                <Button variant="contained"
-                    sx={{maxWidth:'80%',width:'10rem',
-                        alignSelf: 'flex-start', mt: 1, backgroundColor: '#325343',
-                        '&:hover': {
-                            backgroundColor: '#49873D',
-                            color: 'white',
-                        }
-                    }} onClick={confirmCancelSubscription}
-                >Cancel</Button>
-            )}
+                    <Button variant="contained"
+                        sx={{
+                            maxWidth: '80%', width: '10rem',
+                            alignSelf: 'flex-start', mt: 1, backgroundColor: '#325343',
+                            '&:hover': {
+                                backgroundColor: '#49873D',
+                                color: 'white',
+                            }
+                        }} onClick={confirmCancelSubscription}
+                    >Cancel</Button>
+                )}
             </>
         </Box>
     )

@@ -18,7 +18,7 @@ const verifyTherapistQuery = async (therapistId, verifyStatus) => {
             await Notifications.insertMany({
                 userId: therapistId,
                 userType: 'Therapists',
-                head: 'Profile Updated',
+                head: 'Profile Verification',
                 message: message,
             })
         }
@@ -76,7 +76,7 @@ const postRejectedReasonQuery = async (therapistId, reason) => {
         await Notifications.insertMany({
             userId: therapistId,
             userType: 'Therapists',
-            head: 'Profile Updated',
+            head: 'Profile Verification',
             message: message,
         })
         const query = { _id: therapistId };

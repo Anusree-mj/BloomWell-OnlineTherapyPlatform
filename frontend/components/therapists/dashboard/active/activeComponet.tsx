@@ -1,0 +1,77 @@
+'use-client'
+
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { GridColDef } from '@mui/x-data-grid';
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { getTherapistsConnectionRequestAction, connectionStateType } from "@/store/therapists/therapistConnectionHandlerReducers";
+import TableComponent from "../../../common/tableComponent";
+
+const ActiveConnectionComponent = () => {
+    const dispatch = useDispatch();
+    const router = useRouter();
+
+    const connections = useSelector((state: {
+        therapistConnectionRequests: connectionStateType
+    }) => state.therapistConnectionRequests.connections);
+
+    useEffect(() => {
+        const therapistData = localStorage.getItem("therapistData");
+        if (therapistData) {
+            dispatch(getTherapistsConnectionRequestAction());
+        } else {
+            router.push('/login');
+        }
+    }, [dispatch, router]);
+
+    const columns: GridColDef[] = [
+        { field: "no", headerName: "No", width: 10 },
+        {
+            field: "name",
+            headerName: "Name",
+            sortable: false,
+            width: 120,
+            renderCell: (params) => (
+                <Link href={`/client/medicalInfo/${params.row.clientId}`} style={{
+                    textDecoration: 'underline',
+                    fontWeight: 800
+                }}
+                >{params.row.clientName}
+                </Link>
+            ),
+        },
+        { field: "description", headerName: "Description", width: 200 },
+        {
+            field: "details",
+            headerName: "Details",
+            sortable: false,
+            width: 120,
+            renderCell: (params) => (
+                <Link href={`/client/medicalInfo/${params.row.clientId}`} style={{ textDecoration: 'underline' }}
+                >View Profile
+                </Link>
+            ),
+        },
+    ];
+
+    const rows = connections.map((connection, index) => ({
+        id: connection._id,
+        clientName: connection.clientId.name,
+        clientId: connection.clientId._id,
+        no: index + 1,
+        description: connection.description,
+        details: 'view',
+    }));
+  
+    const head = 'Active Connections';
+    const subHead = [
+        { name: 'Active', url: 'therapist/dashboard/active' },
+        { name: 'Inactive', url: 'therapist/dashboard/inActive' }
+    ]
+    return (
+        <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
+    );
+}
+
+export default ActiveConnectionComponent;

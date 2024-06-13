@@ -50,7 +50,7 @@ const PaymentComponent = () => {
             router.push('/login')
         } else {
             const parsedData = JSON.parse(clientData);
-            if (parsedData.isAnUser) {
+            if (parsedData.isSubscribed) {
                 router.push('/client/myActivity')
             } else {
                 console.log('reached in fetch else')

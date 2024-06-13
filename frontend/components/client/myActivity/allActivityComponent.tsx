@@ -2,8 +2,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getClientOngoingActivityAction, clientMyActivityStateType } from "@/store/clients/clientMyActionReducer";
-import { toast } from 'react-toastify';
-import FormHelperText from '@mui/material/FormHelperText';
+import { io } from 'socket.io-client'
 import { useRouter } from "next/navigation";
 import { Box, Button, MenuItem, Select, TextField, Typography } from "@mui/material";
 import Link from "next/link";
@@ -21,6 +20,7 @@ const columnItems = [
 ]
 
 const AllActivityComponent = () => {
+    const socket = io(`${process.env.NEXT_PUBLIC_SERVER_API_URL}`);
     const dispatch = useDispatch();
     const connectionDetails = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.connectionDetails);
     const ongoingActivity = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.ongoingActivity);

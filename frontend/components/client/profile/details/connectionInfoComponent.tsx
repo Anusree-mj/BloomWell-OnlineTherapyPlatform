@@ -2,6 +2,7 @@ import { Button, Divider, Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import React, { useState } from 'react'
 import DisconnectComponent from '../edit/disconnectComponent'
+import { useRouter } from 'next/navigation';
 
 interface ConnectionInfoProps {
     connectionInfoItems: {
@@ -16,13 +17,19 @@ interface ConnectionInfoProps {
 }
 
 const ConnectionInfoComponent: React.FC<ConnectionInfoProps> = ({ connectionInfoItems, hasConnectionInfo }) => {
-    console.log('Personal Info Items:', connectionInfoItems);
+    console.log('connection Info Items:', connectionInfoItems);
+    const router = useRouter();
     const [isDisConnect, setIsDisConnect] = useState(false)
     const typographyItems = [
         { title: 'Therapist Name', value: connectionInfoItems.therapistName },
         { title: 'Status', value: `${connectionInfoItems.connectionStatus ? 'Connected' : 'Verifying'}` },
         { title: `${connectionInfoItems.connectionStatus ? 'Connected On' : 'Request Send On'}`, value: connectionInfoItems.connectedAt },
     ]
+
+    const handleLetsConnect = () => {
+        router.push('/client/connection')
+    }
+
     return (
         <Box sx={{
             backgroundColor: 'white', display: 'flex', mt: '2rem',
@@ -64,7 +71,7 @@ const ConnectionInfoComponent: React.FC<ConnectionInfoProps> = ({ connectionInfo
                                         backgroundColor: '#49873D',
                                         color: 'white',
                                     }
-                                }}
+                                }} onClick={handleLetsConnect}
                             >Let's Connect</Button>
                         </>
                     )}
