@@ -112,17 +112,17 @@ export default function TherapistHeader(props: Props) {
         {
             iconTitle: 'Activities', link: '/#',
             subItems: [
-                { title: 'Active', link: '/therapist/dashboard/active' },
-                { title: 'Inactive', link: '/therapist/dashboard/inactive' },
+                { title: 'Active', link: '/therapist/activities/active' },
+                { title: 'Inactive', link: '/therapist/activities/inactive' },
             ]
         },
         {
             iconTitle: 'Schedules',
-            link: `/therapist/dashboard/schedules`,
+            link: `/therapist/schedules`,
         },
         {
             iconTitle: 'Manage Connections',
-            link: `/therapist/dashboard/connections`,
+            link: `/therapist/connections`,
         },
         { iconTitle: 'Quit', link: '/therapist/analytics' },
         {
@@ -323,7 +323,7 @@ export default function TherapistHeader(props: Props) {
                 </Container>
             </AppBar>
             {alertMessage && (
-                <AlertComponent message={alertMessage} viewURL={'/therapist/dashboard/connections'} />
+                <AlertComponent message={alertMessage} viewURL={'/therapist/connections'} />
             )}
         </Box>
     );

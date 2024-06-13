@@ -5,14 +5,14 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import store from "@/store";
-import ActiveConnectionComponent from '@/components/therapists/dashboard/active/activeComponet';
+import InActiveConnectionComponent from '@/components/therapists/navIcons/activities/inActiveComponent';
 const Page = () => {
 
     return (
         <Provider store={store}>
             <ToastContainer />
             <TherapistHeader />
-            <ActiveConnectionComponent />
+            <InActiveConnectionComponent />
             <Footer />
         </Provider>
     )

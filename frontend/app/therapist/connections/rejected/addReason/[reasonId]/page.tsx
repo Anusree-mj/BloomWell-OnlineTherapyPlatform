@@ -12,7 +12,7 @@ const reasonItems = [
     'Client Needs Specialized Care', 'Not connecting  at the moment'
 ]
 const postUrl = 'therapist/rejected/connections'
-const successUrl = 'therapist/dashboard/connections/rejected'
+const successUrl = 'therapist/connections/rejected'
 export default function Page({ params }: { params: { reasonId: string } }) {
     return (
         <Provider store={store}>

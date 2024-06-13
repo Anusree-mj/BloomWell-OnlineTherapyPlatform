@@ -116,6 +116,25 @@ const getActiveConnections = async (therapistId) => {
     }
 }
 
+const getInActiveConnections = async (therapistId) => {
+    try {
+        console.log('therapist id ', therapistId)
+        const connections = await Connections.find({
+            therapistId: therapistId, isActive: false, status: 'Accept', adminVerify: 'Accept'
+        })
+            .populate('clientId', 'name email').sort({ createdAt: -1 });
+
+        if (connections) {
+            console.log('connectionsssssssssss', connections)
+            return { status: 'ok', connections }
+        } else {
+            return { status: 'nok', message: 'No data' }
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 
 export default {
     getConnectionRequests,
@@ -123,5 +142,5 @@ export default {
     getRejectedConnections,
     postRejectedReasonQuery,
     getActiveConnections,
-
+    getInActiveConnections,
 }

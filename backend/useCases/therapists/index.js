@@ -21,6 +21,7 @@ import {
     getRejectedConnectionsController,
     postConnectionRejectionReasonController,
     getActiveConnectionController,
+    getInActiveConnectionController,
 
 } from "./therapistConnections/therapistConnectionController.js"
 
@@ -40,6 +41,11 @@ const therapistControllers = {
     getRejectedConnectionsController,
     postConnectionRejectionReasonController,
     getActiveConnectionController,
+    getInActiveConnectionController,
+
+
+
+    
 }
 
 export default therapistControllers

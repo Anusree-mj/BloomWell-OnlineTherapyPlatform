@@ -5,7 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import store from "@/store";
-import RejectedConnectionsComponent from '@/components/therapists/dashboard/rejectedConnection';
+import RejectedConnectionsComponent from '@/components/therapists/navIcons/connections/rejectedConnection';
 
 const Page = () => {
 

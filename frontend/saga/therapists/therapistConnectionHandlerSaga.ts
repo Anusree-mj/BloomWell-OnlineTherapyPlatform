@@ -9,7 +9,10 @@ import {
     getTherapistsRejectedConnectionsSuccessAction,
     getTherapistsActiveConnectionsAction,
     getTherapistsActiveConnectionsFailureAction,
-    getTherapistsActiveConnectionsSuccessAction
+    getTherapistsActiveConnectionsSuccessAction,
+    getTherapistsInActiveConnectionsAction,
+    getTherapistsInActiveConnectionsFailureAction,
+    getTherapistsInActiveConnectionsSuccessAction
 } from '@/store/therapists/therapistConnectionHandlerReducers';
 
 // therapist connection request saga
@@ -72,9 +75,29 @@ function* getTherapistsActiveConnectionsActionSaga(): any {
     }
 }
 
+// get  inactive connections
+function* getTherapistsInActiveConnectionsActionSaga(): any {
+    try {
+        const response = yield call<any>(apiCall, {
+            method: 'GET',
+            endpoint: 'therapist/connections/inActive',
+        });
+
+        if (response.status === 'ok') {
+            yield put(getTherapistsActiveConnectionsSuccessAction(response.connections))
+            console.log('connection details', response.connections)
+        } else {
+            yield put(getTherapistsActiveConnectionsFailureAction(response.message))
+
+        }
+    } catch (err) {
+        yield put(getTherapistsActiveConnectionsFailureAction(err))
+    }
+}
 export function* therapistConnectionRequestWatcher() {
     yield takeEvery(getTherapistsConnectionRequestAction, getTherapistsConnectionRequestActionSaga);
     yield takeEvery(getTherapistsRejectedConnectionsAction, getTherapistsRejectedConnectionsActionSaga);
     yield takeEvery(getTherapistsActiveConnectionsAction, getTherapistsActiveConnectionsActionSaga);
+    yield takeEvery(getTherapistsInActiveConnectionsAction, getTherapistsInActiveConnectionsActionSaga);
 
 }

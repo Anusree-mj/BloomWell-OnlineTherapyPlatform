@@ -26,27 +26,25 @@ const ActiveConnectionComponent = () => {
     }, [dispatch, router]);
 
     const columns: GridColDef[] = [
-        { field: "no", headerName: "No", width: 10 },
+        { field: "no", headerName: "No", width: 20 },
+        { field: "clientName", headerName: "Name", width: 150 },
+        { field: "description", headerName: "Description", width: 250 },
         {
-            field: "name",
-            headerName: "Name",
+            field: "medicalInfo",
+            headerName: "Medical Info",
             sortable: false,
-            width: 120,
+            width: 150,
             renderCell: (params) => (
-                <Link href={`/client/medicalInfo/${params.row.clientId}`} style={{
-                    textDecoration: 'underline',
-                    fontWeight: 800
-                }}
-                >{params.row.clientName}
+                <Link href={`/client/medicalInfo/${params.row.clientId}`} style={{ textDecoration: 'underline' }}
+                >View
                 </Link>
             ),
         },
-        { field: "description", headerName: "Description", width: 200 },
         {
             field: "details",
             headerName: "Details",
             sortable: false,
-            width: 120,
+            width: 100,
             renderCell: (params) => (
                 <Link href={`/client/medicalInfo/${params.row.clientId}`} style={{ textDecoration: 'underline' }}
                 >View Profile
@@ -61,13 +59,14 @@ const ActiveConnectionComponent = () => {
         clientId: connection.clientId._id,
         no: index + 1,
         description: connection.description,
-        details: 'view',
+        details: 'view profile',
+        medicalInfo: 'view',
     }));
 
     const head = 'Active Connections';
     const subHead = [
-        { name: 'Active', url: 'therapist/dashboard/active', select: true },
-        { name: 'Inactive', url: 'therapist/dashboard/inActive', select: false }
+        { name: 'Active', url: 'therapist/activities/active', select: true },
+        { name: 'Inactive', url: 'therapist/activities/inActive', select: false }
     ]
     return (
         <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />

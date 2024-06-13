@@ -12,4 +12,17 @@ router.get('/rejected/connections', protect('therapist'), controllers.therapistC
 router.post('/rejected/connections', protect('therapist'), controllers.therapistControllers.postConnectionRejectionReasonController)
 // get active connections
 router.get('/connections/active', protect('therapist'), controllers.therapistControllers.getActiveConnectionController)
+// get inactive connections
+router.get('/connections/inActive', protect('therapist'), controllers.therapistControllers.getInActiveConnectionController)
+
+
+
+
+
+
+
+
+
+
 export default router;
+

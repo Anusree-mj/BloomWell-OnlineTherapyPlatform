@@ -63,6 +63,21 @@ export const therapistConnectionSlice: any = createSlice({
             console.log('eror found', state.error)
         },
 
+        // get inactive connections
+        getTherapistsInActiveConnectionsAction: (state) => {
+            console.log('entered in  action')
+            state.isLoading = true;
+        },
+        getTherapistsInActiveConnectionsSuccessAction: (state, action) => {
+            state.isLoading = false;
+            state.connections = action.payload;
+        },
+        getTherapistsInActiveConnectionsFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found', state.error)
+        },
+
     }
 })
 export const {
@@ -74,5 +89,8 @@ export const {
     getTherapistsRejectedConnectionsSuccessAction,
     getTherapistsActiveConnectionsAction,
     getTherapistsActiveConnectionsFailureAction,
-    getTherapistsActiveConnectionsSuccessAction
+    getTherapistsActiveConnectionsSuccessAction,
+    getTherapistsInActiveConnectionsAction,
+    getTherapistsInActiveConnectionsFailureAction,
+    getTherapistsInActiveConnectionsSuccessAction,
 } = therapistConnectionSlice.actions;
