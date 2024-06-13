@@ -67,7 +67,6 @@ const postRejectedReasonQuery = async (connectionId, reason) => {
     }
 }
 
-
 const manageConnectionRequest = async (connectionStatus, connectionId) => {
     try {
         const query = { _id: connectionId }
@@ -100,9 +99,29 @@ const manageConnectionRequest = async (connectionStatus, connectionId) => {
     }
 }
 
+const getActiveConnections = async (therapistId) => {
+    try {
+        console.log('therapist id ', therapistId)
+        const connections = await Connections.find({ therapistId: therapistId, isActive: true })
+            .populate('clientId', 'name email').sort({ createdAt: -1 });
+
+        if (connections) {
+            console.log('connectionsssssssssss', connections)
+            return { status: 'ok', connections }
+        } else {
+            return { status: 'nok', message: 'No data' }
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+
 export default {
     getConnectionRequests,
     manageConnectionRequest,
     getRejectedConnections,
     postRejectedReasonQuery,
+    getActiveConnections,
+
 }

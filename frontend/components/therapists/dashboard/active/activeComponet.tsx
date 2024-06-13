@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GridColDef } from '@mui/x-data-grid';
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getTherapistsConnectionRequestAction, connectionStateType } from "@/store/therapists/therapistConnectionHandlerReducers";
+import { getTherapistsActiveConnectionsAction, connectionStateType } from "@/store/therapists/therapistConnectionHandlerReducers";
 import TableComponent from "../../../common/tableComponent";
 
 const ActiveConnectionComponent = () => {
@@ -19,7 +19,7 @@ const ActiveConnectionComponent = () => {
     useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
         if (therapistData) {
-            dispatch(getTherapistsConnectionRequestAction());
+            dispatch(getTherapistsActiveConnectionsAction());
         } else {
             router.push('/login');
         }
@@ -63,11 +63,11 @@ const ActiveConnectionComponent = () => {
         description: connection.description,
         details: 'view',
     }));
-  
+
     const head = 'Active Connections';
     const subHead = [
-        { name: 'Active', url: 'therapist/dashboard/active' },
-        { name: 'Inactive', url: 'therapist/dashboard/inActive' }
+        { name: 'Active', url: 'therapist/dashboard/active', select: true },
+        { name: 'Inactive', url: 'therapist/dashboard/inActive', select: false }
     ]
     return (
         <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />

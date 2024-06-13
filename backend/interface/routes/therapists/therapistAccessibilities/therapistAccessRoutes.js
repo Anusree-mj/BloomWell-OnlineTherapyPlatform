@@ -10,5 +10,6 @@ router.post('/connections', protect('therapist'), controllers.therapistControlle
 // get rejected connections
 router.get('/rejected/connections', protect('therapist'), controllers.therapistControllers.getRejectedConnectionsController)
 router.post('/rejected/connections', protect('therapist'), controllers.therapistControllers.postConnectionRejectionReasonController)
-
+// get active connections
+router.get('/connections/active', protect('therapist'), controllers.therapistControllers.getActiveConnectionController)
 export default router;

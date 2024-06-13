@@ -47,11 +47,9 @@ app.options('*', cors(corsOptions));
 app.use(cors(corsOptions));
 const io = new Server(server, {
   cors: (corsOptions)
-}) 
+})
 
 io.on('connection', (socket) => {
-  console.log('User connected', socket.id);
-
   socket.on('send_message', (data) => {
     console.log('sdfsdfsdfsddddddddd')
     socket.broadcast.emit('recieve_message', data)

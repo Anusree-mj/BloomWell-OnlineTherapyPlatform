@@ -4,18 +4,12 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import IconButton from '@mui/material/IconButton';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import PsychologyIcon from '@mui/icons-material/Psychology';
-import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import MenuItem from '@mui/material/MenuItem';
 import Link from 'next/link';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -33,7 +27,6 @@ interface Props {
     container?: Element;
 }
 
-const drawerWidth = 240;
 
 export default function TherapistHeader(props: Props) {
     const socket = io(`${process.env.NEXT_PUBLIC_SERVER_API_URL}`);
@@ -45,7 +38,6 @@ export default function TherapistHeader(props: Props) {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const [alertMessage, setAlertMessage] = React.useState<string>('');
-    const [anchorElDashboard, setAnchorElDashboard] = React.useState<null | HTMLElement>(null);
     const [openMenus, setOpenMenus] = React.useState<{ [key: string]: boolean }>({});
 
     React.useEffect(() => {
@@ -90,14 +82,6 @@ export default function TherapistHeader(props: Props) {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
-    };
-
-    const handleOpenDashboardMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElDashboard(event.currentTarget);
-    };
-
-    const handleCloseDashboardMenu = () => {
-        setAnchorElDashboard(null);
     };
 
     const handleMenuToggle = (menu: string) => {
@@ -162,7 +146,7 @@ export default function TherapistHeader(props: Props) {
             <CssBaseline />
             <AppBar position="static" sx={{ backgroundColor: '#325343' }}>
                 <Container maxWidth="xl">
-                    <Toolbar disableGutters>
+                    <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
                         <Typography
                             variant="h6"
                             noWrap
@@ -307,10 +291,10 @@ export default function TherapistHeader(props: Props) {
                             ))}
 
                         </Box>
-                        <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Open settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar src={therapist ? therapist.image : "/broken-image.jpg"} />
+                                    <Avatar sx={{ width: 50, height: 50 }}
+                                        src={therapist ? therapist.image : "/broken-image.jpg"} />
                                 </IconButton>
                             </Tooltip>
                             <Menu
@@ -335,7 +319,6 @@ export default function TherapistHeader(props: Props) {
                                     </MenuItem>
                                 ))}
                             </Menu>
-                        </Box>
                     </Toolbar>
                 </Container>
             </AppBar>

@@ -65,7 +65,7 @@ const ConnectionRequestsComponent = () => {
                         onChange={(e) => manageConnectionRequest(params.row.id, params.row.name, e.target.value)}
                         displayEmpty
                         inputProps={{ 'aria-label': 'Without label' }}
-                        disabled={params.row.verificationStatus !== 'pending' || params.row.verificationStatus !== 'Rejected by admin'}
+                        disabled={params.row.verificationStatus !== 'pending' || params.row.verificationStatus === 'Rejected by admin'}
                     >
                         <MenuItem value="" sx={{ fontSize: '0.88rem' }}>
                             <em>None</em>
