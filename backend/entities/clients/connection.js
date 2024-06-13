@@ -17,6 +17,9 @@ const connectionsSchema = mongoose.Schema({
         type: String,
         default: 'pending'
     },
+    description: {
+        type: String
+    },
     isActive: {
         type: Boolean,
         default: false

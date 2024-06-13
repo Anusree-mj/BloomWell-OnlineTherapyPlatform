@@ -1,13 +1,14 @@
 'use-client'
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { GridColDef } from '@mui/x-data-grid';
 import FormHelperText from '@mui/material/FormHelperText';
 import { useRouter } from "next/navigation";
-import { Box, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Box, MenuItem, Select } from "@mui/material";
 import Link from "next/link";
 import { getTherapistsConnectionRequestAction, connectionStateType } from "@/store/therapists/therapistConnectionHandlerReducers";
 import { manageConnectionRequest } from "@/utilities/therapists/manageConnectionRequest";
+import TableComponent from "@/components/common/tableComponent";
 
 const verifyOptions = [
     'Accept',
@@ -17,7 +18,6 @@ const verifyOptions = [
 const ConnectionRequestsComponent = () => {
     const dispatch = useDispatch();
     const router = useRouter()
-    const [search, setSearch] = useState<string>('');
     const [verifystatus, setVerifyStatus] = useState('')
     const connections = useSelector((state: {
         therapistConnectionRequests: connectionStateType
@@ -32,10 +32,6 @@ const ConnectionRequestsComponent = () => {
         }
     }, []);
 
-    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value.toLowerCase();
-        setSearch(value);
-    };
     const columns: GridColDef[] = [
         { field: "no", headerName: "No", width: 10 },
         { field: "name", headerName: "Name", width: 120 },
@@ -86,12 +82,7 @@ const ConnectionRequestsComponent = () => {
             ),
         },
     ];
-    const filteredConnections = connections.filter(connection =>
-        connection.clientId.name.toLowerCase().includes(search) ||
-        connection.clientId.email.toLowerCase().includes(search) ||
-        connection.status.toLowerCase().includes(search)
-    );
-    const rows = filteredConnections.map((connection, index) => ({
+    const rows = connections.map((connection, index) => ({
         id: connection._id,
         clientId: connection.clientId._id,
         no: index + 1,
@@ -100,77 +91,14 @@ const ConnectionRequestsComponent = () => {
         verificationStatus: connection.adminVerify === 'Reject' ? 'Rejected by admin' : connection.status,
         medicalInfo: 'view',
     }));
-    const handleGetRejectedLists = () => {
-        router.push('/therapist/dashboard/connections/rejected')
-    }
+    const head = 'Connection Requests';
+    const subHead = [
+        { name: 'All', url: 'therapist/dashboard/connections', select: true },
+        { name: 'Rejected', url: 'therapist/dashboard/connections/rejected', select: false }
+    ]
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100vh',
-                ml: { sm: '15rem' }
-            }}
-        >
-            <Box sx={{
-                display: 'flex', mt: 2,
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                width: '63rem', maxWidth: '90%',
-            }}>
-                <Typography variant="h6" noWrap component="div" sx={{
-                    color: '#325343',
-                    fontWeight: 800
-                }}>
-                    Connection Requests
-                </Typography>
-                <TextField
-                    label="Search..."
-                    variant="outlined"
-                    value={search}
-                    onChange={handleSearch}
-                />
-            </Box>
-            <Box sx={{
-                width: '70rem', maxWidth: '90%',
-            }}>
-                <Typography noWrap component="div" sx={{
-                    color: '#325343', mb: 1, textDecoration: 'underline',
-                    fontWeight: 600, alignSelf: 'flex-start', cursor: 'pointer'
-                }} onClick={handleGetRejectedLists} >
-                    Rejected Connections
-                </Typography>
-            </Box>
-            <Box
-                sx={{
-                    height: 400,
-                    width: '90%',
-                    maxWidth: '100%',
-                    border: '1px solid green',
-                }}
-            >
-                <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 5 },
-                        },
-                    }}
-                    pageSizeOptions={[5, 10]}
-                    sx={{
-                        '& .MuiDataGrid-cell': {
-                            fontSize: '0.88rem',
-                        },
-                    }}
-                />
-            </Box>
-
-
-        </Box>
+        <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
     );
 }
 export default ConnectionRequestsComponent

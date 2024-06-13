@@ -6,13 +6,13 @@ import { useRouter } from "next/navigation";
 import { Box, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { getRejectedTherapistsDetailsAction, adminStateType } from "@/store/admin/adminReducer";
+import TableComponent from "@/components/common/tableComponent";
 
 
 const RejectedTherapistsComponent = () => {
     const dispatch = useDispatch();
     const therapists = useSelector((state: { admin: adminStateType }) => state.admin.therapists);
     const router = useRouter()
-    const [search, setSearch] = useState<string>('');
 
     useEffect(() => {
         const adminData = localStorage.getItem("adminData");
@@ -23,13 +23,6 @@ const RejectedTherapistsComponent = () => {
             router.push('/admin/login')
         }
     }, []);
-
-
-    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value.toLowerCase();
-        setSearch(value);
-    };
-
 
     const columns: GridColDef[] = [
         { field: "slNo", headerName: "No", width: 10 },
@@ -52,15 +45,7 @@ const RejectedTherapistsComponent = () => {
             ),
         },
     ];
-
-    const filteredTherapists = therapists.filter(therapist =>
-        therapist.name.toLowerCase().includes(search) ||
-        therapist.email.toLowerCase().includes(search) ||
-        therapist.role?.toLowerCase().includes(search) ||
-        (therapist.isBlocked ? 'Blocked' : 'Active').toLowerCase().includes(search)
-    );
-
-    const rows = filteredTherapists.map((therapist, index) => ({
+    const rows = therapists.map((therapist, index) => ({
         id: therapist._id,
         slNo: index + 1,
         name: therapist.name,
@@ -68,79 +53,14 @@ const RejectedTherapistsComponent = () => {
         reason: therapist.reasonForRejection,
         addReason: 'ADD',
     }));
-
-    const handleGetAll = () => {
-        router.push('/admin/therapists/verify')
-    }
+    const head = 'Verify Therapist';
+    const subHead = [
+        { name: 'All', url: 'admin/therapists/verify', select: false },
+        { name: 'Rejected', url: 'admin/therapists/rejected', select: true }
+    ]
 
     return (
-        <Box
-            sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                height: '100vh',
-                ml: { sm: '15rem' }
-            }}
-        >
-            <Box sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                width: '63rem', maxWidth: '90%',
-            }}>
-                <Typography variant="h6" noWrap component="div" sx={{
-                    color: '#325343',
-                    fontWeight: 800
-                }}>
-                    Verify Therapist
-                </Typography>
-                <TextField
-                    label="Search..."
-                    variant="outlined"
-                    value={search}
-                    onChange={handleSearch}
-                    sx={{ marginBottom: 2, }}
-                />
-            </Box>
-            <Box sx={{
-                width: '70rem', maxWidth: '90%',
-            }}>
-                <Typography noWrap component="div" sx={{
-                    color: '#325343', mb: 1, textDecoration: 'underline',
-                    fontWeight: 600, alignSelf: 'flex-start', cursor: 'pointer'
-                }} onClick={handleGetAll} >
-                    All Therapists
-                </Typography>
-            </Box>
-            <Box
-                sx={{
-                    height: 400,
-                    width: '90%',
-                    maxWidth: '100%',
-                    border: '1px solid green',
-                }}
-            >
-                <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 5 },
-                        },
-                    }}
-                    pageSizeOptions={[5, 10]}
-                    sx={{
-                        '& .MuiDataGrid-cell': {
-                            fontSize: '0.88rem',
-                        },
-                    }}
-                />
-            </Box>
-
-
-        </Box>
+        <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
     );
 }
 export default RejectedTherapistsComponent
