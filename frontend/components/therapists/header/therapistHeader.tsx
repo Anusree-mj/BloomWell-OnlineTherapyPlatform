@@ -124,7 +124,7 @@ export default function TherapistHeader(props: Props) {
             iconTitle: 'Manage Connections',
             link: `/therapist/connections`,
         },
-        { iconTitle: 'Quit', link: '/therapist/analytics' },
+        { iconTitle: 'Quit', link: '/therapist/quit' },
         {
             iconTitle: 'Payments', link: '#',
         },

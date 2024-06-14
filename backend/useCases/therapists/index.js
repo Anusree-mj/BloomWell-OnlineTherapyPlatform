@@ -2,6 +2,7 @@ import {
     therapistsSignUp,
     saveTherapistData,
     uploadImage
+
 } from "./therapistAuth/therapistAuthController.js"
 
 import {
@@ -14,7 +15,7 @@ import {
     editProffessionalInfoController
 
 } from "./profile/therapistProfileController.js"
-
+import { doQuitController } from './therapistActivities/therapistQuitController.js'
 import {
     getConnectionRequestController,
     manageConnectionRequestController,
@@ -22,8 +23,7 @@ import {
     postConnectionRejectionReasonController,
     getActiveConnectionController,
     getInActiveConnectionController,
-
-} from "./therapistConnections/therapistConnectionController.js"
+} from "./therapistActivities/therapistConnectionController.js"
 
 const therapistControllers = {
     therapistsSignUp,
@@ -42,10 +42,13 @@ const therapistControllers = {
     postConnectionRejectionReasonController,
     getActiveConnectionController,
     getInActiveConnectionController,
-
+    doQuitController,
 
 
     
+
+
+
 }
 
 export default therapistControllers

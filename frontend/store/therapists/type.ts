@@ -22,6 +22,7 @@ export interface TherapistItem {
     description: string;
     image: string;
     isVerified: boolean;
+    isActive:boolean;
     verificationStatus: string;
     isBlocked: boolean;
     averageRating?: number;

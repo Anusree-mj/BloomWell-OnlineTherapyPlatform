@@ -10,7 +10,7 @@ const connections = async (clientId) => {
         const prefernce = questionnaire[questionnaire.length - 1];
         const matchCriteria = {
             expertise: { $in: [sessionType] },
-            isVerified: true, isBlocked: false
+            isVerified: true, isBlocked: false, isActive: true
         }
         if (prefernce !== 'Anyone') {
             matchCriteria.gender = prefernce

@@ -21,8 +21,11 @@ const verifyTherapistQuery = async (therapistId, verifyStatus) => {
                 head: 'Profile Verification',
                 message: message,
             })
+            await Therapists.findByIdAndUpdate(therapistId, {
+                isActive: true
+            });
         }
-console.log('reached out')
+        console.log('reached out')
         const therapist = await Therapists.findByIdAndUpdate(therapistId, {
             verificationStatus: verifyStatus,
             isVerified: true

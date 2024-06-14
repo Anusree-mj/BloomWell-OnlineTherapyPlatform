@@ -56,6 +56,10 @@ const therapistSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isActive: {
+        type: Boolean,
+        default: false
+    },
     verificationStatus: {
         type: String,
         default: 'pending'
@@ -63,7 +67,13 @@ const therapistSchema = mongoose.Schema({
     reasonForRejection: {
         type: String,
     },
-    isBlocked: {
+    reasonForQuiting: {
+        type: String,
+    },
+    feedback: {
+        type: String,
+    }
+    , isBlocked: {
         type: Boolean,
         default: false
     },
