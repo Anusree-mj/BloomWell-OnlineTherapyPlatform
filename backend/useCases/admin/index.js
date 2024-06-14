@@ -23,6 +23,10 @@ import {
     getAllConnectionRequestController,
 } from './therapistManagement/manageConnectionRequests.js'
 
+import { getFeedbackControllers } from './adminActivity/adminFeedBackController.js'
+
+
+
 const adminControllers = {
     authAdmin,
     getClientsDetailsController,
@@ -38,6 +42,11 @@ const adminControllers = {
     postRejectedReasonController,
     getSingleClientDetailsController,
     getTherapistsWhoQuitController,
+    getFeedbackControllers,
+
+
+
+
 }
 
 export default adminControllers

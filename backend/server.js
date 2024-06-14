@@ -18,7 +18,7 @@ const port = process.env.PORT;
 connectDb();
 
 import userRoutes from './interface/routes/user/userRoutes.js';
-import adminRoutes from './interface/routes/admin/adminLogin.js';
+import adminRoutes from './interface/routes/admin/adminActivities.js';
 import clientRoutes from './interface/routes/clients/clientAuth/clientAuthRoutes.js'
 import adminClientRoutes from './interface/routes/admin/clients/manageClientRoutes.js'
 import therapistRoutes from './interface/routes/therapists/therapistAuthRoute.js'

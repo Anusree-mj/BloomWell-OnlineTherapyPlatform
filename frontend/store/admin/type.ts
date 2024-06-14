@@ -19,3 +19,10 @@ export interface ConnectionItems {
     reasonForDisconnection: string;
     reasonForRejection: string
 }
+
+export interface FeedBackItems {
+    _id: string;
+    userName: string;
+    feedback: string;
+    userType: string;
+}

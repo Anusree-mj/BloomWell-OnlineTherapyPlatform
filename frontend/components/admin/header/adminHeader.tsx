@@ -24,6 +24,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Link from 'next/link';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
+import InsertCommentIcon from '@mui/icons-material/InsertComment';
 
 const drawerWidth = 240;
 
@@ -86,6 +87,7 @@ export default function AdminHeader(props: Props) {
         { title: 'Leaving Therapists', link: '/admin/therapists/quit' },
       ]
     },
+    { iconTitle: 'Feedbacks', icon: <InsertCommentIcon />, link: '/admin/feedbacks' },
     { iconTitle: 'Analytics', icon: <AutoGraphIcon />, link: '/admin/analytics' },
   ];
 
