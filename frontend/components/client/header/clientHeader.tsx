@@ -108,7 +108,7 @@ export default function ClientHeader(props: Props) {
     };
 
     const navicons = [
-                 
+
         {
             iconTitle: 'My Activity', link: '/#',
             subItems: [
@@ -117,7 +117,7 @@ export default function ClientHeader(props: Props) {
             ]
         },
         {
-            iconTitle: 'Therapy', link: '#',
+            iconTitle: 'Therapy', link: `/client/therapy/${clientDetails.therapistDetails._id}`,
         },
         { iconTitle: 'Feedback', link: '/client/feedback' },
         {

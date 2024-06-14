@@ -7,7 +7,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTherapistDetailsAction, therapistStateType } from '@/store/therapists/therapistReducers';
 import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
+import { autoPlay } from 'react-swipeable-views-utils'; 
 
 const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistId }) => {
     const dispatch = useDispatch();
