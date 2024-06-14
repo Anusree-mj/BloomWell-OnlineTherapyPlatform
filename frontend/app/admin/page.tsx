@@ -8,8 +8,7 @@ const Page = () => {
     return (
         <Provider store={store}>
             <AdminHeader />
-            <div style={{ paddingTop: '5.6rem' }}>
-            </div>
+
         </Provider>
     );
 }

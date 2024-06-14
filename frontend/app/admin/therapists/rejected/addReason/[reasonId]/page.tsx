@@ -18,10 +18,8 @@ export default function Page({ params }: { params: { reasonId: string } }) {
         <Provider store={store}>
             <ToastContainer />
             <AdminSingleHeader />
-            <div style={{ paddingTop: '1rem' }}>
                 <AddRejectingReasonComponent reasonId={params.reasonId} reasonItems={reasonItems}
                     postUrl={postUrl} successUrl={successUrl} />
-            </div>
             <Footer />
         </Provider>
     )

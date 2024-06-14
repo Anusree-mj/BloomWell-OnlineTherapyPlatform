@@ -9,9 +9,7 @@ const Page = () => {
     return (
         <Provider store={store}>
             <AdminHeader />
-            <div style={{ paddingTop: '1rem' }}>
                 <AdminManageClients />
-            </div>
         </Provider>
     );
 }

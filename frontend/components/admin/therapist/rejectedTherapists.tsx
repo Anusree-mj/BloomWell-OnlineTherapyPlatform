@@ -61,7 +61,7 @@ const RejectedTherapistsComponent = () => {
 
     return (
         <Box sx={{
-            ml: { xs: 'none', sm: '15rem' }
+            ml: { xs: 'none', sm: '15rem' }, mt: { sm: 3 }
         }}>
             <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
         </Box>
