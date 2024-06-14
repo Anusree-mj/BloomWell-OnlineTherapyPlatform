@@ -14,7 +14,7 @@ import {
     editTherapistController,
     getRejectedTherapistController,
     postRejectedReasonController,
-
+    getTherapistsWhoQuitController,
 
 } from './therapistManagement/manageTherapistController.js'
 
@@ -37,6 +37,7 @@ const adminControllers = {
     getRejectedTherapistController,
     postRejectedReasonController,
     getSingleClientDetailsController,
+    getTherapistsWhoQuitController,
 }
 
 export default adminControllers

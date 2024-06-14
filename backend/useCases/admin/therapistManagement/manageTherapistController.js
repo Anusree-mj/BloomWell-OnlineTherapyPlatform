@@ -85,7 +85,6 @@ const getRejectedTherapistController = async (req, res) => {
         console.log('Error found', err)
     }
 }
-
 // post rejected reason
 const postRejectedReasonController = async (req, res) => {
     try {
@@ -104,6 +103,23 @@ const postRejectedReasonController = async (req, res) => {
     }
 }
 
+// get therapist who quit
+const getTherapistsWhoQuitController = async (req, res) => {
+    try {
+        const { therapists } = await manageTherapistQueries.getTherapistWhoQuitQuery()
+        console.log('readched therapist who controller')
+        if (therapists) {
+            console.log('theapists found ', therapists)
+            res.status(200).json({
+                status: 'ok',
+                therapists: therapists
+            });
+        }
+    } catch (err) {
+        res.status(401).json({ status: 'nok', message: err.message })
+        console.log('Error found', err)
+    }
+}
 export {
     getTherapistsDetailsController,
     verifyTherapistController,
@@ -111,5 +127,7 @@ export {
     editTherapistController,
     getRejectedTherapistController,
     postRejectedReasonController,
+    getTherapistsWhoQuitController,
+
 
 }

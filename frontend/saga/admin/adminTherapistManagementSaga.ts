@@ -7,7 +7,10 @@ import {
 import {
     getRejectedTherapistsDetailsAction,
     getRejectedTherapistsDetailsSuccessAction,
-    getRejectedTherapistsDetailsFailureAction
+    getRejectedTherapistsDetailsFailureAction,
+    getTherapistsWhoQuitAction,
+    getTherapistsWhoQuitFailureAction,
+    getTherapistsWhoQuitSuccessAction
 } from '@/store/admin/adminReducer';
 import { apiCall } from '@/services/api';
 
@@ -38,21 +41,40 @@ function* getRejectedTherapistsDetailsActionSaga(): any {
             method: 'GET',
             endpoint: 'admin/therapists/rejected',
         });
-
         if (response.status === 'ok') {
             yield put(getRejectedTherapistsDetailsSuccessAction(response.therapists))
         } else {
-            yield put(getAdminConnectionRequestFailureAction(response.message))
+            yield put(getRejectedTherapistsDetailsFailureAction(response.message))
+        }
+    } catch (err) {
+        yield put(getRejectedTherapistsDetailsFailureAction(err))
+    }
+}
+
+// get  therapists details
+function* getTherapistsWhoQuitActionSaga(): any {
+    try {
+        const response = yield call<any>(apiCall, {
+            method: 'GET',
+            endpoint: 'admin/therapists/quit',
+        });
+
+        if (response.status === 'ok') {
+            yield put(getTherapistsWhoQuitSuccessAction(response.therapists))
+        } else {
+            yield put(getTherapistsWhoQuitFailureAction(response.message))
 
         }
     } catch (err) {
-        yield put(getAdminConnectionRequestFailureAction(err))
+        yield put(getTherapistsWhoQuitFailureAction(err))
     }
 }
+
 
 export function* adminTherapistManageWatcher() {
     yield takeEvery(getAdminConnectionRequestAction, getAdminConnectionRequestActionSaga);
     yield takeEvery(getRejectedTherapistsDetailsAction, getRejectedTherapistsDetailsActionSaga);
+    yield takeEvery(getTherapistsWhoQuitAction, getTherapistsWhoQuitActionSaga);
 
 
 }

@@ -22,10 +22,11 @@ export interface TherapistItem {
     description: string;
     image: string;
     isVerified: boolean;
-    isActive:boolean;
+    isActive: boolean;
     verificationStatus: string;
     isBlocked: boolean;
     averageRating?: number;
     gender: string;
     reasonForRejection?: string;
+    reasonForQuiting?: string;
 }
