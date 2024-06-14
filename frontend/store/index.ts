@@ -9,7 +9,7 @@ import { therapistSlice } from "./therapists/therapistReducers";
 import { therapistConnectionSlice } from "./therapists/therapistConnectionHandlerReducers";
 import { adminConnectionSlice } from "./admin/adminConnectionReducer";
 import { clientMyActivitySlice } from "./clients/clientMyActionReducer";
-
+import { adminActivitiesSlice } from "./admin/adminActivityReducer";
 
 import rootSaga from '../saga'
 
@@ -26,7 +26,7 @@ const store = configureStore({
         therapistConnectionRequests: therapistConnectionSlice.reducer,
         adminConnectionRequests: adminConnectionSlice.reducer,
         clientMyActivity: clientMyActivitySlice.reducer,
-
+        adminActivities: adminActivitiesSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(sagaMiddleware),

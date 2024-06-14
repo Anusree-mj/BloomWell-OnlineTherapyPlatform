@@ -80,11 +80,9 @@ const AllActivityComponent = () => {
 
     return (
         <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            height: '100vh', mt: 2,
-            ml: { sm: '15rem' }
+            display: 'flex', backgroundColor: '#F7FCC2',
+            flexDirection: 'column', minHeight: '80vh',
+            alignItems: 'center', justifyContent: 'center',
         }}>
             {connectionDetails.therapistName !== '' ? (
                 <>

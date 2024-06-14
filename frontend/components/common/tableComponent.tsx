@@ -72,14 +72,17 @@ const TableComponent: React.FC<TableComponentProps> = ({ rows, columns, head, su
                     <TextField
                         label="Search..."
                         variant="outlined"
-                        value={search} sx={{ alignSelf: 'end', width: '20rem' }}
+                        value={search} sx={{
+                            alignSelf: 'end', width: '20rem',
+                            mt: { xs: 2 }
+                        }}
                         onChange={handleSearch}
                     />
                 </Box>
                 <Box
                     sx={{
                         height: 400,
-                        width:'100%',
+                        width: '100%',
                         border: '1px solid green',
                     }}
                 >

@@ -18,4 +18,11 @@ router.get('/myActivity/ongoing', protect('client'), controllers.clientControlle
 router.put('/profile/personal', protect('client'), controllers.clientControllers.editPersonalInfoController)
 router.put('/profile/medical', protect('client'), controllers.clientControllers.editMedicalInfoController)
 router.put('/profile/changePassword', protect('client'), controllers.clientControllers.changePasswordController)
+
+// add feedback
+router.post('/feedback', protect('client'), controllers.clientControllers.addFeedbackController)
+
+
+
+
 export default router;

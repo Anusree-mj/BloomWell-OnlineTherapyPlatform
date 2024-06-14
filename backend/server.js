@@ -18,13 +18,13 @@ const port = process.env.PORT;
 connectDb();
 
 import userRoutes from './interface/routes/user/userRoutes.js';
-import adminRoutes from './interface/routes/admin/adminLogin.js';
+import adminRoutes from './interface/routes/admin/adminActivities.js';
 import clientRoutes from './interface/routes/clients/clientAuth/clientAuthRoutes.js'
 import adminClientRoutes from './interface/routes/admin/clients/manageClientRoutes.js'
 import therapistRoutes from './interface/routes/therapists/therapistAuthRoute.js'
 import adminTherapistRoutes from './interface/routes/admin/therapists/manageTherapists.js'
 import therapistProfileRoutes from './interface/routes/therapists/therapistProfileRoutes.js'
-import clientConnectionRoutes from './interface/routes/clients/clientAccessibilities/clientAccessRoutes.js'
+import clientConnectionRoutes from './interface/routes/clients/clientActiviities/clientAccessRoutes.js'
 import clientPaymentRoutes from './interface/routes/clients/payments/paymentRoutes.js'
 import webhookRoutes from './interface/routes/clients/payments/webhook.js'
 import therapistAccessRoutes from './interface/routes/therapists/therapistActivitiesRoutes.js'

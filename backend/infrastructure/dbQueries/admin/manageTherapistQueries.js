@@ -110,6 +110,7 @@ const getTherapistWhoQuitQuery = async () => {
         console.log(err)
     }
 }
+
 export default {
     getTherapistsDetailsQuery,
     verifyTherapistQuery,

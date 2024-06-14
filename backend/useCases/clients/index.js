@@ -1,3 +1,4 @@
+
 import {
     signUp,
     saveClientData,
@@ -19,7 +20,8 @@ import {
 } from "./payments/paymentController.js";
 
 import {
-    getOngoingActivitiesController
+    getOngoingActivitiesController,
+    addFeedbackController,
 } from "./clientActivitiesController/clientActivityController.js";
 
 import {
@@ -43,6 +45,7 @@ const clientControllers = {
     editMedicalInfoController,
     changePasswordController,
     disconnectController,
+    addFeedbackController,
     // googleSignup,
 }
 
