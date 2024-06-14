@@ -1,5 +1,6 @@
 import Connections from "../../../entities/clients/connection.js"
 import Client from "../../../entities/clients/clients.js"
+import Feedback from "../../../entities/users/feedback.js";
 
 
 const getOngoingActivityDetails = async (clientId) => {
@@ -24,6 +25,26 @@ const getOngoingActivityDetails = async (clientId) => {
     }
 }
 
+const addFeedback = async (clientId, feedback) => {
+    try {
+        const response = await Feedback.insertMany({
+            userId: clientId,
+            userType: 'Client',
+            feedback: feedback
+        })
+        if (response) {
+            return { status: 'ok' }
+        } else {
+            return { status: 'nok', message: 'Somehting went wrong' }
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
 export default {
     getOngoingActivityDetails,
+    addFeedback,
+
 }

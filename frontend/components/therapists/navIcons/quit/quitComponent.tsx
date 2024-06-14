@@ -48,6 +48,12 @@ const TherapistQuitComponent = () => {
             [key]: '*This field is required'
         }))
     }
+    const clearSpan = (key: string) => {
+        setSpanInfo(prevState => ({
+            ...prevState,
+            [key]: ''
+        }))
+    }
     const handleSubmit = async () => {
         try {
             const valid = checkValid()
@@ -110,7 +116,7 @@ const TherapistQuitComponent = () => {
                                     },
                                 }}
                             />}
-                            label={item}
+                            label={item} onClick={() => { clearSpan('reason') }}
                             onChange={() => { handleOnChange('reason', item) }}
                             checked={quitInfo.reason === item}
                         />
@@ -141,7 +147,7 @@ const TherapistQuitComponent = () => {
                                 borderColor: 'black'
                             },
                         },
-                    }}
+                    }} onClick={() => { clearSpan('feedback') }}
                     onChange={(e) => { handleOnChange('feedback', e.target.value) }}
                 // onClick={() => handleClearSpan('name')}
                 />
@@ -156,11 +162,7 @@ const TherapistQuitComponent = () => {
                     }} onClick={handleSubmit}
                 >Submit</Button>
             </Box>
-            <Typography sx={{
-                width: '80rem', maxWidth: '90%', textAlign: 'center',
-                color: '#325343', fontWeight: 800, fontSize: '1rem', mt: 4
-            }}>Thank you for being part of BloomWell. Any pending payments will be promptly processed and sent to you. Best wishes for
-                your future!</Typography>
+
         </Box>
     );
 };

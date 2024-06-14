@@ -5,13 +5,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import store from "@/store";
 import ClientMedicalInfoViewComponent from "@/components/admin/clients/clientMedicalInfoComponent";
-import TherapistHeader from "@/components/therapists/header/therapistHeader";
+import { LoginHeader } from "@/components/common/headers/loginHeader";
 
 export default function Page({ params }: { params: { clientId: string } }) {
     return (
         <Provider store={store}>
             <ToastContainer />
-            <TherapistHeader />
+            <LoginHeader />
             <div style={{ paddingTop: '1rem' }}>
                 <ClientMedicalInfoViewComponent clientId={params.clientId} />
             </div>

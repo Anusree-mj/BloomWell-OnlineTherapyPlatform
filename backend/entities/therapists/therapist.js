@@ -70,10 +70,7 @@ const therapistSchema = mongoose.Schema({
     reasonForQuiting: {
         type: String,
     },
-    feedback: {
-        type: String,
-    }
-    , isBlocked: {
+    isBlocked: {
         type: Boolean,
         default: false
     },

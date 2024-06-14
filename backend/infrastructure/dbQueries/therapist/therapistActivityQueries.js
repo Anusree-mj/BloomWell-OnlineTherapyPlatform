@@ -3,14 +3,20 @@ import Therapists from "../../../entities/therapists/therapist.js";
 import Notifications from '../../../entities/users/notificationModel.js'
 import Client from "../../../entities/clients/clients.js";
 import Connections from "../../../entities/clients/connection.js";
+import Feedback from "../../../entities/users/feedback.js";
 
 const doQuit = async (therapistId, quitInfo) => {
     try {
         const query = { _id: therapistId }
-        const update = { isActive: false, reasonForQuiting: quitInfo.reason, feedback: quitInfo.feedback }
+        const update = { isActive: false, reasonForQuiting: quitInfo.reason }
         const options = { upsert: true }
         const response = await Therapists.updateOne(query, update, options);
         console.log('response', response)
+        await Feedback.insertMany({
+            userId: therapistId,
+            userType: 'Therapists',
+            feedback: quitInfo.feedback
+        })
         await Notifications.insertMany({
             userId: therapistId,
             userType: 'Therapists',

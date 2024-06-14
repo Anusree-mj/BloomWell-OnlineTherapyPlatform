@@ -45,7 +45,8 @@ const connections = async (clientId) => {
                     reviews: 1,
                     averageRating: { $ifNull: ["$averageRating", 0] }
                 }
-            }
+            },
+            { $sort: { averageRating: -1 } }
         ])
 
         return { status: 'ok', therapists }
