@@ -23,7 +23,11 @@ import {
     getAllConnectionRequestController,
 } from './therapistManagement/manageConnectionRequests.js'
 
-import { getFeedbackControllers } from './adminActivity/adminFeedBackController.js'
+import {
+    getFeedbackControllers,
+    getDashboardDetailsControllers,
+
+} from './adminActivity/adminFeedBackController.js'
 
 
 
@@ -43,7 +47,7 @@ const adminControllers = {
     getSingleClientDetailsController,
     getTherapistsWhoQuitController,
     getFeedbackControllers,
-
+    getDashboardDetailsControllers,
 
 
 

@@ -17,7 +17,7 @@ const ClientProfileComponent = () => {
     const [medicalInfoItems, setMedicalInfoItems] = useState({
         sessionType: '',
         questionnaire: []
-    })
+    }) 
     const [connectionInfoItems, setConnectionInfoItems] = useState({
         therapistId: '',
         therapistName: '',

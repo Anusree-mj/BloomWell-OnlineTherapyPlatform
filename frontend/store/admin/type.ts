@@ -26,3 +26,10 @@ export interface FeedBackItems {
     feedback: string;
     userType: string;
 }
+
+export interface DashboardItems {
+    totalClients: number;
+    totalSubscribedClients: number;
+    totalTherapists: number;
+    totalActiveTherapists: number;
+}

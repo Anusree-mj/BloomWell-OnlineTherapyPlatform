@@ -14,9 +14,27 @@ const getFeedbackControllers = async (req, res) => {
         res.status(400).json({ status: 'nok', message: err.message });
     }
 }
-
+// dashboard details
+const getDashboardDetailsControllers = async (req, res) => {
+    try {
+        const response = await adminActivityQuery.getDashboardDetailsQuery()
+        if (response.status) {
+            const { status, dashboardDetails } = response
+            console.log('dashboardDetails:::::::::::', dashboardDetails)
+            res.status(200).json({ status, dashboardDetails });
+        } else {
+            const { status, message } = response
+            res.status(400).json({ status, message });
+        }
+    } catch (err) {
+        console.log('Error found', err)
+        res.status(400).json({ status: 'nok', message: err.message });
+    }
+}
 
 
 export {
     getFeedbackControllers,
+    getDashboardDetailsControllers,
+    
 }
