@@ -65,7 +65,7 @@ const ConnectionRequestsComponent = () => {
                         onChange={(e) => manageConnectionRequest(params.row.id, params.row.name, e.target.value)}
                         displayEmpty
                         inputProps={{ 'aria-label': 'Without label' }}
-                        disabled={params.row.verificationStatus !== 'pending' || params.row.verificationStatus !== 'Rejected by admin'}
+                        disabled={params.row.verificationStatus !== 'pending' || params.row.verificationStatus === 'Rejected by admin'}
                     >
                         <MenuItem value="" sx={{ fontSize: '0.88rem' }}>
                             <em>None</em>
@@ -93,8 +93,8 @@ const ConnectionRequestsComponent = () => {
     }));
     const head = 'Connection Requests';
     const subHead = [
-        { name: 'All', url: 'therapist/dashboard/connections', select: true },
-        { name: 'Rejected', url: 'therapist/dashboard/connections/rejected', select: false }
+        { name: 'All', url: 'therapist/connections', select: true },
+        { name: 'Rejected', url: 'therapist/connections/rejected', select: false }
     ]
 
     return (

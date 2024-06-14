@@ -1,11 +1,11 @@
 'use client'
+import TherapistHeader from '@/components/therapists/header/therapistHeader';
 import Footer from "@/components/common/footer/footer"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import store from "@/store";
-import TherapistProfileComponent from "@/components/therapists/profile/details/therapistProfileComponent";
-import TherapistHeader from "@/components/therapists/header/therapistHeader";
+import ConnectionRequestsComponent from "@/components/therapists/navIcons/connections/connectionsComponent";
 
 const Page = () => {
 
@@ -13,7 +13,7 @@ const Page = () => {
         <Provider store={store}>
             <ToastContainer />
             <TherapistHeader />
-            <TherapistProfileComponent />
+            <ConnectionRequestsComponent />
             <Footer />
         </Provider>
     )

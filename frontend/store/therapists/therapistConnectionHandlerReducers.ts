@@ -33,7 +33,7 @@ export const therapistConnectionSlice: any = createSlice({
             console.log('eror found', state.error)
         },
 
-        // get rejected connections
+        // get rejected connections requests
         getTherapistsRejectedConnectionsAction: (state) => {
             console.log('entered in  action')
             state.isLoading = true;
@@ -48,6 +48,35 @@ export const therapistConnectionSlice: any = createSlice({
             console.log('eror found', state.error)
         },
 
+        // get active connections
+        getTherapistsActiveConnectionsAction: (state) => {
+            console.log('entered in  action')
+            state.isLoading = true;
+        },
+        getTherapistsActiveConnectionsSuccessAction: (state, action) => {
+            state.isLoading = false;
+            state.connections = action.payload;
+        },
+        getTherapistsActiveConnectionsFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found', state.error)
+        },
+
+        // get inactive connections
+        getTherapistsInActiveConnectionsAction: (state) => {
+            console.log('entered in  action')
+            state.isLoading = true;
+        },
+        getTherapistsInActiveConnectionsSuccessAction: (state, action) => {
+            state.isLoading = false;
+            state.connections = action.payload;
+        },
+        getTherapistsInActiveConnectionsFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found', state.error)
+        },
 
     }
 })
@@ -58,4 +87,10 @@ export const {
     getTherapistsRejectedConnectionsAction,
     getTherapistsRejectedConnectionsFailureAction,
     getTherapistsRejectedConnectionsSuccessAction,
+    getTherapistsActiveConnectionsAction,
+    getTherapistsActiveConnectionsFailureAction,
+    getTherapistsActiveConnectionsSuccessAction,
+    getTherapistsInActiveConnectionsAction,
+    getTherapistsInActiveConnectionsFailureAction,
+    getTherapistsInActiveConnectionsSuccessAction,
 } = therapistConnectionSlice.actions;

@@ -21,12 +21,16 @@ const verifyTherapistQuery = async (therapistId, verifyStatus) => {
                 head: 'Profile Verification',
                 message: message,
             })
+            await Therapists.findByIdAndUpdate(therapistId, {
+                isActive: true
+            });
         }
-console.log('reached out')
+        console.log('reached out')
         const therapist = await Therapists.findByIdAndUpdate(therapistId, {
             verificationStatus: verifyStatus,
             isVerified: true
         });
+
         if (therapist) {
             return { status: 'ok' }
         } else {
@@ -97,6 +101,15 @@ const postRejectedReasonQuery = async (therapistId, reason) => {
     }
 }
 
+const getTherapistWhoQuitQuery = async () => {
+    try {
+        const therapists = await Therapists.find({ verificationStatus: 'Granted', isActive: false }).select('-password').sort({ createdAt: -1 });
+        return { therapists }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
 export default {
     getTherapistsDetailsQuery,
     verifyTherapistQuery,
@@ -104,5 +117,5 @@ export default {
     editTherapistsQuery,
     getRejectedTherapistQuery,
     postRejectedReasonQuery,
-
+    getTherapistWhoQuitQuery,
 }

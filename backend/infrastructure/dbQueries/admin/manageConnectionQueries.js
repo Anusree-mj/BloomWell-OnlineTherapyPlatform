@@ -51,14 +51,7 @@ const manageConnectionRequest = async (connectionStatus, connectionId) => {
 
 export const checkActiveConnection = async (connectionId, therapistName, clientId) => {
     try {
-        const message = `Your connection request has been accepted by ${therapistName}. You can now start your sessions. Welcome aboard!`;
-        const updateNotification = await Notifications.insertMany({
-            userId: clientId,
-            userType: 'Client',
-            head: 'Connection Request Updated',
-            message: message,
-        })
-        console.log('update notif', updateNotification)
+        console.log('reached checkactive function')
         const query = {
             _id: connectionId,
             adminVerify: 'Accept',
@@ -67,6 +60,14 @@ export const checkActiveConnection = async (connectionId, therapistName, clientI
         const update = { isActive: true };
         const options = { upsert: false }
         await Connections.updateOne(query, update, options)
+        const message = `Your connection request has been accepted by ${therapistName}. You can now start your sessions. Welcome aboard!`;
+        const updateNotification = await Notifications.insertMany({
+            userId: clientId,
+            userType: 'Client',
+            head: 'Connection Request Updated',
+            message: message,
+        })
+        console.log('update notif', updateNotification)
         return;
     } catch (err) {
         console.log(err.message)

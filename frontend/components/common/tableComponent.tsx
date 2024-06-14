@@ -41,66 +41,67 @@ const TableComponent: React.FC<TableComponentProps> = ({ rows, columns, head, su
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: '100vh',
-                ml: { sm: '15rem' }
             }}
         >
             <Box sx={{
-                display: 'flex', mt: 2,
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                width: '63rem', maxWidth: '90%',
+                width: '90rem', maxWidth: '90%'
             }}>
                 <Typography variant="h6" noWrap component="div" sx={{
-                    color: '#325343',
+                    color: '#325343', alignSelf: 'start',
                     fontWeight: 800
                 }}>
                     {head}
                 </Typography>
-                <TextField
-                    label="Search..."
-                    variant="outlined"
-                    value={search}
-                    onChange={handleSearch}
-                />
-            </Box>
-            <Box sx={{
-                width: '70rem', maxWidth: '90%', display: 'flex', gap: 2, mb: 1
-            }}>
-                {subHead && subHead.map((item) => (
-                    <Typography noWrap component="div" sx={{
-                        color: '#325343', mb: 1, textDecoration: 'underline',
-                        fontWeight: item.select ? 800 : 600, fontSize: '1rem',
-                        alignSelf: 'flex-start', cursor: 'pointer',letterSpacing:1
-                    }} onClick={() => { handleSubheadOnClick(item.url) }} >
-                        {item.name}
-                    </Typography>
-                ))}
-            </Box>
-            <Box
-                sx={{
-                    height: 400,
-                    width: '90%',
-                    maxWidth: '100%',
-                    border: '1px solid green',
-                }}
-            >
-                <DataGrid
-                    rows={filteredRows}
-                    columns={columns}
-                    initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 5 },
-                        },
-                    }}
-                    pageSizeOptions={[5, 10]}
+
+                <Box sx={{
+                    display: 'flex',
+                    alignItems: 'center', justifyContent: 'space-between',
+                    mb: 1,
+                }}>
+                    <Box sx={{ display: 'flex', gap: 2 }}>
+                        {subHead && subHead.map((item) => (
+                            <Typography noWrap component="div" sx={{
+                                color: '#325343', mb: 1, textDecoration: 'underline',
+                                fontWeight: item.select ? 800 : 600, fontSize: '1rem',
+                                alignSelf: 'flex-start', cursor: 'pointer', letterSpacing: 1
+                            }} onClick={() => { handleSubheadOnClick(item.url) }} >
+                                {item.name}
+                            </Typography>
+                        ))}
+                    </Box>
+                    <TextField
+                        label="Search..."
+                        variant="outlined"
+                        value={search} sx={{ alignSelf: 'end', width: '20rem' }}
+                        onChange={handleSearch}
+                    />
+                </Box>
+                <Box
                     sx={{
-                        '& .MuiDataGrid-cell': {
-                            fontSize: '0.88rem',
-                        },
+                        height: 400,
+                        width:'100%',
+                        border: '1px solid green',
                     }}
-                />
+                >
+                    <DataGrid
+                        rows={filteredRows}
+                        columns={columns}
+                        initialState={{
+                            pagination: {
+                                paginationModel: { page: 0, pageSize: 5 },
+                            },
+                        }}
+                        pageSizeOptions={[5, 10]}
+                        sx={{
+                            '& .MuiDataGrid-cell': {
+                                fontSize: '0.88rem',
+                            },
+                        }}
+                    />
+                </Box>
             </Box>
         </Box>
+
     )
 }
 

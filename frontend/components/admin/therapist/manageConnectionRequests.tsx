@@ -114,7 +114,11 @@ const AdminConnectionRequestsComponent = () => {
     const head = 'Manage Connections';
 
     return (
-        <TableComponent rows={rows} columns={columns} head={head} subHead={[]} />
+        <Box sx={{
+            ml: { xs: 'none', sm: '15rem' }
+        }}>
+            <TableComponent rows={rows} columns={columns} head={head} subHead={[]} />
+        </Box>
     );
 }
 export default AdminConnectionRequestsComponent

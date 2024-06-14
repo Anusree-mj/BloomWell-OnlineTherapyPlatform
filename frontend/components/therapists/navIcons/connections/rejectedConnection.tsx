@@ -39,7 +39,7 @@ const RejectedConnectionsComponent = () => {
                 params.row.reason ? (
                     <Typography sx={{ color: 'gray', mt: '0.8rem' }}>Added</Typography>
                 ) : (
-                    <Link href={`/therapist/dashboard/connections/rejected/addReason/${params.row.id}`} style={{ textDecoration: 'underline' }}>
+                    <Link href={`/therapist/connections/rejected/addReason/${params.row.id}`} style={{ textDecoration: 'underline' }}>
                         ADD
                     </Link>
                 )
@@ -59,8 +59,8 @@ const RejectedConnectionsComponent = () => {
 
     const head = 'Connection Requests';
     const subHead = [
-        { name: 'All', url: 'therapist/dashboard/connections' },
-        { name: 'Rejected', url: 'therapist/dashboard/connections/rejected' }
+        { name: 'All', url: 'therapist/connections', select: false },
+        { name: 'Rejected', url: 'therapist/connections/rejected', select: true }
     ]
 
     return (

@@ -36,7 +36,6 @@ const manageConnectionRequestController = async (req, res) => {
     }
 }
 
-
 // rejected connections get
 const getRejectedConnectionsController = async (req, res) => {
     try {
@@ -74,9 +73,53 @@ const postConnectionRejectionReasonController = async (req, res) => {
     }
 }
 
+// get active connection
+const getActiveConnectionController = async (req, res) => {
+    try {
+        const therapistId = req.user._id;
+        console.log('therapist id in active controller', therapistId)
+        const response = await therapistConnectionQueries.getActiveConnections(therapistId.toString())
+        if (response.status === 'ok') {
+            const { status, connections } = response
+            res.status(200).json({ status: status, connections: connections });
+        } else {
+            const { message } = response
+            res.status(400).json({ status: 'nok', message: message });
+        }
+    }
+    catch (err) {
+        res.status(401).json({ status: 'nok', message: err.message })
+        console.log('Error found', err)
+    }
+}
+
+// get in active connection
+const getInActiveConnectionController = async (req, res) => {
+    try {
+        const therapistId = req.user._id;
+        console.log('therapist id in active controller', therapistId)
+        const response = await therapistConnectionQueries.getInActiveConnections(therapistId.toString())
+        if (response.status === 'ok') {
+            const { status, connections } = response
+            res.status(200).json({ status: status, connections: connections });
+        } else {
+            const { message } = response
+            res.status(400).json({ status: 'nok', message: message });
+        }
+    }
+    catch (err) {
+        res.status(401).json({ status: 'nok', message: err.message })
+        console.log('Error found', err)
+    }
+}
+
+
 export {
     getConnectionRequestController,
     manageConnectionRequestController,
     getRejectedConnectionsController,
-    postConnectionRejectionReasonController
+    postConnectionRejectionReasonController,
+    getActiveConnectionController,
+    getInActiveConnectionController,
+    
 }
