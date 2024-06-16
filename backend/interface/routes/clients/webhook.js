@@ -2,7 +2,7 @@ import express from 'express';
 import Stripe from 'stripe';
 import dotenv from 'dotenv';
 dotenv.config();
-import Client from '../../../../entities/clients/clients.js';
+import Client from '../../../entities/clients/clients.js';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const router = express.Router();

@@ -1,5 +1,5 @@
-import { generateToken } from '../../../utilitis/token.js';
-import clientAuthQueries from '../../../infrastructure/dbQueries/client/clientAuthQueries.js';
+import { generateToken } from '../../utilitis/token.js';
+import clientAuthQueries from '../../infrastructure/dbQueries/client/clientAuthQueries.js';
 // import { OAuth2Client } from 'google-auth-library';
 import dotenv from 'dotenv';
 dotenv.config();

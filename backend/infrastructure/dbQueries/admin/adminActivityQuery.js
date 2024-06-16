@@ -28,50 +28,8 @@ const getFeedbackQueries = async () => {
     }
 }
 
-// get dashboard details
-const getDashboardDetailsQuery = async () => {
-    try {
-        const dashboardDetails = {}
-        const getTotalClients = await Client.aggregate([
-            { $match: { isAnUser: true } },
-            { $count: 'totalClients' }
-        ])
-        const totalClients = getTotalClients.length > 0 ? getTotalClients[0].totalClients : 0
-        dashboardDetails.totalClients = totalClients;
-
-        const getTotalSubscribedClient = await Client.aggregate([
-            { $match: { isSubscribed: true } },
-            { $count: 'totalSubscribedClients' }
-        ])
-        const totalSubscribedClients = getTotalSubscribedClient.length > 0 ? getTotalSubscribedClient[0].totalSubscribedClients : 0
-        dashboardDetails.totalSubscribedClients = totalSubscribedClients;
-
-        const getTotalTherapists = await Therapists.aggregate([
-            { $match: { isActive: true } },
-            { $count: 'totalTherapists' }
-        ])
-        const totalTherapists = getTotalTherapists.length > 0 ? getTotalTherapists[0].totalTherapists : 0
-        dashboardDetails.totalTherapists = totalTherapists;
-
-        const getTotalActiveTherapists = await Therapists.aggregate([
-            { $match: { isActive: false } },
-            { $count: 'totalActiveTherapists' }
-        ])
-        const totalActiveTherapists = getTotalActiveTherapists.length > 0 ? getTotalActiveTherapists[0].totalActiveTherapists : 0
-        dashboardDetails.totalActiveTherapists = totalActiveTherapists;
-        
-        if (Object.keys(dashboardDetails).length > 0) {
-            return { status: 'ok', dashboardDetails }
-        } else {
-            return { status: 'nok', message: 'Something went wrong' }
-        }
-    } catch (err) {
-        console.log(err)
-    }
-}
 
 export default {
     getFeedbackQueries,
-    getDashboardDetailsQuery,
 
 }

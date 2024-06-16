@@ -28,8 +28,20 @@ export interface FeedBackItems {
 }
 
 export interface DashboardItems {
-    totalClients: number;
-    totalSubscribedClients: number;
-    totalTherapists: number;
-    totalActiveTherapists: number;
+    totalClients: {
+        totalClients: number;
+        month: string;
+    }[];
+    totalSubscribedClients: {
+        totalSubscribedClients: number;
+        month: string;
+    }[];
+    totalTherapists: {
+        totalClients: number;
+        month: string;
+    }[];
+    totalActiveTherapists: {
+        totalSubscribedClients: number;
+        month: string;
+    }[];
 }

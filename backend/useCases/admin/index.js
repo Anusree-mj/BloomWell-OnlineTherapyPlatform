@@ -1,4 +1,4 @@
-import { authAdmin } from './adminAuth/adminAuthController.js'
+import { authAdmin } from './adminAuthController.js'
 import {
     getClientsDetailsController,
     deleteClientController,
@@ -27,7 +27,7 @@ import {
     getFeedbackControllers,
     getDashboardDetailsControllers,
 
-} from './adminActivity/adminFeedBackController.js'
+} from './adminFeedBackController.js'
 
 
 

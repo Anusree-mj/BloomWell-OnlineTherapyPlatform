@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { FeedBackItems, DashboardItems } from "./type";
 
 export interface adminActivitiesStateType {
-    dashboardDetails: DashboardItems;
+    dashboardDetails: DashboardItems[];
     feedbacks: FeedBackItems[];
     isLoading: boolean;
     error: any;
@@ -13,12 +13,7 @@ const initialState: adminActivitiesStateType = {
     isLoading: false,
     error: null,
     feedbacks: [],
-    dashboardDetails: {
-        totalClients: 0,
-        totalSubscribedClients: 0,
-        totalTherapists: 0,
-        totalActiveTherapists: 0
-    }
+    dashboardDetails:[]
 }
 export const adminActivitiesSlice: any = createSlice({
     name: "adminActivities",
@@ -47,6 +42,7 @@ export const adminActivitiesSlice: any = createSlice({
         getDashboardDetailsSuccessAction: (state, action) => {
             state.isLoading = false;
             state.dashboardDetails = action.payload;
+            console.log('dashboardetails', state.dashboardDetails)
         },
         getDashboardDetailsFailureAction: (state, action) => {
             state.isLoading = false;

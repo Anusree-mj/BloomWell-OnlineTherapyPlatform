@@ -1,6 +1,6 @@
-import { generateToken } from '../../../utilitis/token.js';
-import clientAuthQueries from '../../../infrastructure/dbQueries/client/clientAuthQueries.js';
-import therapistQuery from '../../../infrastructure/dbQueries/therapist/therapistQuery.js';
+import { generateToken } from '../../utilitis/token.js';
+import clientAuthQueries from '../../infrastructure/dbQueries/client/clientAuthQueries.js';
+import therapistQuery from '../../infrastructure/dbQueries/therapist/therapistQuery.js';
 
 
 // signup

@@ -1,5 +1,5 @@
-import adminActivityQuery from "../../../infrastructure/dbQueries/admin/adminActivityQuery.js";
-
+import adminActivityQuery from "../../infrastructure/dbQueries/admin/adminActivityQuery.js";
+import adminChartQueries from "../../infrastructure/dbQueries/admin/adminChartQueries.js";
 // admin feedback
 const getFeedbackControllers = async (req, res) => {
     try {
@@ -17,11 +17,10 @@ const getFeedbackControllers = async (req, res) => {
 // dashboard details
 const getDashboardDetailsControllers = async (req, res) => {
     try {
-        const response = await adminActivityQuery.getDashboardDetailsQuery()
+        const response = await adminChartQueries.getDashboardDetailsQuery()
         if (response.status) {
-            const { status, dashboardDetails } = response
-            console.log('dashboardDetails:::::::::::', dashboardDetails)
-            res.status(200).json({ status, dashboardDetails });
+            const { status, dashboardDetails} = response
+            res.status(200).json({ status, dashboardDetails});
         } else {
             const { status, message } = response
             res.status(400).json({ status, message });

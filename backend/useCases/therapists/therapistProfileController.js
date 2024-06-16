@@ -1,5 +1,5 @@
-import therapistQuery from '../../../infrastructure/dbQueries/therapist/therapistQuery.js';
-import therapisttProfileQuery from '../../../infrastructure/dbQueries/therapist/therapisttProfileQuery.js';
+import therapistQuery from '../../infrastructure/dbQueries/therapist/therapistQuery.js';
+import therapisttProfileQuery from '../../infrastructure/dbQueries/therapist/therapisttProfileQuery.js';
 
 // get data 
 const getTherapistData = async (req, res) => {

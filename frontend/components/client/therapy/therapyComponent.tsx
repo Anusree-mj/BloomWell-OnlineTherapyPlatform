@@ -42,7 +42,10 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
     const handleButtonClick = (url: string) => {
         router.push(`/${url}`)
     }
-
+    const role = {
+        image: therapist.image,
+        name: therapist.name
+    }
     return (
         <Box
             sx={{
@@ -56,7 +59,8 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
             <Box sx={{
                 width: { md: '20rem', xs: '30rem' }, maxWidth: { xs: '100%', md: '90%' },
                 backgroundColor: 'white', pt: 1,
-                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', minHeight: { md: '85vh' },
+                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', height: { md: '85vh' },
+                border:'1px solid red'
             }}>
                 {AccordionItems.map((item, index) => (
                     <Accordion
@@ -135,7 +139,7 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
                     </Accordion>
                 ))}
             </Box>
-            <ChatComponent />
+            <ChatComponent role={role} />
         </Box>
     )
 }

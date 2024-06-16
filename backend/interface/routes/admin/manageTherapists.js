@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router();
-import { protectAdmin } from '../../../middlewares/adminAuthMiddleware.js';
-import controllers from '../../../../useCases/index.js'
+import { protectAdmin } from '../../middlewares/adminAuthMiddleware.js';
+import controllers from '../../../useCases/index.js'
 
 // get therapists details
 router.get('/view', protectAdmin, controllers.adminControllers.getTherapistsDetailsController)

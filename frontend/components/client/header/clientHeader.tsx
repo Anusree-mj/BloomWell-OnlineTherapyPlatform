@@ -293,7 +293,7 @@ export default function ClientHeader(props: Props) {
                                 <Typography sx={{
                                     fontSize: '1rem',
                                     fontWeight: 600, ml: 1,
-                                    color: 'white'
+                                    color: 'white',
                                 }
                                 }>{clientDetails.name}</Typography>
                             </IconButton>

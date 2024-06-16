@@ -1,4 +1,4 @@
-import clientConnectionQueries from "../../../infrastructure/dbQueries/client/clientConnectionQueries.js"
+import clientConnectionQueries from "../../infrastructure/dbQueries/client/clientConnectionQueries.js"
 
 // get connections 
 const getConnectionController = async (req, res) => {

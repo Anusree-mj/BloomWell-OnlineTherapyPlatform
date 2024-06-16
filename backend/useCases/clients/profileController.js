@@ -1,4 +1,4 @@
-import clientProfileQuery from "../../../infrastructure/dbQueries/client/clientProfileQuery.js";
+import clientProfileQuery from "../../infrastructure/dbQueries/client/clientProfileQuery.js";
 
 // edit profile 
 const editPersonalInfoController = async (req, res) => {

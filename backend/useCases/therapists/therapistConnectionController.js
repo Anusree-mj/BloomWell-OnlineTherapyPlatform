@@ -1,4 +1,4 @@
-import therapistConnectionQueries from '../../../infrastructure/dbQueries/therapist/therapistconnectionQuery.js'
+import therapistConnectionQueries from '../../infrastructure/dbQueries/therapist/therapistconnectionQuery.js'
 
 // connections get
 const getConnectionRequestController = async (req, res) => {

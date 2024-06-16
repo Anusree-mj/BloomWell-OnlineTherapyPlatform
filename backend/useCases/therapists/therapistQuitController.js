@@ -1,4 +1,4 @@
-import therapistActivityQueries from "../../../infrastructure/dbQueries/therapist/therapistActivityQueries.js";
+import therapistActivityQueries from "../../infrastructure/dbQueries/therapist/therapistActivityQueries.js";
 
 const doQuitController = async (req, res) => {
     try {
