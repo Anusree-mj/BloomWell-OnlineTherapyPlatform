@@ -24,7 +24,7 @@ import adminClientRoutes from './interface/routes/admin/manageClientRoutes.js'
 import therapistRoutes from './interface/routes/therapists/therapistAuthRoute.js'
 import adminTherapistRoutes from './interface/routes/admin/manageTherapists.js'
 import therapistProfileRoutes from './interface/routes/therapists/therapistProfileRoutes.js'
-import clientConnectionRoutes from './interface/routes/clients/clientAccessRoutes.js'
+import clientConnectionRoutes from './interface/routes/clients/clientAcctivitiesRoutes.js'
 import clientPaymentRoutes from './interface/routes/clients/paymentRoutes.js'
 import webhookRoutes from './interface/routes/clients/webhook.js'
 import therapistAccessRoutes from './interface/routes/therapists/therapistActivitiesRoutes.js'
@@ -46,15 +46,32 @@ const corsOptions = {
 app.options('*', cors(corsOptions));
 app.use(cors(corsOptions));
 const io = new Server(server, {
-  cors: (corsOptions)
-})
+  cors: {
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+  },
+});
 
 io.on('connection', (socket) => {
-  socket.on('send_message', (data) => {
-    console.log('sdfsdfsdfsddddddddd')
-    socket.broadcast.emit('recieve_message', data)
+  socket.on('joinRoom', ({ userId, role }) => {
+    // console.log(`${role} user joined room with id ${userId}`)
+    socket.join(userId);
+    console.log(`Socket ${socket.id} joined room ${userId}`);
+  });
+
+  socket.on('send_Connection', (data) => {
+    const { therapistId, clientName } = data;
+    console.log('data got in send_connection', data)
+    socket.to(therapistId).emit('recieve_connectionMessage', clientName);
   })
-});
+
+})
 
 
 app.use(express.json());

@@ -4,18 +4,18 @@ import Client from '../../entities/clients/clients.js';
 import Therapists from '../../entities/therapists/therapist.js';
 
 const protect = (tokenType) => asyncHandler(async (req, res, next) => {
-    console.log('reached protect')
+    // console.log('reached protect')
     let token;
     if (tokenType === 'client') {
         token = req.cookies.jwtClient;
     } else if (tokenType === 'therapist') {
         token = req.cookies.jwtTherapist;
     }
-    console.log('token found', token)
+    // console.log('token found', token)
     if (token) {
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            console.log(decoded, 'decodeddd')
+            // console.log(decoded, 'decodeddd')
             let user;
             if (tokenType === 'client') {
                 user = await Client.findById(decoded.id).select('-password');

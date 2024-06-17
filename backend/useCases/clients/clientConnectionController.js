@@ -20,7 +20,7 @@ const getConnectionController = async (req, res) => {
 // post connection
 const postConnectionController = async (req, res) => {
     try {
-        console.log('reached in controller')
+        // console.log('reached in controller')
         const clientId = req.user._id
         const { therapistId } = req.body;
         const response = await clientConnectionQueries.postConnection(clientId, therapistId)
