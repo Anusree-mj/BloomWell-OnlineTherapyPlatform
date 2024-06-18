@@ -4,7 +4,6 @@ import {
     saveClientData,
     getClientData,
     googleSignup,
-    getAuthData,
 } from "./clientAuthController.js"
 
 import {
@@ -48,7 +47,6 @@ const clientControllers = {
     disconnectController,
     addFeedbackController,
     googleSignup,
-    getAuthData
 }
 
 export default clientControllers;

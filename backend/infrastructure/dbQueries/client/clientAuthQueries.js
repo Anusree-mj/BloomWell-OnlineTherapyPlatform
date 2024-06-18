@@ -66,6 +66,25 @@ const verifyOTP = async (data, role) => {
     }
 }
 
+const saveAuthData = async (profile) => {
+    try {
+        const { name, email, id } = profile
+        const checkClient = await Client.findOne({ email: email });
+        if (checkClient) {
+            console.log('data already found', checkClient)
+            return { status: 'ok', user: checkClient }
+        } else {
+            const user = await Client.insertMany({ name: name, email: email, password: id });
+            console.log('data being created', user)
+
+            return { status: 'ok', user }
+        }
+    } catch (err) {
+        console.error('Error in verifyOTP:', err);
+        return { status: 'error', message: err.message };
+    }
+}
+
 const saveClientData = async (data) => {
     try {
         const { email, type, age, answers } = data
@@ -114,7 +133,7 @@ const getClientDataQuery = async (clientId) => {
                 },
                 {
                     $lookup: {
-                        from: 'therapists', // The name of the therapists collection
+                        from: 'therapists',
                         localField: 'connectionDetails.therapistId',
                         foreignField: '_id',
                         as: 'therapistDetails'
@@ -166,4 +185,5 @@ export default {
     verifyOTP,
     saveClientData,
     getClientDataQuery,
+    saveAuthData,
 }

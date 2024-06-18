@@ -93,7 +93,10 @@ export const clientSlice: any = createSlice({
             state.error = action.payload;
             console.log('eror found', state.error)
         },
-
+        // signin with google action
+        getSignInWithGoogleAction: (state) => {
+            state.isLoading = true;
+        },
     }
 })
 export const {
@@ -106,5 +109,5 @@ export const {
     getClientDetailsAction,
     getClientDetailsFailureAction,
     getClientDetailsSuccessAction,
-
+    getSignInWithGoogleAction,
 } = clientSlice.actions;

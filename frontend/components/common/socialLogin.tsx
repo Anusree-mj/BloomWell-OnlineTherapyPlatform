@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useGoogleLogin, TokenResponse, GoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
 import { Button } from '@mui/material';
+import { useDispatch } from "react-redux";
+import { useRouter } from 'next/navigation'
+import { getSignInWithGoogleAction } from '@/store/clients/clientReducer';
+import { Box } from '@mui/system';
+import Image from 'next/image';
 
 interface User {
   credential: any;
@@ -19,15 +24,17 @@ interface Profile {
 }
 
 const SocialLoginComponent: React.FC = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const login = useGoogleLogin({
     onSuccess: tokenResponse => {
-      console.log("dsd",tokenResponse)
+      console.log("dsd", tokenResponse)
       setUser(tokenResponse as any)
     }
   });
-  
+
 
   useEffect(() => {
     if (user) {
@@ -40,16 +47,32 @@ const SocialLoginComponent: React.FC = () => {
         })
         .then((res) => {
           setProfile(res.data);
+          dispatch(getSignInWithGoogleAction({ profile: res.data, handleSigninWithGoogleSuccess }));
         })
         .catch((err) => console.log(err));
     }
   }, [user]);
-
+  useEffect(() => {
+    console.log('profile detailsss', profile)
+  }, [profile])
+  const handleSigninWithGoogleSuccess = () => {
+    router.push('/client/details')
+  }
   return (
-    <div>
-      <button onClick={()=>login()}>Login with google</button>
-      {profile&& profile.name}
-    </div>
+    <Box>
+      <Button sx={{
+        mt: 2, display: 'flex', alignItems: 'center',gap:1,
+        '&:hover': {
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+        }
+      }} onClick={() => { login() }} >
+        <Image src="/google.png"
+          alt="google"
+          width={20}
+          height={20} />
+        Sign In with Google
+      </Button>
+    </Box>
   );
 };
 
