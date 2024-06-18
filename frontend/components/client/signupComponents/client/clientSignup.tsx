@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getClientSignUpAction, clientStateType } from "@/store/clients/clientReducer";
 import OTPInput from '@/components/common/otp/otp';
 import Image from 'next/image';
+import SocialLoginComponent from '@/components/common/socialLogin';
 
 const ClientSignupComponent = () => {
     const dispatch = useDispatch();
@@ -93,10 +94,6 @@ const ClientSignupComponent = () => {
 
     const handleSignupSuccess = () => {
         router.push('/client/details')
-    }
-
-    const signinWithGoogle = async () => {
-
     }
 
     const handleBorderChange = (key: string) => {
@@ -265,18 +262,7 @@ const ClientSignupComponent = () => {
                         >
                             Continue
                         </LoadingButton>
-                        <Button sx={{
-                            mt: 2, display: 'flex', alignItems: 'center',
-                            '&:hover': {
-                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', 
-                            }
-                        }}>
-                            <Image src="/google.png"
-                                alt="google"
-                                width={30}
-                                height={30} />
-                            Sign In with Google
-                        </Button>
+                        <SocialLoginComponent />
                     </FormControl>
                 </>
             ) : (
