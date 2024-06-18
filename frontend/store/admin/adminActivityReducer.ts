@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { FeedBackItems, DashboardItems } from "./type";
 
 export interface adminActivitiesStateType {
-    dashboardDetails: DashboardItems[];
+    dashboardDetails: DashboardItems;
     feedbacks: FeedBackItems[];
     isLoading: boolean;
     error: any;
@@ -13,7 +13,7 @@ const initialState: adminActivitiesStateType = {
     isLoading: false,
     error: null,
     feedbacks: [],
-    dashboardDetails:[]
+    dashboardDetails:{} as DashboardItems
 }
 export const adminActivitiesSlice: any = createSlice({
     name: "adminActivities",

@@ -29,19 +29,19 @@ export interface FeedBackItems {
 
 export interface DashboardItems {
     totalClients: {
-        totalClients: number;
+        count: number;
         month: string;
     }[];
     totalSubscribedClients: {
-        totalSubscribedClients: number;
+        count: number;
         month: string;
     }[];
     totalTherapists: {
-        totalClients: number;
+        count: number;
         month: string;
     }[];
     totalActiveTherapists: {
-        totalSubscribedClients: number;
+        count: number;
         month: string;
     }[];
 }

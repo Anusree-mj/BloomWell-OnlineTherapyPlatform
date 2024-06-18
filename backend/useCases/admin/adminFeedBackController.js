@@ -17,8 +17,10 @@ const getFeedbackControllers = async (req, res) => {
 // dashboard details
 const getDashboardDetailsControllers = async (req, res) => {
     try {
+        console.log('reached dashoard controllerrr')
         const response = await adminChartQueries.getDashboardDetailsQuery()
         if (response.status) {
+            console.log('passing details')
             const { status, dashboardDetails} = response
             res.status(200).json({ status, dashboardDetails});
         } else {

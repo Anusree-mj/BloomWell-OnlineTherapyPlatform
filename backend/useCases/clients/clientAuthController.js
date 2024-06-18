@@ -1,31 +1,59 @@
 import { generateToken } from '../../utilitis/token.js';
 import clientAuthQueries from '../../infrastructure/dbQueries/client/clientAuthQueries.js';
-// import { OAuth2Client } from 'google-auth-library';
+import { OAuth2Client } from 'google-auth-library';
 import dotenv from 'dotenv';
 dotenv.config();
 
-// // google signup
-// const googleSignup = async (req, res) => {
-//     try {
-//         res.header('Referrer-Policy', 'no-referrer-when-downgrade')
-//         const redirectUrl = 'http://localhost:3000/'
-//         const oAuth2Client = new OAuth2Client(
-//             process.env.CLIENT_ID,
-//             process.env.CLIENT_SECRET,
-//             redirectUrl
-//         );
+// google signup
+const googleSignup = async (req, res) => {
+    try {
+        res.header('Access-Control-Allow-Origin', 'http://localhost:3000')
+        res.header('Referrer-Policy', 'no-referrer-when-downgrade')
+        const redirectUrl = 'http://localhost:8000/client/googleAuth'
+        const oAuth2Client = new OAuth2Client(
+            process.env.CLIENT_ID,
+            process.env.CLIENT_SECRET,
+            redirectUrl
+        );
 
-//         const authorizeUrl = oAuth2Client.generateAuthUrl({
-//             access_type: 'offline',
-//             scope: 'https://www.googleapis.com/auth/userinfo.profile openid',
-//             prompt: 'consent'
-//         })
-//         res.json({ url: authorizeUrl })
+        const authorizeUrl = oAuth2Client.generateAuthUrl({
+            access_type: 'offline',
+            scope: 'https://www.googleapis.com/auth/userinfo.profile openid',
+            prompt: 'consent'
+        })
+        res.json({ url: authorizeUrl })
 
-//     } catch (err) {
-//         console.log('Error found', err)
-//     }
-// }
+    } catch (err) {
+        console.log('Error found', err)
+    }
+}
+
+const getUserData = async (access_token) => {
+    const response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo?access_token${access_token}`)
+    const data = await response.json();
+    console.log('data got in google auth', data)
+}
+
+const getAuthData = async (req, res) => {
+    const code = req.query.code;
+    console.log('code in req', code);
+    try {
+        const redirectUrl = ''
+        const oAuth2Client = new OAuth2Client(
+            process.env.CLIENT_ID,
+            process.env.CLIENT_SECRET,
+            redirectUrl
+        );
+        const res = await oAuth2Client.getToken(code);
+        await oAuth2Client.setCredentials(res.tokens);
+        console.log('tokens acquired');
+        const user = oAuth2Client.credentials;
+        console.log('credentials', user)
+        await getUserData(user.access_token)
+    } catch (err) {
+        console.log('Errof found', err)
+    }
+}
 
 // signup
 const signUp = async (req, res) => {
@@ -87,5 +115,6 @@ export {
     signUp,
     saveClientData,
     getClientData,
-    // googleSignup,
+    googleSignup,
+    getAuthData
 }

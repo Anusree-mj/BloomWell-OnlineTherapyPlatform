@@ -1,53 +1,39 @@
 import * as React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
-import { useSelector } from "react-redux";
-import { adminActivitiesStateType } from '@/store/admin/adminActivityReducer';
 import { Box } from '@mui/system';
-import { axisClasses } from '@mui/x-charts/ChartsAxis';
 
-// const chartSetting = {
-//     yAxis: [
-//         {
-//             label: 'rainfall (mm)',
-//         },
-//     ],
-//     width: 500,
-//     height: 300,
-//     sx: {
-//         [`.${axisClasses.left} .${axisClasses.label}`]: {
-//             transform: 'translate(-20px, 0)',
-//         },
-//     },
-// };
+export default function BasicBars({ xData, yData }: any) {
+  const labelItems = [
+    { color: '#02B2AF', name: 'TotalClients' },
+    { color: '#72CCFF', name: 'TotalSubscribedClients' },
+    { color: '#DA00FF', name: 'TotalTherapists' },
+    { color: '#9001CB', name: 'TotalActiveTherapists' },
+  ]
+  return (
+    <Box
+      sx={{
+        display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'
+      }}>
 
-// const valueFormatter = (value: number | null) => `${value}mm`;
+      <Box sx={{  }}>
 
-const BarChartComponent = () => {
-    const dashboardDetails = useSelector((state: { adminActivities: adminActivitiesStateType }) => state.adminActivities.dashboardDetails);
+        <BarChart
+          xAxis={[{ scaleType: 'band', data: xData }]}
+          series={yData}
+          width={500}
+          height={300}
+        />
+      </Box>
+      <Box
+        sx={{ display: 'flex', gap: 2, maxWidth: '90%', width: '30rem' }}>
 
-    //     if (!dashboardDetails) {
-    //         // Handle the case where dashboardDetails is null or undefined
-    //         return null;
-    //     }
-
-    //     let dataset = {
-    //         data: dashboardDetails.flatMap(item => 
-    //             item.totalClients.map(clientItem => ({
-    //                 month: clientItem.month.toString(),
-    //                 totalClient: clientItem.totalClients,
-    //                 totalSubscribedClients: item.totalSubscribedClients.find(subscribedItem => subscribedItem.month === clientItem.month)?.totalSubscribedClients || 0,
-    //                 totalTherapists: item.totalTherapists.find(therapistItem => therapistItem.month === clientItem.month)?.totalClients || 0,
-    //                 totalActiveTherapists: item.totalActiveTherapists.find(activeTherapistItem => activeTherapistItem.month === clientItem.month)?.totalSubscribedClients || 0,
-    //             }))
-    //         ),
-    //     };
-    // const dummy=[{
-
-    // }]
-    return (
-        <>
-        </>
-    );
+        {labelItems.map((item, index) => (
+          <div key={index} style={{ display: 'flex', alignItems: 'center', }}>
+            <div style={{ width: '10px', height: '10px', backgroundColor: item.color, maxWidth: '90%' }}></div>
+            <span style={{fontSize:'0.9rem',marginLeft:2}}>{item.name}</span>
+          </div>
+        ))}
+      </Box>
+    </Box>
+  );
 }
-
-export default BarChartComponent;
