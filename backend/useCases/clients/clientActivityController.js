@@ -1,4 +1,4 @@
-import clientActivityQueries from "../../../infrastructure/dbQueries/client/clientActivityQueries.js";
+import clientActivityQueries from "../../infrastructure/dbQueries/client/clientActivityQueries.js";
 
 // get connections 
 const getOngoingActivitiesController = async (req, res) => {

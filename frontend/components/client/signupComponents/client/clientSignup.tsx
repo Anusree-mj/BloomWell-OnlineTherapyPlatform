@@ -4,12 +4,12 @@ import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import LoadingButton from '@mui/lab/LoadingButton';
 import axios from 'axios'
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { getClientSignUpAction, clientStateType } from "@/store/clients/clientReducer";
 import OTPInput from '@/components/common/otp/otp';
-import { sign } from 'crypto';
+import Image from 'next/image';
 
 const ClientSignupComponent = () => {
     const dispatch = useDispatch();
@@ -93,6 +93,10 @@ const ClientSignupComponent = () => {
 
     const handleSignupSuccess = () => {
         router.push('/client/details')
+    }
+
+    const signinWithGoogle = async () => {
+
     }
 
     const handleBorderChange = (key: string) => {
@@ -261,6 +265,18 @@ const ClientSignupComponent = () => {
                         >
                             Continue
                         </LoadingButton>
+                        <Button sx={{
+                            mt: 2, display: 'flex', alignItems: 'center',
+                            '&:hover': {
+                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', 
+                            }
+                        }}>
+                            <Image src="/google.png"
+                                alt="google"
+                                width={30}
+                                height={30} />
+                            Sign In with Google
+                        </Button>
                     </FormControl>
                 </>
             ) : (

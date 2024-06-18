@@ -1,4 +1,4 @@
-import { authAdmin } from './adminAuth/adminAuthController.js'
+import { authAdmin } from './adminAuthController.js'
 import {
     getClientsDetailsController,
     deleteClientController,
@@ -23,7 +23,11 @@ import {
     getAllConnectionRequestController,
 } from './therapistManagement/manageConnectionRequests.js'
 
-import { getFeedbackControllers } from './adminActivity/adminFeedBackController.js'
+import {
+    getFeedbackControllers,
+    getDashboardDetailsControllers,
+
+} from './adminFeedBackController.js'
 
 
 
@@ -43,7 +47,7 @@ const adminControllers = {
     getSingleClientDetailsController,
     getTherapistsWhoQuitController,
     getFeedbackControllers,
-
+    getDashboardDetailsControllers,
 
 
 

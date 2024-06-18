@@ -38,10 +38,17 @@ const ConnectionComponent = () => {
         } else {
             router.push('/login')
         }
+        socket.on('userConnected', (id: string) => {
+            console.log("hhhhhhhhhhhhh ggggggg", id)
+        });
     }, []);
 
+    // useEffect(() => {
+    //     socket.emit('joinRoom', { room:'test' });
+    // }, [clientId]);
+
     const handleConnection = (therapistId: string) => {
-        socket.emit('send_message', { clientName })
+        socket.emit('send_Connection', { clientName, therapistId })
         dispatch(postConnectionAction({ therapistId, handleConnectionSuccess }))
     }
     const handleConnectionSuccess = (therapistName: string) => {

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -35,12 +35,12 @@ export default function TherapistHeader(props: Props) {
     const router = useRouter();
     const error = useSelector((state: { therapist: therapistStateType }) => state.therapist.error);
 
-    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-    const [alertMessage, setAlertMessage] = React.useState<string>('');
-    const [openMenus, setOpenMenus] = React.useState<{ [key: string]: boolean }>({});
+    const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+    const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+    const [alertMessage, setAlertMessage] = useState<string>('');
+    const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({});
 
-    React.useEffect(() => {
+    useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
         if (therapistData) {
             dispatch(getTherapistProfileAction());
@@ -49,17 +49,29 @@ export default function TherapistHeader(props: Props) {
         }
     }, []);
 
-    React.useEffect(() => {
-        socket.on('recieve_message', (data) => {
-            console.log('data reached in header', data);
-            setAlertMessage(`New Connection from ${data.clientName}`);
-        });
-        return () => {
-            socket.off('recieve_message');
+    useEffect(() => {
+        if (therapist._id !== '') {
+            socket.emit('joinRoom', { userId: therapist._id, role: 'therapist' });
         }
-    }, [socket]);
+    }, [therapist._id])
 
-    React.useEffect(() => {
+    useEffect(() => {
+        if (!socket) return;      
+        console.log('Setting up event listener for recieve_connectionMessage');
+        socket.on('recieve_connectionMessage', (data) => {
+          console.log('Data reached in recieve_connectionMessage:', data);
+          setAlertMessage(`New Connection from ${data}`);
+        });
+      
+        return () => {
+          console.log('Cleaning up event listener for recieve_connectionMessage');
+          socket.off('recieve_connectionMessage');
+        };
+      }, [socket]);
+      
+
+
+    useEffect(() => {
         if (error) {
             toast.error(error);
             if (error === 'User is blocked') {
@@ -291,34 +303,34 @@ export default function TherapistHeader(props: Props) {
                             ))}
 
                         </Box>
-                            <Tooltip title="Open settings">
-                                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar sx={{ width: 50, height: 50 }}
-                                        src={therapist ? therapist.image : "/broken-image.jpg"} />
-                                </IconButton>
-                            </Tooltip>
-                            <Menu
-                                sx={{ mt: '45px' }}
-                                id="menu-appbar"
-                                anchorEl={anchorElUser}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={Boolean(anchorElUser)}
-                                onClose={handleCloseUserMenu}
-                            >
-                                {settings.map((setting, index) => (
-                                    <MenuItem key={index} onClick={setting.action}>
-                                        <Typography textAlign="center">{setting.title}</Typography>
-                                    </MenuItem>
-                                ))}
-                            </Menu>
+                        <Tooltip title="Open settings">
+                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                <Avatar sx={{ width: 50, height: 50 }}
+                                    src={therapist ? therapist.image : "/broken-image.jpg"} />
+                            </IconButton>
+                        </Tooltip>
+                        <Menu
+                            sx={{ mt: '45px' }}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={handleCloseUserMenu}
+                        >
+                            {settings.map((setting, index) => (
+                                <MenuItem key={index} onClick={setting.action}>
+                                    <Typography textAlign="center">{setting.title}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
                     </Toolbar>
                 </Container>
             </AppBar>

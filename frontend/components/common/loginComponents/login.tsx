@@ -11,6 +11,8 @@ import Link from 'next/link';
 import { getLoginAction, userStateType } from '@/store/user/userReducer';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useRouter } from 'next/navigation';
+import { Button } from '@mui/material';
+import SocialLoginComponent from '../socialLogin';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -73,7 +75,7 @@ export default function Login() {
             toast.error(error)
         }
     }, [error])
-
+    const [loginMenu, setLoginMenu] = useState("choose")
     return (
         <Box sx={{
             paddingTop: '2rem', paddingBottom: '2rem',
@@ -105,57 +107,74 @@ export default function Login() {
                     />
                 </Box>
             </Box>
+            {
+                loginMenu === "choose" ? <Box
+                    sx={{ display: "flex", flexDirection: "column", width: "300px", alignItems: "start" }}>
+                    <Button
+                        sx={{ width: "380px", border: "solid 1px white", marginBottom: "1rem" }}
+                        onClick={() => setLoginMenu("client")}>Login as client</Button>
+                    <Button
+                        sx={{ width: "380px", border: "solid 1px white" }}
+                        onClick={() => setLoginMenu("therapist")}>Login as Therapist</Button>
 
-            <Box sx={{
-                display: 'flex', flexDirection: 'column', maxWidth: '90%',
-                width: '30rem', pt: 6, pb: 6, borderRadius: '1rem',
-                alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'
-            }}>
-                <TextField id="outlined-basic" label="Email" variant="outlined" sx={
-                    {
-                        maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
-
-
-                    }
-                } onChange={(e) => { setEmail(e.target.value) }}
-                />
-                <TextField
-                    id="outlined-password-input"
-                    label="Password"
-                    type="password"
-                    autoComplete="current-password"
-                    sx={
-                        {
-                            maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
-                            mt: 3
-                        }
-                    } onChange={(e) => { setPassword(e.target.value) }}
-                />
-                <LoadingButton
-                    onClick={handleLogin}
-                    loading={isLoading}
-                    loadingPosition="end"
-                    variant="contained"
-                    sx={{
-                        mt: 3, backgroundColor: '#325343', borderRadius: '2rem',
-                        maxWidth: '90%', width: '30rem',
-                        '&:hover': {
-                            backgroundColor: '#325343',
-                            color: 'white'
-                        }
-                    }}
-                >
-                    Login
-                </LoadingButton>
-                <Link href="/forgotPassword" passHref>
-                    <Typography component="a" sx={{
-                        color: '#325343', mt: 2,
-                        fontWeight: 600, textDecorationColor: '#325343'
+                </Box> :
+                    <Box sx={{
+                        display: 'flex', flexDirection: 'column', maxWidth: '90%',
+                        width: '30rem', pt: 6, pb: 6, borderRadius: '1rem',
+                        alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'
                     }}>
-                        Forgot Password?
-                    </Typography>
-                </Link>
-            </Box>
+                        <TextField id="outlined-basic" label="Email" variant="outlined" sx={
+                            {
+                                maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
+
+
+                            }
+                        } onChange={(e) => { setEmail(e.target.value) }}
+                        />
+                        <TextField
+                            id="outlined-password-input"
+                            label="Password"
+                            type="password"
+                            autoComplete="current-password"
+                            sx={
+                                {
+                                    maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
+                                    mt: 3
+                                }
+                            } onChange={(e) => { setPassword(e.target.value) }}
+                        />
+                        <LoadingButton
+                            onClick={handleLogin}
+                            loading={isLoading}
+                            loadingPosition="end"
+                            variant="contained"
+                            sx={{
+                                mt: 3, backgroundColor: '#325343', borderRadius: '2rem',
+                                maxWidth: '90%', width: '30rem',
+                                '&:hover': {
+                                    backgroundColor: '#325343',
+                                    color: 'white'
+                                }
+                            }}
+                        >
+                            Login
+                        </LoadingButton>
+                        <Link href="/forgotPassword" passHref>
+                            <Typography component="a" sx={{
+                                color: '#325343', mt: 2,
+                                fontWeight: 600, textDecorationColor: '#325343'
+                            }}>
+                                Forgot Password?
+                            </Typography>
+                        </Link>
+                        {loginMenu === "client"&&
+                        <>
+                        <SocialLoginComponent/>
+                        
+                        </>
+                        }
+                    </Box>
+            }
         </Box>
     );
 }

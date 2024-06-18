@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router();
-import controllers from '../../../../useCases/index.js';
-import { protect } from '../../../middlewares/authMiddleware.js'
+import controllers from '../../../useCases/index.js';
+import { protect } from '../../middlewares/authMiddleware.js'
 
 // get client details
 router.get('/details', protect('client'), controllers.clientControllers.getClientData)

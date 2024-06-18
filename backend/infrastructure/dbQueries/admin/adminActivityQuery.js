@@ -1,6 +1,8 @@
 import Feedback from "../../../entities/users/feedback.js";
 import Client from "../../../entities/clients/clients.js";
 import Therapists from "../../../entities/therapists/therapist.js";
+
+// get feedbacks
 const getFeedbackQueries = async () => {
     try {
         let name;
@@ -15,7 +17,6 @@ const getFeedbackQueries = async () => {
             }
             feedback.set('userName', name, { strict: false });
         }
-
         if (feedbacks.length > 0) {
             return { status: 'ok', feedbacks }
         } else {
@@ -27,6 +28,8 @@ const getFeedbackQueries = async () => {
     }
 }
 
+
 export default {
     getFeedbackQueries,
+
 }

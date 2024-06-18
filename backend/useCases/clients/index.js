@@ -3,33 +3,34 @@ import {
     signUp,
     saveClientData,
     getClientData,
-    // googleSignup,
-} from "./clientAuth/clientAuthController.js"
+    googleSignup,
+    getAuthData,
+} from "./clientAuthController.js"
 
 import {
     getConnectionController,
     postConnectionController,
     disconnectController,
-} from "./clientConnection/clientConnectionController.js";
+} from "./clientConnectionController.js";
 
 import {
     getPaymentDetails,
     postPaymentDetails,
     cancelSubscription
 
-} from "./payments/paymentController.js";
+} from "./paymentController.js";
 
 import {
     getOngoingActivitiesController,
     addFeedbackController,
-} from "./clientActivitiesController/clientActivityController.js";
+} from "./clientActivityController.js";
 
 import {
     editPersonalInfoController,
     editMedicalInfoController,
     changePasswordController,
 
-} from "./clientProfile/profileController.js";
+} from "./profileController.js";
 
 const clientControllers = {
     signUp,
@@ -46,7 +47,8 @@ const clientControllers = {
     changePasswordController,
     disconnectController,
     addFeedbackController,
-    // googleSignup,
+    googleSignup,
+    getAuthData
 }
 
 export default clientControllers;

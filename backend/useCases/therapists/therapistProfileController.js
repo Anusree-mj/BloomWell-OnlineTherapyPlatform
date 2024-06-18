@@ -1,5 +1,5 @@
-import therapistQuery from '../../../infrastructure/dbQueries/therapist/therapistQuery.js';
-import therapisttProfileQuery from '../../../infrastructure/dbQueries/therapist/therapisttProfileQuery.js';
+import therapistQuery from '../../infrastructure/dbQueries/therapist/therapistQuery.js';
+import therapisttProfileQuery from '../../infrastructure/dbQueries/therapist/therapisttProfileQuery.js';
 
 // get data 
 const getTherapistData = async (req, res) => {
@@ -24,7 +24,7 @@ const getTherapistData = async (req, res) => {
 const getTherapistProfileDataController = async (req, res) => {
     try {
         const therapistId = req.user._id;
-        console.log('therapist id founddddddddddddddddddd ', therapistId)
+        // console.log('therapist id founddddddddddddddddddd ', therapistId)
         const response = await therapistQuery.getTherapistData(therapistId);
         if (response.status === 'ok') {
             const { status, therapist } = response;

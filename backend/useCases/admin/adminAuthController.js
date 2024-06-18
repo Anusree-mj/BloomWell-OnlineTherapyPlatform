@@ -1,5 +1,5 @@
-import { generateToken } from '../../../utilitis/token.js';
-import adminAuthQueries from '../../../infrastructure/dbQueries/admin/adminAuthQueries.js'
+import { generateToken } from '../../utilitis/token.js';
+import adminAuthQueries from '../../infrastructure/dbQueries/admin/adminAuthQueries.js'
 
 // auth user
 const authAdmin = async (req, res) => {
