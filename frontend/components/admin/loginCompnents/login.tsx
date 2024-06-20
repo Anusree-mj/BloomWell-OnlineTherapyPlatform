@@ -55,7 +55,7 @@ export default function AdminLogin() {
         <Box sx={{
             paddingTop: '2rem', paddingBottom: '2rem',
             backgroundColor: '#325343', display: 'flex', flexDirection: 'column',
-            alignItems: 'center', justifyContent: 'center', height: '80vh'
+            alignItems: 'center', justifyContent: 'center', minHeight: '80vh'
         }}>
             <Typography sx={{
                 fontSize: { xs: '1.2rem', sm: '2rem' },

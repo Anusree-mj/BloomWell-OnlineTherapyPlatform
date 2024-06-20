@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react';
-import {
-    Box, Typography, Avatar, Accordion, AccordionDetails, AccordionSummary,
-    Rating, Button,
-} from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Box, } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTherapistDetailsAction, therapistStateType } from '@/store/therapists/therapistReducers';
-import { useRouter } from "next/navigation";
 import ChatComponent from '@/components/common/therapy/chatComponent';
 import TherapySidebarComponent from '../../common/therapy/sidebarComponent';
 
@@ -40,14 +35,15 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
     return (
         <Box
             sx={{
-                backgroundColor: '#F7FCC2',
+                backgroundColor: '#F7FCC2', p: '1rem 0 4rem 0',
                 display: 'flex', flexWrap: 'wrap-reverse',
                 justifyContent: { md: 'space-between', xs: 'center' },
                 alignItems: 'center',
                 minHeight: '90vh',
             }}>
             <TherapySidebarComponent
-                AccordionItems={AccordionItems} AccordionContent={AccordionContent} />
+                AccordionItems={AccordionItems} AccordionContent={AccordionContent} rating={ratings}
+                reciever={reciever} />
             <ChatComponent reciever={reciever} />
         </Box>
     )

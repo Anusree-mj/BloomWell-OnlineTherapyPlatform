@@ -96,7 +96,7 @@ export default function AdminLogin() {
         <Box sx={{
             backgroundColor: '#F7FCC2', display: 'flex',
             justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
-            height: '85vh', paddingBottom: '2rem'
+            minHeight: '85vh', paddingBottom: '2rem'
         }}>
             {otpField !== true ? (
                 <>

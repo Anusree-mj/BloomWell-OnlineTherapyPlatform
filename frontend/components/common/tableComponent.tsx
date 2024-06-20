@@ -80,7 +80,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ rows, columns, head, su
                 </Box>
                 <Box
                     sx={{
-                        height: 400,
+                        minHeight: 400,
                         width: '100%',
                         border: '1px solid green',
                     }}

@@ -117,7 +117,7 @@ export default function ClientHeader(props: Props) {
             ]
         },
         {
-            iconTitle: 'Therapy', link: `/client/therapy/${clientDetails.therapistDetails._id}`,
+            iconTitle: 'Therapy', link: `/client/therapy/${clientDetails.therapistDetails ? clientDetails.therapistDetails._id:''}`,
         },
         { iconTitle: 'Feedback', link: '/client/feedback' },
         {
