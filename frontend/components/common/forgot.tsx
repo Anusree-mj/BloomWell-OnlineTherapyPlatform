@@ -4,14 +4,16 @@ import React, { useState } from 'react';
 import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import TextField from '@mui/material/TextField';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { FormControl } from '@mui/material';
 import axios from 'axios';
 import LoadingButton from '@mui/lab/LoadingButton';
-import OTPInput from '../otp/otp';
+import OTPInput from './otp';
+import { useRouter } from "next/navigation";
 
 export default function AdminLogin() {
+    const router = useRouter()
     const [email, setEmail] = useState('');
     const [emailSpan, setEmailSpan] = useState('black')
     const [emailTextSpan, setEmailTextSpan] = useState('')
@@ -74,7 +76,8 @@ export default function AdminLogin() {
                 // setLoading(true)
                 const response = await axios.post(`http://localhost:8000/users/forgotPassword/verifyOtp`, { email: email, otp: otp });
                 if (response.status === 200) {
-                    setOtpField(true)
+                    setOtpField(true);
+                    router.push('/login')
                     setLoading(false)
                 }
             }
@@ -93,7 +96,7 @@ export default function AdminLogin() {
         <Box sx={{
             backgroundColor: '#F7FCC2', display: 'flex',
             justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
-            height: '85vh', paddingBottom: '2rem'
+            minHeight: '85vh', paddingBottom: '2rem'
         }}>
             {otpField !== true ? (
                 <>

@@ -35,10 +35,7 @@ const initialState: therapistStateType = {
     },
     isLoading: false,
     error: null,
-    reviews: [{
-        comments: "",
-        clientName: "",
-    }],
+    reviews: [],
     ratings: 0
 }
 export const therapistSlice: any = createSlice({

@@ -1,11 +1,11 @@
 'use client'
 import { LoginHeader } from "@/components/common/headers/loginHeader"
-import Footer from "@/components/common/footer/footer"
+import Footer from "@/components/common/footer"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import store from "@/store";
-import ConnectionComponent from "@/components/client/activities/connectionComponent";
+import ConnectionComponent from "@/components/client/navicons/activities/connectionComponent";
 
 const Page = () => {
 

@@ -1,21 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { ConnectionItems } from "../admin/type";
+import { ReviewItems } from "./type";
 
-export interface connectionStateType {
+export interface ActivitiesStateType {
     connections: ConnectionItems[];
+    reviews: ReviewItems[];
     isLoading: boolean;
     error: any;
 }
 
 
-const initialState: connectionStateType = {
+const initialState: ActivitiesStateType = {
     isLoading: false,
     error: null,
-    connections: []
+    connections: [],
+    reviews: []
 }
-export const therapistConnectionSlice: any = createSlice({
-    name: "therapistConnectionRequests",
+export const therapistActivitiesSlice: any = createSlice({
+    name: "therapistActivities",
     initialState: initialState,
     reducers: {
         // get connectionrequests
@@ -38,29 +41,11 @@ export const therapistConnectionSlice: any = createSlice({
             console.log('entered in  action')
             state.isLoading = true;
         },
-        getTherapistsRejectedConnectionsSuccessAction: (state, action) => {
-            state.isLoading = false;
-            state.connections = action.payload;
-        },
-        getTherapistsRejectedConnectionsFailureAction: (state, action) => {
-            state.isLoading = false;
-            state.error = action.payload;
-            console.log('eror found', state.error)
-        },
 
         // get active connections
         getTherapistsActiveConnectionsAction: (state) => {
             console.log('entered in  action')
             state.isLoading = true;
-        },
-        getTherapistsActiveConnectionsSuccessAction: (state, action) => {
-            state.isLoading = false;
-            state.connections = action.payload;
-        },
-        getTherapistsActiveConnectionsFailureAction: (state, action) => {
-            state.isLoading = false;
-            state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
         // get inactive connections
@@ -68,11 +53,17 @@ export const therapistConnectionSlice: any = createSlice({
             console.log('entered in  action')
             state.isLoading = true;
         },
-        getTherapistsInActiveConnectionsSuccessAction: (state, action) => {
-            state.isLoading = false;
-            state.connections = action.payload;
+
+        // get reviews 
+        getTherapistsReviewsAction: (state) => {
+            console.log('entered in  action')
+            state.isLoading = true;
         },
-        getTherapistsInActiveConnectionsFailureAction: (state, action) => {
+        getTherapistsReviewsSuccessAction: (state, action) => {
+            state.isLoading = false;
+            state.reviews = action.payload;
+        },
+        getTherapistsReviewsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
             console.log('eror found', state.error)
@@ -85,12 +76,11 @@ export const {
     getTherapistsConnectionRequestSuccessAction,
     getTherapistsConnectionRequestFailureAction,
     getTherapistsRejectedConnectionsAction,
-    getTherapistsRejectedConnectionsFailureAction,
-    getTherapistsRejectedConnectionsSuccessAction,
     getTherapistsActiveConnectionsAction,
-    getTherapistsActiveConnectionsFailureAction,
-    getTherapistsActiveConnectionsSuccessAction,
     getTherapistsInActiveConnectionsAction,
-    getTherapistsInActiveConnectionsFailureAction,
-    getTherapistsInActiveConnectionsSuccessAction,
-} = therapistConnectionSlice.actions;
+
+
+    getTherapistsReviewsAction,
+    getTherapistsReviewsFailureAction,
+    getTherapistsReviewsSuccessAction
+} = therapistActivitiesSlice.actions;

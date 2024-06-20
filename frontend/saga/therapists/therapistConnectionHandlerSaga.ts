@@ -5,15 +5,12 @@ import {
     getTherapistsConnectionRequestFailureAction,
     getTherapistsConnectionRequestSuccessAction,
     getTherapistsRejectedConnectionsAction,
-    getTherapistsRejectedConnectionsFailureAction,
-    getTherapistsRejectedConnectionsSuccessAction,
     getTherapistsActiveConnectionsAction,
-    getTherapistsActiveConnectionsFailureAction,
-    getTherapistsActiveConnectionsSuccessAction,
     getTherapistsInActiveConnectionsAction,
-    getTherapistsInActiveConnectionsFailureAction,
-    getTherapistsInActiveConnectionsSuccessAction
-} from '@/store/therapists/therapistConnectionHandlerReducers';
+    getTherapistsReviewsAction,
+    getTherapistsReviewsFailureAction,
+    getTherapistsReviewsSuccessAction
+} from '@/store/therapists/therapistActvitiesHandlerReducers';
 
 // therapist connection request saga
 function* getTherapistsConnectionRequestActionSaga(): any {
@@ -44,14 +41,14 @@ function* getTherapistsRejectedConnectionsActionSaga(): any {
         });
 
         if (response.status === 'ok') {
-            yield put(getTherapistsRejectedConnectionsSuccessAction(response.connections))
+            yield put(getTherapistsConnectionRequestSuccessAction(response.connections))
             console.log('connection details', response.connections)
         } else {
-            yield put(getTherapistsRejectedConnectionsFailureAction(response.message))
+            yield put(getTherapistsConnectionRequestFailureAction(response.message))
 
         }
     } catch (err) {
-        yield put(getTherapistsRejectedConnectionsFailureAction(err))
+        yield put(getTherapistsConnectionRequestFailureAction(err))
     }
 }
 
@@ -64,14 +61,14 @@ function* getTherapistsActiveConnectionsActionSaga(): any {
         });
 
         if (response.status === 'ok') {
-            yield put(getTherapistsActiveConnectionsSuccessAction(response.connections))
+            yield put(getTherapistsConnectionRequestSuccessAction(response.connections))
             console.log('connection details', response.connections)
         } else {
-            yield put(getTherapistsActiveConnectionsFailureAction(response.message))
+            yield put(getTherapistsConnectionRequestFailureAction(response.message))
 
         }
     } catch (err) {
-        yield put(getTherapistsActiveConnectionsFailureAction(err))
+        yield put(getTherapistsConnectionRequestFailureAction(err))
     }
 }
 
@@ -84,20 +81,42 @@ function* getTherapistsInActiveConnectionsActionSaga(): any {
         });
 
         if (response.status === 'ok') {
-            yield put(getTherapistsActiveConnectionsSuccessAction(response.connections))
+            yield put(getTherapistsConnectionRequestSuccessAction(response.connections))
             console.log('connection details', response.connections)
         } else {
-            yield put(getTherapistsActiveConnectionsFailureAction(response.message))
-
+            yield put(getTherapistsConnectionRequestFailureAction(response.message))
         }
     } catch (err) {
-        yield put(getTherapistsActiveConnectionsFailureAction(err))
+        yield put(getTherapistsConnectionRequestFailureAction(err))
     }
 }
+
+// get reviews and ratings
+// get  inactive connections
+function* getTherapistsReviewsActionSaga(): any {
+    try {
+        const response = yield call<any>(apiCall, {
+            method: 'GET',
+            endpoint: 'therapist/reviews',
+        });
+
+        if (response.status === 'ok') {
+            yield put(getTherapistsReviewsSuccessAction(response.reviews))
+            console.log('connection details', response.reviews)
+        } else {
+            yield put(getTherapistsReviewsFailureAction(response.message))
+        }
+    } catch (err) {
+        yield put(getTherapistsReviewsFailureAction(err))
+    }
+}
+
+
 export function* therapistConnectionRequestWatcher() {
     yield takeEvery(getTherapistsConnectionRequestAction, getTherapistsConnectionRequestActionSaga);
     yield takeEvery(getTherapistsRejectedConnectionsAction, getTherapistsRejectedConnectionsActionSaga);
     yield takeEvery(getTherapistsActiveConnectionsAction, getTherapistsActiveConnectionsActionSaga);
     yield takeEvery(getTherapistsInActiveConnectionsAction, getTherapistsInActiveConnectionsActionSaga);
+    yield takeEvery(getTherapistsReviewsAction, getTherapistsReviewsActionSaga);
 
 }

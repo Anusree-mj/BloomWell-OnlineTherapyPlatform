@@ -1,6 +1,6 @@
 'use client'
 import TherapistHeader from '@/components/therapists/header/therapistHeader';
-import Footer from "@/components/common/footer/footer"
+import Footer from "@/components/common/footer"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';

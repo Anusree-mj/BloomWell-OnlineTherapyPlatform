@@ -64,7 +64,7 @@ const ConnectionComponent = () => {
             }
         })
     }
-
+ 
     return (
         <Box
             sx={{

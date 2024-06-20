@@ -12,7 +12,7 @@ import { getLoginAction, userStateType } from '@/store/user/userReducer';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useRouter } from 'next/navigation';
 import { Button } from '@mui/material';
-import SocialLoginComponent from '../socialLogin';
+import SocialLoginComponent from './socialLogin';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -80,7 +80,7 @@ export default function Login() {
         <Box sx={{
             paddingTop: '2rem', paddingBottom: '2rem',
             backgroundColor: '#325343', display: 'flex',
-            alignItems: 'center', justifyContent: 'space-around', height: '70vh'
+            alignItems: 'center', justifyContent: 'space-around', minHeight: '70vh'
         }}>
             <Box sx={{
                 display: { xs: 'none', sm: 'flex' }, flexDirection: 'column',

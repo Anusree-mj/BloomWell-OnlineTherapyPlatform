@@ -117,7 +117,7 @@ export default function ClientHeader(props: Props) {
             ]
         },
         {
-            iconTitle: 'Therapy', link: `/client/therapy/${clientDetails.therapistDetails._id}`,
+            iconTitle: 'Therapy', link: `/client/therapy/${clientDetails.therapistDetails ? clientDetails.therapistDetails._id : ''}`,
         },
         { iconTitle: 'Feedback', link: '/client/feedback' },
         {
@@ -204,7 +204,8 @@ export default function ClientHeader(props: Props) {
                                                 <List component="div" disablePadding>
                                                     {item.subItems.map((subItem, subIndex) => (
                                                         <Link href={subItem.link} passHref key={subIndex}>
-                                                            <ListItemButton component="a" sx={{ pl: 4 }}>
+                                                            <ListItemButton component="a" sx={{ pl: 4 }}
+                                                                onClick={handleCloseNavMenu}>
                                                                 <ListItemText primary={subItem.title} />
                                                             </ListItemButton>
                                                         </Link>

@@ -1,6 +1,6 @@
 'use client'
 import { LoginHeader } from "@/components/common/headers/loginHeader"
-import Footer from "@/components/common/footer/footer"
+import Footer from "@/components/common/footer"
 import TherapistSignupComponent from "@/components/therapists/signupComponents/therapistSignup";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

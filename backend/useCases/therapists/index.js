@@ -23,7 +23,8 @@ import {
     postConnectionRejectionReasonController,
     getActiveConnectionController,
     getInActiveConnectionController,
-} from "./therapistConnectionController.js"
+    getReviewsController
+} from "./therapistActivitiesController.js"
 
 const therapistControllers = {
     therapistsSignUp,
@@ -43,9 +44,9 @@ const therapistControllers = {
     getActiveConnectionController,
     getInActiveConnectionController,
     doQuitController,
+    getReviewsController,
 
 
-    
 
 
 

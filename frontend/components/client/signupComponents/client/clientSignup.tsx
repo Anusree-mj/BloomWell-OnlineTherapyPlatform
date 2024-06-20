@@ -8,7 +8,7 @@ import { Box, Button, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { getClientSignUpAction, clientStateType } from "@/store/clients/clientReducer";
-import OTPInput from '@/components/common/otp/otp';
+import OTPInput from '@/components/common/otp';
 import Image from 'next/image';
 import SocialLoginComponent from '@/components/common/socialLogin';
 

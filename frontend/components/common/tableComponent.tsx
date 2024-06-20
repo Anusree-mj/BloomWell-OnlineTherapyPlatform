@@ -40,14 +40,13 @@ const TableComponent: React.FC<TableComponentProps> = ({ rows, columns, head, su
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                height: '100vh',
             }}
         >
             <Box sx={{
                 width: '90rem', maxWidth: '90%'
             }}>
                 <Typography variant="h6" noWrap component="div" sx={{
-                    color: '#325343', alignSelf: 'start',
+                    color: '#325343', alignSelf: 'start', mt: 5,
                     fontWeight: 800
                 }}>
                     {head}

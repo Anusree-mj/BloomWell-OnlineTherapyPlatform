@@ -4,6 +4,7 @@ import Notifications from '../../../entities/users/notificationModel.js'
 import Client from "../../../entities/clients/clients.js";
 import Connections from "../../../entities/clients/connection.js";
 import Feedback from "../../../entities/users/feedback.js";
+import Reviews from "../../../entities/therapists/reviews.js";
 
 const doQuit = async (therapistId, quitInfo) => {
     try {
@@ -36,7 +37,7 @@ const doQuit = async (therapistId, quitInfo) => {
                 message: `Your therapist has decided to leave the platform. You can connect with another therapist. Sorry for the inconvenience!`
             }]);
             await Client.updateOne({ connectionId: item._id }, { isConnected: false })
-            await Connections.updateOne({ _id: item._id }, { isActive: false });
+            await Connections.updateOne({ _id: item._id }, { isActive: false, reasonForDisconnection: 'Therapist left platform' });
         }
         if (response.modifeidCount > 0) {
             return { status: 'ok' }
@@ -49,4 +50,21 @@ const doQuit = async (therapistId, quitInfo) => {
     }
 }
 
-export default { doQuit }
+const getReviews = async (therapistId) => {
+    try {
+        const reviews = await Reviews.find({ therapistId: therapistId }).populate('clientId', 'name')
+        if (reviews) {
+            return { status: 'ok', reviews }
+        } else {
+            return { status: 'nok', message: 'No reviews added yet' }
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export default {
+    doQuit,
+    getReviews,
+
+}

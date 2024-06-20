@@ -24,8 +24,8 @@ const ChatComponent: React.FC<ChatProps> = ({ reciever }) => {
     }
     return (
         <Box sx={{
-            border: '2px solid #325343', width: '60rem', maxWidth: { xs: '100%', md: '70%' },
-            height: { md: '85vh' }, display: 'flex', flexDirection: 'column'
+            border: '2px solid #325343', width: '60rem', maxWidth: { xs: '95%', md: '70%' },
+            minHeight: { md: '80vh' }, display: 'flex', flexDirection: 'column',
         }}>
             <Box sx={{
                 backgroundColor: 'white', width: '100%', p: 1,

@@ -2,12 +2,12 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getAllClientsDetailsAction, adminStateType } from "@/store/admin/adminReducer";
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { GridColDef } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
 import { deleteClient, editClient } from "@/utilities/admin/clients/manageClients";
 import { useRouter } from "next/navigation";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import TableComponent from "@/components/common/tableComponent";
 
 const AdminManageClients = () => {
@@ -82,7 +82,7 @@ const AdminManageClients = () => {
 
   return (
     <Box sx={{
-      ml: { xs: 'none', sm: '15rem' } ,mt: { sm: 3 }
+      ml: { xs: 'none', sm: '15rem' }, mt: 5
     }}>
       <TableComponent rows={rows} columns={columns} head={head} subHead={[]} />
     </Box>
