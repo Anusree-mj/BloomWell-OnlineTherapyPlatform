@@ -2,7 +2,7 @@ import { Typography, Button } from '@mui/material'
 import { Box } from '@mui/system'
 import Link from 'next/link'
 
-const LetsConnectComponent = () => {
+const DoSomethingComponent = () => {
     return (
         <Box sx={{
             display: 'flex', maxWidth: '90%', alignItem: 'flex-start',
@@ -31,4 +31,4 @@ const LetsConnectComponent = () => {
     )
 }
 
-export default LetsConnectComponent
+export default DoSomethingComponent

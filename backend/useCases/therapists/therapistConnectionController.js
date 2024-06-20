@@ -81,6 +81,7 @@ const getActiveConnectionController = async (req, res) => {
         const response = await therapistConnectionQueries.getActiveConnections(therapistId.toString())
         if (response.status === 'ok') {
             const { status, connections } = response
+            console.log('connections', connections)
             res.status(200).json({ status: status, connections: connections });
         } else {
             const { message } = response
@@ -121,5 +122,5 @@ export {
     postConnectionRejectionReasonController,
     getActiveConnectionController,
     getInActiveConnectionController,
-    
+
 }

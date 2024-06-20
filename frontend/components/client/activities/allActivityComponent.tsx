@@ -6,8 +6,8 @@ import { io } from 'socket.io-client'
 import { useRouter } from "next/navigation";
 import { Box, Button, MenuItem, Select, TextField, Typography } from "@mui/material";
 import Link from "next/link";
-import LetsConnectComponent from "./letsConnectComponent";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import DoSomethingComponent from "./doSomethingComponent";
 
 const columnItems = [
     { field: 'no', header: 'No', width: 10 },
@@ -128,7 +128,7 @@ const AllActivityComponent = () => {
                 </>
 
             ) : (
-                <LetsConnectComponent />
+                <DoSomethingComponent />
             )}
         </Box>
     )
