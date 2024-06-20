@@ -7,10 +7,15 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getTherapistsActiveConnectionsAction, connectionStateType } from "@/store/therapists/therapistConnectionHandlerReducers";
 import TableComponent from "../../../common/tableComponent";
+import { therapistStateType } from "@/store/therapists/therapistReducers";
+import DoSomethingComponent from "@/components/common/doSomethingComponent";
+import { Box } from "@mui/system";
 
 const ActiveConnectionComponent = () => {
     const dispatch = useDispatch();
     const router = useRouter();
+    const therapist = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
+    const [isQuit, setIsquit] = useState(false)
 
     const connections = useSelector((state: {
         therapistConnectionRequests: connectionStateType
@@ -19,7 +24,12 @@ const ActiveConnectionComponent = () => {
     useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
         if (therapistData) {
-            dispatch(getTherapistsActiveConnectionsAction());
+            const parsedData = JSON.parse(therapistData);
+            if (parsedData.verificationStatus === 'Granted' && !parsedData.isActive) {
+                setIsquit(true)
+            } else {
+                dispatch(getTherapistsActiveConnectionsAction());
+            }
         } else {
             router.push('/login');
         }
@@ -69,7 +79,17 @@ const ActiveConnectionComponent = () => {
         { name: 'Inactive', url: 'therapist/activities/inActive', select: false }
     ]
     return (
-        <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
+        <Box sx={{
+            backgroundColor: '#F7FCC2', pb: 8
+        }}>
+            {!isQuit ?
+                <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
+                : <DoSomethingComponent
+                    content="Since you left BlloomWell all your connections have been disconnected. If you'd like to rejoin, we'd love to welcome you back!"
+                    buttonTitle="Let's Rejoin" url="#"
+                />
+            }
+        </Box>
     );
 }
 

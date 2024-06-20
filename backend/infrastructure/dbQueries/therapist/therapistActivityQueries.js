@@ -36,7 +36,7 @@ const doQuit = async (therapistId, quitInfo) => {
                 message: `Your therapist has decided to leave the platform. You can connect with another therapist. Sorry for the inconvenience!`
             }]);
             await Client.updateOne({ connectionId: item._id }, { isConnected: false })
-            await Connections.updateOne({ _id: item._id }, { isActive: false });
+            await Connections.updateOne({ _id: item._id }, { isActive: false, reasonForDisconnection: 'Therapist left platform' });
         }
         if (response.modifeidCount > 0) {
             return { status: 'ok' }

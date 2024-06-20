@@ -89,7 +89,7 @@ export default function TherapistSingleHeader(props: Props) {
             iconTitle: 'Dashboard', icon: <DashboardIcon />, link: '/#',
             subItems: [
                 { title: 'Active', link: '/therapist/activities/active' },
-                { title: 'Inactive', link: '/therapist/activities/inactive' },
+                { title: 'Inactive', link: '/therapist/activities/inActive' },
                 { title: 'Schedules', link: '/therapist/schedules' },
                 { title: 'Connections', link: '/therapist/connections' },
 

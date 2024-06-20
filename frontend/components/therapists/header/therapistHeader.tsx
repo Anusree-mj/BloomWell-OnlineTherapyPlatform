@@ -125,7 +125,7 @@ export default function TherapistHeader(props: Props) {
             iconTitle: 'Activities', link: '/#',
             subItems: [
                 { title: 'Active', link: '/therapist/activities/active' },
-                { title: 'Inactive', link: '/therapist/activities/inactive' },
+                { title: 'Inactive', link: '/therapist/activities/inActive' },
             ]
         },
         {

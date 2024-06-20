@@ -76,7 +76,6 @@ export default function Footer() {
                         color: 'black',
                     }
                     }>© 2024 BlossomWell</Typography>
-
                 </Box >
             </Box>
         </Box >

@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getTherapistsInActiveConnectionsAction, connectionStateType } from "@/store/therapists/therapistConnectionHandlerReducers";
 import TableComponent from "../../../common/tableComponent";
+import { Box } from "@mui/system";
 
 const InActiveConnectionComponent = () => {
     const dispatch = useDispatch();
@@ -65,13 +66,17 @@ const InActiveConnectionComponent = () => {
         medicalInfo: 'view',
     }));
 
-    const head = 'Active Connections';
+    const head = 'InActive Connections';
     const subHead = [
         { name: 'Active', url: 'therapist/activities/active', select: false },
         { name: 'Inactive', url: 'therapist/activities/inActive', select: true }
     ]
     return (
-        <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
+        <Box sx={{
+            backgroundColor: '#F7FCC2',pb:8
+        }}>
+            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
+        </Box>
     );
 }
 

@@ -2,7 +2,13 @@ import { Typography, Button } from '@mui/material'
 import { Box } from '@mui/system'
 import Link from 'next/link'
 
-const DoSomethingComponent = () => {
+interface DoSomethingComponentProps {
+    content: string,
+    buttonTitle: string,
+    url: string
+}
+
+const DoSomethingComponent: React.FC<DoSomethingComponentProps> = ({ content, buttonTitle, url }) => {
     return (
         <Box sx={{
             display: 'flex', maxWidth: '90%', alignItem: 'flex-start',
@@ -10,20 +16,21 @@ const DoSomethingComponent = () => {
         }}>
             <Box sx={{
                 display: 'flex', flexDirection: 'column', maxWidth: '100%',
-                width: '30rem', pt: 6, pb: 6, borderRadius: '1rem',
+                width: '30rem', p:'1rem 1.2rem', borderRadius: '1rem',
                 boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                 alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'
             }}>
 
-                <Typography>
-                    You haven't connected to any therapist yet!
+                <Typography
+                    sx={{ textAlign: 'center', letterSpacing: '1px',color:'#325343' }}>
+                    {content}
                 </Typography>
-                <Link href="/client/connection" passHref>
+                <Link href={url} passHref>
                     <Button component="a" sx={{
                         my: 2, mx: 2, color: 'white', backgroundColor: '#325343',
                         display: 'block', fontWeight: 600,
                     }} variant="contained">
-                        Let's Connect
+                        {buttonTitle}
                     </Button>
                 </Link>
             </Box>

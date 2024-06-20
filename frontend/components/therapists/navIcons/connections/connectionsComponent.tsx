@@ -98,7 +98,11 @@ const ConnectionRequestsComponent = () => {
     ]
 
     return (
-        <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
+        <Box sx={{
+            backgroundColor: '#F7FCC2',
+        }}>
+            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
+        </Box>
     );
 }
 export default ConnectionRequestsComponent

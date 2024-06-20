@@ -24,13 +24,13 @@ const ClientMedicalInfoViewComponent: React.FC<{ clientId: string; }> = ({ clien
 
     return (
         <Box
-            sx={{mt:2,
+            sx={{
                 backgroundColor: '#F7FCC2',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'column',
-                minHeight: '85vh',
+                minHeight: '90vh',
                 paddingBottom: '2rem'
             }}
         >

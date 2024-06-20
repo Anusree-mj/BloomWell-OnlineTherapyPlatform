@@ -9,7 +9,7 @@ import { Box, IconButton, InputAdornment, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTherapistSignUpAction, therapistStateType } from '@/store/therapists/therapistReducers';
-import OTPInput from '@/components/common/otp/otp';
+import OTPInput from '@/components/common/otp';
 import UploadIcon from '@mui/icons-material/Upload';
 
 const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType }) => {

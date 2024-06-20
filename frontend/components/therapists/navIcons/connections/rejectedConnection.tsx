@@ -3,7 +3,7 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { GridColDef } from '@mui/x-data-grid';
 import { useRouter } from "next/navigation";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Link from "next/link";
 import { getTherapistsRejectedConnectionsAction, connectionStateType } from "@/store/therapists/therapistConnectionHandlerReducers";
 import TableComponent from "@/components/common/tableComponent";
@@ -64,7 +64,11 @@ const RejectedConnectionsComponent = () => {
     ]
 
     return (
-        <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
+        <Box sx={{
+            backgroundColor: '#F7FCC2',
+        }}>
+            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
+        </Box>
     );
 }
 export default RejectedConnectionsComponent

@@ -1,5 +1,5 @@
 'use client'
-import Footer from "@/components/common/footer/footer"
+import Footer from "@/components/common/footer"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
@@ -12,9 +12,7 @@ export default function Page({ params }: { params: { clientId: string } }) {
         <Provider store={store}>
             <ToastContainer />
             <LoginHeader />
-            <div style={{ paddingTop: '1rem' }}>
                 <ClientMedicalInfoViewComponent clientId={params.clientId} />
-            </div>
             <Footer />
         </Provider>
     )

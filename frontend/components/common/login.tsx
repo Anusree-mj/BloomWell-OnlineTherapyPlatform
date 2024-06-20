@@ -12,7 +12,7 @@ import { getLoginAction, userStateType } from '@/store/user/userReducer';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useRouter } from 'next/navigation';
 import { Button } from '@mui/material';
-import SocialLoginComponent from '../socialLogin';
+import SocialLoginComponent from './socialLogin';
 
 export default function Login() {
     const [email, setEmail] = useState('');

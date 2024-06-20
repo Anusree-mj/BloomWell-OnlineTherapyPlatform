@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { Box, Button, MenuItem, Select, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import DoSomethingComponent from "./doSomethingComponent";
+import DoSomethingComponent from "../../../common/doSomethingComponent";
 
 const columnItems = [
     { field: 'no', header: 'No', width: 10 },
@@ -128,7 +128,9 @@ const AllActivityComponent = () => {
                 </>
 
             ) : (
-                <DoSomethingComponent />
+                <DoSomethingComponent
+                    content=" You haven't connected to any therapist yet!" buttonTitle="Let's Connect"
+                    url="/client/connection" />
             )}
         </Box>
     )

@@ -51,7 +51,7 @@ const AdminConnectionRequestsComponent = () => {
             field: "viewTherapist",
             headerName: "Therapist",
             sortable: false,
-            width: 80,
+            width: 100,
             renderCell: (params) => (
                 <Link href={`/therapist/view/${params.row.therapistId}`} style={{ textDecoration: 'underline' }}
                 >View
@@ -115,7 +115,7 @@ const AdminConnectionRequestsComponent = () => {
 
     return (
         <Box sx={{
-            ml: { xs: 'none', sm: '15rem' }, mt: { sm: 3 }
+            ml: { xs: 'none', sm: '15rem' }, mt: 5
         }}>
             <TableComponent rows={rows} columns={columns} head={head} subHead={[]} />
         </Box>

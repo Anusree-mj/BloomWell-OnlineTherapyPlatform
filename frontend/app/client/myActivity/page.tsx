@@ -4,7 +4,7 @@ import store from '@/store';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ClientHeader from '@/components/client/header/clientHeader';
-import AllActivityComponent from '@/components/client/activities/allActivityComponent';
+import AllActivityComponent from '@/components/client/navicons/activities/allActivityComponent';
 import Footer from '@/components/common/footer/footer';
 
 const Page = () => {

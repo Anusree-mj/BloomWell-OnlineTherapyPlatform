@@ -1,9 +1,7 @@
-import { use, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Avatar, Box, Button, Checkbox, Divider, FormControlLabel, FormGroup, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
+import { Box, Button, Divider, FormControlLabel, FormGroup, TextField, Typography } from "@mui/material";
 import Radio from '@mui/material/Radio';
-import { pink } from '@mui/material/colors';
 import axios from "axios";
 
 

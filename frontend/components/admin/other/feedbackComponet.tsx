@@ -38,7 +38,7 @@ const AdminFeedBackComponent = () => {
 
     return (
         <Box sx={{
-            ml: { xs: 'none', sm: '15rem' }, mt: { sm: 3 }
+            ml: { xs: 'none', sm: '15rem' }, mt: 5
         }}>
             <TableComponent rows={rows} columns={columns} head={head} subHead={[]} />
         </Box>

@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { FormControl } from '@mui/material';
 import axios from 'axios';
 import LoadingButton from '@mui/lab/LoadingButton';
-import OTPInput from '../otp/otp';
+import OTPInput from './otp';
 import { useRouter } from "next/navigation";
 
 export default function AdminLogin() {
