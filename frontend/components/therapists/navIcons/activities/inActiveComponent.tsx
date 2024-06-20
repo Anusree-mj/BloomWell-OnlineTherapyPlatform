@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GridColDef } from '@mui/x-data-grid';
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getTherapistsInActiveConnectionsAction, connectionStateType } from "@/store/therapists/therapistConnectionHandlerReducers";
+import { getTherapistsInActiveConnectionsAction, ActivitiesStateType } from "@/store/therapists/therapistActvitiesHandlerReducers";
 import TableComponent from "../../../common/tableComponent";
 import { Box } from "@mui/system";
 
@@ -14,8 +14,8 @@ const InActiveConnectionComponent = () => {
     const router = useRouter();
 
     const connections = useSelector((state: {
-        therapistConnectionRequests: connectionStateType
-    }) => state.therapistConnectionRequests.connections);
+        therapistActivities: ActivitiesStateType
+    }) => state.therapistActivities.connections);
 
     useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");

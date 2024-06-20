@@ -56,19 +56,19 @@ export default function TherapistHeader(props: Props) {
     }, [therapist._id])
 
     useEffect(() => {
-        if (!socket) return;      
+        if (!socket) return;
         console.log('Setting up event listener for recieve_connectionMessage');
         socket.on('recieve_connectionMessage', (data) => {
-          console.log('Data reached in recieve_connectionMessage:', data);
-          setAlertMessage(`New Connection from ${data}`);
+            console.log('Data reached in recieve_connectionMessage:', data);
+            setAlertMessage(`New Connection from ${data}`);
         });
-      
+
         return () => {
-          console.log('Cleaning up event listener for recieve_connectionMessage');
-          socket.off('recieve_connectionMessage');
+            console.log('Cleaning up event listener for recieve_connectionMessage');
+            socket.off('recieve_connectionMessage');
         };
-      }, [socket]);
-      
+    }, [socket]);
+
 
 
     useEffect(() => {
@@ -126,6 +126,8 @@ export default function TherapistHeader(props: Props) {
             subItems: [
                 { title: 'Active', link: '/therapist/activities/active' },
                 { title: 'Inactive', link: '/therapist/activities/inActive' },
+                { title: 'Reviews', link: '/therapist/activities/reviews' },
+
             ]
         },
         {
@@ -224,7 +226,8 @@ export default function TherapistHeader(props: Props) {
                                                 <List component="div" disablePadding>
                                                     {item.subItems.map((subItem, subIndex) => (
                                                         <Link href={subItem.link} passHref key={subIndex}>
-                                                            <ListItemButton component="a" sx={{ pl: 4 }}>
+                                                            <ListItemButton component="a" sx={{ pl: 4 }}
+                                                                onClick={handleCloseNavMenu}>
                                                                 <ListItemText primary={subItem.title} />
                                                             </ListItemButton>
                                                         </Link>

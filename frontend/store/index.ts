@@ -6,7 +6,7 @@ import { clientSlice } from "./clients/clientReducer";
 import { clientConnectionSlice } from "./clients/clientConnectionReducer";
 import { adminSlice } from "./admin/adminReducer";
 import { therapistSlice } from "./therapists/therapistReducers";
-import { therapistConnectionSlice } from "./therapists/therapistConnectionHandlerReducers";
+import { therapistActivitiesSlice } from "./therapists/therapistActvitiesHandlerReducers";
 import { adminConnectionSlice } from "./admin/adminConnectionReducer";
 import { clientMyActivitySlice } from "./clients/clientMyActionReducer";
 import { adminActivitiesSlice } from "./admin/adminActivityReducer";
@@ -23,7 +23,7 @@ const store = configureStore({
         clientConnection: clientConnectionSlice.reducer,
         admin: adminSlice.reducer,
         therapist: therapistSlice.reducer,
-        therapistConnectionRequests: therapistConnectionSlice.reducer,
+        therapistActivities: therapistActivitiesSlice.reducer,
         adminConnectionRequests: adminConnectionSlice.reducer,
         clientMyActivity: clientMyActivitySlice.reducer,
         adminActivities: adminActivitiesSlice.reducer,

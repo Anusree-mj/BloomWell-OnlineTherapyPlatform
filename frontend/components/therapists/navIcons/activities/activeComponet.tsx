@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GridColDef } from '@mui/x-data-grid';
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { getTherapistsActiveConnectionsAction, connectionStateType } from "@/store/therapists/therapistConnectionHandlerReducers";
+import { getTherapistsActiveConnectionsAction, ActivitiesStateType } from "@/store/therapists/therapistActvitiesHandlerReducers";
 import TableComponent from "../../../common/tableComponent";
 import { therapistStateType } from "@/store/therapists/therapistReducers";
 import DoSomethingComponent from "@/components/common/doSomethingComponent";
@@ -14,12 +14,11 @@ import { Box } from "@mui/system";
 const ActiveConnectionComponent = () => {
     const dispatch = useDispatch();
     const router = useRouter();
-    const therapist = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
     const [isQuit, setIsquit] = useState(false)
 
     const connections = useSelector((state: {
-        therapistConnectionRequests: connectionStateType
-    }) => state.therapistConnectionRequests.connections);
+        therapistActivities: ActivitiesStateType
+    }) => state.therapistActivities.connections);
 
     useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");

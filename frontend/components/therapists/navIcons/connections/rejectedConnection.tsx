@@ -5,7 +5,7 @@ import { GridColDef } from '@mui/x-data-grid';
 import { useRouter } from "next/navigation";
 import { Box, Typography } from "@mui/material";
 import Link from "next/link";
-import { getTherapistsRejectedConnectionsAction, connectionStateType } from "@/store/therapists/therapistConnectionHandlerReducers";
+import { getTherapistsRejectedConnectionsAction, ActivitiesStateType } from "@/store/therapists/therapistActvitiesHandlerReducers";
 import TableComponent from "@/components/common/tableComponent";
 
 
@@ -13,8 +13,8 @@ const RejectedConnectionsComponent = () => {
     const dispatch = useDispatch();
     const router = useRouter()
     const connections = useSelector((state: {
-        therapistConnectionRequests: connectionStateType
-    }) => state.therapistConnectionRequests.connections);
+        therapistActivities: ActivitiesStateType
+    }) => state.therapistActivities.connections);
 
     useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");

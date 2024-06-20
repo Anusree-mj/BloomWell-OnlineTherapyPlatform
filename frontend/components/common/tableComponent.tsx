@@ -46,7 +46,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ rows, columns, head, su
                 width: '90rem', maxWidth: '90%'
             }}>
                 <Typography variant="h6" noWrap component="div" sx={{
-                    color: '#325343', alignSelf: 'start',mt:5,
+                    color: '#325343', alignSelf: 'start', mt: 5,
                     fontWeight: 800
                 }}>
                     {head}
@@ -80,7 +80,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ rows, columns, head, su
                 </Box>
                 <Box
                     sx={{
-                        minHeight: 400,
+                        height: 400,
                         width: '100%',
                         border: '1px solid green',
                     }}

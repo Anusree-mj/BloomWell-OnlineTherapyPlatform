@@ -6,8 +6,14 @@ export interface LicenseDetails {
 }
 
 export interface ReviewItems {
+    _id: string;
     comments: string;
-    clientName: string;
+    clientId: {
+        _id: string;
+        name: string
+    };
+    rating: number;
+    createdAt: string;
 }
 
 export interface TherapistItem {

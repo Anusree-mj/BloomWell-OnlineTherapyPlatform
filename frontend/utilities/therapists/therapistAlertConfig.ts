@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 import store from '@/store';
-import { getTherapistsConnectionRequestAction } from '@/store/therapists/therapistConnectionHandlerReducers';
+import { getTherapistsConnectionRequestAction } from '@/store/therapists/therapistActvitiesHandlerReducers';
 
 export interface ActionOptions {
   title: string;

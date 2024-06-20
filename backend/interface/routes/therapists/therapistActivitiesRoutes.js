@@ -16,8 +16,8 @@ router.get('/connections/active', protect('therapist'), controllers.therapistCon
 router.get('/connections/inActive', protect('therapist'), controllers.therapistControllers.getInActiveConnectionController)
 // quit
 router.put('/quit', protect('therapist'), controllers.therapistControllers.doQuitController)
-
-
+// get reviews and ratings
+router.get('/reviews', controllers.therapistControllers.getReviewsController)
 
 
 

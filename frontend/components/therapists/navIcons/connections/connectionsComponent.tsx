@@ -6,7 +6,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import { useRouter } from "next/navigation";
 import { Box, MenuItem, Select } from "@mui/material";
 import Link from "next/link";
-import { getTherapistsConnectionRequestAction, connectionStateType } from "@/store/therapists/therapistConnectionHandlerReducers";
+import { getTherapistsConnectionRequestAction, ActivitiesStateType } from "@/store/therapists/therapistActvitiesHandlerReducers";
 import { manageConnectionRequest } from "@/utilities/therapists/manageConnectionRequest";
 import TableComponent from "@/components/common/tableComponent";
 
@@ -20,8 +20,8 @@ const ConnectionRequestsComponent = () => {
     const router = useRouter()
     const [verifystatus, setVerifyStatus] = useState('')
     const connections = useSelector((state: {
-        therapistConnectionRequests: connectionStateType
-    }) => state.therapistConnectionRequests.connections);
+        therapistActivities: ActivitiesStateType
+    }) => state.therapistActivities.connections);
 
     useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
