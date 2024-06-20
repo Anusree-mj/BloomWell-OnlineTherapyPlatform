@@ -79,12 +79,17 @@ const TherapistReviewsComponent = () => {
         therapy: 'View Profile',
     }));
     const head = 'View Reviews';
+    const subHead = [
+        { name: 'Active', url: 'therapist/activities/active', select: false },
+        { name: 'Inactive', url: 'therapist/activities/inActive', select: false },
+        { name: 'Reviews', url: 'therapist/activities/reviews', select: true }
 
+    ]
     return (
         <Box sx={{
-            backgroundColor: '#F7FCC2',
+            backgroundColor: '#F7FCC2', pb: 8
         }}>
-            <TableComponent rows={rows} columns={columns} head={head} subHead={[]} />
+            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
             <Modal open={modalOpen} onClose={handleClose}>
                 <Box sx={{
                     position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',

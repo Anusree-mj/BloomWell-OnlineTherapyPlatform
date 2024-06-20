@@ -6,6 +6,7 @@ export interface LicenseDetails {
 }
 
 export interface ReviewItems {
+    clientName: string;
     _id: string;
     comments: string;
     clientId: {

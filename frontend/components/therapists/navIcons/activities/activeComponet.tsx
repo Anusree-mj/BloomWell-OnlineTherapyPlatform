@@ -75,7 +75,8 @@ const ActiveConnectionComponent = () => {
     const head = 'Active Connections';
     const subHead = [
         { name: 'Active', url: 'therapist/activities/active', select: true },
-        { name: 'Inactive', url: 'therapist/activities/inActive', select: false }
+        { name: 'Inactive', url: 'therapist/activities/inActive', select: false },
+        { name: 'Reviews', url: 'therapist/activities/reviews', select: false }
     ]
     return (
         <Box sx={{

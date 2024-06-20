@@ -69,11 +69,12 @@ const InActiveConnectionComponent = () => {
     const head = 'InActive Connections';
     const subHead = [
         { name: 'Active', url: 'therapist/activities/active', select: false },
-        { name: 'Inactive', url: 'therapist/activities/inActive', select: true }
+        { name: 'Inactive', url: 'therapist/activities/inActive', select: true },
+        { name: 'Reviews', url: 'therapist/activities/reviews', select: false }
     ]
     return (
         <Box sx={{
-            backgroundColor: '#F7FCC2',pb:8
+            backgroundColor: '#F7FCC2', pb: 8
         }}>
             <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
         </Box>

@@ -65,7 +65,7 @@ const RejectedConnectionsComponent = () => {
 
     return (
         <Box sx={{
-            backgroundColor: '#F7FCC2',
+            backgroundColor: '#F7FCC2', pb: 8
         }}>
             <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
         </Box>
