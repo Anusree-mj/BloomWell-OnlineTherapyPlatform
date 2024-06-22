@@ -25,6 +25,7 @@
     "@stripe/stripe-js": "^3.4.1",
     "axios": "^1.7.2",
     "crypto": "^1.0.1",
+    "dayjs": "^1.11.11",
     "gapi-script": "^1.2.0",
     "js-cookie": "^3.0.5",
     "mdbreact": "^4.6.1",

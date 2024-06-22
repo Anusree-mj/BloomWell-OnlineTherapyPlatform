@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Link from 'next/link';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
-import { Avatar, Menu, Container, Tooltip, Button } from '@mui/material';
+import { Avatar, Menu, Container, Tooltip, Button, Divider } from '@mui/material';
 import { clientStateType, getClientDetailsAction } from "@/store/clients/clientReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
@@ -22,11 +22,53 @@ import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import AlertComponent from '@/components/common/alert';
 import Image from 'next/image';
+import { styled, alpha } from '@mui/material/styles';
+import { MenuProps } from '@mui/material/Menu';
 
 interface Props {
     container?: Element;
 }
+const StyledMenu = styled((props: MenuProps) => (
 
+    <Menu
+        elevation={0}
+        anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+        }}
+        transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+        }}
+        {...props}
+    />
+))(({ theme }) => ({
+    '& .MuiPaper-root': {
+        borderRadius: 6,
+        marginTop: theme.spacing(1),
+        minWidth: 180,
+        color:
+            theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+        boxShadow:
+            'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+        '& .MuiMenu-list': {
+            padding: '4px 0',
+        },
+        '& .MuiMenuItem-root': {
+            '& .MuiSvgIcon-root': {
+                fontSize: 18,
+                color: theme.palette.text.secondary,
+                marginRight: theme.spacing(1.5),
+            },
+            '&:active': {
+                backgroundColor: alpha(
+                    theme.palette.primary.main,
+                    theme.palette.action.selectedOpacity,
+                ),
+            },
+        },
+    },
+}));
 
 export default function ClientHeader(props: Props) {
     const socket = io(`${process.env.NEXT_PUBLIC_SERVER_API_URL}`);
@@ -34,6 +76,8 @@ export default function ClientHeader(props: Props) {
     const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
     const router = useRouter();
     const error = useSelector((state: { client: clientStateType }) => state.client.error);
+    const [anchorElSubItems, setAnchorElSubItems] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorElSubItems);
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -89,6 +133,12 @@ export default function ClientHeader(props: Props) {
             [menu]: !prevOpenMenus[menu],
         }));
     };
+    const handleSubItemClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElSubItems(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorElSubItems(null);
+    };
 
     const logoutHandler = async () => {
         try {
@@ -112,8 +162,12 @@ export default function ClientHeader(props: Props) {
         {
             iconTitle: 'My Activity', link: '/#',
             subItems: [
-                { title: 'Ongoing', link: '/client/myActivity' },
-                { title: 'All', link: '/client/all' },
+                { title: 'Ongoing', link: '/client/myActivity/ongoing' },
+                { title: 'All', link: '/client/myActivity/all' },
+                { title: 'Goals', link: '/client/myActivity/goals' },
+                { title: 'Worksheets', link: '/client/myActivity/worksheets' },
+                { title: 'BookSlot', link: '/client/myActivity/bookSlot' },
+
             ]
         },
         {
@@ -256,23 +310,43 @@ export default function ClientHeader(props: Props) {
                                 item.subItems ? (
                                     <div key={index}>
                                         <ListItemButton
-                                            onClick={() => handleMenuToggle(item.iconTitle)}
-                                            sx={{ display: 'flex', alignItems: 'center' }} // Add custom style here
+                                            aria-controls={open ? 'demo-customized-menu' : undefined}
+                                            aria-haspopup="true"
+                                            aria-expanded={open ? 'true' : undefined}
+                                            onClick={handleSubItemClick}
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                boxShadow: 'none',  // Override elevation with boxShadow
+                                            }}
                                         >
                                             <ListItemText primary={item.iconTitle} />
                                             <ExpandMoreIcon />
                                         </ListItemButton>
-                                        <Collapse in={openMenus[item.iconTitle]} timeout="auto" unmountOnExit>
-                                            <List component="div" disablePadding>
-                                                {item.subItems.map((subItem, subIndex) => (
+
+                                        <StyledMenu
+                                            id="demo-customized-menu"
+                                            MenuListProps={{
+                                                'aria-labelledby': 'demo-customized-button',
+                                            }}
+                                            anchorEl={anchorElSubItems}
+                                            open={open}
+                                            onClose={handleClose}
+                                        >
+                                            {item.subItems.map((subItem, subIndex) => (
+                                                <>
                                                     <Link href={subItem.link} passHref key={subIndex}>
-                                                        <ListItemButton component="a" sx={{ pl: 4 }}>
+                                                        <ListItemButton component="a" sx={{ pl: 4 }} onClick={handleClose}>
                                                             <ListItemText primary={subItem.title} />
                                                         </ListItemButton>
                                                     </Link>
-                                                ))}
-                                            </List>
-                                        </Collapse>
+                                                    {item.subItems.length - 1 !== subIndex && (
+                                                        <Divider sx={{ my: 0.5 }} />
+                                                    )}
+                                                </>
+
+                                            ))}
+                                        </StyledMenu>
                                     </div>
                                 ) : (
                                     <Link href={item.link} passHref key={index}>
@@ -280,6 +354,7 @@ export default function ClientHeader(props: Props) {
                                             <ListItemText primary={item.iconTitle} />
                                         </MenuItem>
                                     </Link>
+
                                 )
                             ))}
 

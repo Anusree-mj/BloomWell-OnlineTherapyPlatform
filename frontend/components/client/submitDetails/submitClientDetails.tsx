@@ -33,13 +33,16 @@ const ClientDetailsComponent = () => {
 
     useEffect(() => {
         const clientData = JSON.parse(localStorage.getItem('clientData') || '{}');
-        const { email } = clientData
-        console.log(email,'email got')
+        const { email, questionnaire } = clientData
+        console.log(email, 'email got')
         setEmail(email);
+        if (questionnaire.length !== 0) {
+            router.push('/client/payment')
+        }
         if (Object.keys(clientData).length === 0) {
             router.push('/login')
         }
-    })
+    }, [])
 
     useEffect(() => {
         toast.error(error);
@@ -47,7 +50,7 @@ const ClientDetailsComponent = () => {
 
 
     const handleDetailSubmission = () => {
-        dispatch(saveClientDetailsAction({ email,type, age, answers, handleDetailSubmissionSuccess }))
+        dispatch(saveClientDetailsAction({ email, type, age, answers, handleDetailSubmissionSuccess }))
     }
     const handleDetailSubmissionSuccess = () => {
         router.push('/client/payment')
@@ -100,7 +103,7 @@ const ClientDetailsComponent = () => {
                             }
                         }}
                         onClick={handleDetailSubmission}
-                        >
+                    >
                         Continue</LoadingButton>
 
                 </>

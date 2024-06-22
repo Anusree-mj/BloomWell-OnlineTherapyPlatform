@@ -118,9 +118,9 @@ const getInActiveConnectionController = async (req, res) => {
 // get reviews and ratings
 const getReviewsController = async (req, res) => {
     try {
-        const therapistId = '665823f1d24d379a63c35c5b';
+        const therapistId = req.user._id;
         console.log('therapist id in active controller', therapistId)
-        const response = await therapistActivityQueries.getReviews(therapistId)
+        const response = await therapistActivityQueries.getReviews(therapistId.toString())
         if (response.status === 'ok') {
             const { status, reviews } = response
             res.status(200).json({ status, reviews });
