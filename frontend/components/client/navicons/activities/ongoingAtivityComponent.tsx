@@ -8,6 +8,7 @@ import { Box, Button, MenuItem, Select, TextField, Typography } from "@mui/mater
 import Link from "next/link";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import DoSomethingComponent from "../../../common/doSomethingComponent";
+import TableComponent from "@/components/common/tableComponent";
 
 const columnItems = [
     { field: 'no', header: 'No', width: 10 },
@@ -19,7 +20,7 @@ const columnItems = [
     { field: 'remarks', header: 'Remarks', width: 150 },
 ]
 
-const AllActivityComponent = () => {
+const OngoingActivityComponent = () => {
     const socket = io(`${process.env.NEXT_PUBLIC_SERVER_API_URL}`);
     const dispatch = useDispatch();
     const connectionDetails = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.connectionDetails);
@@ -77,62 +78,34 @@ const AllActivityComponent = () => {
     //     worksheets: 'view',
     //     remarks: activity.remarks
     // }));
+    const head = `Therapist : ${connectionDetails.therapistName}`;
+    const subHead = [
+        { name: 'Ongoing', url: 'client/myActivity/ongoing', select: true },
+        { name: 'All', url: 'client/myActivity/inActive', select: false },
+        { name: 'Goals', url: 'client/myActivity/reviews', select: false },
+        { name: 'Worksheets', url: 'client/myActivity/reviews', select: false },
+        { name: 'BookSlot', url: 'client/myActivity/reviews', select: false }
 
+    ]
     return (
         <Box sx={{
-            display: 'flex', backgroundColor: '#F7FCC2',
-            flexDirection: 'column', minHeight: '80vh',
-            alignItems: 'center', justifyContent: 'center',
+            backgroundColor: '#F7FCC2', pb: 8
         }}>
             {connectionDetails.therapistName !== '' ? (
-                <>
-                    <Box sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        width: '63rem', maxWidth: '90%',
-                    }}>
-                        <Typography sx={{
-                            color: '#325343', fontSize: '1.2rem',
-                            fontWeight: 800
-                        }}>
-                            Therapist:{` ${connectionDetails.therapistName}`}{connectionDetails.isActive ? '' : ' (Pending verification)'}
-                        </Typography>
-                        <TextField
-                            label="Search..."
-                            variant="outlined"
-                            value={search}
-                            onChange={handleSearch}
-                            sx={{ marginBottom: 2, }}
-                        />
-                    </Box>
-                    <Box
-                        sx={{
-                            height: 400,
-                            width: '90%',
-                            maxWidth: '100%',
-                            border: '1px solid green',
-                        }}
-                    >
-                        <DataGrid
-                            // rows={rows}
-                            columns={columns}
-                            initialState={{
-                                pagination: {
-                                    paginationModel: { page: 0, pageSize: 5 },
-                                },
-                            }}
-                            pageSizeOptions={[5, 10]}
-                        />
-                    </Box>
-                </>
+                <TableComponent rows={[]} columns={columns} head={head} subHead={subHead} />
 
             ) : (
-                <DoSomethingComponent
-                    content=" You haven't connected to any therapist yet!" buttonTitle="Let's Connect"
-                    url="/client/connection" />
+                <Box sx={{
+                    display: 'flex', backgroundColor: '#F7FCC2',
+                    flexDirection: 'column', minHeight: '80vh',
+                    alignItems: 'center', justifyContent: 'center',pb:8
+                }}>
+                    <DoSomethingComponent
+                        content=" You haven't connected to any therapist yet!" buttonTitle="Let's Connect"
+                        url="/client/connection" />
+                </Box>
             )}
         </Box>
     )
 }
-export default AllActivityComponent
+export default OngoingActivityComponent

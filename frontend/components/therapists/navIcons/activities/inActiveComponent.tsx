@@ -68,9 +68,12 @@ const InActiveConnectionComponent = () => {
 
     const head = 'InActive Connections';
     const subHead = [
-        { name: 'Active', url: 'therapist/activities/active', select: false },
-        { name: 'Inactive', url: 'therapist/activities/inActive', select: true },
-        { name: 'Reviews', url: 'therapist/activities/reviews', select: false }
+        { name: 'Ongoing', url: 'client/myActivity/ongoing', select: false },
+        { name: 'All', url: 'client/myActivity/inActive', select: true },
+        { name: 'Goals', url: 'client/myActivity/reviews', select: false },
+        { name: 'Worksheets', url: 'client/myActivity/reviews', select: false },
+        { name: 'BookSlot', url: 'client/myActivity/reviews', select: false }
+
     ]
     return (
         <Box sx={{
