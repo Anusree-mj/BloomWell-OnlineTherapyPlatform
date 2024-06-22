@@ -1,15 +1,23 @@
 import { generateToken } from '../../utilitis/token.js';
 import clientAuthQueries from '../../infrastructure/dbQueries/client/clientAuthQueries.js';
-import { OAuth2Client } from 'google-auth-library';
 import dotenv from 'dotenv';
 dotenv.config();
+import axios from 'axios';
 
 // google signup
 const googleSignup = async (req, res) => {
     try {
         const { profile } = req.body;
-        console.log('reached auth controller with data', profile)
-        const response = await clientAuthQueries.saveAuthData(profile);
+        console.log('profile details got in controller', profile)
+        const { data } = await axios
+            .get(`https://www.googleapis.com/oauth2/v1/userinfo`, {
+                headers: {
+                    Authorization: `Bearer ${profile.access_token}`,
+                    Accept: 'application/json'
+                }
+            })
+        console.log('data got from google', data)
+        const response = await clientAuthQueries.saveAuthData(data);
         if (response.status === 'ok') {
             const { user } = response;
             const token = generateToken(user._id)

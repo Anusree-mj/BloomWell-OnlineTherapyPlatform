@@ -3,7 +3,6 @@ import Client from "../../../entities/clients/clients.js";
 import bcrypt from 'bcryptjs';
 import User from "../../../entities/users/userModel.js";
 import Therapists from "../../../entities/therapists/therapist.js";
-import { connections } from "mongoose";
 
 
 const saveOtp = async (email, otp) => {
@@ -74,7 +73,9 @@ const saveAuthData = async (profile) => {
             console.log('data already found', checkClient)
             return { status: 'ok', user: checkClient }
         } else {
-            const user = await Client.insertMany({ name: name, email: email, password: id });
+            const hashedPassword = await bcrypt.hash(id, 10);
+
+            const user = await Client.insertMany({ name: name, email: email, password: hashedPassword });
             console.log('data being created', user)
 
             return { status: 'ok', user }

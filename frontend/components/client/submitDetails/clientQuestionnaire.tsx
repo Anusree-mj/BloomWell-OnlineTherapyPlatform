@@ -2,7 +2,6 @@
 import { useState } from "react";
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import Button from '@mui/material/Button';
 import { toast } from 'react-toastify';
@@ -23,7 +22,7 @@ const ClientQuestionnaire: React.FC<TypeComponentProps> = ({
     const [qtnIndex, setQtnIndex] = useState(0);
     const qtn = questionnaire[qtnIndex]
 
-
+   
     const handleAnswers = (answer: string | null) => {
         if (!answer) {
             toast.error('Please select an option');

@@ -32,36 +32,38 @@ const SocialLoginComponent: React.FC = () => {
     onSuccess: tokenResponse => {
       console.log("dsd", tokenResponse)
       setUser(tokenResponse as any)
+      dispatch(getSignInWithGoogleAction({ profile: tokenResponse, handleSigninWithGoogleSuccess }));
+
     }
   });
 
 
-  useEffect(() => {
-    if (user) {
-      axios
-        .get(`https://www.googleapis.com/oauth2/v1/userinfo`, {
-          headers: {
-            Authorization: `Bearer ${user.access_token}`,
-            Accept: 'application/json'
-          }
-        })
-        .then((res) => {
-          setProfile(res.data);
-          dispatch(getSignInWithGoogleAction({ profile: res.data, handleSigninWithGoogleSuccess }));
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [user]);
-  useEffect(() => {
-    console.log('profile detailsss', profile)
-  }, [profile])
+  // useEffect(() => {
+  //   if (user) {
+  //     axios
+  //       .get(`https://www.googleapis.com/oauth2/v1/userinfo`, {
+  //         headers: {
+  //           Authorization: `Bearer ${user.access_token}`,
+  //           Accept: 'application/json'
+  //         }
+  //       })
+  //       .then((res) => {
+  //         console.log('response got from google axios', res.data)
+  //         setProfile(res.data);
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  // }, [user]);
+  // useEffect(() => {
+  //   console.log('profile detailsss', profile)
+  // }, [profile])
   const handleSigninWithGoogleSuccess = () => {
     router.push('/client/details')
   }
   return (
     <Box>
       <Button sx={{
-        mt: 2, display: 'flex', alignItems: 'center',gap:1,
+        mt: 2, display: 'flex', alignItems: 'center', gap: 1,
         '&:hover': {
           boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
         }

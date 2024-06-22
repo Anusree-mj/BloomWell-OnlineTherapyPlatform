@@ -8,7 +8,6 @@ import store from "@/store";
 import ClientDetailsComponent from "@/components/client/submitDetails/submitClientDetails";
 
 const Page = () => {
-
     return (
         <Provider store={store}>
             <ToastContainer />
