@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import TempUser from '../../../entities/users/tempUsersModel.js';
 import Therapists from '../../../entities/therapists/therapist.js';
 import Notifications from '../../../entities/users/notificationModel.js'
+import Chats from '../../../entities/users/chat.js';
 
 const userDoLogin = async (email, password) => {
     try {
@@ -12,24 +13,24 @@ const userDoLogin = async (email, password) => {
             console.log('user found')
             // const matchPassword = await bcrypt.compare(password, user.password);
             // if (matchPassword) {
-                console.log('password matched')
-                if (user.role === 'client') {
-                    console.log('client found')
-                    const client = await Client.findOne({ email: email }).select('-password -createdAt -updatedAt');
-                    if (client.isBlocked) {
-                        return { status: 'nok', message: 'User is blocked' }
-                    } else {
-                        return { status: 'ok', role: 'client', client }
-                    }
+            console.log('password matched')
+            if (user.role === 'client') {
+                console.log('client found')
+                const client = await Client.findOne({ email: email }).select('-password -createdAt -updatedAt');
+                if (client.isBlocked) {
+                    return { status: 'nok', message: 'User is blocked' }
+                } else {
+                    return { status: 'ok', role: 'client', client }
                 }
-                else {
-                    console.log('therapist found')
-                    const therapist = await Therapists.findOne({ email: email }).select('-password -createdAt -updatedAt');
-                    if (therapist.isBlocked) {
-                        return { status: 'nok', message: 'User is blocked' }
-                    }
-                    return { status: 'ok', role: 'therapist', therapist }
+            }
+            else {
+                console.log('therapist found')
+                const therapist = await Therapists.findOne({ email: email }).select('-password -createdAt -updatedAt');
+                if (therapist.isBlocked) {
+                    return { status: 'nok', message: 'User is blocked' }
                 }
+                return { status: 'ok', role: 'therapist', therapist }
+            }
             // } else {
             //     return { status: 'nok', message: 'Invalid password' }
             // }
@@ -122,6 +123,26 @@ const readNotification = async (notificationId) => {
     }
 }
 
+const saveMessageData = async (messageData) => {
+    try {
+        const { recieverId, recieverRole, senderId, senderRole, message, } = messageData;
+        const save = await Chats.insertMany({
+            senderId: senderId,
+            senderType: senderRole,
+            recieverId: recieverId,
+            recieverType: recieverRole,
+            message: message,
+        })
+        if (save) {
+            console.log(save, 'data saved')
+            return { status: 'ok' }
+        }
+    } catch (err) {
+        console.log(err)
+        return { status: 'nok', message: 'Invalid request' }
+    }
+}
+
 export default {
     userDoLogin,
     checkUser,
@@ -129,4 +150,5 @@ export default {
     verifyOTPQuery,
     getNotifications,
     readNotification,
+    saveMessageData
 }

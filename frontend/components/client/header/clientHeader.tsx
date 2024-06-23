@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { io } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -71,7 +71,7 @@ const StyledMenu = styled((props: MenuProps) => (
 }));
 
 export default function ClientHeader(props: Props) {
-    const socket = io(`${process.env.NEXT_PUBLIC_SERVER_API_URL}`);
+    const socket = React.useRef<Socket | null>(null);
     const dispatch = useDispatch();
     const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
     const router = useRouter();
@@ -94,13 +94,27 @@ export default function ClientHeader(props: Props) {
     }, []);
 
     React.useEffect(() => {
-        if (clientDetails._id !== '') {
-            socket.emit('joinRoom', { userId: clientDetails._id, role: 'client' });
+        if (clientDetails._id) {
+            if (!socket.current) {
+                socket.current = io(`${process.env.NEXT_PUBLIC_SERVER_API_URL}`);
+            }
+
+            socket.current.emit('joinRoom', { userId: clientDetails._id, role: 'client' });
+
+            socket.current.on('recieve_connectionMessage', (data) => {
+                console.log('Data reached in recieve_connectionMessage:', data);
+                setAlertMessage(`New Connection from ${data}`);
+            });
+
+            return () => {
+                if (socket.current) {
+                    socket.current.off('recieve_connectionMessage');
+                    socket.current.disconnect();
+                    socket.current = null;
+                }
+            };
         }
-        return () => {
-            socket.disconnect();
-        };
-    }, [clientDetails, socket]);
+    }, [clientDetails]);
 
     React.useEffect(() => {
         if (error) {
@@ -399,9 +413,9 @@ export default function ClientHeader(props: Props) {
                     </Toolbar>
                 </Container>
             </AppBar>
-            {alertMessage && (
+            {/* {alertMessage && (
                 <AlertComponent message={alertMessage} viewURL={'/therapist/connections'} />
-            )}
+            )} */}
         </Box>
     );
 }

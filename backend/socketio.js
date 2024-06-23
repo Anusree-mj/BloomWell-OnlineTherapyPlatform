@@ -35,6 +35,18 @@ const initializeSocket = (server) => {
             }
         });
 
+        socket.on('send_chatMessage', (data) => {
+            console.log('reached send chat socket.on with data', data)
+            const { recieverId, senderId, message, time } = data
+            const receiver = users.find((e) => e.userId === recieverId);
+            const sender = users.find((e) => e.userId === senderId);
+            if (receiver && sender) {
+                console.log('found both sender and reciever', receiver, sender)
+                socket.to(receiver.socketId).emit('recieve_chatMessage', data);
+                socket.to(sender.socketId).emit('recieve_chatMessage', data)
+            }
+        })
+
         socket.on("disconnect", () => {
             userLeft(socket.id);
             // io.emit("getUsers", getUsers());

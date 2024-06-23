@@ -5,6 +5,7 @@ import {
     verifyOTP,
     getNotificationController,
     readNotificationController,
+    sendChatMessageController
 } from './userAuthController.js';
 
 const userControllers = {
@@ -14,6 +15,8 @@ const userControllers = {
     verifyOTP,
     getNotificationController,
     readNotificationController,
+    sendChatMessageController,
+    
 };
 
 export default userControllers;

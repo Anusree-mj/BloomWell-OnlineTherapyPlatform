@@ -4,11 +4,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getTherapistDetailsAction, therapistStateType } from '@/store/therapists/therapistReducers';
 import ChatComponent from '@/components/common/therapy/chatComponent';
 import TherapySidebarComponent from '../../common/therapy/sidebarComponent';
+import { clientStateType } from '@/store/clients/clientReducer';
 
 const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistId }) => {
     const dispatch = useDispatch();
     const therapist = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
     const ratings = useSelector((state: { therapist: therapistStateType }) => state.therapist.ratings) || 0;
+    const clientId = useSelector((state: { client: clientStateType }) => state.client.client._id);
 
     useEffect(() => {
         dispatch(getTherapistDetailsAction(therapistId));
@@ -31,7 +33,14 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
         image: therapist.image,
         name: therapist.name,
         recieverId: therapist._id,
+        role:'Therapists'
     }
+
+    const sender = {
+        senderId: clientId,
+        role: 'Client'
+    }
+
     return (
         <Box
             sx={{
@@ -44,7 +53,7 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
             <TherapySidebarComponent
                 AccordionItems={AccordionItems} AccordionContent={AccordionContent} rating={ratings}
                 reciever={reciever} />
-            <ChatComponent reciever={reciever} />
+            <ChatComponent reciever={reciever} sender={sender} />
         </Box>
     )
 }
