@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from "react"
-import { DateCalendar, TimePicker } from "@mui/x-date-pickers"
+import { DateCalendar, DateTimePicker, TimePicker } from "@mui/x-date-pickers"
 import dayjs, { Dayjs } from "dayjs"
 import { Box } from "@mui/system"
-import { Button, Typography } from "@mui/material"
+import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
 import { toast } from "react-toastify"
 
 const BookSlotComponent = () => {
@@ -60,68 +60,47 @@ const BookSlotComponent = () => {
                 }}>
                 Schedule your next weekly session
             </Typography>
-            <Box sx={{
-                display: 'flex', flexDirection: 'column', maxWidth: '100%',
-                width: '30rem', borderRadius: '1rem',
-                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-                alignItems: 'center', justifyContent: 'center', backgroundColor: 'white',
-                border: '1px solid green'
-            }}>
-                <Box sx={{ mt: 2, width: '90%', display: 'flex', gap: 1 }}>
-                    <Typography
-                        sx={{
-                            color: '#325343',
-                            fontSize: '1rem', fontWeight: 600,
-                        }}>
-                        Select a date
-                    </Typography>
-                    {spanText.date && (
-                        <Typography color="error" sx={{ fontSize: '0.8rem', mt: '0.14rem' }}>
-                            {spanText.date}
-                        </Typography>
-                    )}
-                </Box>
-                <DateCalendar
-                    disablePast
-                    sx={{ width: '90%' }}
-                    value={date}
-                    onChange={(newDate) => setDate(dayjs(newDate))}
-                />
-                <Box sx={{ mt: 2, width: '90%', display: 'flex', gap: 1 }}>
-                    <Typography
-                        sx={{
-                            color: '#325343',
-                            fontSize: '1rem', fontWeight: 600,
-                        }}>
-                        Select a time
-                    </Typography>
-                    {spanText.time && (
-                        <Typography color="error" sx={{ fontSize: '0.8rem', mt: '0.14rem' }}>
-                            {spanText.time}
-                        </Typography>
-                    )}
-                </Box>
-                <TimePicker
-                    views={['hours', 'minutes']}
-                    sx={{ width: '90%' }}
-                    value={time}
-                    onChange={(newTime) => setTime(dayjs(newTime))}
-                />
-                <Button
-                    onClick={handleCheckAvailability}
-                    sx={{
-                        mt: 3, mb: 3, color: 'white', backgroundColor: '#325343',
-                        display: 'block', fontWeight: 600,
-                        '&:hover': {
-                            backgroundColor: '#a6de9b',
-                            color: '#325343'
-                        }
-                    }}
-                    variant="contained"
-                >
-                    Check Availability
-                </Button>
-            </Box>
+            <div>
+                <h2>Set Recurring Slots</h2>
+                <form >
+                    <FormControl fullWidth margin="normal">
+                        <InputLabel>Frequency</InputLabel>
+                        <Select
+
+                        >
+                            <MenuItem value="DAILY">Daily</MenuItem>
+                            <MenuItem value="WEEKLY">Weekly</MenuItem>
+                            <MenuItem value="MONTHLY">Monthly</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <FormGroup>
+                        {['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'].map(day => (
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+
+                                    />
+                                }
+                                label={day}
+                                key={day}
+                            />
+                        ))}
+                    </FormGroup>
+                    <FormControl fullWidth margin="normal">
+                        <DateTimePicker
+                            label="Start Time"
+                        />
+                    </FormControl>
+                    <FormControl fullWidth margin="normal">
+                        <DateTimePicker
+                            label="End Time"
+                        />
+                    </FormControl>
+                    <Button type="submit" variant="contained" color="primary">
+                        Set Recurring Slots
+                    </Button>
+                </form>
+            </div>
         </Box>
     );
 };

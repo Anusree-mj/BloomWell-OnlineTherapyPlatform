@@ -94,19 +94,19 @@ export default function ClientHeader(props: Props) {
     }, []);
 
     React.useEffect(() => {
-        if (error) {
-            toast.error(error);
-            if (error === 'User is blocked') {
-                router.push('/login')
-            }
+        if (clientDetails._id !== '') {
+            socket.emit('joinRoom', { userId: clientDetails._id, role: 'client' });
         }
-    }, [error]);
+        return () => {
+            socket.disconnect();
+        };
+    }, [clientDetails, socket]);
 
     React.useEffect(() => {
         if (error) {
             toast.error(error);
             if (error === 'User is blocked') {
-                router.push('/login');
+                router.push('/login')
             }
         }
     }, [error]);

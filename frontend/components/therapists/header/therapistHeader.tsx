@@ -39,7 +39,7 @@ export default function TherapistHeader(props: Props) {
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
     const [alertMessage, setAlertMessage] = useState<string>('');
     const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({});
-
+    const [count, setCount] = useState(0)
     useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
         if (therapistData) {
@@ -53,21 +53,17 @@ export default function TherapistHeader(props: Props) {
         if (therapist._id !== '') {
             socket.emit('joinRoom', { userId: therapist._id, role: 'therapist' });
         }
-    }, [therapist._id])
-
-    useEffect(() => {
-        if (!socket) return;
-        console.log('Setting up event listener for recieve_connectionMessage');
         socket.on('recieve_connectionMessage', (data) => {
-            console.log('Data reached in recieve_connectionMessage:', data);
+            console.log('Data reached in recieve_connectionMessage:', data, "prevCount:", count);
+            setCount((prevCount) => prevCount + 1)
             setAlertMessage(`New Connection from ${data}`);
         });
 
         return () => {
-            console.log('Cleaning up event listener for recieve_connectionMessage');
             socket.off('recieve_connectionMessage');
+            socket.disconnect();
         };
-    }, [socket]);
+    }, [therapist._id, socket]);
 
 
 
@@ -338,7 +334,7 @@ export default function TherapistHeader(props: Props) {
                 </Container>
             </AppBar>
             {alertMessage && (
-                <AlertComponent message={alertMessage} viewURL={'/therapist/connections'} />
+                <AlertComponent message={alertMessage} viewURL={'/therapist/connections'} count={count} />
             )}
         </Box>
     );

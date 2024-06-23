@@ -9,7 +9,7 @@ import DateProvider from '@/utilities/dateProvider';
 import BookSlotComponent from '@/components/client/navicons/activities/bookSlotComponent';
 
 const Page = () => {
-    return (
+    return ( 
         <Provider store={store}>
             <DateProvider>
                 <ToastContainer />

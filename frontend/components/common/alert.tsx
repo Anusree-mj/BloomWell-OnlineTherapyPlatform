@@ -9,14 +9,15 @@ import { useRouter } from "next/navigation";
 export interface SnackbarMessageProps {
     message: string;
     viewURL: string;
+    count: number
 }
 
-const AlertComponent: React.FC<SnackbarMessageProps> = ({ message, viewURL }) => {
+const AlertComponent: React.FC<SnackbarMessageProps> = ({ message, viewURL, count }) => {
     const router = useRouter()
     const [open, setOpen] = useState(true);
     useEffect(() => {
         setOpen(true)
-    }, [message])
+    }, [count])
 
     const handleClose = () => {
         setOpen(false);

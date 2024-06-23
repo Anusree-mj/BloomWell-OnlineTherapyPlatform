@@ -48,7 +48,7 @@ export default function Login() {
             } else if (!isAnUser) {
                 router.push('/client/payment');
             } else {
-                router.push('/client/myActivity')
+                router.push('/client/myActivity/ongoing')
             }
         } else {
             const therapistData = JSON.parse(localStorage.getItem('therapistData') || '{}');

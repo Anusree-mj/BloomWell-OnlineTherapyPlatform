@@ -30,7 +30,7 @@ const postPaymentDetails = async (req, res) => {
                 }
             ],
             mode: 'subscription',
-            success_url: `${process.env.NEXT_APP_URL}/client/myActivity`,
+            success_url: `${process.env.NEXT_APP_URL}/client/myActivity/ongoing`,
             cancel_url: `${process.env.NEXT_APP_URL}/client/payment`,
             subscription_data: {
                 metadata: {

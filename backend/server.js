@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { Server } from 'socket.io';
 import { createServer } from 'http';
+import initializeSocket from './socketio.js';
 
 const __filename = fileURLToPath(import.meta.url); // Get the current file's path
 const __dirname = path.dirname(__filename);
@@ -45,33 +46,7 @@ const corsOptions = {
 
 app.options('*', cors(corsOptions));
 app.use(cors(corsOptions));
-const io = new Server(server, {
-  cors: {
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true,
-  },
-});
-
-io.on('connection', (socket) => {
-  socket.on('joinRoom', ({ userId, role }) => {
-    // console.log(`${role} user joined room with id ${userId}`)
-    socket.join(userId);
-    console.log(`Socket ${socket.id} joined room ${userId}`);
-  });
-
-  socket.on('send_Connection', (data) => {
-    const { therapistId, clientName } = data;
-    console.log('data got in send_connection', data)
-    socket.to(therapistId).emit('recieve_connectionMessage', clientName);
-  })
-
-})
+const io = initializeSocket(server)
 
 
 app.use(express.json());
