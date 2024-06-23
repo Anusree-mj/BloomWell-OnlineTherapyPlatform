@@ -43,7 +43,7 @@ const ClientSignupComponent = () => {
 
     useEffect(() => {
         if (localStorage.getItem('clientData')) {
-            router.push('/client/myActivity')
+            router.push('/client/myActivity/ongoing')
         }
     }, [])
 

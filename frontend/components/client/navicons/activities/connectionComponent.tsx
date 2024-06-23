@@ -29,7 +29,7 @@ const ConnectionComponent = () => {
         if (clientData) {
             const parsedData = JSON.parse(clientData);
             if (parsedData.isConnected) {
-                router.push('/client/myActivity')
+                router.push('/client/myActivity/ongoing')
             } else {
                 setClientId(parsedData._id);
                 setClientName(parsedData.name)
@@ -38,14 +38,16 @@ const ConnectionComponent = () => {
         } else {
             router.push('/login')
         }
-        socket.on('userConnected', (id: string) => {
-            console.log("hhhhhhhhhhhhh ggggggg", id)
-        });
     }, []);
-
-    // useEffect(() => {
-    //     socket.emit('joinRoom', { room:'test' });
-    // }, [clientId]);
+  useEffect(() => {
+        if (clientId !== '') {
+            socket.emit('joinRoom', { userId: clientId, role: 'client' });
+        }
+        return () => {
+            socket.disconnect();
+        };
+    }, [clientId, socket]);
+    
 
     const handleConnection = (therapistId: string) => {
         socket.emit('send_Connection', { clientName, therapistId })
@@ -60,11 +62,11 @@ const ConnectionComponent = () => {
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(getClientDetailsAction(clientId));
-                router.push('/client/myActivity');
+                router.push('/client/myActivity/ongoing');
             }
         })
     }
- 
+
     return (
         <Box
             sx={{
@@ -79,7 +81,7 @@ const ConnectionComponent = () => {
             <Typography
                 sx={{
                     mt: 1,
-                    color: '#325343',
+                    color: '#325343',maxWidth:'90%',
                     fontSize: '1.2rem', fontWeight: 600,
                 }}>
                 These are our top therapists,selected just for you.
