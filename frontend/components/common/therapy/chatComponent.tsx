@@ -1,27 +1,57 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Box } from '@mui/system'
 import { Avatar, TextField, Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { InputAdornment, IconButton } from '@mui/material';
 import { io } from 'socket.io-client';
 
-interface ChatProps {
+interface ChatComponentProps {
     reciever: {
         image: string;
         name: string;
         recieverId: string
-    }
+    };
+    senderId: string;
 }
 
-const ChatComponent: React.FC<ChatProps> = ({ reciever }) => {
+
+const ChatComponent: React.FC<ChatComponentProps> = ({ reciever, senderId }) => {
     const socket = io(`${process.env.NEXT_PUBLIC_SERVER_API_URL}`);
-
     const [message, setMessage] = useState('')
-    const handleSend = () => {
-        const recieverId = reciever.recieverId
-        socket.emit('send_chatMessage', { recieverId })
 
+    useEffect(() => {
+        socket.on('recieve_chatMessage', (data) => {
+            console.log('Data reached in recieve_chatMessage:', data);
+        });
+
+        return () => {
+            socket.off('recieve_connectionMessage');
+            socket.disconnect();
+        };
+    }, [senderId, socket])
+
+    const handleSend = async () => {
+        try {
+            if (message === '') {
+                return;
+            } else {
+                const messageData = {
+                    recieverId: reciever.recieverId,
+                    senderId: senderId,
+                    message: message,
+                    time: new Date(Date.now()).getHours() + ":" + new Date(Date.now()).getMinutes()
+                }
+
+                socket.emit('send_chatMessage', messageData)
+                setMessage('')
+            }
+
+
+        } catch (err) {
+            console.log(err)
+        }
     }
+
     return (
         <Box sx={{
             border: '2px solid #325343', width: '60rem', maxWidth: { xs: '95%', md: '70%' },

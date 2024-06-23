@@ -399,9 +399,9 @@ export default function ClientHeader(props: Props) {
                     </Toolbar>
                 </Container>
             </AppBar>
-            {alertMessage && (
+            {/* {alertMessage && (
                 <AlertComponent message={alertMessage} viewURL={'/therapist/connections'} />
-            )}
+            )} */}
         </Box>
     );
 }
