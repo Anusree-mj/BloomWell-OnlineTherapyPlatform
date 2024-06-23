@@ -1,32 +1,36 @@
 import mongoose from "mongoose";
 
-const notificationSchema = mongoose.Schema({
-    userId: {
+const chatSchema = mongoose.Schema({
+    senderId: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
     },
-    userType: {
+    senderType: {
         type: String,
         required: true,
         enum: ['Client', 'Therapists'],
     },
-    head: {
+    recieverId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+    },
+    recieverType: {
         type: String,
         required: true,
+        enum: ['Client', 'Therapists'],
     },
     message: {
         type: String,
-        required: true,
+        reruired: true
     },
     isRead: {
         type: Boolean,
-        default: false,
+        default: false
     }
-
 }, {
     timestamps: true
 })
 
-const Notifications = mongoose.model('Notifications', notificationSchema);
+const Chats = mongoose.model('Chats', chatSchema);
 
-export default Notifications
+export default Chats

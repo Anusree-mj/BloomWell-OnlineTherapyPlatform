@@ -34,6 +34,12 @@ const TherapistTherapyComponent: React.FC<{ clientId: string; }> = ({ clientId }
         name: clientDetails.name,
         recieverId: clientDetails._id,
         image: '',
+        role: 'Client'
+    }
+
+    const sender = {
+        senderId: clientId,
+        role: 'Therapists'
     }
     return (
         <Box
@@ -46,7 +52,7 @@ const TherapistTherapyComponent: React.FC<{ clientId: string; }> = ({ clientId }
             }}>
             <TherapySidebarComponent
                 AccordionItems={AccordionItems} AccordionContent={AccordionContent} reciever={reciever} rating={0} />
-            <ChatComponent reciever={reciever} senderId={therapistId} />
+            <ChatComponent reciever={reciever} sender={sender} />
         </Box>
     )
 }

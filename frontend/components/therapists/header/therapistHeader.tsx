@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { io } from 'socket.io-client';
+import { useState, useEffect, useRef } from 'react';
+import { Socket, io } from 'socket.io-client';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -29,7 +29,7 @@ interface Props {
 
 
 export default function TherapistHeader(props: Props) {
-    const socket = io(`${process.env.NEXT_PUBLIC_SERVER_API_URL}`);
+    const socket = useRef<Socket | null>(null);
     const dispatch = useDispatch();
     const therapist = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
     const router = useRouter();
@@ -39,7 +39,8 @@ export default function TherapistHeader(props: Props) {
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
     const [alertMessage, setAlertMessage] = useState<string>('');
     const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({});
-    const [count, setCount] = useState(0)
+    const [count, setCount] = useState(0);
+
     useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
         if (therapistData) {
@@ -47,23 +48,30 @@ export default function TherapistHeader(props: Props) {
         } else {
             router.push('/login');
         }
-    }, []);
+    }, [dispatch, router]);
 
     useEffect(() => {
-        if (therapist._id !== '') {
-            socket.emit('joinRoom', { userId: therapist._id, role: 'therapist' });
-        }
-        socket.on('recieve_connectionMessage', (data) => {
-            console.log('Data reached in recieve_connectionMessage:', data, "prevCount:", count);
-            setCount((prevCount) => prevCount + 1)
-            setAlertMessage(`New Connection from ${data}`);
-        });
+        if (therapist._id) {
+            if (!socket.current) {
+                socket.current = io(`${process.env.NEXT_PUBLIC_SERVER_API_URL}`);
+            }
+            socket.current.emit('joinRoom', { userId: therapist._id, role: 'therapist' });
 
-        return () => {
-            socket.off('recieve_connectionMessage');
-            socket.disconnect();
-        };
-    }, [therapist._id, socket]);
+            socket.current.on('recieve_connectionMessage', (data: string) => {
+                console.log('Data reached in recieve_connectionMessage:', data, "prevCount:", count);
+                setCount((prevCount) => prevCount + 1);
+                setAlertMessage(`New Connection from ${data}`);
+            });
+
+            return () => {
+                if (socket.current) {
+                    socket.current.off('recieve_connectionMessage');
+                    socket.current.disconnect();
+                    socket.current = null;
+                }
+            };
+        }
+    }, [therapist._id, count]);
 
 
 

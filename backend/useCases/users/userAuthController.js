@@ -123,11 +123,32 @@ const readNotificationController = async (req, res) => {
         console.log('Error found', err)
     }
 }
+
+const sendChatMessageController = async (req, res) => {
+    try {
+        const { messageData } = req.body;
+
+        console.log('reached in controller with messageData', messageData)
+        const response = await userAuthQueries.saveMessageData(messageData);
+        if (response.status === 'ok') {
+            const { status } = response
+            res.status(200).json({ status: status });
+        } else {
+            res.status(400).json({ status: status, message: 'something went wrong' })
+        }
+    } catch (err) {
+        console.log('Error found', err)
+    }
+}
+
+
 export {
     authUser,
     getOtpController,
     getForgotPasswordOTP,
     verifyOTP,
     getNotificationController,
-    readNotificationController
+    readNotificationController,
+    sendChatMessageController,
+    
 }

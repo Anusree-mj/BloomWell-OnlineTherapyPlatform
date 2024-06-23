@@ -1,6 +1,5 @@
 import express from 'express'
 const router = express.Router();
-import { protect } from '../../middlewares/authMiddleware.js'
 
 import controllers from '../../../useCases/index.js';
 
@@ -17,6 +16,7 @@ router.post('/forgotPassword/verifyOtp', controllers.userControllers.verifyOTP)
 router.get('/notifications/:userId', controllers.userControllers.getNotificationController);
 // read notification
 router.put('/notifications/:notificationId', controllers.userControllers.readNotificationController);
-
+// send chat message
+router.post('/chat', controllers.userControllers.sendChatMessageController)
 
 export default router;

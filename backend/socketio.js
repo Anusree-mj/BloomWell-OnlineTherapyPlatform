@@ -44,7 +44,6 @@ const initializeSocket = (server) => {
                 console.log('found both sender and reciever', receiver, sender)
                 socket.to(receiver.socketId).emit('recieve_chatMessage', data);
                 socket.to(sender.socketId).emit('recieve_chatMessage', data)
-
             }
         })
 
