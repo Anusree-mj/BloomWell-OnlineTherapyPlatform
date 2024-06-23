@@ -6,7 +6,7 @@ const chatSchema = mongoose.Schema({
         required: true,
     },
     senderType: {
-        type: String,
+        type: String, 
         required: true,
         enum: ['Client', 'Therapists'],
     },
