@@ -22,6 +22,7 @@ import {
 import {
     getOngoingActivitiesController,
     addFeedbackController,
+    getAnyClientDetailsController
 } from "./clientActivityController.js";
 
 import {
@@ -47,6 +48,7 @@ const clientControllers = {
     disconnectController,
     addFeedbackController,
     googleSignup,
+    getAnyClientDetailsController
 }
 
 export default clientControllers;

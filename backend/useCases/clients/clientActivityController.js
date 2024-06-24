@@ -39,7 +39,27 @@ const addFeedbackController = async (req, res) => {
     }
 }
 
+// get single client
+const getAnyClientDetailsController = async (req, res) => {
+    try {
+        const clientId = req.params.clientId
+        console.log('got client id sdaf', clientId)
+        const { client } = await clientActivityQueries.getAnyClientsDetailsQuery(clientId)
+        if (client) {
+            res.status(200).json({
+                status: 'ok',
+                client: client
+            });
+        }
+    } catch (err) {
+        res.status(401).json({ status: 'nok', message: err.message })
+        console.log(err)
+    }
+}
+
 export {
     getOngoingActivitiesController,
     addFeedbackController,
+    getAnyClientDetailsController,
+    
 }

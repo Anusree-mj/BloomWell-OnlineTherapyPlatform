@@ -17,23 +17,7 @@ const getClientsDetailsController = async (req, res) => {
     }
 }
 
-// get single client
-const getSingleClientDetailsController = async (req, res) => {
-    try {
-        const clientId = req.params.clientId
-        console.log('got client id sdaf', clientId)
-        const { clients } = await manageClientQueries.getSingleClientsDetailsQuery(clientId);
-        if (clients) {
-            res.status(200).json({
-                status: 'ok',
-                client: clients
-            });
-        }
-    } catch (err) {
-        res.status(401).json({ status: 'nok', message: err.message })
-        console.log(err)
-    }
-}
+
 // delet clients
 const deleteClientController = async (req, res) => {
     try {
@@ -72,6 +56,5 @@ export {
     getClientsDetailsController,
     deleteClientController,
     editClientController,
-    getSingleClientDetailsController,
     
 }

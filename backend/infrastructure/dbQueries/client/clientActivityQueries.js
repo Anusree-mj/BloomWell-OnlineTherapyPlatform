@@ -43,8 +43,21 @@ const addFeedback = async (clientId, feedback) => {
     }
 }
 
+const getAnyClientsDetailsQuery = async (clientId) => {
+    try {
+        console.log('reached query in get single')
+        const client = await Client.findOne({ _id: clientId }).select('-password')
+        console.log('passed client', client)
+        return { client }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+
 export default {
     getOngoingActivityDetails,
     addFeedback,
-
+    getAnyClientsDetailsQuery,
 }

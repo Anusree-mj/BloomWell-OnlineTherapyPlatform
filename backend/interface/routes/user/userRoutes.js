@@ -18,5 +18,7 @@ router.get('/notifications/:userId', controllers.userControllers.getNotification
 router.put('/notifications/:notificationId', controllers.userControllers.readNotificationController);
 // send chat message
 router.post('/chat', controllers.userControllers.sendChatMessageController)
+router.get('/chat/:senderId/:recieverId', controllers.userControllers.getChatController);
+
 
 export default router;

@@ -22,7 +22,7 @@ router.put('/profile/changePassword', protect('client'), controllers.clientContr
 // add feedback
 router.post('/feedback', protect('client'), controllers.clientControllers.addFeedbackController)
 
-
+router.get('/viewAny/:clientId',controllers.clientControllers.getAnyClientDetailsController)
 
 
 export default router;

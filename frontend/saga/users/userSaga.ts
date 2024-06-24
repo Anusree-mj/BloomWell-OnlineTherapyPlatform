@@ -5,7 +5,10 @@ import {
     getLoginSuccessAction,
     getNotificationsAction,
     getNotificationsFailureAction,
-    getNotificationsSuccessAction
+    getNotificationsSuccessAction,
+    getChatAction,
+    getChatFailureAction,
+    getChatSuccessAction
 } from '../../store/user/userReducer'
 import { apiCall } from '@/services/api';
 
@@ -64,9 +67,35 @@ function* getNotificationsActionSaga(action: {
     }
 }
 
+// get chat
+function* getChatActionSaga(action: {
+    type: string;
+    payload: { recieverId: string; senderId: string }
+}): any {
+    try {
+        console.log('data in getChat saga payload receiverId', action.payload.recieverId);
+        console.log('data in getChat saga payload senderId', action.payload.senderId);
+
+        const response = yield call<any>(apiCall, {
+            method: 'GET',
+            endpoint: `users/chat/${action.payload.senderId}/${action.payload.recieverId}`,
+        });
+
+        if (response.status === 'ok') {
+            yield put(getChatSuccessAction(response.chats));
+        } else {
+            yield put(getChatFailureAction(response.message));
+        }
+    } catch (err) {
+        yield put(getChatFailureAction(err));
+    }
+}
+
+
 
 export function* userWatcher() {
     yield takeEvery(getLoginAction, getLoginActionSaga);
     yield takeEvery(getNotificationsAction, getNotificationsActionSaga);
+    yield takeEvery(getChatAction, getChatActionSaga);
 
 }

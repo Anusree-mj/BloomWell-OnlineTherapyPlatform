@@ -12,6 +12,16 @@ export interface NotificationItem {
     createdAt: string;
 }
 
+export interface ChatItem {
+    _id: string;
+    senderId: string;
+    senderType: string;
+    recieverId: string;
+    recieverType: string;
+    message: string;
+    isRead: boolean;
+    createdAt: string
+}
 
 
 

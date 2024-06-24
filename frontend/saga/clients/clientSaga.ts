@@ -10,6 +10,9 @@ import {
     getClientDetailsFailureAction,
     getClientDetailsSuccessAction,
     getSignInWithGoogleAction,
+    getAnyClientDetailsAction,
+    getAnyClientDetailsFailureAction,
+    getAnyClientDetailsSuccessAction
 
 } from '@/store/clients/clientReducer';
 import { apiCall } from '@/services/api';
@@ -110,10 +113,34 @@ function* getSignInWithGoogleActionSaga(action: {
     }
 }
 
+// get clietn details
+function* getAnyClientDetailsActionSaga(action: {
+    type: string;
+    payload: { clientId: '' }
+}): any {
+    try {
+        console.log('clientid got in saga',action.payload)
+        const response = yield call<any>(apiCall, {
+            method: 'GET',
+            endpoint: `client/viewAny/${action.payload.clientId}`,
+        });
+
+        if (response.status === 'ok') {
+            yield put(getAnyClientDetailsSuccessAction(response.client))
+            console.log('connection details', response.client)
+        } else {
+            yield put(getAnyClientDetailsFailureAction(response.message))
+        }
+    } catch (err) {
+        yield put(getAnyClientDetailsFailureAction(err))
+    }
+}
+
 export function* clientAuthWatcher() {
     yield takeEvery(getClientSignUpAction, getClientSignUpActionSaga);
     yield takeEvery(saveClientDetailsAction, saveclientDetailsActionSaga);
     yield takeEvery(getClientDetailsAction, getClientDetailsActionSaga);
     yield takeEvery(getSignInWithGoogleAction, getSignInWithGoogleActionSaga);
+    yield takeEvery(getAnyClientDetailsAction, getAnyClientDetailsActionSaga);
 
 }

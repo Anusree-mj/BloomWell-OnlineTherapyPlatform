@@ -6,8 +6,6 @@ import adminControllers from '../../../useCases/admin/index.js';
 
 // get client details
 router.get('/view', protectAdmin, controllers.adminControllers.getClientsDetailsController);
-// get single client
-router.get('/view/:clientId', protectAdmin, controllers.adminControllers.getSingleClientDetailsController);
 // delete client
 router.delete('/:clientId', protectAdmin, controllers.adminControllers.deleteClientController);
 

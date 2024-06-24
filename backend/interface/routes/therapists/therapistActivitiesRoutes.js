@@ -24,6 +24,5 @@ router.get('/reviews', protect('therapist'), controllers.therapistControllers.ge
 
 
 
-
 export default router;
 

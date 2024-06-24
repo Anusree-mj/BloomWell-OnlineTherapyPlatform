@@ -3,7 +3,6 @@ import {
     getClientsDetailsController,
     deleteClientController,
     editClientController,
-    getSingleClientDetailsController,
 
 } from './clientManagement/manageClientController.js'
 
@@ -44,7 +43,6 @@ const adminControllers = {
     manageConnectionRequestController,
     getRejectedTherapistController,
     postRejectedReasonController,
-    getSingleClientDetailsController,
     getTherapistsWhoQuitController,
     getFeedbackControllers,
     getDashboardDetailsControllers,
