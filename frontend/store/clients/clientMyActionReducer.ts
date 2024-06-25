@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ClientOngoingActivityItem } from "./type";
+import { ClientOngoingActivityItem, BookedSlotsItems } from "./type";
 
 export interface clientMyActivityStateType {
     connectionDetails: {
@@ -10,6 +10,7 @@ export interface clientMyActivityStateType {
     slots: string[];
     availableFrom: string;
     availableTo: string;
+    bookedSlot: BookedSlotsItems;
     isLoading: boolean;
     error: any;
 }
@@ -24,7 +25,14 @@ const initialState: clientMyActivityStateType = {
     error: null,
     slots: [],
     availableFrom: "",
-    availableTo: ""
+    availableTo: "",
+    bookedSlot: {
+        therapistId: "",
+        date: "",
+        time: "",
+        verificationStatus: "",
+        status: ""
+    }
 }
 
 export const clientMyActivitySlice: any = createSlice({
@@ -64,6 +72,20 @@ export const clientMyActivitySlice: any = createSlice({
             console.log('eror found', state.error)
         },
 
+        // get booked slots details
+        getBookedSlotsDetailsAction: (state) => {
+            state.isLoading = true;
+        },
+        getBookedSlotsDetailsSuccessAction: (state, action) => {
+            state.isLoading = false;
+            state.bookedSlot = action.payload;
+            console.log('slots got in reducer', state.bookedSlot)
+        },
+        getBookedSlotsDetailsFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found', state.error)
+        },
     }
 })
 export const {
@@ -73,6 +95,10 @@ export const {
 
     getAvailableSlotsAction,
     getAvailableSlotsFailureAction,
-    getAvailableSlotsSuccessAction
+    getAvailableSlotsSuccessAction,
+
+    getBookedSlotsDetailsAction,
+    getBookedSlotsDetailsFailureAction,
+    getBookedSlotsDetailsSuccessAction,
 
 } = clientMyActivitySlice.actions;

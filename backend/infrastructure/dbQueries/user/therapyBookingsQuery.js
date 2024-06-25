@@ -58,11 +58,26 @@ const postClientSlotBooking = async (clientId, therapistId, date, time) => {
             time: time,
         })
         if (addSlot) {
-            await Client.findByIdAndUpdate(clientId, { isActiveSlots: true });
+            const addedSlotId = addSlot[0]._id
+            await Client.findByIdAndUpdate(clientId, { isActiveSlots: true, activeSlotId: addedSlotId });
             console.log('added slotss', addSlot)
-            return { status: 'ok' }
+            return { status: 'ok', addedSlotId }
         } else {
             return { status: 'nok' }
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const getActiveSlotDetails = async (slotId) => {
+    try {
+        const slotDetails = await Bookings.findById(slotId)
+        if (slotDetails) {
+            console.log('slot found:', slotDetails)
+            return { status: 'ok', slotDetails }
+        } else {
+            return { status: 'nok', message: 'Slot not found' }
         }
     } catch (err) {
         console.log(err)
@@ -72,5 +87,5 @@ export default {
     addTherapistAvailability,
     getAvailableSlots,
     postClientSlotBooking,
-
+    getActiveSlotDetails,
 }

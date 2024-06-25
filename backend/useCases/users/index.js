@@ -14,6 +14,8 @@ import {
     addAvailabileSlotsController,
     getAvailableSlotsController,
     postBookedSlotController,
+    getActiveSlotController,
+
 
 } from './slotManaginController.js';
 
@@ -29,10 +31,10 @@ const userControllers = {
     addAvailabileSlotsController,
     getAvailableSlotsController,
     postBookedSlotController,
+    getActiveSlotController,
 
 
 
-    
 };
 
 export default userControllers;

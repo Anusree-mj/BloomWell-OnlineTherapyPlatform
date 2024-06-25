@@ -45,19 +45,37 @@ const postBookedSlotController = async (req, res) => {
         console.log('reached availability post controller with id:', therapistId, 'with datae:', date, 'time:', time)
         const response = await therapyBookingsQuery.postClientSlotBooking(clientId, therapistId, date, time)
         if (response.status === 'ok') {
-            res.status(200).json({ status: 'ok' });
+            const { addedSlotId } = response
+            res.status(200).json({ addedSlotId });
         } else {
-            res.status(400).json({ status: 'nok', message: 'Something went wrong' });
+            res.status(400).json({ message: 'Something went wrong' });
         }
     } catch (err) {
         console.log(err)
     }
+}
 
+const getActiveSlotController = async (req, res) => {
+    try {
+        const activeSlotId = req.params.activeSlotId;
+        console.log('reached availability data activeslotId:', activeSlotId)
+        const response = await therapyBookingsQuery.getActiveSlotDetails(activeSlotId)
+        if (response.status === 'ok') {
+            const { status, slotDetails } = response
+            res.status(200).json({ status, slotDetails });
+        } else {
+            const { status, message } = response
+            res.status(400).json({ status, message });
+        }
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 export {
     addAvailabileSlotsController,
     getAvailableSlotsController,
     postBookedSlotController,
-    
+    getActiveSlotController,
+
 }

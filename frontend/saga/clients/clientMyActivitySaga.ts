@@ -5,7 +5,10 @@ import {
     getClientOngoingActivitySuccessAction,
     getAvailableSlotsAction,
     getAvailableSlotsFailureAction,
-    getAvailableSlotsSuccessAction
+    getAvailableSlotsSuccessAction,
+    getBookedSlotsDetailsAction,
+    getBookedSlotsDetailsFailureAction,
+    getBookedSlotsDetailsSuccessAction
 
 } from '@/store/clients/clientMyActionReducer';
 import { apiCall } from '@/services/api';
@@ -64,10 +67,33 @@ function* getAvailableSlotsActionSaga(action: {
     }
 }
 
-
+// get booked slot
+function* getBookedSlotsDetailsActionSaga(action: {
+    type: string;
+    payload: {
+        activeSlotId: ''
+    }
+}): any {
+    try {
+        console.log('data recieved in saga', action.payload)
+        const response = yield call<any>(apiCall, {
+            method: 'GET',
+            endpoint: `client/slots/active/${action.payload}`,
+        });
+        if (response.status === 'ok') {
+            console.log('slots got in slots saga', response.slotDetails)
+            yield put(getBookedSlotsDetailsSuccessAction(response.slotDetails))
+        } else {
+            yield put(getBookedSlotsDetailsFailureAction(response.message))
+        }
+    } catch (err) {
+        yield put(getBookedSlotsDetailsFailureAction(err))
+    }
+}
 
 export function* clientMyActionWatcher() {
     yield takeEvery(getClientOngoingActivityAction, getClientOngoingActivityActionSaga);
     yield takeEvery(getAvailableSlotsAction, getAvailableSlotsActionSaga);
+    yield takeEvery(getBookedSlotsDetailsAction, getBookedSlotsDetailsActionSaga);
 
 }

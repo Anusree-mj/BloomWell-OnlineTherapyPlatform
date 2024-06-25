@@ -159,6 +159,7 @@ const getClientDataQuery = async (clientId) => {
                         isSubscribed: 1,
                         isBlocked: 1,
                         isActiveSlots: 1,
+                        activeSlotId:1,
                         connectionDetails: {
                             _id: 1,
                             isActive: 1,

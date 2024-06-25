@@ -27,6 +27,6 @@ router.post('/feedback', protect('client'), controllers.clientControllers.addFee
 // slots
 router.get('/slots/:therapistId', protect('client'), controllers.userControllers.getAvailableSlotsController)
 router.post('/slots/:therapistId', protect('client'), controllers.userControllers.postBookedSlotController)
-
+router.get('/slots/active/:activeSlotId', protect('client'), controllers.userControllers.getActiveSlotController)
 
 export default router;

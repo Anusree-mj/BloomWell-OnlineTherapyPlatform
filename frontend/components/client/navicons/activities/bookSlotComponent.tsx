@@ -5,30 +5,37 @@ import { Box } from "@mui/system";
 import { Button, Divider, Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { getAvailableSlotsAction, clientMyActivityStateType } from "@/store/clients/clientMyActionReducer";
+import {
+    getAvailableSlotsAction, clientMyActivityStateType,
+    getBookedSlotsDetailsAction
+} from "@/store/clients/clientMyActionReducer";
 import axios from "axios";
 import CancelComponent from "./cancelComponent";
 
 const BookSlotComponent = () => {
     const [date, setDate] = useState<Dayjs | null>(null);
     const [time, setTime] = useState<Dayjs | null>(null);
+    const [availableDates, setAvailableDates] = useState<Dayjs[]>([]);
     const [therapistId, setTherapistId] = useState('')
-    const [isActiveSlot, setIsActiveSlot] = useState(true);
+    const [isActiveSlot, setIsActiveSlot] = useState(false);
+
     const dispatch = useDispatch();
     const slots = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.slots);
     const availableFrom = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.availableFrom);
     const availableTo = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.availableTo);
-    const [availableDates, setAvailableDates] = useState<Dayjs[]>([]);
 
     useEffect(() => {
         const clientData = localStorage.getItem('clientData');
         if (clientData) {
             const parsedData = JSON.parse(clientData);
+            if (parsedData.isActiveSlots) {
+                setIsActiveSlot(true);
+            } else {
             setTherapistId(parsedData.therapistDetails._id)
             dispatch(getAvailableSlotsAction(parsedData.therapistDetails._id));
+            }
         }
     }, [dispatch]);
-
     useEffect(() => {
         if (slots && slots.length > 0) {
             const filteredSlots = slots
@@ -52,7 +59,9 @@ const BookSlotComponent = () => {
                     { withCredentials: true, }
                 );
                 if (response.status === 200) {
-                    toast.success('Successfully booked slot!');
+                    const { addedSlotId } = response.data
+                    dispatch(getBookedSlotsDetailsAction(addedSlotId))
+                    setIsActiveSlot(true)
                 }
             }
         } catch (err) {
