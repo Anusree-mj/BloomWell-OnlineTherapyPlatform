@@ -25,11 +25,7 @@ import {
     getInActiveConnectionController,
     getReviewsController
 } from "./therapistActivitiesController.js"
-import {
-    addAvailabilityController,
-    getAvailableSlotsController,
 
-} from "./therapistSlotManaginController.js"
 
 const therapistControllers = {
     therapistsSignUp,
@@ -50,9 +46,7 @@ const therapistControllers = {
     getInActiveConnectionController,
     doQuitController,
     getReviewsController,
-    addAvailabilityController,
-    getAvailableSlotsController,
-
+   
 
 
 

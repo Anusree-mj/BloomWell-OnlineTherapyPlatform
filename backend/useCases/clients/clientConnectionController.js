@@ -23,15 +23,15 @@ const postConnectionController = async (req, res) => {
         // console.log('reached in controller')
         const clientId = req.user._id
         const { therapistId } = req.body;
-        // const response = await clientConnectionQueries.postConnection(clientId, therapistId)
-        // if (response.status === 'ok') {
-        //     const { status, therapistName } = response
-        //     console.log('therapistname found', therapistName)
-        //     res.status(200).json({ status: status, therapistName: therapistName });
-        // } else {
-        //     const { status, message } = response
-        //     res.status(400).json({ status: status, message: message });
-        // }
+        const response = await clientConnectionQueries.postConnection(clientId, therapistId)
+        if (response.status === 'ok') {
+            const { status, therapistName } = response
+            console.log('therapistname found', therapistName)
+            res.status(200).json({ status: status, therapistName: therapistName });
+        } else {
+            const { status, message } = response
+            res.status(400).json({ status: status, message: message });
+        }
     } catch (err) {
         console.log('Error found', err)
     }

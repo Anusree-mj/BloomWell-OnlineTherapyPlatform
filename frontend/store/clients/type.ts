@@ -41,3 +41,10 @@ export interface ClientOngoingActivityItem {
 
 }
 
+export interface BookedSlotsItems {
+    therapistId: string,
+    date: string,
+    time: string,
+    verificationStatus: string,
+    status: string,
+}

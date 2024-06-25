@@ -10,6 +10,15 @@ import {
 
 } from './userAuthController.js';
 
+import {
+    addAvailabileSlotsController,
+    getAvailableSlotsController,
+    postBookedSlotController,
+    getActiveSlotController,
+
+
+} from './slotManaginController.js';
+
 const userControllers = {
     authUser,
     getOtpController,
@@ -18,7 +27,14 @@ const userControllers = {
     getNotificationController,
     readNotificationController,
     sendChatMessageController,
-    getChatController
+    getChatController,
+    addAvailabileSlotsController,
+    getAvailableSlotsController,
+    postBookedSlotController,
+    getActiveSlotController,
+
+
+
 };
 
 export default userControllers;

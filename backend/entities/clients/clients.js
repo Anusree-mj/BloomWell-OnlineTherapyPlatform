@@ -70,6 +70,14 @@ const clientSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isActiveSlots: {
+        type: Boolean,
+        default: false,
+    },
+    activeSlotId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Bookings',
+    },
 }, {
     timestamps: true
 })

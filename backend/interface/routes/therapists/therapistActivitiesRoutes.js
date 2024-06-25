@@ -19,7 +19,7 @@ router.put('/quit', protect('therapist'), controllers.therapistControllers.doQui
 // get reviews and ratings
 router.get('/reviews', protect('therapist'), controllers.therapistControllers.getReviewsController)
 // therapist available slot management
-router.post('/addAvailability', protect('therapist'), controllers.therapistControllers.addAvailabilityController)
+router.post('/addAvailability', protect('therapist'), controllers.userControllers.addAvailabileSlotsController)
 
 
 export default router;

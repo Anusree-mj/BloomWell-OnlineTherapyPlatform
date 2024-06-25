@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ClientOngoingActivityItem } from "./type";
+import { ClientOngoingActivityItem, BookedSlotsItems } from "./type";
 
 export interface clientMyActivityStateType {
     connectionDetails: {
@@ -8,6 +8,9 @@ export interface clientMyActivityStateType {
     };
     ongoingActivity: ClientOngoingActivityItem[];
     slots: string[];
+    availableFrom: string;
+    availableTo: string;
+    bookedSlot: BookedSlotsItems;
     isLoading: boolean;
     error: any;
 }
@@ -20,7 +23,16 @@ const initialState: clientMyActivityStateType = {
     ongoingActivity: [],
     isLoading: false,
     error: null,
-    slots: []
+    slots: [],
+    availableFrom: "",
+    availableTo: "",
+    bookedSlot: {
+        therapistId: "",
+        date: "",
+        time: "",
+        verificationStatus: "",
+        status: ""
+    }
 }
 
 export const clientMyActivitySlice: any = createSlice({
@@ -47,8 +59,12 @@ export const clientMyActivitySlice: any = createSlice({
         },
         getAvailableSlotsSuccessAction: (state, action) => {
             state.isLoading = false;
-            state.slots = action.payload;
-            console.log('slots got in reducer', state.slots)
+            state.slots = action.payload.slots;
+            state.availableFrom = action.payload.availableFrom;
+            state.availableTo = action.payload.availableTo;
+            console.log('slots got in reducer', state.slots,
+                'availableFrom:', state.availableFrom, 'available to:', state.availableTo
+            )
         },
         getAvailableSlotsFailureAction: (state, action) => {
             state.isLoading = false;
@@ -56,6 +72,20 @@ export const clientMyActivitySlice: any = createSlice({
             console.log('eror found', state.error)
         },
 
+        // get booked slots details
+        getBookedSlotsDetailsAction: (state) => {
+            state.isLoading = true;
+        },
+        getBookedSlotsDetailsSuccessAction: (state, action) => {
+            state.isLoading = false;
+            state.bookedSlot = action.payload;
+            console.log('slots got in reducer', state.bookedSlot)
+        },
+        getBookedSlotsDetailsFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found', state.error)
+        },
     }
 })
 export const {
@@ -65,6 +95,10 @@ export const {
 
     getAvailableSlotsAction,
     getAvailableSlotsFailureAction,
-    getAvailableSlotsSuccessAction
+    getAvailableSlotsSuccessAction,
+
+    getBookedSlotsDetailsAction,
+    getBookedSlotsDetailsFailureAction,
+    getBookedSlotsDetailsSuccessAction,
 
 } = clientMyActivitySlice.actions;

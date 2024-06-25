@@ -76,6 +76,12 @@ const therapistSchema = mongoose.Schema({
     },
     availability: {
         type: String,
+    },
+    availableTimeFrom: {
+        type: String
+    },
+    availableTimeTo: {
+        type: String
     }
 }, {
     timestamps: true
