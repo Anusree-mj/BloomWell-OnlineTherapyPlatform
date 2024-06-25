@@ -97,6 +97,21 @@ export const clientSlice: any = createSlice({
         getSignInWithGoogleAction: (state) => {
             state.isLoading = true;
         },
+
+        // get any clientdetails
+        getAnyClientDetailsAction: (state) => {
+            state.isLoading = true;
+        },
+        getAnyClientDetailsSuccessAction: (state, action) => {
+            state.isLoading = false;
+            console.log('client details:', action.payload)
+            state.client = action.payload;
+        },
+        getAnyClientDetailsFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found', state.error)
+        },
     }
 })
 export const {
@@ -110,4 +125,8 @@ export const {
     getClientDetailsFailureAction,
     getClientDetailsSuccessAction,
     getSignInWithGoogleAction,
+
+    getAnyClientDetailsAction,
+    getAnyClientDetailsFailureAction,
+    getAnyClientDetailsSuccessAction
 } = clientSlice.actions;

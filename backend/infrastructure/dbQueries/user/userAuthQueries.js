@@ -125,7 +125,10 @@ const readNotification = async (notificationId) => {
 
 const saveMessageData = async (messageData) => {
     try {
-        const { recieverId, recieverRole, senderId, senderRole, message, } = messageData;
+        const { reciever:
+            { recieverId, role: recieverRole },
+            sender: { senderId, role: senderRole }, message } = messageData;
+
         const save = await Chats.insertMany({
             senderId: senderId,
             senderType: senderRole,
@@ -143,6 +146,28 @@ const saveMessageData = async (messageData) => {
     }
 }
 
+const getChats = async (senderId, recieverId) => {
+    try {
+        const chats = await Chats.find({ 
+            $or: [
+                { senderId: senderId, recieverId: recieverId },
+                { senderId: recieverId, recieverId: senderId }
+            ]
+        })
+            .populate('senderId', '_id')
+            .populate('recieverId', '_id')
+        if (chats) {
+            console.log('chats found ', chats)
+            return { status: 'ok', chats }
+        } else {
+            return { status: 'nok', message: 'Invalid request' }
+        }
+    } catch (err) {
+        console.log(err)
+        return { status: 'nok', message: 'Invalid request' }
+    }
+}
+
 export default {
     userDoLogin,
     checkUser,
@@ -150,5 +175,6 @@ export default {
     verifyOTPQuery,
     getNotifications,
     readNotification,
-    saveMessageData
+    saveMessageData,
+    getChats,
 }

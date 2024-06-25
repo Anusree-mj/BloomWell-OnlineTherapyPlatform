@@ -11,18 +11,6 @@ const getClientsDetailsQuery = async () => {
     }
 }
 
-const getSingleClientsDetailsQuery = async (clientId) => {
-    try {
-        console.log('reached query in get single')
-        const clients = await Client.findOne({ _id: clientId }).select('-password').sort({ createdAt: -1 });
-        console.log('passed clients', clients)
-        return { clients }
-    }
-    catch (err) {
-        console.log(err)
-    }
-}
-
 const deleteClientQuery = async (clientId) => {
     try {
         const client = await Client.findByIdAndUpdate(clientId, { isBlocked: true });
@@ -45,9 +33,9 @@ const editClientQuery = async (clientId) => {
     }
 }
 
+
 export default {
     getClientsDetailsQuery,
     deleteClientQuery,
     editClientQuery,
-    getSingleClientsDetailsQuery,
 }

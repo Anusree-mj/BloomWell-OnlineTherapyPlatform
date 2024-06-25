@@ -5,12 +5,14 @@ import { getTherapistDetailsAction, therapistStateType } from '@/store/therapist
 import ChatComponent from '@/components/common/therapy/chatComponent';
 import TherapySidebarComponent from '../../common/therapy/sidebarComponent';
 import { clientStateType } from '@/store/clients/clientReducer';
+import { getChatAction, userStateType } from '@/store/user/userReducer';
 
 const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistId }) => {
     const dispatch = useDispatch();
     const therapist = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
     const ratings = useSelector((state: { therapist: therapistStateType }) => state.therapist.ratings) || 0;
     const clientId = useSelector((state: { client: clientStateType }) => state.client.client._id);
+    const chats = useSelector((state: { user: userStateType }) => state.user.chats);
 
     useEffect(() => {
         dispatch(getTherapistDetailsAction(therapistId));
@@ -29,31 +31,42 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
         { content: ['No goals yet'] },
         { content: ['No worksheets yet'] }
     ]
-    const reciever = {
-        image: therapist.image,
-        name: therapist.name,
-        recieverId: therapist._id,
-        role:'Therapists'
-    }
+    // const reciever = {
+    //     image: therapist.image,
+    //     name: therapist.name,
+    //     recieverId: therapist._id,
+    //     role: 'Therapists'
+    // }
 
-    const sender = {
-        senderId: clientId,
-        role: 'Client'
+    // const sender = {
+    //     senderId: clientId,
+    //     role: 'Client'
+    // }
+    const messageData = {
+        reciever: {
+            image: therapist.image,
+            name: therapist.name,
+            recieverId: therapist._id,
+            role: 'Therapists'
+        },
+        sender: {
+            senderId: clientId,
+            role: 'Client'
+        }
     }
-
     return (
         <Box
             sx={{
-                backgroundColor: '#F7FCC2', p: '1rem 0 4rem 0',
-                display: 'flex', flexWrap: 'wrap-reverse',
+                backgroundColor: '#F7FCC2',  pb:'4rem',
+                display: 'flex', flexWrap: 'wrap-reverse', gap: 3,
                 justifyContent: { md: 'space-between', xs: 'center' },
                 alignItems: 'center',
                 minHeight: '90vh',
             }}>
             <TherapySidebarComponent
                 AccordionItems={AccordionItems} AccordionContent={AccordionContent} rating={ratings}
-                reciever={reciever} />
-            <ChatComponent reciever={reciever} sender={sender} />
+                reciever={messageData.reciever} />
+            <ChatComponent messageData={messageData} />
         </Box>
     )
 }

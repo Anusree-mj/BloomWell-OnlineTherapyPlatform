@@ -91,21 +91,6 @@ export const adminSlice: any = createSlice({
             state.error = action.payload;
             console.log('eror found', state.error)
         },
-        // get single client
-        getSingleClientsDetailsAction: (state) => {
-            console.log('entered in get client details action')
-            state.isLoading = true;
-        },
-        getSingleClientsDetailsSuccessAction: (state, action) => {
-            state.isLoading = false;
-            state.client = action.payload;
-            console.log('clients got in single client action', state.clients)
-        },
-        getSingleClientsDetailsFailureAction: (state, action) => {
-            state.isLoading = false;
-            state.error = action.payload;
-            console.log('eror found', state.error)
-        },
 
         // get therapists details
         getTherapistsDetailsAction: (state) => {
@@ -169,9 +154,6 @@ export const {
     getRejectedTherapistsDetailsAction,
     getRejectedTherapistsDetailsFailureAction,
     getRejectedTherapistsDetailsSuccessAction,
-    getSingleClientsDetailsAction,
-    getSingleClientsDetailsFailureAction,
-    getSingleClientsDetailsSuccessAction,
     getTherapistsWhoQuitAction,
     getTherapistsWhoQuitFailureAction,
     getTherapistsWhoQuitSuccessAction,

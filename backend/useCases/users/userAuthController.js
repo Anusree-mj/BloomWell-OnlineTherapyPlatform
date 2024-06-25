@@ -134,7 +134,26 @@ const sendChatMessageController = async (req, res) => {
             const { status } = response
             res.status(200).json({ status: status });
         } else {
-            res.status(400).json({ status: status, message: 'something went wrong' })
+            res.status(400).json({ status: 'nok', message: 'something went wrong' })
+        }
+    } catch (err) {
+        console.log('Error found', err)
+    }
+}
+
+const getChatController = async (req, res) => {
+    try {
+        const senderId = req.params.senderId;
+        const recieverId = req.params.recieverId;
+
+        console.log('reached in controller with ids', senderId, recieverId)
+        const response = await userAuthQueries.getChats(senderId, recieverId);
+        if (response.status === 'ok') {
+            const { status, chats } = response
+            res.status(200).json({ status, chats });
+        } else {
+            const { status, message } = response
+            res.status(400).json({ status, message })
         }
     } catch (err) {
         console.log('Error found', err)
@@ -150,5 +169,6 @@ export {
     getNotificationController,
     readNotificationController,
     sendChatMessageController,
+    getChatController,
     
 }

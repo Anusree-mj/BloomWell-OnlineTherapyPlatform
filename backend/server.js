@@ -28,7 +28,7 @@ import therapistProfileRoutes from './interface/routes/therapists/therapistProfi
 import clientConnectionRoutes from './interface/routes/clients/clientAcctivitiesRoutes.js'
 import clientPaymentRoutes from './interface/routes/clients/paymentRoutes.js'
 import webhookRoutes from './interface/routes/clients/webhook.js'
-import therapistAccessRoutes from './interface/routes/therapists/therapistActivitiesRoutes.js'
+import therapistActivitiesRoutes from './interface/routes/therapists/therapistActivitiesRoutes.js'
 
 const app = express();
 const server = createServer(app);
@@ -58,7 +58,7 @@ app.use('/users', userRoutes)
 app.use('/admin', adminRoutes);
 app.use('/client', clientRoutes, clientPaymentRoutes, clientConnectionRoutes);
 app.use('/admin/clients', adminClientRoutes);
-app.use('/therapist', therapistRoutes, therapistAccessRoutes, therapistProfileRoutes)
+app.use('/therapist', therapistRoutes, therapistActivitiesRoutes, therapistProfileRoutes)
 app.use('/admin/therapists', adminTherapistRoutes)
 
 

@@ -1,19 +1,27 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Box, Typography } from "@mui/material";
-import { getSingleClientsDetailsAction, adminStateType } from "@/store/admin/adminReducer";
 import MedicalInfoComponent from "@/components/client/profile/details/medicalInfoComponent";
+import { useRouter } from "next/navigation";
+import { getAnyClientDetailsAction,clientStateType } from "@/store/clients/clientReducer";
 
 const ClientMedicalInfoViewComponent: React.FC<{ clientId: string; }> = ({ clientId }) => {
     const dispatch = useDispatch()
-    const clientDetails = useSelector((state: { admin: adminStateType }) => state.admin.client);
+    const router = useRouter()
+    const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
     const [medicalInfoItems, setMedicalInfoItems] = useState({
         sessionType: '',
         questionnaire: []
     })
 
     useEffect(() => {
-        dispatch(getSingleClientsDetailsAction({ clientId }));
+        console.log('clientid is ',clientId)
+        const adminData = localStorage.getItem("adminData");
+        const therapistData = localStorage.getItem('therapistData');
+        if (!adminData || !therapistData) {
+            router.push('/login')
+        }
+        dispatch(getAnyClientDetailsAction({ clientId }));
     }, []);
     useEffect(() => {
         setMedicalInfoItems({

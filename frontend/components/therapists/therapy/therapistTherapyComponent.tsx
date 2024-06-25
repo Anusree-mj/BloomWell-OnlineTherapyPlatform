@@ -3,8 +3,9 @@ import { Box, } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import ChatComponent from '@/components/common/therapy/chatComponent';
 import TherapySidebarComponent from '../../common/therapy/sidebarComponent';
-import { clientStateType, getClientDetailsAction } from '@/store/clients/clientReducer';
+import { getAnyClientDetailsAction, clientStateType } from "@/store/clients/clientReducer";
 import { therapistStateType } from '@/store/therapists/therapistReducers';
+import { getChatAction } from '@/store/user/userReducer';
 
 const TherapistTherapyComponent: React.FC<{ clientId: string; }> = ({ clientId }) => {
     const dispatch = useDispatch();
@@ -12,8 +13,11 @@ const TherapistTherapyComponent: React.FC<{ clientId: string; }> = ({ clientId }
     const therapistId = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist._id);
 
     useEffect(() => {
-        dispatch(getClientDetailsAction(clientId));
-    }, [dispatch, clientId]);
+        console.log('entered in useeffect clientId changed')
+        dispatch(getAnyClientDetailsAction({ clientId }));
+        dispatch(getChatAction({ recieverId: clientId, senderId: therapistId }));
+
+    }, [clientId]);
 
     const AccordionItems = [
         { title: 'Client', button: 'View Profile', url: `client/medicalInfo/${clientId}` },
@@ -30,29 +34,37 @@ const TherapistTherapyComponent: React.FC<{ clientId: string; }> = ({ clientId }
         { content: ['No goals yet'] },
         { content: ['No worksheets yet'] }
     ]
-    const reciever = {
-        name: clientDetails.name,
-        recieverId: clientDetails._id,
-        image: '',
-        role: 'Client'
-    }
+    // const reciever = {
+    //     name: clientDetails.name,
+    //     recieverId: clientDetails._id,
+    //     image: '',
+    //     role: 'Client'
+    // }
 
-    const sender = {
-        senderId: clientId,
-        role: 'Therapists'
+    const messageData = {
+        reciever: {
+            name: clientDetails.name,
+            recieverId: clientDetails._id,
+            image: '',
+            role: 'Client'
+        },
+        sender: {
+            senderId: therapistId,
+            role: 'Therapists'
+        }
     }
     return (
         <Box
             sx={{
-                backgroundColor: '#F7FCC2', p: '1rem 0 4rem 0',
-                display: 'flex', flexWrap: 'wrap-reverse', gap: 2,
+                backgroundColor: '#F7FCC2', pb:'4rem',
+                display: 'flex', flexWrap: 'wrap-reverse', gap: 3,
                 justifyContent: { md: 'space-between', xs: 'center' },
                 alignItems: 'center',
                 minHeight: '90vh',
             }}>
             <TherapySidebarComponent
-                AccordionItems={AccordionItems} AccordionContent={AccordionContent} reciever={reciever} rating={0} />
-            <ChatComponent reciever={reciever} sender={sender} />
+                AccordionItems={AccordionItems} AccordionContent={AccordionContent} reciever={messageData.reciever} rating={0} />
+            <ChatComponent messageData={messageData} />
         </Box>
     )
 }

@@ -14,15 +14,12 @@ router.post('/rejected/connections', protect('therapist'), controllers.therapist
 router.get('/connections/active', protect('therapist'), controllers.therapistControllers.getActiveConnectionController)
 // get inactive connections
 router.get('/connections/inActive', protect('therapist'), controllers.therapistControllers.getInActiveConnectionController)
-// quit
+// therapist  quit
 router.put('/quit', protect('therapist'), controllers.therapistControllers.doQuitController)
 // get reviews and ratings
 router.get('/reviews', protect('therapist'), controllers.therapistControllers.getReviewsController)
-
-
-
-
-
+// therapist available slot management
+router.post('/addAvailability', protect('therapist'), controllers.therapistControllers.addAvailabilityController)
 
 
 export default router;

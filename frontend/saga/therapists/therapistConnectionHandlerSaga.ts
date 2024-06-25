@@ -9,7 +9,7 @@ import {
     getTherapistsInActiveConnectionsAction,
     getTherapistsReviewsAction,
     getTherapistsReviewsFailureAction,
-    getTherapistsReviewsSuccessAction
+    getTherapistsReviewsSuccessAction,
 } from '@/store/therapists/therapistActvitiesHandlerReducers';
 
 // therapist connection request saga
@@ -92,7 +92,6 @@ function* getTherapistsInActiveConnectionsActionSaga(): any {
 }
 
 // get reviews and ratings
-// get  inactive connections
 function* getTherapistsReviewsActionSaga(): any {
     try {
         const response = yield call<any>(apiCall, {
@@ -112,11 +111,11 @@ function* getTherapistsReviewsActionSaga(): any {
 }
 
 
+
 export function* therapistConnectionRequestWatcher() {
     yield takeEvery(getTherapistsConnectionRequestAction, getTherapistsConnectionRequestActionSaga);
     yield takeEvery(getTherapistsRejectedConnectionsAction, getTherapistsRejectedConnectionsActionSaga);
     yield takeEvery(getTherapistsActiveConnectionsAction, getTherapistsActiveConnectionsActionSaga);
     yield takeEvery(getTherapistsInActiveConnectionsAction, getTherapistsInActiveConnectionsActionSaga);
     yield takeEvery(getTherapistsReviewsAction, getTherapistsReviewsActionSaga);
-
 }

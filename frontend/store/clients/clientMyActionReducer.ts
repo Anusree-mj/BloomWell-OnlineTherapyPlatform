@@ -7,6 +7,7 @@ export interface clientMyActivityStateType {
         isActive: boolean
     };
     ongoingActivity: ClientOngoingActivityItem[];
+    slots: string[];
     isLoading: boolean;
     error: any;
 }
@@ -19,6 +20,7 @@ const initialState: clientMyActivityStateType = {
     ongoingActivity: [],
     isLoading: false,
     error: null,
+    slots: []
 }
 
 export const clientMyActivitySlice: any = createSlice({
@@ -39,11 +41,30 @@ export const clientMyActivitySlice: any = createSlice({
             console.log('eror found', state.error)
         },
 
+        // get available slots
+        getAvailableSlotsAction: (state) => {
+            state.isLoading = true;
+        },
+        getAvailableSlotsSuccessAction: (state, action) => {
+            state.isLoading = false;
+            state.slots = action.payload;
+            console.log('slots got in reducer', state.slots)
+        },
+        getAvailableSlotsFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found', state.error)
+        },
+
     }
 })
 export const {
     getClientOngoingActivityAction,
     getClientOngoingActivityFailureAction,
     getClientOngoingActivitySuccessAction,
+
+    getAvailableSlotsAction,
+    getAvailableSlotsFailureAction,
+    getAvailableSlotsSuccessAction
 
 } = clientMyActivitySlice.actions;
