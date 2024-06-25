@@ -57,8 +57,8 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
     return (
         <Box
             sx={{
-                backgroundColor: '#F7FCC2', p: '1rem 0 4rem 0',
-                display: 'flex', flexWrap: 'wrap-reverse',
+                backgroundColor: '#F7FCC2',  pb:'4rem',
+                display: 'flex', flexWrap: 'wrap-reverse', gap: 3,
                 justifyContent: { md: 'space-between', xs: 'center' },
                 alignItems: 'center',
                 minHeight: '90vh',

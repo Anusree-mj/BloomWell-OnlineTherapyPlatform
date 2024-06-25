@@ -5,6 +5,8 @@ import { protect } from '../../middlewares/authMiddleware.js'
 
 // get client details
 router.get('/details', protect('client'), controllers.clientControllers.getClientData)
+router.get('/viewAny/:clientId', controllers.clientControllers.getAnyClientDetailsController)
+
 // get connections
 router.get('/connection/:clientId', protect('client'), controllers.clientControllers.getConnectionController)
 // post connections
@@ -22,7 +24,7 @@ router.put('/profile/changePassword', protect('client'), controllers.clientContr
 // add feedback
 router.post('/feedback', protect('client'), controllers.clientControllers.addFeedbackController)
 
-router.get('/viewAny/:clientId',controllers.clientControllers.getAnyClientDetailsController)
-
+// slots
+router.get('/slots/:therapistId',  controllers.therapistControllers.getAvailableSlotsController)
 
 export default router;

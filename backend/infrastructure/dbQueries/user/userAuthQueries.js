@@ -148,7 +148,12 @@ const saveMessageData = async (messageData) => {
 
 const getChats = async (senderId, recieverId) => {
     try {
-        const chats = await Chats.find({ senderId: senderId, recieverId: recieverId })
+        const chats = await Chats.find({ 
+            $or: [
+                { senderId: senderId, recieverId: recieverId },
+                { senderId: recieverId, recieverId: senderId }
+            ]
+        })
             .populate('senderId', '_id')
             .populate('recieverId', '_id')
         if (chats) {

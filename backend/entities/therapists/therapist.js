@@ -74,6 +74,9 @@ const therapistSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    availability: {
+        type: String,
+    }
 }, {
     timestamps: true
 })
