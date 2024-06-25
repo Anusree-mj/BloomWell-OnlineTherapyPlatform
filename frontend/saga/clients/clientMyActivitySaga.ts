@@ -50,7 +50,12 @@ function* getAvailableSlotsActionSaga(action: {
         });
         if (response.status === 'ok') {
             console.log('slots got in slots saga', response.slots)
-            yield put(getAvailableSlotsSuccessAction(response.slots))
+            yield put(getAvailableSlotsSuccessAction(
+                {
+                    slots: response.slots,
+                    availableFrom: response.availableFrom,
+                    availableTo: response.availableTo
+                }))
         } else {
             yield put(getAvailableSlotsFailureAction(response.message))
         }

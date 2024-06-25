@@ -70,6 +70,10 @@ const clientSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isActiveSlots: {
+        type: Boolean,
+        default: false,
+    }
 }, {
     timestamps: true
 })

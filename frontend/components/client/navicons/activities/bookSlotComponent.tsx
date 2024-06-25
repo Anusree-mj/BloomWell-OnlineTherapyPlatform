@@ -1,50 +1,88 @@
-'use client'
-
-import { useState } from "react"
-import { DateCalendar, DateTimePicker, TimePicker } from "@mui/x-date-pickers"
-import dayjs, { Dayjs } from "dayjs"
-import { Box } from "@mui/system"
-import { Button, Checkbox, FormControl, FormControlLabel, FormGroup, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
-import { toast } from "react-toastify"
+import { useEffect, useState } from "react";
+import { DateCalendar, TimePicker } from "@mui/x-date-pickers";
+import dayjs, { Dayjs } from "dayjs";
+import { Box } from "@mui/system";
+import { Button, Divider, Typography } from "@mui/material";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { getAvailableSlotsAction, clientMyActivityStateType } from "@/store/clients/clientMyActionReducer";
+import axios from "axios";
+import CancelComponent from "./cancelComponent";
 
 const BookSlotComponent = () => {
     const [date, setDate] = useState<Dayjs | null>(null);
     const [time, setTime] = useState<Dayjs | null>(null);
-    const [spanText, setSpanText] = useState({
-        date: '',
-        time: ''
-    });
+    const [therapistId, setTherapistId] = useState('')
+    const [isActiveSlot, setIsActiveSlot] = useState(true);
+    const dispatch = useDispatch();
+    const slots = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.slots);
+    const availableFrom = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.availableFrom);
+    const availableTo = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.availableTo);
+    const [availableDates, setAvailableDates] = useState<Dayjs[]>([]);
 
-    const handleCheckAvailability = () => {
-        const valid = checkValidity();
-        if (!valid) {
-            return;
-        } else {
-            const formattedDate = date?.format('DD-MM-YY');
-            const formattedTime = time?.format('hh:mm A');
-            console.log('data in bookslot', formattedDate, formattedTime);
+    useEffect(() => {
+        const clientData = localStorage.getItem('clientData');
+        if (clientData) {
+            const parsedData = JSON.parse(clientData);
+            setTherapistId(parsedData.therapistDetails._id)
+            dispatch(getAvailableSlotsAction(parsedData.therapistDetails._id));
+        }
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (slots && slots.length > 0) {
+            const filteredSlots = slots
+                .map(slot => dayjs(slot))
+                .filter(slot => slot.isAfter(dayjs()) && slot.isBefore(dayjs().add(2, 'month')));
+
+            setAvailableDates(filteredSlots);
+        }
+    }, [slots]);
+
+    const handleCheckAvailability = async () => {
+        try {
+            const valid = checkValidity();
+            if (!valid) {
+                return;
+            } else {
+                const formattedDate = date?.format('DD-MM-YY');
+                const formattedTime = time?.format('hh:mm A');
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/slots/${therapistId}`,
+                    { date: formattedDate, time: formattedTime },
+                    { withCredentials: true, }
+                );
+                if (response.status === 200) {
+                    toast.success('Successfully booked slot!');
+                }
+            }
+        } catch (err) {
+            console.log('Error found', err)
         }
     };
 
     const checkValidity = () => {
         let isValid = true;
+        console.log('entered in validity')
         if (!date) {
             isValid = false;
-            handleSpanChange('date');
+            toast.error('Select a date')
         }
         if (!time) {
             isValid = false;
-            handleSpanChange('time');
+            toast.error('Select time')
         }
         return isValid;
     };
 
-    const handleSpanChange = (key: string) => {
-        setSpanText(prevState => ({
-            ...prevState,
-            [key]: '*This field is required'
-        }));
+    const shouldDisableDate = (date: Dayjs) => {
+        if (date.isBefore(dayjs(), 'day')) {
+            return true;
+        }
+        return !availableDates.some(availableDate => availableDate.isSame(date, 'day'));
     };
+
+    const minTime = dayjs(availableFrom).minute(0);
+    const maxTime = dayjs(availableTo).minute(0);
 
     return (
         <Box sx={{
@@ -52,55 +90,92 @@ const BookSlotComponent = () => {
             flexDirection: 'column', minHeight: '80vh',
             alignItems: 'center', justifyContent: 'center', pb: 8,
         }}>
-            <Typography
-                sx={{
-                    mt: 2, mb: 2,
-                    color: '#325343',
-                    fontSize: '1.2rem', fontWeight: 800,
-                }}>
-                Schedule your next weekly session
-            </Typography>
-            <div>
-                <h2>Set Recurring Slots</h2>
-                <form >
-                    <FormControl fullWidth margin="normal">
-                        <InputLabel>Frequency</InputLabel>
-                        <Select
+            {!isActiveSlot ? (
+                <>
+                    <Typography
+                        sx={{
+                            mt: 2, mb: 2, color: '#325343',
+                            fontSize: '1.2rem', fontWeight: 800,
+                        }}>
+                        Book a slot for your next session
+                    </Typography>
+                    <Box sx={{
+                        display: 'flex', flexDirection: 'column', maxWidth: '90%',
+                        width: '50rem', borderRadius: '1rem', p: "2rem 1rem 1.5rem 1rem",
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        alignItems: 'center', justifyContent: 'center', backgroundColor: 'white',
+                    }}>
+                        <Typography
+                            sx={{
+                                mb: 1, color: '#325343', alignSelf: 'start',
+                                fontSize: '1rem', fontWeight: 600,
+                            }}>
+                            Choose your preferred session time from the therapist's available schedules for the next two months.
+                        </Typography>
+                        <Divider sx={{ width: '100%', mb: 2 }} />
+                        <Box sx={{
+                            display: 'flex', flexWrap: 'wrap', alignItems: { xs: 'center', md: 'flex-start' },
+                            justifyContent: { xs: 'center', md: 'flex-start' }, gap: '2rem',
+                        }}>
+                            <Box sx={{
+                                display: 'flex', flexDirection: 'column',
+                                width: { xs: '100%', md: '25rem' }, maxWidth: '100%',
+                            }}>
+                                <Typography
+                                    sx={{
+                                        color: '#325343',
+                                        fontSize: '1rem', textDecoration: 'underline'
+                                    }}>
+                                    Select a date
+                                </Typography>
+                                <DateCalendar
+                                    disablePast
+                                    shouldDisableDate={shouldDisableDate}
+                                    sx={{ color: '#325343', width: '100%' }}
+                                    value={date}
+                                    onChange={(newDate) => setDate(dayjs(newDate))}
+                                />
+                            </Box>
+                            <Box sx={{
+                                display: 'flex', flexDirection: 'column',
+                                width: { xs: '100%', md: '20rem' }, maxWidth: '100%',
+                            }}>
+                                <Typography
+                                    sx={{
+                                        color: '#325343', mb: 1,
+                                        fontSize: '1rem', textDecoration: 'underline'
+                                    }}>
+                                    Select a time
+                                </Typography>
+                                <TimePicker
+                                    views={['hours', 'minutes']}
+                                    value={time}
+                                    onChange={(newTime) => setTime(dayjs(newTime))}
+                                    minTime={minTime}
+                                    maxTime={maxTime}
 
-                        >
-                            <MenuItem value="DAILY">Daily</MenuItem>
-                            <MenuItem value="WEEKLY">Weekly</MenuItem>
-                            <MenuItem value="MONTHLY">Monthly</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <FormGroup>
-                        {['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'].map(day => (
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-
-                                    />
+                                />
+                            </Box>
+                        </Box>
+                        <Button
+                            onClick={handleCheckAvailability}
+                            sx={{
+                                mt: 1, color: 'white', backgroundColor: '#325343',
+                                display: 'block', fontWeight: 600,
+                                '&:hover': {
+                                    backgroundColor: '#a6de9b',
+                                    color: '#325343'
                                 }
-                                label={day}
-                                key={day}
-                            />
-                        ))}
-                    </FormGroup>
-                    <FormControl fullWidth margin="normal">
-                        <DateTimePicker
-                            label="Start Time"
-                        />
-                    </FormControl>
-                    <FormControl fullWidth margin="normal">
-                        <DateTimePicker
-                            label="End Time"
-                        />
-                    </FormControl>
-                    <Button type="submit" variant="contained" color="primary">
-                        Set Recurring Slots
-                    </Button>
-                </form>
-            </div>
+                            }}
+                            variant="contained"
+                        >
+                            Check Availability
+                        </Button>
+                    </Box>
+                </>
+            ) :
+                <CancelComponent />
+            }
         </Box>
     );
 };

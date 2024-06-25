@@ -78,6 +78,7 @@ function* getClientDetailsActionSaga(): any {
         });
         if (response.status === 'ok') {
             yield put(getClientDetailsSuccessAction(response.client))
+            console.log('clientdetails getting in saga', response.client)
             localStorage.setItem("clientData", JSON.stringify(response.client));
         } else {
             yield put(getClientDetailsFailureAction(response.message))
@@ -119,7 +120,7 @@ function* getAnyClientDetailsActionSaga(action: {
     payload: { clientId: '' }
 }): any {
     try {
-        console.log('clientid got in saga',action.payload)
+        console.log('clientid got in saga', action.payload)
         const response = yield call<any>(apiCall, {
             method: 'GET',
             endpoint: `client/viewAny/${action.payload.clientId}`,

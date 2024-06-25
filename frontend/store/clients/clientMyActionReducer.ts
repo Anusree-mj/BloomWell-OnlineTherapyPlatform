@@ -8,6 +8,8 @@ export interface clientMyActivityStateType {
     };
     ongoingActivity: ClientOngoingActivityItem[];
     slots: string[];
+    availableFrom: string;
+    availableTo: string;
     isLoading: boolean;
     error: any;
 }
@@ -20,7 +22,9 @@ const initialState: clientMyActivityStateType = {
     ongoingActivity: [],
     isLoading: false,
     error: null,
-    slots: []
+    slots: [],
+    availableFrom: "",
+    availableTo: ""
 }
 
 export const clientMyActivitySlice: any = createSlice({
@@ -47,8 +51,12 @@ export const clientMyActivitySlice: any = createSlice({
         },
         getAvailableSlotsSuccessAction: (state, action) => {
             state.isLoading = false;
-            state.slots = action.payload;
-            console.log('slots got in reducer', state.slots)
+            state.slots = action.payload.slots;
+            state.availableFrom = action.payload.availableFrom;
+            state.availableTo = action.payload.availableTo;
+            console.log('slots got in reducer', state.slots,
+                'availableFrom:', state.availableFrom, 'available to:', state.availableTo
+            )
         },
         getAvailableSlotsFailureAction: (state, action) => {
             state.isLoading = false;
