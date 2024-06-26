@@ -54,7 +54,9 @@ const initialState: adminStateType = {
             stripeTrialEnd: "",
             amount: 0,
             status: ""
-        }
+        },
+        isActiveSlots: false,
+        activeSlotId: ""
     }
 }
 

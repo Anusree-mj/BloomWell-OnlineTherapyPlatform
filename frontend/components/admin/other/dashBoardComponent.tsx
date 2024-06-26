@@ -1,9 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { getDashboardDetailsAction, adminActivitiesStateType } from '@/store/admin/adminActivityReducer';
+import { getDashboardDetailsAction, getTherapyCountsAction, adminActivitiesStateType } from '@/store/admin/adminActivityReducer';
 import { Box } from '@mui/system';
-import BarChartComponent from '@/components/common/chart/barChart';
-import { Typography } from '@mui/material';
+import BarChartComponent from '@/components/admin/chart/barChart';
+import { Divider, Typography } from '@mui/material';
+import PieChartComponent from '../chart/pieChart';
+import TopTherapistsComponents from './topComponents';
+
 
 interface MonthData {
   count: number;
@@ -56,21 +59,20 @@ const getDataForChart = (response: object) => {
 const DashBoardComponent = () => {
   const dispatch = useDispatch()
   const data = useSelector((state: { adminActivities: adminActivitiesStateType }) => state.adminActivities.dashboardDetails)
-  console.log(data, "ppp");
+  const pieChartData = useSelector((state: { adminActivities: adminActivitiesStateType }) => state.adminActivities.therapyCount)
 
 
   const { xData, yData } = getDataForChart(data);
 
-
-
   useEffect(() => {
     console.log('entered in dashboard useffect')
     dispatch(getDashboardDetailsAction());
+    dispatch(getTherapyCountsAction())
   }, []);
-
+  console.log('ppppppppppppppppppppppppppppppppppppppppp', pieChartData)
 
   return (
-    <Box sx={{
+    <Box sx={{pb:4,
       ml: { xs: 'none', sm: '15rem' }, mt: { sm: 3 }
     }}>
       <Typography variant="h6" noWrap component="div" sx={{
@@ -79,7 +81,15 @@ const DashBoardComponent = () => {
       }}>
         Dashboard
       </Typography>
-      <BarChartComponent xData={xData} yData={yData} />
+      <Box sx={{
+        display: 'flex', flexWrap: 'wrap',
+        alignItems: { md: 'flex-start', xs: 'center' }, justifyContent: { md: 'space-between', xs: 'center' },
+         p: '0 1.5rem'
+      }}>
+        <BarChartComponent xData={xData} yData={yData} />
+        <PieChartComponent pieChartData={pieChartData} />
+      </Box>
+      <TopTherapistsComponents />
     </Box>
   )
 }
