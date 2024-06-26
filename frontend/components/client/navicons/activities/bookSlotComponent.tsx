@@ -11,31 +11,30 @@ import {
 } from "@/store/clients/clientMyActionReducer";
 import axios from "axios";
 import CancelComponent from "./cancelComponent";
+import { clientStateType } from "@/store/clients/clientReducer";
 
 const BookSlotComponent = () => {
     const [date, setDate] = useState<Dayjs | null>(null);
     const [time, setTime] = useState<Dayjs | null>(null);
     const [availableDates, setAvailableDates] = useState<Dayjs[]>([]);
-    const [therapistId, setTherapistId] = useState('')
     const [isActiveSlot, setIsActiveSlot] = useState(false);
 
     const dispatch = useDispatch();
     const slots = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.slots);
     const availableFrom = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.availableFrom);
     const availableTo = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.availableTo);
+    const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
 
     useEffect(() => {
         const clientData = localStorage.getItem('clientData');
         if (clientData) {
-            const parsedData = JSON.parse(clientData);
-            if (parsedData.isActiveSlots) {
+            if (clientDetails.isActiveSlots) {
                 setIsActiveSlot(true);
             } else {
-            setTherapistId(parsedData.therapistDetails._id)
-            dispatch(getAvailableSlotsAction(parsedData.therapistDetails._id));
+                dispatch(getAvailableSlotsAction(clientDetails.therapistDetails._id));
             }
         }
-    }, [dispatch]);
+    }, [clientDetails]);
     useEffect(() => {
         if (slots && slots.length > 0) {
             const filteredSlots = slots
@@ -54,7 +53,7 @@ const BookSlotComponent = () => {
             } else {
                 const formattedDate = date?.format('DD-MM-YY');
                 const formattedTime = time?.format('hh:mm A');
-                const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/slots/${therapistId}`,
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/slots/${clientDetails.therapistDetails._id}`,
                     { date: formattedDate, time: formattedTime },
                     { withCredentials: true, }
                 );
@@ -183,7 +182,7 @@ const BookSlotComponent = () => {
                     </Box>
                 </>
             ) :
-                <CancelComponent />
+                <CancelComponent setIsActiveSlot={setIsActiveSlot} />
             }
         </Box>
     );

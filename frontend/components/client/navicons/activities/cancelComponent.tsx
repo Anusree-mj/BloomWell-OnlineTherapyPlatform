@@ -2,13 +2,18 @@ import { useEffect, useState } from "react";
 import { Typography, Button } from '@mui/material'
 import { Box } from '@mui/system'
 import { useDispatch, useSelector } from "react-redux";
-import {
-    getAvailableSlotsAction, clientMyActivityStateType,
-    getBookedSlotsDetailsAction
-} from "@/store/clients/clientMyActionReducer";
+import Swal from 'sweetalert2';
+import axios from 'axios';
+import { clientMyActivityStateType, getBookedSlotsDetailsAction } from "@/store/clients/clientMyActionReducer";
 import { format } from 'date-fns';
+import { toast } from "react-toastify";
+import { getClientDetailsAction } from "@/store/clients/clientReducer";
 
-const CancelComponent = () => {
+interface CancelComponent {
+    setIsActiveSlot: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const CancelComponent: React.FC<CancelComponent> = ({ setIsActiveSlot }) => {
     const dispatch = useDispatch();
     const bookedSlot = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.bookedSlot)
 
@@ -22,11 +27,38 @@ const CancelComponent = () => {
     }, [dispatch]);
 
     const formatDate = (dateString: string): string => {
-        const [day, month, year] = dateString.split('-').map(Number); // Convert strings to numbers
-        const date = new Date(2000 + year, month - 1, day); // Use 2000 + year for correct century
-        return format(date, "do MMM"); // Formats the date to '29th Jun'
+        const [day, month, year] = dateString.split('-').map(Number);
+        const date = new Date(2000 + year, month - 1, day);
+        return format(date, "do MMM");
     };
     const formattedDate = bookedSlot?.date ? formatDate(bookedSlot.date) : '';
+
+    const handleCancel = async () => {
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you really want to cancel the slot you booked?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, cancel it!'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/slot/cancel`,
+                    { slotId: bookedSlot._id }, { withCredentials: true, }
+                );
+                if (response.status === 200) {
+                    dispatch(getClientDetailsAction())
+                    toast.success('Your slot succesfully cancelled!');
+                    setIsActiveSlot(false)
+                }
+            } catch (error) {
+                toast.error('Something went wrong cant cancel your slot!');
+            }
+        }
+    };
 
     return (
         <Box sx={{
@@ -52,7 +84,9 @@ const CancelComponent = () => {
                         backgroundColor: '#a6de9b',
                         color: '#325343'
                     }
-                }} variant="contained">
+                }} variant="contained"
+                    onClick={handleCancel}
+                >
                     Cancel
                 </Button>
             </Box>

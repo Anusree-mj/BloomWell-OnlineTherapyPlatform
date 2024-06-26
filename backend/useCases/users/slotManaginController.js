@@ -72,10 +72,30 @@ const getActiveSlotController = async (req, res) => {
     }
 }
 
+const cancelSlotController = async (req, res) => {
+    try {
+        const { slotId } = req.body;
+        const clientId = req.user._id;
+
+        console.log('reached availability data slotId:', slotId, "clientId:", clientId)
+        const response = await therapyBookingsQuery.cancelSlot(slotId, clientId)
+        if (response.status === 'ok') {
+            const { status } = response
+            res.status(200).json({ status });
+        } else {
+            const { status, message } = response
+            res.status(400).json({ status, message });
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 export {
     addAvailabileSlotsController,
     getAvailableSlotsController,
     postBookedSlotController,
     getActiveSlotController,
+    cancelSlotController,
 
 }
