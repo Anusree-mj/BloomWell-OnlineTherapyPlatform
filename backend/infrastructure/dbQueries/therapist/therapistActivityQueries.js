@@ -5,6 +5,7 @@ import Client from "../../../entities/clients/clients.js";
 import Connections from "../../../entities/clients/connection.js";
 import Feedback from "../../../entities/users/feedback.js";
 import Reviews from "../../../entities/therapists/reviews.js";
+import Bookings from "../../../entities/clients/bookings.js";
 
 const doQuit = async (therapistId, quitInfo) => {
     try {
@@ -63,8 +64,59 @@ const getReviews = async (therapistId) => {
     }
 }
 
+const getSchedulesDetails = async (therapistId) => {
+    try {
+        const schedules = await Bookings.find({ therapistId: therapistId }).populate('clientId', 'name').sort({ createdAt: -1 });
+        if (schedules) {
+            return { status: 'ok', schedules }
+        } else {
+            return { status: 'nok', message: 'No schedules added yet' }
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const updateSchedulesDetails = async (slotId, action, clientId, date, time) => {
+    try {
+        if (action === 'Rejected') {
+            await Client.findByIdAndUpdate(clientId, { isActiveSlots: false });
+        }
+
+        const query = {
+            _id: slotId,
+        }
+        const update = {
+            verificationStatus: action,
+            status: action === 'Accepted' ? 'Active' : 'Rejected'
+        };
+        const options = { upsert: false }
+        const updateschedules = await Bookings.updateOne(query, update, options)
+        console.log('updatedSchedules', updateschedules)
+        if (updateschedules.modifiedCount > 0) {
+
+            const content = action === 'Accepted' ? `Your live session have been scheduled on ${date} at ${time}.See you there.`
+                : `Your request to have live session on ${date} at ${time} have been cancelled by yout therapist due to personal reasons.
+                Please book another slot`
+            await Notifications.insertMany({
+                userId: clientId,
+                userType: 'Client',
+                head: 'Live Session Request Updated',
+                message: content,
+            })
+            return { status: 'ok' }
+        } else {
+            return { status: 'nok', message: 'No schedule found' }
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 export default {
     doQuit,
     getReviews,
+    getSchedulesDetails,
+    updateSchedulesDetails,
 
 }

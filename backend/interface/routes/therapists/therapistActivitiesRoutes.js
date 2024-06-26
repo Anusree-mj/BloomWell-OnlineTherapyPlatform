@@ -20,6 +20,10 @@ router.put('/quit', protect('therapist'), controllers.therapistControllers.doQui
 router.get('/reviews', protect('therapist'), controllers.therapistControllers.getReviewsController)
 // therapist available slot management
 router.post('/addAvailability', protect('therapist'), controllers.userControllers.addAvailabileSlotsController)
+// schedulesss
+router.get('/schedules', protect('therapist'), controllers.therapistControllers.getSchedulesController)
+router.put('/schedules', protect('therapist'), controllers.therapistControllers.updateScheduleController)
+
 
 
 export default router;

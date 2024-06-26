@@ -24,8 +24,12 @@ import {
     getActiveConnectionController,
     getInActiveConnectionController,
     getReviewsController
-} from "./therapistActivitiesController.js"
+} from "./therapistConnectionController.js"
+import {
+    getSchedulesController,
+    updateScheduleController,
 
+} from "./therapistActivitiesController.js"
 
 const therapistControllers = {
     therapistsSignUp,
@@ -46,8 +50,8 @@ const therapistControllers = {
     getInActiveConnectionController,
     doQuitController,
     getReviewsController,
-   
-
+    getSchedulesController,
+    updateScheduleController,
 
 
 }
