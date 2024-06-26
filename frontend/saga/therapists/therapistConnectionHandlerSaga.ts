@@ -10,6 +10,9 @@ import {
     getTherapistsReviewsAction,
     getTherapistsReviewsFailureAction,
     getTherapistsReviewsSuccessAction,
+    getTherapistsSchedulesAction,
+    getTherapistsSchedulesFailureAction,
+    getTherapistsSchedulesSuccessAction
 } from '@/store/therapists/therapistActvitiesHandlerReducers';
 
 // therapist connection request saga
@@ -110,6 +113,23 @@ function* getTherapistsReviewsActionSaga(): any {
     }
 }
 
+// get reviews and ratings
+function* getTherapistsSchedulesActionSaga(): any {
+    try {
+        const response = yield call<any>(apiCall, {
+            method: 'GET',
+            endpoint: 'therapist/schedules',
+        });
+
+        if (response.status === 'ok') {
+            yield put(getTherapistsSchedulesSuccessAction(response.schedules))
+        } else {
+            yield put(getTherapistsSchedulesFailureAction(response.message))
+        }
+    } catch (err) {
+        yield put(getTherapistsSchedulesFailureAction(err))
+    }
+} 
 
 
 export function* therapistConnectionRequestWatcher() {
@@ -118,4 +138,6 @@ export function* therapistConnectionRequestWatcher() {
     yield takeEvery(getTherapistsActiveConnectionsAction, getTherapistsActiveConnectionsActionSaga);
     yield takeEvery(getTherapistsInActiveConnectionsAction, getTherapistsInActiveConnectionsActionSaga);
     yield takeEvery(getTherapistsReviewsAction, getTherapistsReviewsActionSaga);
+    yield takeEvery(getTherapistsSchedulesAction, getTherapistsSchedulesActionSaga);
+
 }

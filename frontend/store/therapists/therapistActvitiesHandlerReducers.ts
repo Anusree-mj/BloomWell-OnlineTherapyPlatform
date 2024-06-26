@@ -1,17 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { ConnectionItems } from "../admin/type";
-import { ReviewItems } from "./type";
+import { ReviewItems, ScheduleItems } from "./type";
 import { ClientItem } from "../clients/type";
 
 export interface ActivitiesStateType {
     connections: ConnectionItems[];
     reviews: ReviewItems[];
     client: ClientItem;
+    schedules: ScheduleItems[];
     isLoading: boolean;
     error: any;
 }
-
 
 const initialState: ActivitiesStateType = {
     isLoading: false,
@@ -49,8 +49,11 @@ const initialState: ActivitiesStateType = {
             stripeTrialEnd: "",
             amount: 0,
             status: ""
-        }
-    }
+        },
+        isActiveSlots: false,
+        activeSlotId: ""
+    },
+    schedules: []
 }
 export const therapistActivitiesSlice: any = createSlice({
     name: "therapistActivities",
@@ -104,7 +107,21 @@ export const therapistActivitiesSlice: any = createSlice({
             console.log('eror found', state.error)
         },
 
-       
+        // get schedules 
+        getTherapistsSchedulesAction: (state) => {
+            console.log('entered in  action')
+            state.isLoading = true;
+        },
+        getTherapistsSchedulesSuccessAction: (state, action) => {
+            state.isLoading = false;
+            state.schedules = action.payload;
+            console.log('schedules got in :', state.schedules)
+        },
+        getTherapistsSchedulesFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found', state.error)
+        },
     }
 })
 export const {
@@ -114,11 +131,11 @@ export const {
     getTherapistsRejectedConnectionsAction,
     getTherapistsActiveConnectionsAction,
     getTherapistsInActiveConnectionsAction,
-
-
     getTherapistsReviewsAction,
     getTherapistsReviewsFailureAction,
     getTherapistsReviewsSuccessAction,
+    getTherapistsSchedulesAction,
+    getTherapistsSchedulesFailureAction,
+    getTherapistsSchedulesSuccessAction
 
-  
 } = therapistActivitiesSlice.actions;

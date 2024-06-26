@@ -31,7 +31,8 @@ const initialState: clientMyActivityStateType = {
         date: "",
         time: "",
         verificationStatus: "",
-        status: ""
+        status: "",
+        _id: ""
     }
 }
 

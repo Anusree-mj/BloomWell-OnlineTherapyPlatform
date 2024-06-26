@@ -83,9 +83,33 @@ const getActiveSlotDetails = async (slotId) => {
         console.log(err)
     }
 }
+
+const cancelSlot = async (slotId,clientId) => {
+    try {
+        const query = {
+            _id: slotId,
+        }
+        const update = { status: 'Cancelled' };
+        const options = { upsert: true }
+        const updateSlot = await Bookings.updateOne(query, update, options)
+
+        console.log('slot updated:', updateSlot)
+        if (updateSlot.modifiedCount > 0) {
+            await Client.findByIdAndUpdate(clientId, { isActiveSlots: false });
+            return { status: 'ok' }
+        } else {
+            return { status: 'nok', message: 'Slot not found' }
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 export default {
     addTherapistAvailability,
     getAvailableSlots,
     postClientSlotBooking,
     getActiveSlotDetails,
+    cancelSlot,
+
 }

@@ -45,3 +45,18 @@ export interface DashboardItems {
         month: string;
     }[];
 }
+
+export interface TherapyCountItems {
+    _id: string;
+    totalCount: number
+}
+
+export interface TopTherapistsItem {
+    _id: string;
+    totalRatings: number,
+    therapistId: string,
+    therapistName: string,
+    therapistImage: string,
+    count: number,
+    averageRating: number
+}

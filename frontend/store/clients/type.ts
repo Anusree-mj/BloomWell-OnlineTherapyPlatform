@@ -29,7 +29,10 @@ export interface ClientItem {
         stripeTrialEnd: string;
         amount: number;
         status: string;
-    }
+    };
+    isActiveSlots: boolean;
+    activeSlotId: string;
+
 }
 
 export interface ClientOngoingActivityItem {
@@ -42,6 +45,7 @@ export interface ClientOngoingActivityItem {
 }
 
 export interface BookedSlotsItems {
+    _id: string,
     therapistId: string,
     date: string,
     time: string,

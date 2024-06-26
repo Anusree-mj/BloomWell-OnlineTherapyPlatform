@@ -39,7 +39,9 @@ const initialState: clientStateType = {
             stripeTrialEnd: "",
             amount: 0,
             status: ""
-        }
+        },
+        isActiveSlots: false,
+        activeSlotId: ""
     },
     isLoading: false,
     error: null

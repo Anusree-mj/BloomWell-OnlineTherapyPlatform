@@ -37,3 +37,16 @@ export interface TherapistItem {
     reasonForRejection?: string;
     reasonForQuiting?: string;
 }
+
+export interface ScheduleItems {
+    _id: string;
+    clientId: {
+        _id: string,
+        name: string
+    };
+    date: string;
+    time: string;
+    verificationStatus: string;
+    status: string;
+
+}

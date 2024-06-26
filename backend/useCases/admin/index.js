@@ -25,6 +25,8 @@ import {
 import {
     getFeedbackControllers,
     getDashboardDetailsControllers,
+    getTherapyCountControllers,
+    getTopTherapistsControllers,
 
 } from './adminFeedBackController.js'
 
@@ -46,6 +48,8 @@ const adminControllers = {
     getTherapistsWhoQuitController,
     getFeedbackControllers,
     getDashboardDetailsControllers,
+    getTherapyCountControllers,
+    getTopTherapistsControllers,
 
 
 
