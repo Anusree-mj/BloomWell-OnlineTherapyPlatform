@@ -7,8 +7,9 @@ import { io } from 'socket.io-client';
 import axios from 'axios';
 import { getChatAction, userStateType } from '@/store/user/userReducer';
 import { useDispatch, useSelector } from "react-redux";
-import { format, isToday, isYesterday, isThisWeek } from 'date-fns';
+import { format, isToday, isYesterday, isThisWeek, previousDay } from 'date-fns';
 import EmojiPicker, { Theme } from "emoji-picker-react";
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 
 interface ChatComponentProps {
     messageData: {
@@ -30,28 +31,35 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ messageData }) => {
     const [message, setMessage] = useState('');
     const chatContainerRef = useRef<HTMLDivElement>(null);
     const [showEmoji, setShowEmoji] = useState<boolean>(false);
-
+    const [isOnline, setIsOnline] = useState(false)
     const chats = useSelector((state: { user: userStateType }) => state.user.chats);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getChatAction({
-            recieverId: messageData.reciever.recieverId,
-            senderId: messageData.sender.senderId
-        }));
+        if (messageData.reciever.recieverId !== '' && messageData.sender.senderId !== '') {
+            dispatch(getChatAction({
+                recieverId: messageData.reciever.recieverId,
+                senderId: messageData.sender.senderId
+            }));
+        }
     }, [messageData.reciever.recieverId, messageData.sender.senderId]);
 
     useEffect(() => {
         if (messageData.sender.senderId !== '') {
             socket.emit('joinRoom', { userId: messageData.sender.senderId, role: messageData.sender.role });
+            socket.on('getUsers', (data: any) => {
+                console.log('dataaa', data);
+                const userIdExists = data.some((user: any) => user.userId === messageData.reciever.recieverId);
+                if (userIdExists) {
+                    setIsOnline(true)
+                }
+            })
         }
-
         socket.on('recieve_chatMessage', (data) => {
             const recieverId = data.reciever.recieverId;
             const senderId = data.sender.senderId;
             dispatch(getChatAction({ recieverId, senderId }));
         });
-
         return () => {
             socket.off('recieve_chatMessage');
         };
@@ -70,13 +78,16 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ messageData }) => {
             ...messageData,
             message: message,
         };
-
         if (newMessageData.sender.senderId !== '') {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/users/chat`,
                 { messageData: newMessageData }, { withCredentials: true }
             );
             if (response.status === 200) {
                 socket.emit('send_chatMessage', newMessageData);
+                dispatch(getChatAction({
+                    recieverId: messageData.reciever.recieverId,
+                    senderId: messageData.sender.senderId
+                }));
             }
             setMessage('');
         } else {
@@ -104,7 +115,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ messageData }) => {
             hour12: true
         });
     };
-   
+
 
     return (
         <Box sx={{
@@ -117,9 +128,16 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ messageData }) => {
             }}>
                 <Avatar sx={{ width: 40, height: 40 }}
                     src={messageData.reciever.image !== '' ? messageData.reciever.image : "/broken-image.jpg"} />
-                <Typography sx={{ color: '#325343', ml: 2 }}>
-                    {messageData.reciever.name}
-                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <Typography sx={{ color: '#325343', ml: 2 }}>
+                        {messageData.reciever.name}
+                    </Typography>
+                    {isOnline && (
+                        <Typography sx={{ color: '#325343', ml: 2, fontSize: '0.8rem' }}>
+                            Online
+                        </Typography>
+                    )}
+                </Box>
             </Box>
 
             <Box
@@ -181,30 +199,40 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ messageData }) => {
 
             </Box>
 
-            <TextField id="outlined-basic" placeholder="Send message" sx={{
-                width: '100%', backgroundColor: 'white',
-            }} value={message} onChange={(e) => setMessage(e.target.value)}
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            <EmojiPicker
-                                theme={Theme.DARK}
-                                height={300}
-                                searchDisabled={true}
-                                open={showEmoji}
-                                lazyLoadEmojis={true}
-                                className="bg-my-bg-dark"
-                                onEmojiClick={(e) => {
-                                    setMessage((prev) => prev + e.emoji);
-                                }}
-                            />
-                            <IconButton onClick={handleSend}>
-                                <SendIcon />
-                            </IconButton>
-                        </InputAdornment>
-                    ),
-                }}
-            />
+            <Box sx={{ position: 'relative' }}>
+                <TextField
+                    id="outlined-basic"
+                    placeholder="Send message"
+                    sx={{ width: '100%', backgroundColor: 'white' }}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton onClick={() => setShowEmoji((prevState) => !prevState)}>
+                                    <EmojiEmotionsIcon />
+                                </IconButton>
+                                <IconButton onClick={handleSend}>
+                                    <SendIcon />
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
+                />
+                <Box sx={{ position: 'absolute', bottom: '50px', right: '50px', zIndex: 1000 }}>
+                    <EmojiPicker
+                        theme={Theme.DARK}
+                        height={300}
+                        open={showEmoji}
+                        searchDisabled={false}
+                        lazyLoadEmojis={true}
+                        onEmojiClick={(e) => {
+                            setMessage((prev) => prev + e.emoji);
+                            setShowEmoji(false);
+                        }}
+                    />
+                </Box>
+            </Box>
         </Box >
     );
 };
