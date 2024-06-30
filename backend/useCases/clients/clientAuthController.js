@@ -76,7 +76,7 @@ const getClientData = async (req, res) => {
         console.log('reached in client data controllersssssssss')
         if (response.status === 'ok') {
             const { status, client } = response
-            console.log('successfully passed client data')
+            console.log('successfully passed client data',client)
             res.status(200).json({ status: status, client: client });
         } else {
             const { status, message } = response

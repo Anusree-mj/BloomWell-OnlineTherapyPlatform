@@ -31,7 +31,7 @@ const BookSlotComponent = () => {
             if (clientDetails.isActiveSlots) {
                 setIsActiveSlot(true);
             } else {
-                dispatch(getAvailableSlotsAction(clientDetails.therapistDetails._id));
+                dispatch(getAvailableSlotsAction(clientDetails.therapistDetails?clientDetails.therapistDetails._id:''));
             }
         }
     }, [clientDetails]);

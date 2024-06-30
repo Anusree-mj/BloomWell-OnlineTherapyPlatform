@@ -71,10 +71,7 @@ const TherapistJobComponent = () => {
               ))
             }
           </Box>
-
-          <Box>
-            <Typography>haiii</Typography>
-          </Box>
+        
         </Box>
       </Box >
       {/* practice ends */}

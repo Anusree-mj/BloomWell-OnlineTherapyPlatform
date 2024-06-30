@@ -17,7 +17,7 @@ const TopTherapistsComponents = () => {
         <Box
             sx={{
                 display: 'flex', alignItems: { md: 'flex-start', xs: 'center' }, justifyContent: { md: 'flex-start', xs: 'center' },
-                flexDirection: 'column', maxWidth: '90%',
+                flexDirection: 'column', maxWidth: '90%',ml:3
             }}>
             <Typography sx={{
                 color: '#325343', mt: 1, ml: 2,
@@ -27,7 +27,7 @@ const TopTherapistsComponents = () => {
             </Typography>
             <Box sx={{
                 display: 'flex', flexWrap: 'wrap', gap: 5,
-                alignItems: { md: 'flex-start', xs: 'center' }, justifyContent: { md: 'flex-start', xs: 'center' }
+                alignItems: 'center', justifyContent: 'center' 
             }}>
                 {topTherapists.map((item, index) => (
                     <Card key={index} sx={{

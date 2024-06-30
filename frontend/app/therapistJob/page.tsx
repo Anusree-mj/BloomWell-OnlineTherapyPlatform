@@ -7,9 +7,7 @@ export default function () {
     return (
         <>
             <Header />
-            <div style={{ paddingTop: '5.6rem' }}>
                 <QueryComponent />
-            </div>
             <TherapistJobComponent />
             <Footer />
         </>
