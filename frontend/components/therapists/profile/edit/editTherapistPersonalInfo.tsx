@@ -142,7 +142,7 @@ const EditTherapistPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ s
                     required value={editPersonalInfos.name} type="text"
                     sx={{
                         maxWidth: '100%', width: '30rem', mt: 2,
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                         '& .MuiOutlinedInput-root': {
                             '& fieldset': {
                                 borderColor: validColor.name,
@@ -161,7 +161,7 @@ const EditTherapistPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ s
                 <TextField id="outlined-basic" label="Email" variant="outlined"
                     required value={editPersonalInfos.email} type="email"
                     sx={{
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                         '& .MuiOutlinedInput-root': {
                             '& fieldset': {
                                 borderColor: validColor.email,
@@ -182,7 +182,7 @@ const EditTherapistPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ s
                     required value={editPersonalInfos.phone} type="number"
                     sx={{
                         maxWidth: '100%', width: '30rem', mt: 2,
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                         '& .MuiOutlinedInput-root': {
                             '& fieldset': {
                                 borderColor: validColor.phone,
@@ -202,7 +202,7 @@ const EditTherapistPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ s
                 onChange={(e) => handleInputChange('gender', e.target.value)}
                 sx={{
                     maxWidth: '100%', width: '30rem', mt: 3,
-                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
                             borderColor: 'black',
@@ -225,7 +225,7 @@ const EditTherapistPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ s
                 value={editPersonalInfos.role}
                 sx={{
                     maxWidth: '100%', width: '30rem', mt: 3,
-                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
                             borderColor: 'black',

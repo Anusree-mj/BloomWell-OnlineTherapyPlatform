@@ -67,7 +67,7 @@ const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
                     maxWidth: { sm: '100%', xs: '90%' },
                     p: 3,
                     borderRadius: '1rem',
-                    boxShadow: '1px 4px 10px rgba(0, 0, 0, 0.3)',
+                    boxShadow: '1px 4px 10px rgba(0, 0, 0, 1.1)',
                 }}>
                     <Box sx={{
                         display: 'flex',

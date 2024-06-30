@@ -55,7 +55,7 @@ const FeedBackComponent = () => {
             </Typography>
             <Box sx={{
                 backgroundColor: 'white', display: 'flex', mt: '2rem', justifyContent: 'center', alignItems: 'center',
-                flexDirection: 'column', p: 3, borderRadius: '1rem', boxShadow: '1px 4px 10px rgba(0, 0, 0, 0.3)',
+                flexDirection: 'column', p: 3, borderRadius: '1rem', boxShadow: '1px 4px 10px rgba(0, 0, 0, 1.1)',
                 width: '60rem', maxWidth: '90%'
             }}>
                 <Typography sx={{
@@ -75,7 +75,7 @@ const FeedBackComponent = () => {
                     sx={{
                         alignSelf: 'flex-start',
                         maxWidth: '100%', width: '30rem', mt: 1,
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                         '& .MuiOutlinedInput-root': {
                             '& fieldset': {
                                 borderColor: 'black'

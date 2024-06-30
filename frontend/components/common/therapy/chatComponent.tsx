@@ -124,7 +124,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ messageData }) => {
         }}>
             <Box sx={{
                 backgroundColor: 'white', width: '100%', p: 1,
-                display: 'flex', alignItems: 'center', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                display: 'flex', alignItems: 'center', boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
             }}>
                 <Avatar sx={{ width: 40, height: 40 }}
                     src={messageData.reciever.image !== '' ? messageData.reciever.image : "/broken-image.jpg"} />

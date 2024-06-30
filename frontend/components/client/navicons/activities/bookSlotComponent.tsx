@@ -110,7 +110,7 @@ const BookSlotComponent = () => {
                     <Box sx={{
                         display: 'flex', flexDirection: 'column', maxWidth: '90%',
                         width: '50rem', borderRadius: '1rem', p: "2rem 1rem 1.5rem 1rem",
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                         alignItems: 'center', justifyContent: 'center', backgroundColor: 'white',
                     }}>
                         <Typography

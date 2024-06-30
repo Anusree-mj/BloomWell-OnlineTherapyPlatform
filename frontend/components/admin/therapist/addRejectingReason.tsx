@@ -37,7 +37,7 @@ const AddRejectingReasonComponent: React.FC<ReasonComponentProps> = ({ reasonId,
         }}>
             <Box sx={{
                 backgroundColor: 'white', display: 'flex', mt: '2rem', width: '30rem',
-                flexDirection: 'column', p: 3, borderRadius: '1rem', boxShadow: '1px 4px 10px rgba(0, 0, 0, 0.3)',
+                flexDirection: 'column', p: 3, borderRadius: '1rem', boxShadow: '1px 4px 10px rgba(0, 0, 0, 1.1)',
             }}>
                 <Typography sx={{
                     fontWeight: 800, fontSize: '1.3rem', color: '#325343',

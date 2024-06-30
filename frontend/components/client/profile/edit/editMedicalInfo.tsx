@@ -77,7 +77,7 @@ const EditMedicalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditMedi
                         sx={{
                             mt: 1,
                             maxWidth: '100%', width: '30rem',
-                            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                            boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                             '& .MuiOutlinedInput-root': {
                                 '& fieldset': {
                                     borderColor: 'black',

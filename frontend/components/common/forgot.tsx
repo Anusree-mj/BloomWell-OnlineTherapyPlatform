@@ -116,7 +116,7 @@ export default function AdminLogin() {
                         width: '30rem', backgroundColor: 'white', mt: 1,
                         padding: 4, maxWidth: '90%', minHeight: '50vh',
                         display: 'flex', alignItems: 'center',
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                         borderRadius: '0.6rem',
                     }}>
                         <TextField id="outlined-basic" label="Email" variant="outlined"
@@ -172,7 +172,7 @@ export default function AdminLogin() {
                     <FormControl sx={{
                         width: '30rem', backgroundColor: 'white',
                         padding: 4, maxWidth: '90%', minHeight: '50vh',
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                         borderRadius: '0.6rem',
                     }}>
                         <OTPInput email={email} otp={otp} setOtp={setOtp} disableButton={disableButton}

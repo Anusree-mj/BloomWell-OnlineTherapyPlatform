@@ -57,7 +57,7 @@ const ClientQuestionnaire: React.FC<TypeComponentProps> = ({
             <FormControl sx={{
                 width: '30rem', backgroundColor: 'white',
                 padding: 4, maxWidth: '90%', minHeight: { xs: '55vh', sm: '60vh' },
-                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                 borderRadius: '0.6rem',
             }}>
                 <FormLabel id="demo-controlled-radio-buttons-group"

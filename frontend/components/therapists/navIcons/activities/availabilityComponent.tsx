@@ -116,7 +116,7 @@ const AddAvailabilityForm = () => {
             <Box
                 sx={{
                     width: '80rem', backgroundColor: 'white', maxWidth: '80%',
-                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', borderRadius: '0.6rem',
+                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)', borderRadius: '0.6rem',
                     display: 'flex', flexDirection: 'column', p: 3,
                     alignItems: 'center', justifyContent: 'center',
                 }}
