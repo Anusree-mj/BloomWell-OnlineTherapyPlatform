@@ -94,8 +94,8 @@ const BookSlotComponent = () => {
 
     return (
         <Box sx={{
-            display: 'flex', backgroundColor: '#F7FCC2',
-            flexDirection: 'column', minHeight: '80vh',
+            display: 'flex', backgroundColor: '#325343',
+            flexDirection: 'column', minHeight: '90vh',
             alignItems: 'center', justifyContent: 'center', pb: 8,
         }}>
             {!isActiveSlot ? (

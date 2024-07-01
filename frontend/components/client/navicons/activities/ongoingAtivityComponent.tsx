@@ -92,7 +92,7 @@ const OngoingActivityComponent = () => {
             backgroundColor: '#325343', pb: 8
         }}>
             {connectionDetails.therapistName !== '' ? (
-                <TableComponent rows={[]} columns={columns} head={head} subHead={subHead} />
+                <TableComponent rows={[]} columns={columns} head={head} subHead={subHead} role=''/>
 
             ) : (
                 <Box sx={{
