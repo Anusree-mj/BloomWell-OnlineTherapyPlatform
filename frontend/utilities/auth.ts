@@ -12,12 +12,12 @@ export const clientAuth = () => {
     if (clientData) {
         const parsedData = JSON.parse(clientData);
         if (!parsedData.isBlocked) {
-            return { status: 'ok', clientData }
+            return { status: 'ok', clientDetails: parsedData }
         } else {
-            return { status: 'nok', meassage: 'User is blocked' }
+            return { status: 'nok', message: 'User is blocked' }
         }
     } else {
-        return { status: 'nok', meassage: 'User not found' }
+        return { status: 'nok', message: 'User not found' }
     }
 }
 
@@ -28,9 +28,9 @@ export const therapistAuth = () => {
         if (!parsedData.isBlocked) {
             return { status: 'ok', therapistData }
         } else {
-            return { status: 'nok', meassage: 'User is blocked' }
+            return { status: 'nok', message: 'User is blocked' }
         }
     } else {
-        return { status: 'nok', meassage: 'User not found' }
+        return { status: 'nok', message: 'User not found' }
     }
 }

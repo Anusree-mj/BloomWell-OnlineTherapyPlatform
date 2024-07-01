@@ -8,7 +8,8 @@ import {
     getAvailableSlotsSuccessAction,
     getBookedSlotsDetailsAction,
     getBookedSlotsDetailsFailureAction,
-    getBookedSlotsDetailsSuccessAction
+    getBookedSlotsDetailsSuccessAction,
+   
 
 } from '@/store/clients/clientMyActionReducer';
 import { apiCall } from '@/services/api';
@@ -90,6 +91,7 @@ function* getBookedSlotsDetailsActionSaga(action: {
         yield put(getBookedSlotsDetailsFailureAction(err))
     }
 }
+
 
 export function* clientMyActionWatcher() {
     yield takeEvery(getClientOngoingActivityAction, getClientOngoingActivityActionSaga);

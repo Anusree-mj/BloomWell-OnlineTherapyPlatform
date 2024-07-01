@@ -87,6 +87,7 @@ export const clientMyActivitySlice: any = createSlice({
             state.error = action.payload;
             console.log('eror found', state.error)
         },
+
     }
 })
 export const {
@@ -102,4 +103,5 @@ export const {
     getBookedSlotsDetailsFailureAction,
     getBookedSlotsDetailsSuccessAction,
 
+    
 } = clientMyActivitySlice.actions;

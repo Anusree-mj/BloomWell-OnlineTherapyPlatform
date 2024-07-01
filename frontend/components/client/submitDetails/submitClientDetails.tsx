@@ -57,10 +57,26 @@ const ClientDetailsComponent = () => {
     }
     return (
         <Box sx={{
-            backgroundColor: '#F7FCC2', display: 'flex',
+            backgroundColor: '#325343', display: 'flex',
             justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
-            minHeight: '85vh', paddingBottom: '2rem'
+            minHeight: '90vh', paddingBottom: '2rem'
         }}>
+            {!submitDetails && (
+                <>
+                    <Typography sx={{
+                        fontSize: '1.2rem', fontWeight: 800,
+                        textAlign: 'center', color: 'white', mt: 2, mb: 1
+                    }}>
+                        Help us match you to the right therapist
+                    </Typography>
+                    <Typography sx={{
+                        fontSize: '0.9rem', fontWeight: 600, textAlign: 'center', color: 'white',
+                        width: '40rem', maxWidth: '100%', mb: 5
+                    }
+                    }>The following questions are designed to match you to a licensed therapist based on your
+                        therapy needs and personal preferences.</Typography>
+                </>
+            )}
             {typeField && (
                 <TherapyType setType={setType} setTypeField={setTypeField}
                     setAgeField={setAgeField}
@@ -79,13 +95,13 @@ const ClientDetailsComponent = () => {
             {submitDetails && (
                 <>
                     <Typography sx={{
-                        fontSize: { xs: '1.5rem', sm: '2rem' },
-                        textAlign: 'center', color: '#325343', mt: 4, mb: 1
+                        fontSize: '1.2rem', fontWeight: 800,
+                        textAlign: 'center', color: 'white', mt: 4, mb: 1
                     }}>
                         You Have Succesfully Completed The Questionnaire!
                     </Typography>
                     <Typography sx={{
-                        fontSize: '0.9rem', fontWeight: 600, textAlign: 'center', color: '#325343',
+                        fontSize: '0.9rem', fontWeight: 600, textAlign: 'center', color: 'white',
                         width: '30rem', maxWidth: '80%', mb: 2
                     }
                     }>Let's get started.</Typography>
