@@ -12,9 +12,7 @@ const Page = () => {
     <Provider store={store}>
       <ToastContainer />
       <Header />
-      <div style={{ paddingTop: '5.6rem' }}>
         <Login />
-      </div>
       <Footer />
     </Provider>
   )

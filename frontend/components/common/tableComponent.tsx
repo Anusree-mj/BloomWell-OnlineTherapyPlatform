@@ -14,10 +14,11 @@ interface TableComponentProps {
     rows: GridRowsProp;
     columns: GridColDef[];
     head: string;
-    subHead?: SubHeadItem[]
+    subHead?: SubHeadItem[];
+    role: string
 }
 
-const TableComponent: React.FC<TableComponentProps> = ({ rows, columns, head, subHead }) => {
+const TableComponent: React.FC<TableComponentProps> = ({ rows, columns, head, subHead, role }) => {
     const router = useRouter()
     const [search, setSearch] = useState<string>('');
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +47,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ rows, columns, head, su
                 width: '90rem', maxWidth: '90%'
             }}>
                 <Typography variant="h6" noWrap component="div" sx={{
-                    color: '#325343', alignSelf: 'start', mt: 5,
+                    color: role === 'admin' ? '#325343' : 'white', alignSelf: 'start', mt: 5,
                     fontWeight: 800
                 }}>
                     {head}
@@ -60,7 +61,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ rows, columns, head, su
                     <Box sx={{ display: 'flex', gap: 2 }}>
                         {subHead && subHead.map((item) => (
                             <Typography noWrap component="div" sx={{
-                                color: '#325343', mb: 1, textDecoration: 'underline',
+                                color: role === 'admin' ? '#325343' : 'white', mb: 1, textDecoration: 'underline',
                                 fontWeight: item.select ? 800 : 600, fontSize: '1rem',
                                 alignSelf: 'flex-start', cursor: 'pointer', letterSpacing: 1
                             }} onClick={() => { handleSubheadOnClick(item.url) }} >

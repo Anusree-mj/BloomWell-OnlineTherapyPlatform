@@ -31,7 +31,7 @@ const BookSlotComponent = () => {
             if (clientDetails.isActiveSlots) {
                 setIsActiveSlot(true);
             } else {
-                dispatch(getAvailableSlotsAction(clientDetails.therapistDetails._id));
+                dispatch(getAvailableSlotsAction(clientDetails.therapistDetails?clientDetails.therapistDetails._id:''));
             }
         }
     }, [clientDetails]);
@@ -94,8 +94,8 @@ const BookSlotComponent = () => {
 
     return (
         <Box sx={{
-            display: 'flex', backgroundColor: '#F7FCC2',
-            flexDirection: 'column', minHeight: '80vh',
+            display: 'flex', backgroundColor: '#325343',
+            flexDirection: 'column', minHeight: '90vh',
             alignItems: 'center', justifyContent: 'center', pb: 8,
         }}>
             {!isActiveSlot ? (
@@ -110,7 +110,7 @@ const BookSlotComponent = () => {
                     <Box sx={{
                         display: 'flex', flexDirection: 'column', maxWidth: '90%',
                         width: '50rem', borderRadius: '1rem', p: "2rem 1rem 1.5rem 1rem",
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                         alignItems: 'center', justifyContent: 'center', backgroundColor: 'white',
                     }}>
                         <Typography

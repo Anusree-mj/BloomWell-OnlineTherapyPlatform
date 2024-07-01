@@ -48,7 +48,7 @@ const TherapySidebarComponent: React.FC<TherapySidebarComponentProps> = ({
         <Box sx={{
             width: { md: '20rem', xs: '40rem' }, maxWidth: { xs: '95%', md: '90%' },
             backgroundColor: 'white', pt: 1, mt:1,
-            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', minHeight: '87vh',
+            boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)', minHeight: '87vh',
         }}>
             {AccordionItems.map((item, index) => (
                 <Accordion

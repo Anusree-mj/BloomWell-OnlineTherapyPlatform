@@ -50,24 +50,16 @@ const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
 
     return (
         <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
+            display: 'flex', flexDirection: 'column', backgroundColor: '#325343',
+            alignItems: 'center', justifyContent: 'center',
         }}>
             {notifications.map((item) => (
                 <Box key={item._id} sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    mt: 2,
-                    ml: { sm: '15rem' },
-                    width: '60rem',
-                    maxWidth: { sm: '100%', xs: '90%' },
-                    p: 3,
-                    borderRadius: '1rem',
-                    boxShadow: '1px 4px 10px rgba(0, 0, 0, 0.3)',
+                    display: 'flex', flexDirection: 'column',
+                    alignItems: 'center', justifyContent: 'center', mt: 2,
+                    width: '60rem', maxWidth: { sm: '100%', xs: '90%' },
+                    p: 3, borderRadius: '1rem', backgroundColor: 'white',
+                    boxShadow: '1px 4px 10px rgba(0, 0, 0, 1.1)',
                 }}>
                     <Box sx={{
                         display: 'flex',

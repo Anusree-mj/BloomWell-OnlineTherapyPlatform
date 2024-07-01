@@ -158,111 +158,119 @@ const ClientSignupComponent = () => {
 
     return (
         <Box sx={{
-            backgroundColor: '#F7FCC2', display: 'flex',
+            backgroundColor: '#325343', display: 'flex',
             justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
-            paddingBottom: '2rem'
+            paddingBottom: '3rem'
         }}>
             {otpField !== true ? (
                 <>
                     <Typography sx={{
-                        fontSize: { xs: '1.5rem', sm: '2rem' }, mt: 1,
-                        textAlign: 'center', color: '#325343',
+                        fontSize: '1.2rem', mt: 1,
+                        textAlign: 'center', color: 'white', fontWeight: 800
                     }}>
                         Welcome To BloomWell
                     </Typography>
                     <Typography sx={{
-                        fontSize: '0.9rem', fontWeight: 600, textAlign: 'center', color: '#325343',
+                        fontSize: '0.9rem', fontWeight: 600, textAlign: 'center', color: 'white',
                         width: '30rem', maxWidth: '80%', mb: 2
                     }
                     }>Fill in the registration form with your details.</Typography>
                     <FormControl sx={{
                         width: '30rem', backgroundColor: 'white', mt: 1,
                         padding: 4, maxWidth: '90%', minHeight: '50vh',
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                         borderRadius: '0.6rem',
                     }}>
-                        <TextField id="outlined-basic" label="Name" variant="outlined"
-                            required
-                            sx={{
-                                maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
-                                '& .MuiOutlinedInput-root': {
-                                    '& fieldset': {
-                                        borderColor: borderChange.name,
+                        <Box sx={{
+                            display: 'flex', flexDirection: 'column',
+                            alignItems: 'center', justifyContent: 'center'
+                        }}>
+
+                            <TextField id="outlined-basic" label="Name" variant="outlined"
+                                required
+                                sx={{
+                                    maxWidth: '100%', width: '30rem', backgroundColor: '#F7FCC2',
+                                    '& .MuiOutlinedInput-root': {
+                                        '& fieldset': {
+                                            borderColor: borderChange.name,
+                                        },
                                     },
-                                },
-                            }} onChange={(e) => { handleInputChange('name', e.target.value) }}
-                            onClick={() => handleClearSpan('name')}
-                        />
-                        <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
-                        >{spanText.name}</span>
-                        <TextField id="outlined-basic" label="Email" variant="outlined"
-                            required
-                            sx={{
-                                maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2', mt: 2,
-                                '& .MuiOutlinedInput-root': {
-                                    '& fieldset': {
-                                        borderColor: borderChange.email,
+                                }} onChange={(e) => { handleInputChange('name', e.target.value) }}
+                                onClick={() => handleClearSpan('name')}
+                            />
+                            <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
+                            >{spanText.name}</span>
+                            <TextField id="outlined-basic" label="Email" variant="outlined"
+                                required
+                                sx={{
+                                    maxWidth: '100%', width: '30rem', backgroundColor: '#F7FCC2', mt: 2,
+                                    '& .MuiOutlinedInput-root': {
+                                        '& fieldset': {
+                                            borderColor: borderChange.email,
+                                        },
                                     },
-                                },
-                            }} onChange={(e) => { handleInputChange('email', e.target.value) }}
-                            onClick={(e) => handleClearSpan('email')}
-                        />
-                        <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
-                        >{spanText.email}</span>
-                        <TextField
-                            id="outlined-password-input"
-                            label="Password"
-                            type="password"
-                            required
-                            sx={{
-                                maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
-                                mt: 2,
-                                '& .MuiOutlinedInput-root': {
-                                    '& fieldset': {
-                                        borderColor: borderChange.password,
+                                }} onChange={(e) => { handleInputChange('email', e.target.value) }}
+                                onClick={(e) => handleClearSpan('email')}
+                            />
+                            <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
+                            >{spanText.email}</span>
+                            <TextField
+                                id="outlined-password-input"
+                                label="Password"
+                                type="password"
+                                required
+                                sx={{
+                                    maxWidth: '100%', width: '30rem', backgroundColor: '#F7FCC2',
+                                    mt: 2,
+                                    '& .MuiOutlinedInput-root': {
+                                        '& fieldset': {
+                                            borderColor: borderChange.password,
+                                        },
                                     },
-                                },
-                            }} onChange={(e) => { handleInputChange('password', e.target.value) }}
-                            onClick={(e) => handleClearSpan('password')}
-                        />
-                        <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
-                        >{spanText.password}</span>
-                        <TextField
-                            id="outlined-password-input"
-                            label="Confirm Password"
-                            type="password"
-                            required
-                            sx={{
-                                maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
-                                mt: 2,
-                                '& .MuiOutlinedInput-root': {
-                                    '& fieldset': {
-                                        borderColor: borderChange.confrmPassword,
+                                }} onChange={(e) => { handleInputChange('password', e.target.value) }}
+                                onClick={(e) => handleClearSpan('password')}
+                            />
+                            <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
+                            >{spanText.password}</span>
+                            <TextField
+                                id="outlined-password-input"
+                                label="Confirm Password"
+                                type="password"
+                                required
+                                sx={{
+                                    maxWidth: '100%', width: '30rem', backgroundColor: '#F7FCC2',
+                                    mt: 2,
+                                    '& .MuiOutlinedInput-root': {
+                                        '& fieldset': {
+                                            borderColor: borderChange.confrmPassword,
+                                        },
                                     },
-                                },
-                            }} onChange={(e) => { handleInputChange('confrmPassword', e.target.value) }}
-                            onClick={(e) => handleClearSpan('confrmPassword')}
-                        />
-                        <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
-                        >{spanText.confrmPassword}</span>
-                        <LoadingButton
-                            onClick={handleGetOtp}
-                            loading={loading}
-                            loadingPosition="end"
-                            variant="contained"
-                            sx={{
-                                mt: 3, borderRadius: '2rem',
-                                maxWidth: '90%', width: '30rem', color: '#325343',
-                                backgroundColor: '#a6de9b',
-                                '&:hover': {
-                                    backgroundColor: '#325343',
-                                    color: 'white'
-                                }
-                            }}
-                        >
-                            Continue
-                        </LoadingButton>
-                        <SocialLoginComponent />
+                                }} onChange={(e) => { handleInputChange('confrmPassword', e.target.value) }}
+                                onClick={(e) => handleClearSpan('confrmPassword')}
+                            />
+                            <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
+                            >{spanText.confrmPassword}</span>
+                        </Box>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                            <LoadingButton
+                                onClick={handleGetOtp}
+                                loading={loading}
+                                loadingPosition="end"
+                                variant="contained"
+                                sx={{
+                                    mt: 3, borderRadius: '2rem',
+                                    maxWidth: '100%', width: '30rem', color: '#325343',
+                                    backgroundColor: '#a6de9b',
+                                    '&:hover': {
+                                        backgroundColor: '#325343',
+                                        color: 'white'
+                                    }
+                                }}
+                            >
+                                Continue
+                            </LoadingButton>
+                            <SocialLoginComponent />
+                        </Box>
                     </FormControl>
                 </>
             ) : (

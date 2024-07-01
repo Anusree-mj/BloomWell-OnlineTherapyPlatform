@@ -24,6 +24,7 @@ import AlertComponent from '@/components/common/alert';
 import Image from 'next/image';
 import { styled, alpha } from '@mui/material/styles';
 import { MenuProps } from '@mui/material/Menu';
+import { useMediaQuery, useTheme } from '@mui/material';
 
 interface Props {
     container?: Element;
@@ -84,6 +85,8 @@ export default function ClientHeader(props: Props) {
     const [alertMessage, setAlertMessage] = React.useState<string>('');
     const [openMenus, setOpenMenus] = React.useState<{ [key: string]: boolean }>({});
 
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
     React.useEffect(() => {
         const clientData = localStorage.getItem("clientData");
         if (clientData) {
@@ -199,39 +202,48 @@ export default function ClientHeader(props: Props) {
         { title: 'Logout', action: logoutHandler },
     ];
 
-    return (
-        <Box sx={{
-            flexGrow: 1,
-        }}>
-            <CssBaseline />
-            <AppBar position="static" sx={{ backgroundColor: '#325343' }}>
-                <Container maxWidth="xl">
-                    <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
-                        <Typography
-                            variant="h6"
-                            noWrap
-                            component="a"
-                            href="#"
-                            sx={{
-                                mr: 2,
-                                display: { xs: 'none', md: 'flex' },
-                                alignItems: 'center',
-                                fontWeight: 700,
-                                letterSpacing: '.3rem',
-                                color: 'inherit',
-                                textDecoration: 'none',
-                            }}
-                        >
-                            <Image
-                                src="/logo.png"
-                                alt="logo"
-                                width={80}
-                                height={30}
-                                style={{ marginRight: '8px' }}
-                            />
-                            BloomWell
-                        </Typography>
 
+    return (
+        <Box sx={{ flexGrow: 1 }}>
+            <CssBaseline />
+            <AppBar
+                position="static"
+                sx={{
+                    backgroundColor: '#325343',
+                    boxShadow: '0px 15px 10px -15px #111'
+                }}
+            >
+                <Container maxWidth="xl"
+                    sx={{
+                        boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
+                    }}>
+                    <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
+                        {!isSmallScreen && (
+                            <Typography
+                                variant="h6"
+                                noWrap
+                                component="a"
+                                href="#"
+                                sx={{
+                                    mr: 2,
+                                    display: { xs: 'none', md: 'flex' },
+                                    alignItems: 'center',
+                                    fontWeight: 700,
+                                    letterSpacing: '.3rem',
+                                    color: 'inherit',
+                                    textDecoration: 'none',
+                                }}
+                            >
+                                <Image
+                                    src="/logo.png"
+                                    alt="logo"
+                                    width={80}
+                                    height={30}
+                                    style={{ marginRight: '8px' }}
+                                />
+                                BloomWell
+                            </Typography>
+                        )}
                         <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                             <IconButton
                                 size="large"
@@ -246,20 +258,12 @@ export default function ClientHeader(props: Props) {
                             <Menu
                                 id="menu-appbar"
                                 anchorEl={anchorElNav}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left',
-                                }}
+                                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
                                 keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'left',
-                                }}
+                                transformOrigin={{ vertical: 'top', horizontal: 'left' }}
                                 open={Boolean(anchorElNav)}
                                 onClose={handleCloseNavMenu}
-                                sx={{
-                                    display: { xs: 'block', md: 'none' },
-                                }}
+                                sx={{ display: { xs: 'block', md: 'none' } }}
                             >
                                 {navicons.map((item, index) => (
                                     item.subItems ? (
@@ -272,8 +276,7 @@ export default function ClientHeader(props: Props) {
                                                 <List component="div" disablePadding>
                                                     {item.subItems.map((subItem, subIndex) => (
                                                         <Link href={subItem.link} passHref key={subIndex}>
-                                                            <ListItemButton component="a" sx={{ pl: 4 }}
-                                                                onClick={handleCloseNavMenu}>
+                                                            <ListItemButton component="a" sx={{ pl: 4 }} onClick={handleCloseNavMenu}>
                                                                 <ListItemText primary={subItem.title} />
                                                             </ListItemButton>
                                                         </Link>
@@ -291,34 +294,30 @@ export default function ClientHeader(props: Props) {
                                 ))}
                             </Menu>
                         </Box>
-                        <Typography
-                            variant="h5"
-                            noWrap
-                            component="a"
-                            href="#"
-                            sx={{
-                                mr: 2,
-                                display: { xs: 'flex', md: 'none' },
-                                flexGrow: 1,
-                                alignItems: 'center',
-                                fontWeight: 700,
-                                letterSpacing: '.3rem',
-                                color: 'inherit',
-                                textDecoration: 'none',
-                            }}
-                        >
-                            <Image
-                                src="/logo.png"
-                                alt="logo"
-                                width={80}
-                                height={30}
-                                style={{ marginRight: '8px' }}
-                            />
-                            BloomWell
-                        </Typography>
+                        {isSmallScreen && (
+                            <Typography
+                                variant="h5"
+                                noWrap
+                                component="a"
+                                href="#"
+                                sx={{
+                                    mr: 2,
+                                    display: { xs: 'flex', md: 'none' },
+                                    flexGrow: 1,
+                                    alignItems: 'center',
+                                    fontWeight: 700,
+                                    letterSpacing: '.1rem',
+                                    color: 'inherit',
+                                    textDecoration: 'none',
+                                    fontSize: '1.2rem',  // Adjust the font size for small screens
+                                }}
+                            >
+                                BloomWell
+                            </Typography>
+                        )}
                         <Box sx={{
                             flexGrow: 1, display: { xs: 'none', md: 'flex' },
-                            alignItems: 'center', justifyContent: 'center'
+                            alignItems: 'center', justifyContent: 'center',
                         }}>
                             {navicons.map((item, index) => (
                                 item.subItems ? (
@@ -337,12 +336,9 @@ export default function ClientHeader(props: Props) {
                                             <ListItemText primary={item.iconTitle} />
                                             <ExpandMoreIcon />
                                         </ListItemButton>
-
                                         <StyledMenu
                                             id="demo-customized-menu"
-                                            MenuListProps={{
-                                                'aria-labelledby': 'demo-customized-button',
-                                            }}
+                                            MenuListProps={{ 'aria-labelledby': 'demo-customized-button' }}
                                             anchorEl={anchorElSubItems}
                                             open={open}
                                             onClose={handleClose}
@@ -358,7 +354,6 @@ export default function ClientHeader(props: Props) {
                                                         <Divider sx={{ my: 0.5 }} />
                                                     )}
                                                 </>
-
                                             ))}
                                         </StyledMenu>
                                     </div>
@@ -368,39 +363,34 @@ export default function ClientHeader(props: Props) {
                                             <ListItemText primary={item.iconTitle} />
                                         </MenuItem>
                                     </Link>
-
                                 )
                             ))}
-
                         </Box>
                         <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu}
+                            <IconButton
+                                onClick={handleOpenUserMenu}
                                 size="large"
                                 aria-label="account of current user"
                                 aria-controls="menu-appbar"
                                 aria-haspopup="true"
-                                sx={{ color: '#325343' }}>
+                                sx={{ color: '#325343' }}
+                            >
                                 <Typography sx={{
                                     fontSize: '1rem',
                                     fontWeight: 600, ml: 1,
                                     color: 'white',
-                                }
-                                }>{clientDetails.name}</Typography>
+                                }}>
+                                    {clientDetails.name}
+                                </Typography>
                             </IconButton>
                         </Tooltip>
                         <Menu
                             sx={{ mt: '45px' }}
                             id="menu-appbar"
                             anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
+                            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                             keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
+                            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
@@ -416,6 +406,9 @@ export default function ClientHeader(props: Props) {
             {/* {alertMessage && (
                 <AlertComponent message={alertMessage} viewURL={'/therapist/connections'} />
             )} */}
-        </Box>
+        </Box >
     );
+
+
+
 }

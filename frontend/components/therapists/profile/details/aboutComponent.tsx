@@ -13,7 +13,7 @@ const AboutInfoComponent: React.FC<AboutInfoProps> = ({ description }) => {
     return (
         <Box sx={{
             backgroundColor: 'white', display: 'flex', mt: '2rem',
-            flexDirection: 'column', p: 3, borderRadius: '1rem', boxShadow: '1px 4px 10px rgba(0, 0, 0, 0.3)',
+            flexDirection: 'column', p: 3, borderRadius: '1rem', boxShadow: '1px 4px 10px rgba(0, 0, 0, 1.1)',
         }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
                 <Typography sx={{ fontWeight: 800, fontSize: '1rem', color: '#325343' }}>About</Typography>

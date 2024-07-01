@@ -1,9 +1,6 @@
-import { use, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Avatar, Box, Button, Checkbox, Divider, FormControlLabel, FormGroup, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
-import Radio from '@mui/material/Radio';
-import { pink } from '@mui/material/colors';
+import { Box, Button, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -41,21 +38,21 @@ const FeedBackComponent = () => {
     return (
         <Box
             sx={{
-                backgroundColor: '#F7FCC2',
+                backgroundColor: '#325343',
                 display: 'flex',
                 alignItems: 'center',
                 flexDirection: 'column',
-                minHeight: '85vh',
+                minHeight: '90vh',
                 paddingBottom: '2rem',
             }} >
             <Typography sx={{
                 width: '80rem', maxWidth: '90%', textAlign: 'center',
-                color: '#325343', fontWeight: 800, fontSize: '1rem', mt: 4
+                color: 'white', fontWeight: 800, fontSize: '1rem', mt: 4
             }}>We hope you found our services helpful. Your feedback is always welcome and valuable in improving BloomWell.
             </Typography>
             <Box sx={{
                 backgroundColor: 'white', display: 'flex', mt: '2rem', justifyContent: 'center', alignItems: 'center',
-                flexDirection: 'column', p: 3, borderRadius: '1rem', boxShadow: '1px 4px 10px rgba(0, 0, 0, 0.3)',
+                flexDirection: 'column', p: 3, borderRadius: '1rem', boxShadow: '1px 4px 10px rgba(0, 0, 0, 1.1)',
                 width: '60rem', maxWidth: '90%'
             }}>
                 <Typography sx={{
@@ -75,13 +72,12 @@ const FeedBackComponent = () => {
                     sx={{
                         alignSelf: 'flex-start',
                         maxWidth: '100%', width: '30rem', mt: 1,
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                         '& .MuiOutlinedInput-root': {
                             '& fieldset': {
                                 borderColor: 'black'
                             },
                         },
-                    }}  onClick={() => { setSpanText('') }}
+                    }} onClick={() => { setSpanText('') }}
                     onChange={(e) => { setFeedback(e.target.value) }}
                 />
                 <Button variant="contained"

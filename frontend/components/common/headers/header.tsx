@@ -1,4 +1,3 @@
-// @react
 'use client'
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
@@ -20,9 +19,7 @@ import Link from 'next/link';
 
 const drawerWidth = 240;
 const navItems = [
-  { name: 'Home', link: '/' },
-  { name: 'Advice', link: '/advice' },
-  { name: 'Contact', link: '/contact' },
+  { name: 'Home', link: '/' },  
   { name: 'Therapist Jobs', link: '/therapistJob' },
 ];
 
@@ -38,12 +35,10 @@ export default function DrawerAppBar() {
       textAlign: 'center', backgroundColor: '#F8FBD5',
       display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'
     }}>
-
       <Box sx={{
         flexGrow: 1, display: { xs: 'flex', sm: 'flex' },
         alignItems: 'center', backgroundColor: '#325343', width: '100%'
-      }}
-      >
+      }}>
         <Image
           src="/logo.png"
           alt="logo"
@@ -91,7 +86,8 @@ export default function DrawerAppBar() {
               fontWeight: 600
             }}
           >
-            Login          </Button>
+            Login
+          </Button>
         </Link>
 
         <Link href="/client/register" passHref>
@@ -102,22 +98,19 @@ export default function DrawerAppBar() {
             Get Started
           </Button>
         </Link>
-
       </List>
-    </Box >
+    </Box>
   );
-
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav" sx={{ backgroundColor: '#325343' }}>
+      <AppBar component="nav" position="static" sx={{ backgroundColor: '#325343' }}>
         <Toolbar>
           <Box sx={{
             flexGrow: 1, display: { xs: 'flex', sm: 'flex' },
             alignItems: 'center'
-          }}
-          >
+          }}>
             <Link href="/" passHref>
               <Image
                 src="/logo.png"
@@ -144,7 +137,6 @@ export default function DrawerAppBar() {
                 BloomWell
               </Typography>
             </Link>
-
           </Box>
           <IconButton
             color="inherit"
@@ -157,9 +149,8 @@ export default function DrawerAppBar() {
           </IconButton>
           <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
             {navItems.map((item) => (
-              <Link href={item.link} passHref>
+              <Link key={item.name} href={item.link} passHref>
                 <Button component="a"
-                  key={item.name}
                   sx={{
                     color: '#fff',
                     '&:hover': {
@@ -178,7 +169,7 @@ export default function DrawerAppBar() {
                   mx: 1, color: 'white', borderColor: 'white', display: 'block',
                   fontWeight: 600,
                   '&:hover': {
-                   border:'1px solid #49873D'
+                    border: '1px solid #49873D'
                   }
                 }}
                 variant="outlined">
@@ -192,7 +183,7 @@ export default function DrawerAppBar() {
                   mx: 1, color: '#325343', backgroundColor: 'white', display: 'block',
                   fontWeight: 600,
                   '&:hover': {
-                    backgroundColor: '#49873D',color:'white'
+                    backgroundColor: '#49873D', color: 'white'
                   }
                 }}
                 variant="contained">
@@ -209,7 +200,7 @@ export default function DrawerAppBar() {
           onClose={handleDrawerToggle}
           anchor="right"
           ModalProps={{
-            keepMounted: true, 
+            keepMounted: true,
           }}
           sx={{
             display: { xs: 'block', sm: 'none' },
@@ -222,7 +213,6 @@ export default function DrawerAppBar() {
           {drawer}
         </Drawer>
       </nav>
-
     </Box>
   );
 }

@@ -30,4 +30,5 @@ router.post('/slots/:therapistId', protect('client'), controllers.userController
 router.get('/slots/active/:activeSlotId', protect('client'), controllers.userControllers.getActiveSlotController)
 router.put('/slot/cancel', protect('client'), controllers.userControllers.cancelSlotController)
 
+
 export default router;

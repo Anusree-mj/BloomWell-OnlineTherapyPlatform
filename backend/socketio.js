@@ -1,5 +1,5 @@
 import { Server } from 'socket.io';
-import { userJoin, userLeft, users } from './utilitis/userSocket.js';
+import { userJoin, userLeft, users, getUsers } from './utilitis/userSocket.js';
 
 const allowedOrigins = ['http://localhost:3000', 'http://localhost:8000'];
 
@@ -20,7 +20,7 @@ const initializeSocket = (server) => {
     io.on('connection', (socket) => {
         socket.on('joinRoom', ({ userId, role }) => {
             userJoin(socket.id, userId);
-            // io.emit('getUsers')
+            io.emit("getUsers", getUsers());
         });
 
         socket.on('send_Connection', (data) => {
@@ -50,7 +50,7 @@ const initializeSocket = (server) => {
 
         socket.on("disconnect", () => {
             userLeft(socket.id);
-            // io.emit("getUsers", getUsers());
+            io.emit("getUsers", getUsers());
         });
     });
     return io;

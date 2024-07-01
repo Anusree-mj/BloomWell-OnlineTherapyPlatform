@@ -52,7 +52,7 @@ const ExpertiseComponent: React.FC<ExpertiseComponentProps> = ({
                 padding: 4,
                 maxWidth: '90%',
                 minHeight: '50vh',
-                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                 borderRadius: '0.6rem',
             }}>
                 {expertiseButtonItems.map((item) => (

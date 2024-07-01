@@ -89,14 +89,14 @@ const OngoingActivityComponent = () => {
     ]
     return (
         <Box sx={{
-            backgroundColor: '#F7FCC2', pb: 8
+            backgroundColor: '#325343', pb: 8
         }}>
             {connectionDetails.therapistName !== '' ? (
-                <TableComponent rows={[]} columns={columns} head={head} subHead={subHead} />
+                <TableComponent rows={[]} columns={columns} head={head} subHead={subHead} role=''/>
 
             ) : (
                 <Box sx={{
-                    display: 'flex', backgroundColor: '#F7FCC2',
+                    display: 'flex', backgroundColor: '#325343',
                     flexDirection: 'column', minHeight: '80vh',
                     alignItems: 'center', justifyContent: 'center',pb:8
                 }}>

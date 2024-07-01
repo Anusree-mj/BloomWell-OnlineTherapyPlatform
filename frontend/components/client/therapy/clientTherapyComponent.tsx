@@ -5,18 +5,35 @@ import { getTherapistDetailsAction, therapistStateType } from '@/store/therapist
 import ChatComponent from '@/components/common/therapy/chatComponent';
 import TherapySidebarComponent from '../../common/therapy/sidebarComponent';
 import { clientStateType } from '@/store/clients/clientReducer';
-import { getChatAction, userStateType } from '@/store/user/userReducer';
+import { clientAuth } from '@/utilities/auth';
+import { useRouter } from "next/navigation";
+import { toast } from 'react-toastify';
+import { clientMyActivityStateType, getBookedSlotsDetailsAction } from '@/store/clients/clientMyActionReducer';
 
 const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistId }) => {
     const dispatch = useDispatch();
+    const router = useRouter()
     const therapist = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
     const ratings = useSelector((state: { therapist: therapistStateType }) => state.therapist.ratings) || 0;
     const clientId = useSelector((state: { client: clientStateType }) => state.client.client._id);
-    const chats = useSelector((state: { user: userStateType }) => state.user.chats);
+    const activeSlotId = useSelector((state: { client: clientStateType }) => state.client.client.activeSlotId);
+    const slotDetails = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.bookedSlot)
 
     useEffect(() => {
-        dispatch(getTherapistDetailsAction(therapistId));
-    }, [dispatch, therapistId]);
+        const { status } = clientAuth()
+        if (status === 'ok') {
+            const { clientDetails } = clientAuth();
+            if (!clientDetails.isConnected) {
+                router.push('/client/connection')
+            }
+            dispatch(getTherapistDetailsAction(therapistId));
+            dispatch(getBookedSlotsDetailsAction(activeSlotId))
+        } else {
+            const { message } = clientAuth()
+            toast.error(message)
+            router.push('/login')
+        }
+    }, []);
 
     const AccordionItems = [
         { title: 'Therapist', button: 'View Profile', url: `therapist/view/${therapist._id}` },
@@ -31,17 +48,7 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
         { content: ['No goals yet'] },
         { content: ['No worksheets yet'] }
     ]
-    // const reciever = {
-    //     image: therapist.image,
-    //     name: therapist.name,
-    //     recieverId: therapist._id,
-    //     role: 'Therapists'
-    // }
 
-    // const sender = {
-    //     senderId: clientId,
-    //     role: 'Client'
-    // }
     const messageData = {
         reciever: {
             image: therapist.image,
@@ -57,7 +64,7 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
     return (
         <Box
             sx={{
-                backgroundColor: '#F7FCC2',  pb:'4rem',
+                backgroundColor: '#325343', pb: '4rem',
                 display: 'flex', flexWrap: 'wrap-reverse', gap: 3,
                 justifyContent: { md: 'space-between', xs: 'center' },
                 alignItems: 'center',
@@ -66,7 +73,7 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
             <TherapySidebarComponent
                 AccordionItems={AccordionItems} AccordionContent={AccordionContent} rating={ratings}
                 reciever={messageData.reciever} />
-            <ChatComponent messageData={messageData} />
+            <ChatComponent messageData={messageData} slotDetails={slotDetails} />
         </Box>
     )
 }

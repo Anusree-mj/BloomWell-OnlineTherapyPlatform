@@ -142,7 +142,7 @@ const EditProffessionalInfoComponent: React.FC<EditProffessionalInfoProps> = ({ 
                     required value={editProffessionalInfo.licenseNo} type="text"
                     sx={{
                         maxWidth: '100%', width: '30rem', mt: 2,
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                         '& .MuiOutlinedInput-root': {
                             '& fieldset': {
                                 borderColor: 'black',
@@ -181,7 +181,7 @@ const EditProffessionalInfoComponent: React.FC<EditProffessionalInfoProps> = ({ 
                 }}
                 sx={{
                     maxWidth: '100%', width: '30rem', mt: 4,
-                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
                             borderColor: 'black',
@@ -198,7 +198,7 @@ const EditProffessionalInfoComponent: React.FC<EditProffessionalInfoProps> = ({ 
                 onChange={(e) => handleInputChange('experience', e.target.value)}
                 sx={{
                     maxWidth: '100%', width: '30rem', mt: 3,
-                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
                             borderColor: 'black',

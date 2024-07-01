@@ -39,7 +39,7 @@ const ConnectionComponent = () => {
             router.push('/login')
         }
     }, []);
-  useEffect(() => {
+    useEffect(() => {
         if (clientId !== '') {
             socket.emit('joinRoom', { userId: clientId, role: 'client' });
         }
@@ -47,7 +47,7 @@ const ConnectionComponent = () => {
             socket.disconnect();
         };
     }, [clientId, socket]);
-    
+
 
     const handleConnection = (therapistId: string) => {
         socket.emit('send_Connection', { clientName, therapistId })
@@ -70,82 +70,95 @@ const ConnectionComponent = () => {
     return (
         <Box
             sx={{
-                backgroundColor: '#F7FCC2',
-                display: 'flex',
-                alignItems: 'center',
-                flexDirection: 'column',
-                minHeight: '90vh',
+                backgroundColor: '#325343', display: 'flex', alignItems: 'center',
+                flexDirection: 'column', minHeight: '90vh',
                 paddingBottom: '2rem'
             }}
         >
             <Typography
                 sx={{
-                    mt: 1,
-                    color: '#325343',maxWidth:'90%',
+                    mt: 2, color: 'white', maxWidth: '90%',
                     fontSize: '1.2rem', fontWeight: 600,
-                }}>
-                These are our top therapists,selected just for you.
+                }}
+            >
+                These are our top therapists, selected just for you.
                 Feel free to pick one and connect with them.
             </Typography>
-            <Box sx={{
-                display: 'flex', flexWrap: 'wrap', gap: 5,
-                justifyContent: 'center', alignItems: 'center', mt: 2
-            }}>
+            <Box
+                sx={{
+                    display: 'flex', flexWrap: 'wrap', gap: 5,
+                    justifyContent: 'center', alignItems: 'center', mt: 2,
+                    '@media (max-width: 600px)': {
+                        gap: 2, // Reduce gap for small screens
+                    }
+                }}
+            >
                 {therapists.map((item, index) => (
-                    <Card key={index} sx={{
-                        mt: 2,
-                        display: 'flex',
-                        flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center',
-                        borderRadius: '1rem', width: '15rem', maxWidth: '80%'
-                    }}>
+                    <Card
+                        key={index}
+                        sx={{
+                            p: 0,
+                            mt: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center',
+                            justifyContent: 'center', borderRadius: '1rem',
+                            width: '15rem', maxWidth: '80%',
+                            '@media (max-width: 600px)': {
+                                width: '45%', // Ensure two cards in a row for small screens
+                            },
+                        }}
+                    >
                         <CardActionArea>
-                            <CardContent sx={{
-                                display: 'flex', flexDirection: 'column',
-                                alignItems: 'center', justifyContent: 'center'
-                            }}>
+                            <CardContent
+                                sx={{
+                                    display: 'flex', flexDirection: 'column', alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                            >
                                 <CardMedia
                                     component="img"
                                     height="50"
                                     image={item.image}
-                                    alt="green iguana"
+                                    alt="Therapist"
                                 />
                                 <Typography
                                     sx={{
-                                        color: '#325343',
-                                        fontSize: '1.2rem', fontWeight: 600, mt: 1
-                                    }}>
+                                        color: '#325343', fontSize: '1.2rem', fontWeight: 600, mt: 1
+                                    }}
+                                >
                                     {item.name}
                                 </Typography>
                                 <Typography
                                     sx={{
-                                        mt: '0.2rem',
-                                        color: '#325343',
-                                        fontSize: '0.9rem', fontWeight: 200,
-                                    }}>
+                                        mt: '0.2rem', color: '#325343', fontSize: '0.9rem',
+                                        fontWeight: 200,
+                                    }}
+                                >
                                     {item.role}
                                 </Typography>
                                 <Rating name="read-only" value={item.averageRating} readOnly />
-                                <Link href={`/therapist/view/${item._id}`} style={{
-                                    marginTop: '0.4rem',
-                                    textDecoration: 'underline'
-                                }}
-                                >View
+                                <Link href={`/therapist/view/${item._id}`}
+                                    style={{
+                                        marginTop: '0.4rem', textDecoration: 'underline'
+                                    }}
+                                >
+                                    View
                                 </Link>
                             </CardContent>
                         </CardActionArea>
-                        <CardActions sx={{
-                            display: 'flex', alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
-                            <Button sx={{
-                                width: '15rem', maxWidth: '80%',
-                                color: '#325343', borderRadius: '0.7rem',
-                                backgroundColor: '#a6de9b',
-                                '&:hover': {
-                                    backgroundColor: '#325343',
-                                    color: 'white'
-                                }
-                            }} onClick={(e) => { handleConnection(item._id) }}
+                        <CardActions
+                            sx={{
+                                display: 'flex', alignItems: 'flex-start', justifyContent: 'center'
+                            }}
+                        >
+                            <Button
+                                sx={{
+                                    width: '15rem', maxWidth: '80%', color: '#325343',
+                                    borderRadius: '0.7rem', backgroundColor: '#a6de9b',
+                                    '&:hover': {
+                                        backgroundColor: '#325343',
+                                        color: 'white'
+                                    }
+                                }}
+                                onClick={(e) => { handleConnection(item._id) }}
                             >
                                 Connect
                             </Button>

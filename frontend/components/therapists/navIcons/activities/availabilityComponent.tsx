@@ -111,42 +111,48 @@ const AddAvailabilityForm = () => {
                 sx={{
                     mt: 2, mb: 2, color: '#325343', fontSize: '1.2rem', fontWeight: 800,
                 }}>
-                Your Available Days And Time
+                Days and Time You Preferred
             </Typography>
             <Box
                 sx={{
                     width: '80rem', backgroundColor: 'white', maxWidth: '80%',
-                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', borderRadius: '0.6rem',
-                    display: 'flex', flexDirection: 'column',
-                    alignItems: 'center', justifyContent: 'center', p: '4rem 2.5rem'
+                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)', borderRadius: '0.6rem',
+                    display: 'flex', flexDirection: 'column', p: 3,
+                    alignItems: 'center', justifyContent: 'center',
                 }}
             >
                 {slots && slots.length > 0 && !isEdit ? (
-                    <>
+                    <Box sx={{
+                        display: 'flex', flexWrap: 'wrap', maxWidth: '90%',
+                        justifyContent: 'center', alignItems: 'center', gap: 3
+                    }}>
                         <Calendar
                             tileClassName={({ date }) => tileClassName({ date })}
                             tileContent={({ date }) => tileContent({ date })}
                         />
-                        <Typography
-                            sx={{
-                                mt: 2, mb: 1, color: '#325343', fontSize: '1rem', fontWeight: 600,
-                            }}>
-                            Your Preferred Time: {dayjs(availableFrom).format('hh:mm A')} - {dayjs(availableTo).format('hh:mm A')}
-                        </Typography>
-                        <Button variant="contained"
-                            sx={{
-                                backgroundColor: '#325343', width: '20rem', maxWidth: '90%',
-                                '&:hover': {
-                                    backgroundColor: '#49873D',
-                                    color: 'white',
-                                }
-                            }} onClick={() => setIsEdit(true)}>
-                            Edit Availability
-                        </Button>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignSelf: 'start', maxWidth: '90%' }}>
 
-                    </>
+                            <Typography
+                                sx={{
+                                    mt: 2, mb: 1, color: '#325343', fontSize: '1rem', fontWeight: 600,
+                                }}>
+                                Time you preferred : {dayjs(availableFrom).format('hh:mm A')} - {dayjs(availableTo).format('hh:mm A')}
+                            </Typography>
+                            <Button variant="contained"
+                                sx={{
+                                    backgroundColor: '#325343', width: '20rem', maxWidth: '90%',
+                                    '&:hover': {
+                                        backgroundColor: '#49873D',
+                                        color: 'white',
+                                    }
+                                }} onClick={() => setIsEdit(true)}>
+                                Edit Availability
+                            </Button>
+                        </Box>
+
+                    </Box>
                 ) : (
-                    <>
+                    <Box sx={{ width: '30rem', maxWidth: '90%' }}>
                         <Typography
                             sx={{
                                 alignSelf: 'start',
@@ -157,7 +163,8 @@ const AddAvailabilityForm = () => {
                         <Box
                             sx={{
                                 display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
-                                flexWrap: 'wrap', gap: '2.5rem'
+                                flexWrap: 'wrap', gap: '2.5rem', width: '30rem',
+                                maxWidth: '90%',
                             }}
                         >
                             <Box
@@ -183,12 +190,12 @@ const AddAvailabilityForm = () => {
                                     sx={{
                                         display: 'grid', p: 1,
                                         gridTemplateColumns: 'repeat(2, 1fr)',
-                                        gap: '8px', width: '100%',
+                                        gap: '8px', width: '30rem', maxWidth: '90%',
                                         flexWrap: 'wrap',
                                     }}
                                 >
                                     {daysOfWeek.map((day) => (
-                                        <FormControlLabel
+                                        <FormControlLabel 
                                             key={day}
                                             control={
                                                 <Checkbox
@@ -259,7 +266,7 @@ const AddAvailabilityForm = () => {
                             }} onClick={handleSubmit}>
                             Add Availability
                         </Button>
-                    </>
+                    </Box>
                 )}
             </Box>
         </Box >

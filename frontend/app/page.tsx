@@ -9,9 +9,7 @@ export default function Home() {
   return (
     <>      
       <Header />
-      <div style={{ paddingTop: '5.6rem' }}>
         <HomeCard />
-      </div>
       <WorkFlows />
       <Accordion />
       <Footer />

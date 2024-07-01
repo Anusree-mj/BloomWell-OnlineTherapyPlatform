@@ -109,7 +109,7 @@ const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistI
                     minHeight: '40vh',
                 }}>
                     <Box sx={{
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                         backgroundColor: '#F7FCC2', borderRadius: '0.6rem',
                         p: 2, mb: 1, width: '50rem', maxWidth: '90%'
                     }}>

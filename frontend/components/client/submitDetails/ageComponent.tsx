@@ -21,22 +21,10 @@ const AgeComponent: React.FC<TypeComponentProps> = ({
 
     return (
         <>
-            <Typography sx={{
-                fontSize: { xs: '1.5rem', sm: '2rem' },
-                textAlign: 'center', color: '#325343', mt: 4, mb: 1
-            }}>
-                Help us match you to the right therapist
-            </Typography>
-            <Typography sx={{
-                fontSize: '0.9rem', fontWeight: 600, textAlign: 'center', color: '#325343',
-                width: '30rem', maxWidth: '80%', mb: 2
-            }
-            }>The following questions are designed to match you to a licensed therapist based on your
-                therapy needs and personal preferences.</Typography>
             <FormControl sx={{
                 width: '30rem', backgroundColor: 'white',
                 padding: 4, maxWidth: '90%', minHeight: { xs: '55vh', sm: '60vh' },
-                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                 borderRadius: '0.6rem',
             }}>
                 <Typography
@@ -61,7 +49,7 @@ const AgeComponent: React.FC<TypeComponentProps> = ({
                                 <MenuItem key={option} value={option}
                                     onClick={() => {
                                         setAge(option), setAgeField(false),
-                                        setQuestionnaireField(true)
+                                            setQuestionnaireField(true)
                                     }}>
                                     {option}
                                 </MenuItem>
@@ -74,7 +62,7 @@ const AgeComponent: React.FC<TypeComponentProps> = ({
                                     onClick={() => {
                                         setAge(option), setAgeField(false),
 
-                                        setQuestionnaireField(true)
+                                            setQuestionnaireField(true)
                                     }}>
 
                                     {option}

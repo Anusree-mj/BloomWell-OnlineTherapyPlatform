@@ -9,7 +9,7 @@ import Typography from '@mui/joy/Typography';
 import Link from 'next/link';
 import Image from 'next/image';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
-import { Button } from '@mui/material';
+import { useRouter } from "next/navigation";
 
 const cardItems = [
   { src: '/home/ind.png', title: 'Individual', subTitle: 'For myself', hoverSrc: '/home/indHover.png', color: '#397a4a' },
@@ -19,6 +19,7 @@ const cardItems = [
 
 export default function MediaCover() {
   const [hoveredItems, setHoveredItems] = useState(Array(cardItems.length).fill(false));
+  const router = useRouter();
 
   const handleHover = (index: number, isHovered: boolean) => {
     const newHoveredItems = [...hoveredItems];
@@ -26,18 +27,22 @@ export default function MediaCover() {
     setHoveredItems(newHoveredItems);
   };
 
+  const handleClick = () => {
+    router.push('/client/register')
+  }
+
   return (
     <Box sx={{
-      height: '90vh',
-      backgroundColor: '#325343', display: 'flex', minHeight: 'calc(100vh - var(--header-height))',
-      flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
-    }}>
-      <Box>
+      minHeight: '90vh',
+      backgroundColor: '#325343', display: 'flex',
+      flexDirection: 'column', alignItems: 'center', justifyContent: 'center', pt: 4, pb: 4
 
+    }}>
+      <Box sx={{ maxWidth: '90%' }}>
         <Typography sx={{
-          fontSize: { xs: '1.5rem', sm: '2rem' },
+          fontSize: { xs: '1rem', sm: '2rem' },
           textAlign: 'center', color: 'white',
-          letterSpacing: '0.2rem'
+          letterSpacing: '0.2rem',
         }
         }>You deserve to be happy.</Typography>
         <Typography sx={{
@@ -51,7 +56,7 @@ export default function MediaCover() {
         component="ul"
         sx={{
           display: 'flex', gap: 5, flexWrap: 'wrap', mt: 3, maxWidth: '80%',
-          alignItems: 'center', justifyContent: 'center'
+          alignItems: 'center', justifyContent: 'center',
         }}
       >
         {cardItems.map((item, index) => (
@@ -60,10 +65,10 @@ export default function MediaCover() {
           }}
             onMouseEnter={() => handleHover(index, true)}
             onMouseLeave={() => handleHover(index, false)}
+            onClick={handleClick}
           >
             <CardCover>
               <Box sx={{ flexGrow: 1, display: { xs: 'flex', sm: 'flex' }, backgroundColor: item.color }}
-
               >
                 <Image
                   src={hoveredItems[index] ? item.hoverSrc : item.src}
@@ -95,22 +100,6 @@ export default function MediaCover() {
           </Card>
         ))}
       </Box>
-      <Link href={"/client/register"} passHref>
-        <Button variant="contained"
-          component="a"
-          sx={{
-            mt: 4,
-            backgroundColor: '#95C08D',
-            color: '#325343',
-            borderRadius: '0.6rem',
-            pt: 1,
-            pb: 1,
-            '&:hover': {
-              backgroundColor: '#49873D',
-              color: 'white',
-            }
-          }}>Get Started</Button>
-      </Link>
     </Box>
   );
 }

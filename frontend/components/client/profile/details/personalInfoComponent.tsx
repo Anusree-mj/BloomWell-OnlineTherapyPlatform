@@ -24,7 +24,7 @@ const PersonalInfoComponent: React.FC<PersonalInfoProps> = ({ personalInfoItems 
     return (
         <Box sx={{
             backgroundColor: 'white', display: 'flex', mt: '1rem',
-            flexDirection: 'column', p: 3, borderRadius: '1rem', boxShadow: '1px 4px 10px rgba(0, 0, 0, 0.3)',
+            flexDirection: 'column', p: 3, borderRadius: '1rem', boxShadow: '1px 4px 10px rgba(0, 0, 0, 1.1)',
 
         }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>

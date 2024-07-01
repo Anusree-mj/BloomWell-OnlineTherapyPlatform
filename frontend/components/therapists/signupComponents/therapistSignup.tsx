@@ -237,7 +237,7 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
                         width: '35rem', backgroundColor: 'white', mt: 1, display: 'flex',
                         gap: 2, flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                         padding: 4, maxWidth: '90%', minHeight: '60vh',
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                         borderRadius: '0.6rem',
                     }}>
                         <Box sx={{
@@ -348,7 +348,7 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
                     <FormControl sx={{
                         width: '30rem', backgroundColor: 'white',
                         padding: 4, maxWidth: '90%', minHeight: '50vh',
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                         borderRadius: '0.6rem',
                     }}>
                         <OTPInput email={signupInfo.email} otp={otp} setOtp={setOtp} disableButton={disableButton}

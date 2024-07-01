@@ -124,7 +124,7 @@ const PasswordComponent = (props: { role: string }) => {
     return (
         <Box sx={{
             backgroundColor: 'white', display: 'flex', mt: '2rem',
-            flexDirection: 'column', p: 3, borderRadius: '1rem', boxShadow: '1px 4px 10px rgba(0, 0, 0, 0.3)',
+            flexDirection: 'column', p: 3, borderRadius: '1rem', boxShadow: '1px 4px 10px rgba(0, 0, 0, 1.3)',
         }}>
             <Typography sx={{
                 fontWeight: 800, mb: 1, fontSize: '1rem', cursor: 'pointer',
@@ -150,7 +150,7 @@ const PasswordComponent = (props: { role: string }) => {
                                 type={currentPassWordVisibility.isText ? 'text' : 'password'}
                                 sx={{
                                     maxWidth: '100%', width: '30rem', mt: 2,
-                                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                                     '& .MuiOutlinedInput-root': {
                                         '& fieldset': {
                                             borderColor: validColor.currentPassword,
@@ -180,7 +180,7 @@ const PasswordComponent = (props: { role: string }) => {
                                 type={newPassWordVisibility.isText ? 'text' : 'password'}
                                 sx={{
                                     maxWidth: '100%', width: '30rem', mt: 2,
-                                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                                     '& .MuiOutlinedInput-root': {
                                         '& fieldset': {
                                             borderColor: validColor.newPassword,

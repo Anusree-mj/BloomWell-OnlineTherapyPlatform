@@ -17,7 +17,7 @@ const DoSomethingComponent: React.FC<DoSomethingComponentProps> = ({ content, bu
             <Box sx={{
                 display: 'flex', flexDirection: 'column', maxWidth: '100%',
                 width: '30rem', p: '1rem 1.2rem', borderRadius: '1rem',
-                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                 alignItems: 'center', justifyContent: 'center', backgroundColor: 'white'
             }}>
                 <Typography

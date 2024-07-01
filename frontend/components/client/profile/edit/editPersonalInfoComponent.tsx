@@ -128,7 +128,7 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setPersona
                     required value={editPersonalInfo.name} type="text"
                     sx={{
                         maxWidth: '100%', width: '30rem', mt: 2,
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                         '& .MuiOutlinedInput-root': {
                             '& fieldset': {
                                 borderColor: validColor.name,
@@ -147,7 +147,7 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setPersona
                 <TextField id="outlined-basic" label="Email" variant="outlined"
                     required value={editPersonalInfo.email} type="email"
                     sx={{
-                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                        boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                         '& .MuiOutlinedInput-root': {
                             '& fieldset': {
                                 borderColor: validColor.email,
@@ -167,7 +167,7 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setPersona
                 onChange={(e) => handleInputChange('age', e.target.value)}
                 sx={{
                     maxWidth: '100%', width: '30rem', mt: 3,
-                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
                             borderColor: 'black',
@@ -197,7 +197,7 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setPersona
                 value={editPersonalInfo.sessionPreferred}
                 sx={{
                     maxWidth: '100%', width: '30rem', mt: 3,
-                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
                             borderColor: 'black',

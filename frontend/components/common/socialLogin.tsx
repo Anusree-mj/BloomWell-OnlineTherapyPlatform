@@ -65,7 +65,7 @@ const SocialLoginComponent: React.FC = () => {
       <Button sx={{
         mt: 2, display: 'flex', alignItems: 'center', gap: 1,
         '&:hover': {
-          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
         }
       }} onClick={() => { login() }} >
         <Image src="/google.png"

@@ -89,23 +89,23 @@ const PaymentComponent = () => {
     return (
         <Box
             sx={{
-                backgroundColor: '#F7FCC2',
+                backgroundColor: '#325343',
                 display: 'flex',
-                justifyContent: 'center',
+                justifyContent: 'flex-start',
                 alignItems: 'center',
                 flexDirection: 'column',
                 minHeight: '85vh',
-                paddingBottom: '2rem'
+                paddingBottom: '4rem'
             }}
         >
             <Box
                 sx={{
                     width: '80rem',
                     backgroundColor: 'white',
-                    mt: 6,
-                    pt: 4, pb: 7,
+                    mt: 2,
+                    pt: 2, pb: 7,
                     maxWidth: '90%',
-                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                     borderRadius: '0.6rem',
                     display: 'flex',
                     flexDirection: 'row',
@@ -152,7 +152,7 @@ const PaymentComponent = () => {
                                 maxWidth: '80%',
                                 backgroundColor: 'white',
                                 border: `2px solid transparent`,
-                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                                boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                                 borderRadius: '1rem',
                                 overflow: 'hidden',
                                 position: 'relative',
