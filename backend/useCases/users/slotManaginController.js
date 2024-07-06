@@ -46,7 +46,7 @@ const postBookedSlotController = async (req, res) => {
         const response = await therapyBookingsQuery.postClientSlotBooking(clientId, therapistId, date, time)
         if (response.status === 'ok') {
             const { addedSlotId } = response
-            res.status(200).json({ addedSlotId });
+            res.status(200).json({ status:'ok',addedSlotId });
         } else {
             res.status(400).json({ message: 'Something went wrong' });
         }

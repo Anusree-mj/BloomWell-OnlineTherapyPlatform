@@ -25,6 +25,9 @@ import Link from 'next/link';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
+import Cookies from 'js-cookie';
+import { useRouter } from "next/navigation";
+import { toast } from 'react-toastify';
 
 const drawerWidth = 240;
 
@@ -37,7 +40,8 @@ export default function AdminHeader(props: Props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
   const [openMenus, setOpenMenus] = React.useState<{ [key: string]: boolean }>({});
-
+  const router = useRouter();
+  
   const handleDrawerClose = () => {
     setIsClosing(true);
     setMobileOpen(false);
@@ -142,7 +146,17 @@ export default function AdminHeader(props: Props) {
       </List>
     </div>
   );
-
+  const logoutHandler = async () => {
+    try {
+      handleClose();
+      Cookies.remove('jwtAdmin');
+      localStorage.removeItem('adminData');
+      router.push('/admin/login');
+    } catch (error) {
+      toast.error('Logout Failed');
+      console.log(error);
+    }
+  };
   const container = props.container ?? undefined;
 
   return (
@@ -210,7 +224,7 @@ export default function AdminHeader(props: Props) {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Logout</MenuItem>
+              <MenuItem onClick={logoutHandler}>Logout</MenuItem>
             </Menu>
           </div>
         </Toolbar>

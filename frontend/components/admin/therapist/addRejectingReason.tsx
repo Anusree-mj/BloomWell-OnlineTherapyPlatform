@@ -5,6 +5,7 @@ import React from 'react'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { useRouter } from "next/navigation";
+import { apiCall } from '@/services/api'
 
 interface ReasonComponentProps {
     reasonId: string,
@@ -12,15 +13,17 @@ interface ReasonComponentProps {
     postUrl: string,
     successUrl: string
 }
-const AddRejectingReasonComponent: React.FC<ReasonComponentProps> = ({ reasonId, reasonItems, postUrl,successUrl }) => {
+const AddRejectingReasonComponent: React.FC<ReasonComponentProps> = ({ reasonId, reasonItems, postUrl, successUrl }) => {
     const router = useRouter();
 
     const submitReason = async (item: string) => {
         try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/${postUrl}`,
-                { reason: item, reasonId }, { withCredentials: true, }
-            );
-            if (response.status === 200) {
+            const response = await apiCall({
+                method: 'DELETE',
+                endpoint: `${postUrl}`,
+                body: { reason: item, reasonId }
+            });
+            if (response.status === 'ok') {
                 toast.success('Reason successfully updated');
                 router.push(`/${successUrl}`)
             }
