@@ -72,7 +72,8 @@ const DashBoardComponent = () => {
   console.log('ppppppppppppppppppppppppppppppppppppppppp', pieChartData)
 
   return (
-    <Box sx={{pb:4,
+    <Box sx={{
+      pb: 4,
       ml: { xs: 'none', sm: '15rem' }, mt: { sm: 3 }
     }}>
       <Typography variant="h6" noWrap component="div" sx={{
@@ -81,15 +82,15 @@ const DashBoardComponent = () => {
       }}>
         Dashboard
       </Typography>
+      <TopTherapistsComponents />
       <Box sx={{
         display: 'flex', flexWrap: 'wrap',
         alignItems: { md: 'flex-start', xs: 'center' }, justifyContent: { md: 'space-between', xs: 'center' },
-         p: '0 1.5rem'
+        p: '0 1.5rem'
       }}>
         <BarChartComponent xData={xData} yData={yData} />
         <PieChartComponent pieChartData={pieChartData} />
       </Box>
-      <TopTherapistsComponents />
     </Box>
   )
 }
