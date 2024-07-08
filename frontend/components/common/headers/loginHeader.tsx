@@ -1,10 +1,10 @@
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Image from 'next/image';
-import Link from 'next/link';
-import CssBaseline from '@mui/material/CssBaseline';
+import { useRouter } from 'next/navigation';
 
 export function LoginHeader() {
+    const router = useRouter()
     return (
         <Box sx={{
             display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -22,21 +22,19 @@ export function LoginHeader() {
                     width={80}
                     height={30}
                 />
-                <Link href={'/'} passHref>
-                    <Typography component="a"
-                        variant="h6"
-                        noWrap
-                        sx={{
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.1rem',
-                            color: 'white',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        BloomWell
-                    </Typography>
-                </Link>
+                <Typography
+                    variant="h6"
+                    noWrap
+                    sx={{
+                        fontFamily: 'monospace',
+                        fontWeight: 700,
+                        letterSpacing: '.1rem',
+                        color: 'white',
+                        textDecoration: 'none',
+                    }} onClick={() => router.push('/')}
+                >
+                    BloomWell
+                </Typography>
             </Box>
         </Box >
     )

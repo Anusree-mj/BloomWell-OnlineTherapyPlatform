@@ -55,7 +55,7 @@ const AdminTherapistsQuitComponent = () => {
         <Box sx={{
             ml: { xs: 'none', sm: '15rem' }, mt: 5
         }}>
-            <TableComponent rows={rows} columns={columns} head={head} subHead={[]} />
+            <TableComponent rows={rows} columns={columns} head={head} subHead={[]} role="admin" />
         </Box>
     );
 }

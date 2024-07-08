@@ -1,6 +1,7 @@
 import { Typography, Button } from '@mui/material'
 import { Box } from '@mui/system'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 interface DoSomethingComponentProps {
     content: string,
@@ -9,6 +10,7 @@ interface DoSomethingComponentProps {
 }
 
 const DoSomethingComponent: React.FC<DoSomethingComponentProps> = ({ content, buttonTitle, url }) => {
+    const router = useRouter()
     return (
         <Box sx={{
             display: 'flex', maxWidth: '90%', alignItem: 'flex-start',
@@ -24,18 +26,17 @@ const DoSomethingComponent: React.FC<DoSomethingComponentProps> = ({ content, bu
                     sx={{ textAlign: 'center', letterSpacing: '1px', color: '#325343' }}>
                     {content}
                 </Typography>
-                <Link href={url} passHref>
-                    <Button component="a" sx={{
+                    <Button sx={{
                         my: 2, mx: 2, color: 'white', backgroundColor: '#325343',
                         display: 'block', fontWeight: 600,
                         '&:hover': {
                             backgroundColor: '#a6de9b',
                             color: '#325343'
                         }
-                    }} variant="contained">
+                    }} variant="contained"
+                        onClick={() => router.push(`${url}`)}>
                         {buttonTitle}
                     </Button>
-                </Link>
             </Box>
         </Box>
     )

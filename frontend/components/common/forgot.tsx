@@ -5,7 +5,6 @@ import Box from '@mui/joy/Box';
 import Typography from '@mui/joy/Typography';
 import TextField from '@mui/material/TextField';
 import { toast } from 'react-toastify';
-import Link from 'next/link';
 import { FormControl } from '@mui/material';
 import axios from 'axios';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -150,17 +149,15 @@ export default function AdminLogin() {
                         >
                             Send Reset Password Email
                         </LoadingButton>
-                        <Link href="/login" passHref>
-                            <Typography component="a" sx={{
-                                color: '#325343', mt: 2,
-                                fontWeight: 600, textDecorationColor: '#325343',
-                                '&:hover': {
-                                    textDecoration: 'underline'
-                                }
-                            }}>
-                                Back to Login
-                            </Typography>
-                        </Link>
+                        <Typography sx={{
+                            color: '#325343', mt: 2,
+                            fontWeight: 600, textDecorationColor: '#325343',
+                            '&:hover': {
+                                textDecoration: 'underline'
+                            }
+                        }} onClick={() => router.push('/login')} >
+                            Back to Login
+                        </Typography>
                     </FormControl>
                 </>
             ) : (

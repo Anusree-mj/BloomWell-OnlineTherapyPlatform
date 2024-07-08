@@ -78,7 +78,6 @@ export default function AdminHeader(props: Props) {
       iconTitle: 'Clients', icon: <PsychologyAltIcon />, link: '#',
       subItems: [
         { title: 'Manage Clients', link: '/admin/clients/view' },
-        { title: 'Complaints', link: '/admin/clients/add' },
       ]
     },
     {
@@ -92,7 +91,6 @@ export default function AdminHeader(props: Props) {
       ]
     },
     { iconTitle: 'Feedbacks', icon: <InsertCommentIcon />, link: '/admin/feedbacks' },
-    { iconTitle: 'Analytics', icon: <AutoGraphIcon />, link: '/admin/analytics' },
   ];
 
   const drawer = (

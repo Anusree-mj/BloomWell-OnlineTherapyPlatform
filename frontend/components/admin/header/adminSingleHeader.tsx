@@ -10,7 +10,6 @@ import Typography from '@mui/material/Typography';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Link from 'next/link';
 
 
 const drawerWidth = 240;

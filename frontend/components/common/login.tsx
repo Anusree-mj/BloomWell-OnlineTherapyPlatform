@@ -7,7 +7,6 @@ import Typography from '@mui/joy/Typography';
 import Image from 'next/image';
 import TextField from '@mui/material/TextField';
 import { toast } from 'react-toastify';
-import Link from 'next/link';
 import { getLoginAction, userStateType } from '@/store/user/userReducer';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { useRouter } from 'next/navigation';
@@ -159,19 +158,17 @@ export default function Login() {
                         >
                             Login
                         </LoadingButton>
-                        <Link href="/forgotPassword" passHref>
-                            <Typography component="a" sx={{
-                                color: '#325343', mt: 2,
-                                fontWeight: 600, textDecorationColor: '#325343'
-                            }}>
-                                Forgot Password?
-                            </Typography>
-                        </Link>
-                        {loginMenu === "client"&&
-                        <>
-                        <SocialLoginComponent/>
-                        
-                        </>
+                        <Typography sx={{
+                            color: '#325343', mt: 2,
+                            fontWeight: 600, textDecorationColor: '#325343'
+                        }} onClick={() => router.push('/forgotPassword')} >
+                            Forgot Password?
+                        </Typography>
+                        {loginMenu === "client" &&
+                            <>
+                                <SocialLoginComponent />
+
+                            </>
                         }
                     </Box>
             }
