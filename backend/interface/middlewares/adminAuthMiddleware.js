@@ -17,7 +17,7 @@ const protectAdmin = asyncHandler(async (req, res, next) => {
             throw new Error('Not authorized, invalid token')
         }
     } else {
-        res.status(401)
+        res.status(401).json({ status: 'nok', message: 'Not authorized' })
         throw new Error('Not authorized, no token')
     }
 })

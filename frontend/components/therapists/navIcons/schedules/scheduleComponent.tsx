@@ -128,7 +128,7 @@ const TherapistsScheulesComponent = () => {
         <Box sx={{
             backgroundColor: '#F7FCC2', pb: 8
         }}>
-            <TableComponent rows={rows} columns={columns} head={head} subHead={[]} />
+            <TableComponent rows={rows} columns={columns} head={head} subHead={[]} role=""/>
         </Box>
     );
 }

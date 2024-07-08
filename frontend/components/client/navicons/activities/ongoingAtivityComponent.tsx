@@ -83,7 +83,6 @@ const OngoingActivityComponent = () => {
         { name: 'Ongoing', url: 'client/myActivity/ongoing', select: true },
         { name: 'All', url: 'client/myActivity/inActive', select: false },
         { name: 'Goals', url: 'client/myActivity/reviews', select: false },
-        { name: 'Worksheets', url: 'client/myActivity/reviews', select: false },
         { name: 'BookSlot', url: 'client/myActivity/reviews', select: false }
 
     ]

@@ -101,7 +101,7 @@ const ConnectionRequestsComponent = () => {
         <Box sx={{
             backgroundColor: '#F7FCC2', pb: 8
         }}>
-            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
+            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role=""/>
         </Box>
     );
 }

@@ -89,7 +89,7 @@ const TherapistReviewsComponent = () => {
         <Box sx={{
             backgroundColor: '#F7FCC2', pb: 8
         }}>
-            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
+            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role=""/>
             <Modal open={modalOpen} onClose={handleClose}>
                 <Box sx={{
                     position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',

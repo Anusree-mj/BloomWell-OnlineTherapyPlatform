@@ -6,7 +6,6 @@ import Card from '@mui/joy/Card';
 import CardCover from '@mui/joy/CardCover';
 import CardContent from '@mui/joy/CardContent';
 import Typography from '@mui/joy/Typography';
-import Link from 'next/link';
 import Image from 'next/image';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { useRouter } from "next/navigation";

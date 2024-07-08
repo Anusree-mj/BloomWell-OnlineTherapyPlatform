@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Box from '@mui/joy/Box'; // Assuming this is correctly imported
 import Typography from '@mui/joy/Typography'; // Assuming this is correctly imported
 import TextField from '@mui/material/TextField';
-import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { getAdminLoginAction, adminStateType } from '@/store/admin/adminReducer';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -29,7 +28,7 @@ export default function AdminLogin() {
             toast.error('Please provide valid password');
         }
         try {
-             dispatch(getAdminLoginAction({ email, password, handleAdminLoginSuccess }));
+            dispatch(getAdminLoginAction({ email, password, handleAdminLoginSuccess }));
         } catch (error) {
             console.error('Login error:', error);
         }
@@ -98,14 +97,12 @@ export default function AdminLogin() {
                 >
                     Login
                 </LoadingButton>
-                <Link href="/forgotPassword" passHref>
-                    <Typography component="a" sx={{
-                        color: '#325343', mt: 2,
-                        fontWeight: 600, textDecoration: 'none'
-                    }}>
-                        Forgot Password?
-                    </Typography>
-                </Link>
+                <Typography sx={{
+                    color: '#325343', mt: 2,
+                    fontWeight: 600, textDecoration: 'none'
+                }} onClick={() => router.push('/forgotPassword')}>
+                    Forgot Password?
+                </Typography>
             </Box>
         </Box>
     );
