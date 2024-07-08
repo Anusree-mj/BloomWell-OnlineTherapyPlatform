@@ -10,7 +10,7 @@ import Image from 'next/image';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { useRouter } from "next/navigation";
 
-const cardItems = [
+const cardItems = [ 
   { src: '/home/ind.png', title: 'Individual', subTitle: 'For myself', hoverSrc: '/home/indHover.png', color: '#397a4a' },
   { src: '/home/couple.png', title: 'Couples', subTitle: 'For me and my partner', hoverSrc: '/home/coupleHover.png', color: '#265353' },
   { src: '/home/teen.png', title: 'Teen', subTitle: 'For my child', hoverSrc: '/home/teenHover.png', color: '#6f4205' }
