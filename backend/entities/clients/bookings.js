@@ -23,6 +23,15 @@ const bookingsSchema = mongoose.Schema({
         type: String,
         default: 'pending'
     },
+    sessionStart: {
+        type: String,
+    },
+    sessionEnd: {
+        type: String,
+    },
+    sessionDuration: {
+        type: String,
+    }
 }, {
     timestamps: true
 })

@@ -53,7 +53,6 @@ const postRejectedReasonQuery = async (connectionId, reason) => {
         const update = { reasonForRejection: reason };
         const options = { upsert: true };
         const updatedConnection = await Connections.updateOne(query, update, options);
-        console.log(updatedConnection, 'updsfasdfdsfsdf')
         if (updatedConnection.modifiedCount > 0) {
             return { status: 'ok' }
         } else {
@@ -106,7 +105,6 @@ const getActiveConnections = async (therapistId) => {
             .populate('clientId', 'name email').sort({ createdAt: -1 });
 
         if (connections) {
-            console.log('connectionsssssssssss', connections)
             return { status: 'ok', connections }
         } else {
             return { status: 'nok', message: 'No data' }

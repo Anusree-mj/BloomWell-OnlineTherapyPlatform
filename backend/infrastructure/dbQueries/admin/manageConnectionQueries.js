@@ -51,7 +51,6 @@ const manageConnectionRequest = async (connectionStatus, connectionId) => {
 
 export const checkActiveConnection = async (connectionId, therapistName, clientId) => {
     try {
-        console.log('reached checkactive function')
         const query = {
             _id: connectionId,
             adminVerify: 'Accept',
@@ -67,7 +66,6 @@ export const checkActiveConnection = async (connectionId, therapistName, clientI
             head: 'Connection Request Updated',
             message: message,
         })
-        console.log('update notif', updateNotification)
         return;
     } catch (err) {
         console.log(err.message)

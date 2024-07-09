@@ -1,6 +1,7 @@
 'use client';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { ZegoUIKitPrebuilt } from '@zegocloud/zego-uikit-prebuilt';
+import { apiCall } from '@/services/api';
 
 function randomID(len: number) {
     let result = '';
@@ -12,7 +13,7 @@ function randomID(len: number) {
     return result;
 }
 
-export default function VideoCall({ roomID }: any) {
+export default function VideoCall({ roomID, userID }: any) {
     const callContainerRef = useRef<HTMLDivElement>(null);
     const zpRef = useRef<any>(null);
 
@@ -24,6 +25,7 @@ export default function VideoCall({ roomID }: any) {
 
             const zp = ZegoUIKitPrebuilt.create(kitToken);
             zpRef.current = zp; // Store the zp instance in the ref
+
             zp.joinRoom({
                 container: callContainerRef.current,
                 sharedLinks: [
@@ -35,6 +37,31 @@ export default function VideoCall({ roomID }: any) {
                 scenario: {
                     mode: ZegoUIKitPrebuilt.OneONoneCall,
                 },
+                onLeaveRoom: async () => {
+                    try {
+                        const sessionEnd = new Date();
+                        const sessionEndTime = sessionEnd.toLocaleTimeString('en-GB', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: false
+                        });
+                        console.log('Session End Time:', sessionEndTime);
+
+                        const response = await apiCall({
+                            method: 'PUT',
+                            endpoint: `client/slot`,
+                            body: { sessionEnd: sessionEndTime, roomID }
+                        });
+
+                        if (response.status === 'ok') {
+                            console.log('Session data saved successfully');
+                        } else {
+                            console.error('Failed to save session data', response);
+                        }
+                    } catch (error) {
+                        console.error('Error during cleanup:', error);
+                    }
+                }
             });
         };
 
@@ -42,22 +69,16 @@ export default function VideoCall({ roomID }: any) {
             myMeeting();
         }
 
-        // Cleanup function to leave the room and stop the camera
         return () => {
             if (zpRef.current) {
                 try {
-                    // If there's a specific method to leave the room, use it here
-                    // zpRef.current.leaveRoom(); // Uncomment this if such a method exists
-
-                    // Use destroy method to clean up
                     zpRef.current.destroy();
                 } catch (error) {
-                    console.error('Error during cleanup:', error);
+                    console.error('Error destroying ZegoUIKitPrebuilt instance:', error);
                 }
-                zpRef.current = null; // Reset the ref
             }
         };
-    }, [roomID]);
+    }, [roomID, userID]);
 
     return (
         <div

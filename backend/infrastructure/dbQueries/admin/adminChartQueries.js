@@ -130,7 +130,6 @@ const getTherapyCount = async () => {
 
             { $group: { _id: '$sessionType', totalCount: { $sum: 1 } } }
         ])
-        console.log('indivasddddddddddd', therapyCount)
         if (therapyCount) {
 
             return { status: 'ok', therapyCount }
@@ -176,8 +175,6 @@ const top5Therapists = async () => {
             { $sort: { averageRating: -1 } }, // Sort by averageRating to get top therapists
             { $limit: 3 } // Limit to top 5 therapists
         ]);
-
-        console.log('Top 5 Therapists:', top5Therapists);
 
         if (top5Therapists.length > 0) {
             return { status: 'ok', top5Therapists };

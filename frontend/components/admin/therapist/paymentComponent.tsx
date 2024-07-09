@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { Box, Button, } from "@mui/material";
 import TableComponent from "@/components/common/tableComponent";
 
-const AdminManageTherapists = () => {
+const AdminPayment = () => {
     const dispatch = useDispatch();
     const therapists = useSelector((state: { admin: adminStateType }) => state.admin.therapists);
     const router = useRouter()
@@ -86,4 +86,4 @@ const AdminManageTherapists = () => {
         </Box>
     );
 }
-export default AdminManageTherapists
+export default AdminPayment
