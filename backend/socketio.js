@@ -48,6 +48,16 @@ const initializeSocket = (server) => {
             }
         })
 
+        socket.on('send_call', (data) => {
+            console.log('reached send call socket.on with data', data)
+            const { therapistId, roomId,clientName } = data
+            const therapist = users.find((e) => e.userId === therapistId);
+            if (therapist) {
+                console.log('found therapist', therapist)
+                socket.to(therapist.socketId).emit('recieve_call', {roomId,clientName});
+            }
+        })
+
         socket.on("disconnect", () => {
             userLeft(socket.id);
             io.emit("getUsers", getUsers());

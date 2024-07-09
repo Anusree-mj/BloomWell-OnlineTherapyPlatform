@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { Box } from '@mui/system';
 import { Avatar, TextField, Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
@@ -28,7 +29,7 @@ interface ChatComponentProps {
             role: string;
         };
     };
-    slotDetails: BookedSlotsItems
+    slotDetails?: BookedSlotsItems
 }
 
 const ChatComponent: React.FC<ChatComponentProps> = ({ messageData, slotDetails }) => {
@@ -40,6 +41,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ messageData, slotDetails 
     const chats = useSelector((state: { user: userStateType }) => state.user.chats);
     const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
     const dispatch = useDispatch();
+    const router = useRouter();
 
     useEffect(() => {
         if (messageData.reciever.recieverId !== '' && messageData.sender.senderId !== '') {
@@ -127,19 +129,12 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ messageData, slotDetails 
             return;
         }
         else {
-            console.log('active slot detailssssssssss', slotDetails)
-            const currentDateTime = new Date();
-            const slotDate = parse(slotDetails.date, 'dd-MM-yy', new Date());
-            const slotTime = parse(slotDetails.time, 'hh:mm a', new Date());
-            const slotStartTime = new Date(slotDate.setHours(slotTime.getHours(), slotTime.getMinutes()));
-            const slotEndTime = addHours(slotStartTime, 1);
-
-            if (isWithinInterval(currentDateTime, { start: slotStartTime, end: slotEndTime })) {
-                console.log('Slot is active and within the 1-hour range:', slotDetails);
-                // Proceed with the video call logic
-            } else {
-                toast.error(`The slot is not currently active. Please check your booking time.`);
-            }
+            console.log('Slot is active and within the 1-hour range:', slotDetails);
+            router.push(`/liveSession/${messageData.sender.senderId}`);
+            socket.emit('send_call',
+                { therapistId: messageData.reciever.recieverId, roomId: messageData.sender.senderId,
+                    clientName:clientDetails.name
+                 });
         }
     }
 
@@ -160,8 +155,13 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ messageData, slotDetails 
                 }}>
                     <Avatar sx={{ width: 40, height: 40 }}
                         src={messageData.reciever.image !== '' ? messageData.reciever.image : "/broken-image.jpg"} />
-                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                        <Typography sx={{ color: '#325343', }}>
+                    <Box sx={{
+                        display: 'flex', flexDirection: 'column',
+                        width: '100%', ml: 1
+                    }}>
+                        <Typography sx={{
+                            color: '#325343',
+                        }}>
                             {messageData.reciever.name}
                         </Typography>
                         {isOnline && (
@@ -171,7 +171,9 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ messageData, slotDetails 
                         )}
                     </Box>
                 </Box>
-                <VideoChatIcon sx={{ color: '#325343', fontSize: '2rem' }} onClick={handleVideoChat} />
+                {messageData.sender.role === 'Client' && (
+                    <VideoChatIcon sx={{ color: '#325343', fontSize: '2rem', cursor: 'pointer' }} onClick={handleVideoChat} />
+                )}
             </Box>
 
             <Box

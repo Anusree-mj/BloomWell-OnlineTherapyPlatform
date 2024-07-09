@@ -24,6 +24,7 @@ import AlertComponent from '@/components/common/alert';
 import Image from 'next/image';
 import { styled, alpha } from '@mui/material/styles';
 import { MenuProps } from '@mui/material/Menu';
+import CustomAlert from './customAlert';
 
 interface Props {
     container?: Element;
@@ -85,6 +86,7 @@ export default function TherapistHeader(props: Props) {
     const [openMenus, setOpenMenus] = useState<{ [key: string]: boolean }>({});
     const [count, setCount] = useState(0);
     const open = Boolean(anchorElSubItems);
+    const [incomingCall, setIncomingCall] = useState({ open: false, roomId: '', clientName: '' });
 
     useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
@@ -94,6 +96,7 @@ export default function TherapistHeader(props: Props) {
             router.push('/login');
         }
     }, [dispatch, router]);
+
 
     useEffect(() => {
         if (therapist._id) {
@@ -108,16 +111,21 @@ export default function TherapistHeader(props: Props) {
                 setAlertMessage(`New Connection from ${data}`);
             });
 
+            socket.current.on('recieve_call', ({ roomId, clientName }) => {
+                console.log('recieved data in call', roomId, clientName)
+                setIncomingCall({ open: true, roomId, clientName });
+            });
+
             return () => {
                 if (socket.current) {
                     socket.current.off('recieve_connectionMessage');
+                    socket.current.off('recieve_call');
                     socket.current.disconnect();
                     socket.current = null;
                 }
             };
         }
-    }, [therapist._id, count]);
-
+    }, [therapist._id, count, alert]);
     useEffect(() => {
         if (error) {
             toast.error(error);
@@ -172,6 +180,14 @@ export default function TherapistHeader(props: Props) {
         }
     };
 
+    const handleAnswer = () => {
+        setIncomingCall({ ...incomingCall, open: false });
+        router.push(`/liveSession/${incomingCall.roomId}`);
+    };
+
+    const handleCallClose = () => {
+        setIncomingCall({ ...incomingCall, open: false });
+    };
     const navicons = [
         {
             iconTitle: 'Activities', link: '/#',
@@ -412,6 +428,13 @@ export default function TherapistHeader(props: Props) {
             </AppBar>
             {alertMessage && (
                 <AlertComponent message={alertMessage} viewURL={'/therapist/connections'} count={count} />
+            )}
+            {incomingCall.open && (
+                <CustomAlert open={incomingCall.open}
+                    title="Incoming Call"
+                    message={`You have a call from ${incomingCall.clientName}`}
+                    onClose={handleCallClose}
+                    onAnswer={handleAnswer} />
             )}
         </Box>
     );
