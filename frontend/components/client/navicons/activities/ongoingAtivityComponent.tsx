@@ -82,8 +82,8 @@ const OngoingActivityComponent = () => {
     const subHead = [
         { name: 'Ongoing', url: 'client/myActivity/ongoing', select: true },
         { name: 'All', url: 'client/myActivity/inActive', select: false },
-        { name: 'Goals', url: 'client/myActivity/reviews', select: false },
-        { name: 'BookSlot', url: 'client/myActivity/reviews', select: false }
+        { name: 'Goals', url: 'client/myActivity/goals', select: false },
+        { name: 'BookSlot', url: 'client/myActivity/bookSlot', select: false }
 
     ]
     return (
