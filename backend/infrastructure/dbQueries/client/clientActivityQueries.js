@@ -1,24 +1,34 @@
 import Connections from "../../../entities/clients/connection.js"
 import Client from "../../../entities/clients/clients.js"
 import Feedback from "../../../entities/users/feedback.js";
+import Bookings from "../../../entities/clients/bookings.js";
 
 
-const getOngoingActivityDetails = async (clientId) => {
+const getOngoingActivityDetails = async (clientId, therapistId) => {
     try {
-        const client = await Client.findOne({ _id: clientId })
-        if (client.isConnected) {
-            const clientConnection = await Connections.findOne({ _id: client.connectionId }).populate(
-                'therapistId', 'name'
-            )
-            const connectionDetails = {
-                therapistName: clientConnection.therapistId.name,
-                isActive: clientConnection.isActive
-            };
-            return { status: 'ok', connectionDetails }
-        } else {
-            console.log('No ongoing activity')
-            return { status: 'nok', message: 'Client not connected' }
+        const ongoingActivities = await Bookings.find({
+            clientId: clientId,
+            therapistId: therapistId,
+            verificationStatus: 'Accepted'
+        }).sort({ updatedAt: -1 });
+        const currentDate = new Date();
+
+        for (const booking of ongoingActivities) {
+            const bookingDate = new Date(booking.date);
+            console.log('bokings found', booking)
+            if (booking.sessionDuration && booking.sessionDuration !== '') {
+                continue;
+            }
+
+            if (bookingDate < currentDate) {
+                booking.status = 'Date passed';
+            } else {
+                booking.status = 'Current';
+            }
+
+            await booking.save();
         }
+        return { status: 'ok', ongoingActivities }
     }
     catch (err) {
         console.log(err)

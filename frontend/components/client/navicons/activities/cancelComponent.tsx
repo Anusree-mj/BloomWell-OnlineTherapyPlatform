@@ -8,6 +8,7 @@ import { clientMyActivityStateType, getBookedSlotsDetailsAction } from "@/store/
 import { format } from 'date-fns';
 import { toast } from "react-toastify";
 import { getClientDetailsAction } from "@/store/clients/clientReducer";
+import { apiCall } from "@/services/api";
 
 interface CancelComponent {
     setIsActiveSlot: React.Dispatch<React.SetStateAction<boolean>>;
@@ -46,14 +47,17 @@ const CancelComponent: React.FC<CancelComponent> = ({ setIsActiveSlot }) => {
 
         if (result.isConfirmed) {
             try {
-                const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/slot/cancel`,
-                    { slotId: bookedSlot._id }, { withCredentials: true, }
-                );
-                if (response.status === 200) {
+                const response = await apiCall({
+                    method: 'PUT',
+                    endpoint: `client/slot/cancel`,
+                    body: { slotId: bookedSlot._id }
+                });
+                if (response.status === 'ok') {
                     dispatch(getClientDetailsAction())
                     toast.success('Your slot succesfully cancelled!');
                     setIsActiveSlot(false)
                 }
+
             } catch (error) {
                 toast.error('Something went wrong cant cancel your slot!');
             }

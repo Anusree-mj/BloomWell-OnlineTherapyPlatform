@@ -1,26 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ClientOngoingActivityItem, BookedSlotsItems } from "./type";
+import {  BookedSlotsItems } from "./type";
 
 export interface clientMyActivityStateType {
-    connectionDetails: {
-        therapistName: '',
-        isActive: boolean
-    };
-    ongoingActivity: ClientOngoingActivityItem[];
     slots: string[];
     availableFrom: string;
     availableTo: string;
     bookedSlot: BookedSlotsItems;
+    ongoingActivities: BookedSlotsItems[];
     isLoading: boolean;
     error: any;
 }
 
 const initialState: clientMyActivityStateType = {
-    connectionDetails: {
-        therapistName: "",
-        isActive: false
-    },
-    ongoingActivity: [],
     isLoading: false,
     error: null,
     slots: [],
@@ -32,21 +23,25 @@ const initialState: clientMyActivityStateType = {
         time: "",
         verificationStatus: "",
         status: "",
-        _id: ""
-    }
+        _id: "",
+        sessionStart: "",
+        sessionEnd: "",
+        sessionDuration: ""
+    },
+    ongoingActivities: []
 }
 
 export const clientMyActivitySlice: any = createSlice({
     name: "clientMyActivity",
     initialState: initialState,
     reducers: {
-        // get ongoing activities
+        // get ongoing activities 
         getClientOngoingActivityAction: (state) => {
             state.isLoading = true;
         },
         getClientOngoingActivitySuccessAction: (state, action) => {
             state.isLoading = false;
-            state.connectionDetails = action.payload;
+            state.ongoingActivities = action.payload;
         },
         getClientOngoingActivityFailureAction: (state, action) => {
             state.isLoading = false;
@@ -103,5 +98,5 @@ export const {
     getBookedSlotsDetailsFailureAction,
     getBookedSlotsDetailsSuccessAction,
 
-    
+
 } = clientMyActivitySlice.actions;

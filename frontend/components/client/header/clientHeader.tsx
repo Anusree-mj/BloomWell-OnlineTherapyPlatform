@@ -181,11 +181,10 @@ export default function ClientHeader(props: Props) {
             subItems: [
                 { title: 'Ongoing', link: '/client/myActivity/ongoing' },
                 { title: 'All', link: '/client/myActivity/all' },
-                { title: 'Goals', link: '/client/myActivity/goals' },
-                { title: 'Worksheets', link: '/client/myActivity/worksheets' },
-                { title: 'BookSlot', link: '/client/myActivity/bookSlot' },
-
             ]
+        },
+        {
+            iconTitle: 'BookSlot', link: `/client/myActivity/bookSlot`,
         },
         {
             iconTitle: 'Therapy', link: `/client/therapy/${clientDetails.therapistDetails ? clientDetails.therapistDetails._id : ''}`,

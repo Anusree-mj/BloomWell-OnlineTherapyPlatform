@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import CancelComponent from "./cancelComponent";
 import { clientStateType } from "@/store/clients/clientReducer";
+import { apiCall } from "@/services/api";
 
 const BookSlotComponent = () => {
     const [date, setDate] = useState<Dayjs | null>(null);
@@ -31,7 +32,7 @@ const BookSlotComponent = () => {
             if (clientDetails.isActiveSlots) {
                 setIsActiveSlot(true);
             } else {
-                dispatch(getAvailableSlotsAction(clientDetails.therapistDetails?clientDetails.therapistDetails._id:''));
+                dispatch(getAvailableSlotsAction(clientDetails.therapistDetails ? clientDetails.therapistDetails._id : ''));
             }
         }
     }, [clientDetails]);
@@ -53,11 +54,12 @@ const BookSlotComponent = () => {
             } else {
                 const formattedDate = date?.format('DD-MM-YY');
                 const formattedTime = time?.format('hh:mm A');
-                const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/slots/${clientDetails.therapistDetails._id}`,
-                    { date: formattedDate, time: formattedTime },
-                    { withCredentials: true, }
-                );
-                if (response.status === 200) {
+                const response = await apiCall({
+                    method: 'POST',
+                    endpoint: `client/slots/${clientDetails.therapistDetails._id}`,
+                    body: { date: formattedDate, time: formattedTime }
+                });
+                if (response.status === 'ok') {
                     const { addedSlotId } = response.data
                     dispatch(getBookedSlotsDetailsAction(addedSlotId))
                     setIsActiveSlot(true)

@@ -5,99 +5,71 @@ import { getClientOngoingActivityAction, clientMyActivityStateType } from "@/sto
 import { io } from 'socket.io-client'
 import { useRouter } from "next/navigation";
 import { Box, Button, MenuItem, Select, TextField, Typography } from "@mui/material";
-import Link from "next/link";
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { GridColDef } from '@mui/x-data-grid';
 import DoSomethingComponent from "../../../common/doSomethingComponent";
 import TableComponent from "@/components/common/tableComponent";
+import { clientStateType } from "@/store/clients/clientReducer";
 
-const columnItems = [
-    { field: 'no', header: 'No', width: 10 },
-    { field: 'date', header: 'Date', width: 120 },
-    { field: 'time', header: 'Time', width: 100 },
-    { field: 'duration', header: 'Duration', width: 100 },
-    { field: 'goals', header: 'Goals', width: 100, link: '#' },
-    { field: 'worksheets', header: 'Worksheets', width: 100, link: '#' },
-    { field: 'remarks', header: 'Remarks', width: 150 },
-]
 
 const OngoingActivityComponent = () => {
-    const socket = io(`${process.env.NEXT_PUBLIC_SERVER_API_URL}`);
     const dispatch = useDispatch();
-    const connectionDetails = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.connectionDetails);
-    const ongoingActivity = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.ongoingActivity);
+    const therapistDetails = useSelector((state: { client: clientStateType }) => state.client.client.therapistDetails);
+    const ongoingActivity = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.ongoingActivities);
     const router = useRouter()
-    const [search, setSearch] = useState<string>('');
 
 
     useEffect(() => {
         const clientData = localStorage.getItem("clientData");
         if (clientData) {
-            dispatch(getClientOngoingActivityAction());
+            const parsedData = JSON.parse(clientData);
+            if (parsedData.isConnected) {
+                console.log('dispatching getclietnOngoingactionnnnnnnnn', parsedData.therapistDetails)
+                dispatch(getClientOngoingActivityAction({ therapistId: parsedData.therapistDetails._id }));
+            } else {
+                router.push('/login');
+            }
         } else {
             router.push('/login');
         }
-    }, [dispatch, router]);
+    }, []);
 
-    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value.toLowerCase();
-        setSearch(value);
-    };
+    const columns: GridColDef[] = [
+        { field: "slNo", headerName: "Sl.No", width: 70 },
+        { field: "date", headerName: "Date", width: 130 },
+        { field: "startedAt", headerName: "Started At", width: 150 },
+        { field: "endedAt", headerName: "Ended At", width: 150 },
+        { field: "duration", headerName: "Duration", width: 130 },
+        { field: "status", headerName: "Status", width: 130 },
 
+    ];
 
-    const columns: GridColDef[] = columnItems.map(item => {
-        const column: GridColDef = {
-            field: item.field,
-            headerName: item.header,
-            width: item.width,
-        };
+    const rows = ongoingActivity.map((item, index) => ({
+        id: item._id,
+        slNo: index + 1,
+        date: item.date,
+        startedAt: item.sessionStart?item.sessionStart:'Nill',
+        endedAt: item.sessionEnd?item.sessionEnd:'Nill',
+        duration: item.sessionDuration?item.sessionDuration:'Nill',
+        status:item.status
+    }));
 
-        if (item.link) {
-            column.renderCell = (params) => (
-                <Link href={item.link} style={{ textDecoration: 'underline' }}>
-                    View
-                </Link>
-            );
-        }
-
-        return column;
-    });
-
-    // const filteredConnections = connections.filter(connection =>
-    //     connection.clientId.name.toLowerCase().includes(search) ||
-    //     connection.clientId.email.toLowerCase().includes(search) ||
-    //     connection.status.toLowerCase().includes(search)
-    // );
-
-    // const rows = ongoingActivity.map((activity, index) => ({
-    //     id: activity._id,
-    //     no: index + 1,
-    //     date: activity.date,
-    //     time: activity.time,
-    //     duration: activity.duration,
-    //     goals: 'view',
-    //     worksheets: 'view',
-    //     remarks: activity.remarks
-    // }));
-    const head = `Therapist : ${connectionDetails.therapistName}`;
+    const head = `Therapist : ${therapistDetails.name}`;
     const subHead = [
         { name: 'Ongoing', url: 'client/myActivity/ongoing', select: true },
         { name: 'All', url: 'client/myActivity/inActive', select: false },
-        { name: 'Goals', url: 'client/myActivity/goals', select: false },
-        { name: 'BookSlot', url: 'client/myActivity/bookSlot', select: false }
-
     ]
     return (
         <Box sx={{
             backgroundColor: '#325343', pb: 8
         }}>
-            {connectionDetails.therapistName !== '' ? (
-                <TableComponent rows={[]} columns={columns} head={head} subHead={subHead} role=''/>
+            {therapistDetails.name !== '' ? (
+                <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role='' />
 
             ) : (
                 <Box sx={{
                     display: 'flex', backgroundColor: '#325343',
                     flexDirection: 'column', minHeight: '80vh',
-                    alignItems: 'center', justifyContent: 'center',pb:8
+                    alignItems: 'center', justifyContent: 'center', pb: 8
                 }}>
                     <DoSomethingComponent
                         content=" You haven't connected to any therapist yet!" buttonTitle="Let's Connect"
