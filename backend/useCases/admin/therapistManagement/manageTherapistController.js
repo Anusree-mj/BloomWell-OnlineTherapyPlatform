@@ -1,4 +1,6 @@
 import manageTherapistQueries from "../../../infrastructure/dbQueries/admin/manageTherapistQueries.js";
+import { createRazorpayOrder, verifyPayment } from "../../../utilitis/razorpay.js";
+
 
 // get therapists
 const getTherapistsDetailsController = async (req, res) => {
@@ -120,6 +122,66 @@ const getTherapistsWhoQuitController = async (req, res) => {
         console.log('Error found', err)
     }
 }
+
+// get therapist who quit
+const getPaymentDetailsController = async (req, res) => {
+    try {
+        const { paymentDetails } = await manageTherapistQueries.getTherapistPaymentDetails()
+        console.log('readched therapist who controller')
+        if (paymentDetails) {
+            console.log('details found ', paymentDetails)
+            res.status(200).json({
+                status: 'ok',
+                paymentDetails
+            });
+        }
+    } catch (err) {
+        res.status(401).json({ status: 'nok', message: err.message })
+        console.log('Error found', err)
+    }
+}
+
+// place payment
+const placePaymentController = async (req, res) => {
+    try {
+        const { paymentId, totalAmount } = req.body;
+        console.log('details found in place', req.body)
+        const paymentDetails = await createRazorpayOrder(paymentId, totalAmount)
+        console.log('paymetnderailsssssss', paymentDetails)
+        res.status(200).json({
+            status: 'ok',
+            paymentDetails
+        });
+
+    } catch (err) {
+        res.status(401).json({ status: 'nok', message: err.message })
+        console.log('Error found', err)
+    }
+}
+
+const verifyPaymentController = async (req, res) => {
+    try {
+        console.log('dataaaaaaaaaaa', req.body)
+        const { payment, order } = req.body;
+        const { status } = verifyPayment(payment)
+        if (status === 'ok') {
+            const { status } = await manageTherapistQueries.savePaymentDetails(order)
+            if (status === 'ok') {
+                console.log('successs')
+                res.status(200).json({ status: 'ok' });
+            } else {
+                res.status(401).json({ status: 'nok', message: 'Payment not found' })
+            }
+        }
+        else {
+            res.status(404).json({ status: 'nok', message: 'Payment doesnt match' });
+        }
+    }
+    catch (err) {
+
+    }
+}
+
 export {
     getTherapistsDetailsController,
     verifyTherapistController,
@@ -128,6 +190,7 @@ export {
     getRejectedTherapistController,
     postRejectedReasonController,
     getTherapistsWhoQuitController,
-
-
+    getPaymentDetailsController,
+    placePaymentController,
+    verifyPaymentController,
 }

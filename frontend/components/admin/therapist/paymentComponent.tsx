@@ -1,89 +1,162 @@
-import { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { getTherapistsDetailsAction, adminStateType } from "@/store/admin/adminReducer";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getTherapistsPaymentsAction, adminStateType } from "@/store/admin/adminReducer";
 import { GridColDef } from '@mui/x-data-grid';
-import EditIcon from '@mui/icons-material/Edit';
-import PersonOffIcon from '@mui/icons-material/PersonOff';
-import { deleteTherapist, editTherapist } from "@/utilities/admin/therapists/manageTherapists";
 import { useRouter } from "next/navigation";
-import { Box, Button, } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import TableComponent from "@/components/common/tableComponent";
+import { apiCall } from "@/services/api";
+import { toast } from "react-toastify";
+
+interface RazorpayPaymentResponse {
+    razorpay_payment_id: string;
+    razorpay_order_id: string;
+    razorpay_signature: string;
+}
 
 const AdminPayment = () => {
     const dispatch = useDispatch();
-    const therapists = useSelector((state: { admin: adminStateType }) => state.admin.therapists);
-    const router = useRouter()
+    const paymentDetails = useSelector((state: { admin: adminStateType }) => state.admin.paymentDetails);
+    const router = useRouter();
+    const [isRazorpayLoaded, setIsRazorpayLoaded] = useState(false);
 
     useEffect(() => {
         const adminData = localStorage.getItem("adminData");
         if (adminData) {
-            dispatch(getTherapistsDetailsAction());
+            dispatch(getTherapistsPaymentsAction());
         } else {
-            router.push('/admin/login')
+            router.push('/admin/login');
         }
-    }, []);
 
-    const handleDelete = (cliendId: string, therapistName: string) => {
-        deleteTherapist(cliendId, therapistName);
+        const script = document.createElement('script');
+        script.src = "https://checkout.razorpay.com/v1/checkout.js";
+        script.onload = () => {
+            console.log("Razorpay script loaded");
+            setIsRazorpayLoaded(true);
+        };
+        script.onerror = () => {
+            console.error("Failed to load Razorpay script");
+            setIsRazorpayLoaded(false);
+        };
+        document.body.appendChild(script);
+    }, [dispatch, router]);
+
+    const handlePayment = async (paymentId: string, totalAmount: number) => {
+        try {
+            const response = await apiCall({
+                method: 'POST',
+                endpoint: `admin/therapists/payment`,
+                body: { paymentId, totalAmount }
+            });
+
+            if (response.status === 'ok' && response.paymentDetails) {
+                razorpayPayment(response.paymentDetails);
+            } else {
+                toast.error(`Failed to do the payment. Please try again!`);
+            }
+        } catch (err) {
+            console.error(err);
+        }
     };
-    const handleEdit = (cliendId: string, therapistName: string) => {
-        editTherapist(cliendId, therapistName);
+
+    const razorpayPayment = (order: { id: string; amount: number }) => {
+        if (!isRazorpayLoaded) {
+            toast.error("Razorpay is not loaded. Please try again later.");
+            return;
+        }
+
+        const options: any = {
+            key_id: 'rzp_test_mj8FaMjD2VYPW4',
+            amount: order.amount,
+            currency: "INR",
+            name: "BloomWell",
+            description: "Test Transaction",
+            image: "/logo.png",
+            order_id: order.id,
+            handler: function (response: RazorpayPaymentResponse) {
+                verifyPayment(response, order);
+            },
+            prefill: {
+                name: 'Emily',
+                contact: 9876567896,
+            },
+            notes: {
+                address: 'user.address',
+            },
+            theme: {
+                color: "#3399cc",
+            },
+        };
+
+        const Razorpay = (window as any).Razorpay;
+        if (Razorpay) {
+            const rzp1 = new Razorpay(options);
+            rzp1.open();
+        } else {
+            console.error("Razorpay is not defined");
+        }
     };
+
+    const verifyPayment = async (payment: RazorpayPaymentResponse, order: { id: string; amount: number }): Promise<void> => {
+        try {
+            const response = await apiCall({
+                method: 'PUT',
+                endpoint: `admin/therapists/verify/payment`,
+                body: { payment, order }
+            });
+
+            if (response.status === 'ok') {
+                dispatch(getTherapistsPaymentsAction());
+                toast.success('Payment successful!');
+            } else {
+                toast.error(`Failed to make purchase. Please try again!`);
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     const columns: GridColDef[] = [
-        { field: "slNo", headerName: "Sl.No", width: 70 },
-        { field: "name", headerName: "Name", width: 140 },
-        { field: "email", headerName: "Email", width: 140 },
-        { field: "role", headerName: "Role", width: 210 },
-        { field: "therapistStatus", headerName: "Status", width: 130 },
+        { field: "slNo", headerName: "Sl.No", width: 50 },
+        { field: "name", headerName: "Name", width: 120 },
+        { field: "totalClient", headerName: "Total Clients", width: 110 },
+        { field: "totalLiveSessions", headerName: "Total Live Sessions", width: 150 },
+        { field: "averageLiveHrs", headerName: "Average Live Session Hours", width: 200 },
+        { field: "totalAmount", headerName: "Total Amount", width: 110 },
+        { field: "paymentStatus", headerName: "Payment Status", width: 130 },
         {
-            field: "edit",
-            headerName: "Edit",
-            sortable: false,
-            width: 90,
-            renderCell: (params) => (
-                <Button
-                    variant="contained"
-                    color="success"
-                    disabled={!params.row.isBlocked}
-                    onClick={() => handleEdit(params.row.id, params.row.name)}
-                >
-                    <EditIcon />
-                </Button>
-            ),
-        },
-        {
-            field: "delete",
-            headerName: "Delete",
+            field: "pay",
+            headerName: "Proceed",
             sortable: false,
             width: 160,
             renderCell: (params) => (
                 <Button
                     variant="contained"
-                    color="error"
-                    disabled={params.row.isBlocked}
-                    onClick={() => handleDelete(params.row.id, params.row.name)}
+                    color="success"
+                    disabled={params.row.paymentStatus === 'Completed'}
+                    onClick={() => handlePayment(params.row.id, params.row.totalAmount)}
                 >
-                    <PersonOffIcon />
+                    Pay
                 </Button>
             ),
         },
     ];
-    const rows = therapists.map((therapist, index) => ({
-        id: therapist._id,
+    const rows = paymentDetails.map((item, index) => ({
+        id: item._id,
         slNo: index + 1,
-        name: therapist.name,
-        email: therapist.email,
-        role: therapist.role,
-        therapistStatus: therapist.isBlocked ? 'Blocked' : 'Active',
-        isBlocked: therapist.isBlocked,
+        name: item.therapistId.name,
+        totalClient: item.totalClients,
+        totalLiveSessions: item.totalLiveSession,
+        averageLiveHrs: item.averageLiveSessionHrs ? item.averageLiveSessionHrs : '30minutes',
+        totalAmount: item.totalAmount,
+        paymentStatus: item.paymentStatus,
+        pay: 'PAY'
     }));
-    const head = 'Manage Therapist';
+    const head = 'Manage Payments';
     return (
-        <Box sx={{
-            ml: { xs: 'none', sm: '15rem' },mt: 5
-        }}>
+        <Box sx={{ ml: { xs: 'none', sm: '15rem' }, mt: 5 }}>
             <TableComponent rows={rows} columns={columns} head={head} subHead={[]} role="admin" />
         </Box>
     );
 }
-export default AdminPayment
+export default AdminPayment;

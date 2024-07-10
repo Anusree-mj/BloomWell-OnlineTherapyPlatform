@@ -22,7 +22,10 @@ router.get('/rejected', protectAdmin, controllers.adminControllers.getRejectedTh
 router.post('/rejected', protectAdmin, controllers.adminControllers.postRejectedReasonController)
 // get therapist who quit
 router.get('/quit', protectAdmin, controllers.adminControllers.getTherapistsWhoQuitController)
-
+// payment
+router.get('/payment', protectAdmin, controllers.adminControllers.getPaymentDetailsController)
+router.post('/payment', protectAdmin, controllers.adminControllers.placePaymentController)
+router.put('/verify/payment', protectAdmin, controllers.adminControllers.verifyPaymentController)
 
 
 

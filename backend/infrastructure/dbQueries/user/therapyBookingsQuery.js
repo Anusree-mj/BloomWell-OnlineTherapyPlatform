@@ -1,6 +1,7 @@
 import Bookings from "../../../entities/clients/bookings.js";
 import Client from "../../../entities/clients/clients.js";
 import Therapists from "../../../entities/therapists/therapist.js";
+import Payments from "../../../entities/admin/adminPaymentModel.js";
 import pkg from 'rrule';
 const { RRule } = pkg;
 
@@ -134,8 +135,11 @@ const updateSlotStarting = async (data) => {
 const updateSlot = async (data) => {
     try {
         const { sessionEnd, roomID } = data;
-        const client = await Client.findById(roomID);
-        const { isActiveSlots, activeSlotId } = client;
+        const client = await Client.findById(roomID).populate('connectionId', 'therapistId');
+        console.log('client founddddddddddddd', client)
+        const { isActiveSlots, activeSlotId, connectionId } = client;
+        const { therapistId } = connectionId;
+        console.log('therapisteeeeeeeeeeeeeeeeeee', therapistId)
         if (!isActiveSlots) return { status: 'ok' }
 
         const slot = await Bookings.findById(activeSlotId);
@@ -147,7 +151,7 @@ const updateSlot = async (data) => {
         const durationInHours = Math.floor(durationInMinutes / 60);
         const remainingMinutes = durationInMinutes % 60;
         const sessionDuration = `${durationInHours}:${remainingMinutes.toString().padStart(2, '0')}`;
-       
+
         const query = {
             _id: activeSlotId,
         }
@@ -161,6 +165,25 @@ const updateSlot = async (data) => {
 
         console.log('slot updated:', updatedSlot)
         if (updatedSlot.modifiedCount > 0) {
+
+            await Payments.insertMany({
+                therapistId: therapistId,
+                totalClients: 2,
+                totalLiveSession: 2,
+                averageLiveSessionHrs: '30minutes',
+                totalAmount: 900,
+            })
+
+            const paymentQuery = {
+                therapistId: therapistId,
+            }
+            const paymentUpdate = {
+                $inc: { totalLiveSession: 1, totalAmount: 250 }
+            }
+            const paymentOptions = { upsert: true }
+            const updatePayment = await Payments.updateOne(paymentQuery, paymentUpdate, paymentOptions)
+            console.log('updatedpatment', updatePayment)
+
             await Client.findByIdAndUpdate(roomID, { isActiveSlots: false });
             return { status: 'ok' }
         } else {

@@ -1,3 +1,4 @@
+import Payments from "../../../entities/admin/adminPaymentModel.js";
 import Therapists from "../../../entities/therapists/therapist.js";
 import Notifications from "../../../entities/users/notificationModel.js";
 
@@ -111,6 +112,35 @@ const getTherapistWhoQuitQuery = async () => {
     }
 }
 
+const getTherapistPaymentDetails = async () => {
+    try {
+        const paymentDetails = await Payments.find().populate('therapistId', 'name');
+        console.log('paymentDetailsssssssssssssssssss', paymentDetails)
+        return { paymentDetails }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
+const savePaymentDetails = async (order) => {
+    try {
+        const query = { _id: order.receipt };
+        const update = { paymentStatus: 'Completed' };
+        const options = { upsert: true };
+        const updatePayment = await Payments.updateOne(query, update, options);
+        if (updatePayment.modifiedCount > 0) {
+            console.log('updateeeeeeeeee',updatePayment)
+            return { status: 'ok' }
+        } else {
+            console.log('payment not found')
+            return { status: 'nok', message: 'payment not found' }
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
 export default {
     getTherapistsDetailsQuery,
     verifyTherapistQuery,
@@ -119,4 +149,6 @@ export default {
     getRejectedTherapistQuery,
     postRejectedReasonQuery,
     getTherapistWhoQuitQuery,
+    getTherapistPaymentDetails,
+    savePaymentDetails,
 }

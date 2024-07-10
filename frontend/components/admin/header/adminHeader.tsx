@@ -86,7 +86,7 @@ export default function AdminHeader(props: Props) {
         { title: 'Manage Therapists', link: '/admin/therapists/view' },
         { title: 'Verify Therapist', link: '/admin/therapists/verify' },
         { title: 'Manage Connections', link: '/admin/therapists/connections' },
-        { title: 'Manage Payments', link: '/admin/therapists/add' },
+        { title: 'Manage Payments', link: '/admin/therapists/payment' },
         { title: 'Leaving Therapists', link: '/admin/therapists/quit' },
       ]
     },

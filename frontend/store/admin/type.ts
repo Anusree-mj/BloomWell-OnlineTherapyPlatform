@@ -60,3 +60,17 @@ export interface TopTherapistsItem {
     count: number,
     averageRating: number
 }
+
+export interface PaymentDetailsItem {
+    _id: string,
+    therapistId: {
+        _id: string,
+        name: string
+    },
+    totalClients: number,
+    totalLiveSession: number,
+    averageLiveSessionHrs: string,
+    totalAmount: number,
+    paymentStatus: string,
+    name: string,
+}

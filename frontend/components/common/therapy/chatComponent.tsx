@@ -130,23 +130,23 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ messageData, slotDetails 
                 return;
             }
             else {
-                console.log('Slot is active and within the 1-hour range:', slotDetails);
-                const currentDateTime = new Date();
-                const slotDate = parse(slotDetails.date, 'dd-MM-yy', new Date());
-                const slotTime = parse(slotDetails.time, 'hh:mm a', new Date());
-                const slotStartTime = new Date(slotDate.setHours(slotTime.getHours(), slotTime.getMinutes()));
-                const slotEndTime = addHours(slotStartTime, 1);
+                // console.log('Slot is active and within the 1-hour range:', slotDetails);
+                // const currentDateTime = new Date();
+                // const slotDate = parse(slotDetails.date, 'dd-MM-yy', new Date());
+                // const slotTime = parse(slotDetails.time, 'hh:mm a', new Date());
+                // const slotStartTime = new Date(slotDate.setHours(slotTime.getHours(), slotTime.getMinutes()));
+                // const slotEndTime = addHours(slotStartTime, 1);
 
-                if (isWithinInterval(currentDateTime, { start: slotStartTime, end: slotEndTime })) {
+                // if (isWithinInterval(currentDateTime, { start: slotStartTime, end: slotEndTime })) {
                     socket.emit('send_call',
                         {
                             therapistId: messageData.reciever.recieverId, roomId: messageData.sender.senderId,
                             clientName: clientDetails.name
                         });
                     router.push(`/liveSession/${messageData.sender.senderId}/${messageData.sender.senderId}`);
-                } else {
-                    toast.error(`The slot is not currently active. Please check your booking time.`);
-                }
+                // } else {
+                //     toast.error(`The slot is not currently active. Please check your booking time.`);
+                // }
             }
         }
         return;
