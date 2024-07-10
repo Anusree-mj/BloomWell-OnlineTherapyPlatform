@@ -1,6 +1,7 @@
 import Bookings from "../../../entities/clients/bookings.js";
 import Client from "../../../entities/clients/clients.js";
 import Therapists from "../../../entities/therapists/therapist.js";
+import Payments from "../../../entities/admin/adminPaymentModel.js";
 import pkg from 'rrule';
 const { RRule } = pkg;
 
@@ -84,7 +85,7 @@ const getActiveSlotDetails = async (slotId) => {
     }
 }
 
-const cancelSlot = async (slotId,clientId) => {
+const cancelSlot = async (slotId, clientId) => {
     try {
         const query = {
             _id: slotId,
@@ -105,11 +106,106 @@ const cancelSlot = async (slotId,clientId) => {
     }
 }
 
+const updateSlotStarting = async (data) => {
+    try {
+        const { sessionStart, roomID } = data;
+        const client = await Client.findById(roomID);
+        const bookingId = client.activeSlotId;
+
+        const query = {
+            _id: bookingId,
+        }
+        const update = {
+            sessionStart: sessionStart,
+        };
+        const options = { upsert: true }
+        const updatedSlot = await Bookings.updateOne(query, update, options)
+
+        console.log('slot updated:', updatedSlot)
+        if (updatedSlot.modifiedCount > 0) {
+            return { status: 'ok' }
+        } else {
+            return { status: 'nok', message: 'Slot not found' }
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const updateSlot = async (data) => {
+    try {
+        const { sessionEnd, roomID } = data;
+        const client = await Client.findById(roomID).populate('connectionId', 'therapistId');
+        console.log('client founddddddddddddd', client)
+        const { isActiveSlots, activeSlotId, connectionId } = client;
+        const { therapistId } = connectionId;
+        console.log('therapisteeeeeeeeeeeeeeeeeee', therapistId)
+        if (!isActiveSlots) return { status: 'ok' }
+
+        const slot = await Bookings.findById(activeSlotId);
+        console.log('sloteeeeeeeeeeeee', slot)
+
+        const sessionStartMinutes = timeToMinutes(slot.sessionStart);
+        const sessionEndMinutes = timeToMinutes(sessionEnd);
+        const durationInMinutes = sessionEndMinutes - sessionStartMinutes;
+        const durationInHours = Math.floor(durationInMinutes / 60);
+        const remainingMinutes = durationInMinutes % 60;
+        const sessionDuration = `${durationInHours}:${remainingMinutes.toString().padStart(2, '0')}`;
+
+        const query = {
+            _id: activeSlotId,
+        }
+        const update = {
+            status: 'Completed',
+            sessionEnd: sessionEnd,
+            sessionDuration: sessionDuration
+        };
+        const options = { upsert: true }
+        const updatedSlot = await Bookings.updateOne(query, update, options)
+
+        console.log('slot updated:', updatedSlot)
+        if (updatedSlot.modifiedCount > 0) {
+
+            await Payments.insertMany({
+                therapistId: therapistId,
+                totalClients: 2,
+                totalLiveSession: 2,
+                averageLiveSessionHrs: '30minutes',
+                totalAmount: 900,
+            })
+
+            const paymentQuery = {
+                therapistId: therapistId,
+            }
+            const paymentUpdate = {
+                $inc: { totalLiveSession: 1, totalAmount: 250 }
+            }
+            const paymentOptions = { upsert: true }
+            const updatePayment = await Payments.updateOne(paymentQuery, paymentUpdate, paymentOptions)
+            console.log('updatedpatment', updatePayment)
+
+            await Client.findByIdAndUpdate(roomID, { isActiveSlots: false });
+            return { status: 'ok' }
+        } else {
+            return { status: 'nok', message: 'Slot not found' }
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const timeToMinutes = (time) => {
+    const [hours, minutes] = time.split(':').map(Number);
+    return hours * 60 + minutes;
+};
+
 export default {
     addTherapistAvailability,
     getAvailableSlots,
     postClientSlotBooking,
     getActiveSlotDetails,
     cancelSlot,
+    updateSlot,
+    updateSlotStarting,
 
 }

@@ -52,7 +52,6 @@ const changePassword = async (clientId, changPasswordInfo) => {
             const update = { password: hashedPassword };
             const options = { upsert: false }
             const check = await Client.updateOne(query, update, options);
-            console.log('checkkkkkkkkkk', check)
             return { status: 'ok' }
         } else {
             console.log('password doesnt match')

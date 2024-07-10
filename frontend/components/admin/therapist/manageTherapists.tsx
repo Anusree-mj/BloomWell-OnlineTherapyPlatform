@@ -1,4 +1,3 @@
-'use-therapist'
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getTherapistsDetailsAction, adminStateType } from "@/store/admin/adminReducer";
@@ -83,7 +82,7 @@ const AdminManageTherapists = () => {
         <Box sx={{
             ml: { xs: 'none', sm: '15rem' },mt: 5
         }}>
-            <TableComponent rows={rows} columns={columns} head={head} subHead={[]} />
+            <TableComponent rows={rows} columns={columns} head={head} subHead={[]} role="admin" />
         </Box>
     );
 }

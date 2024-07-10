@@ -16,6 +16,8 @@ import {
     postBookedSlotController,
     getActiveSlotController,
     cancelSlotController,
+    updateSessionController,
+    updateStartSessionController,
 
 } from './slotManaginController.js';
 
@@ -33,8 +35,8 @@ const userControllers = {
     postBookedSlotController,
     getActiveSlotController,
     cancelSlotController,
-
-
+    updateSessionController,
+    updateStartSessionController
 };
 
 export default userControllers;

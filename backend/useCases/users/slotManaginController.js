@@ -46,7 +46,7 @@ const postBookedSlotController = async (req, res) => {
         const response = await therapyBookingsQuery.postClientSlotBooking(clientId, therapistId, date, time)
         if (response.status === 'ok') {
             const { addedSlotId } = response
-            res.status(200).json({ status:'ok',addedSlotId });
+            res.status(200).json({ status: 'ok', addedSlotId });
         } else {
             res.status(400).json({ message: 'Something went wrong' });
         }
@@ -91,6 +91,38 @@ const cancelSlotController = async (req, res) => {
     }
 }
 
+const updateStartSessionController = async (req, res) => {
+    try {
+        console.log('reached updateStartSessionController', req.body)
+        const response = await therapyBookingsQuery.updateSlotStarting(req.body)
+        if (response.status === 'ok') {
+            const { status } = response
+            res.status(200).json({ status });
+        } else {
+            const { status, message } = response
+            res.status(400).json({ status, message });
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const updateSessionController = async (req, res) => {
+    try {
+        console.log('reached update sessioncontroller:', req.body)
+        const response = await therapyBookingsQuery.updateSlot(req.body)
+        if (response.status === 'ok') {
+            const { status } = response
+            res.status(200).json({ status });
+        } else {
+            const { status, message } = response
+            res.status(400).json({ status, message });
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 // 
 export {
     addAvailabileSlotsController,
@@ -98,5 +130,6 @@ export {
     postBookedSlotController,
     getActiveSlotController,
     cancelSlotController,
-
+    updateSessionController,
+    updateStartSessionController,
 }

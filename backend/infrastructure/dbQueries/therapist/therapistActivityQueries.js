@@ -28,7 +28,6 @@ const doQuit = async (therapistId, quitInfo) => {
         })
 
         const connectedClients = await Connections.find({ therapistId: therapistId, isActive: true });
-        console.log("connected clients", connectedClients)
         for (const item of connectedClients) {
             console.log('entered in for of')
             await Notifications.insertMany([{

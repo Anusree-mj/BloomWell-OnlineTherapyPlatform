@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { AdminItem } from "./type";
+import { AdminItem, PaymentDetailsItem } from "./type";
 import { ClientItem } from "../clients/type";
 import { TherapistItem } from "../therapists/type";
 
@@ -9,6 +9,7 @@ export interface adminStateType {
     clients: ClientItem[];
     client: ClientItem;
     therapists: TherapistItem[];
+    paymentDetails: PaymentDetailsItem[];
     isLoading: boolean;
     error: any;
 }
@@ -21,6 +22,7 @@ const initialState: adminStateType = {
     },
     clients: [],
     therapists: [],
+    paymentDetails: [],
     isLoading: false,
     error: null,
     client: {
@@ -141,25 +143,47 @@ export const adminSlice: any = createSlice({
             state.error = action.payload;
             console.log('eror found', state.error)
         },
+
+        // get therapist paymentdetails
+        getTherapistsPaymentsAction: (state) => {
+            state.isLoading = true;
+        },
+        getTherapistsPaymentsSuccessAction: (state, action) => {
+            state.isLoading = false;
+            console.log('action payload in successaction', action.payload)
+            state.paymentDetails = action.payload;
+        },
+        getTherapistsPaymentsFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found', state.error)
+        },
     }
 })
 export const {
     getAdminLoginAction,
     getAdminLoginSuccessAction,
     getAdminLoginFailureAction,
+
     getAllClientsDetailsAction,
     getAllClientsDetailsSuccessAction,
     getAllClientsDetailsFailureAction,
+
     getTherapistsDetailsAction,
     getTherapistsDetailsSuccessAction,
     getTherapistsDetailsFailureAction,
+
     getRejectedTherapistsDetailsAction,
     getRejectedTherapistsDetailsFailureAction,
     getRejectedTherapistsDetailsSuccessAction,
+
     getTherapistsWhoQuitAction,
     getTherapistsWhoQuitFailureAction,
     getTherapistsWhoQuitSuccessAction,
 
+    getTherapistsPaymentsAction,
+    getTherapistsPaymentsFailureAction,
+    getTherapistsPaymentsSuccessAction
 
 
 } = adminSlice.actions;

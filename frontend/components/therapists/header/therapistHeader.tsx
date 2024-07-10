@@ -25,6 +25,7 @@ import Image from 'next/image';
 import { styled, alpha } from '@mui/material/styles';
 import { MenuProps } from '@mui/material/Menu';
 import CustomAlert from './customAlert';
+import { apiCall } from '@/services/api';
 
 interface Props {
     container?: Element;
@@ -180,9 +181,25 @@ export default function TherapistHeader(props: Props) {
         }
     };
 
-    const handleAnswer = () => {
+    const handleAnswer = async () => {
         setIncomingCall({ ...incomingCall, open: false });
-        router.push(`/liveSession/${incomingCall.roomId}`);
+        router.push(`/liveSession/${incomingCall.roomId}/${therapist._id}`);
+        const sessionStart = new Date();
+        const sessionStartTime = sessionStart.toLocaleTimeString('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        });
+        const response = await apiCall({
+            method: 'PUT',
+            endpoint: `client/slot/start`,
+            body: { sessionStart: sessionStartTime, roomID: incomingCall.roomId }
+        });
+        if (response.status === 'ok') {
+            console.log('Session data saved successfully');
+        } else {
+            console.error('Failed to save session data');
+        }
     };
 
     const handleCallClose = () => {

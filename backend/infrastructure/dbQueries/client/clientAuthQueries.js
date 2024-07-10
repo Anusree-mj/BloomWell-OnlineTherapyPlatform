@@ -20,7 +20,6 @@ const saveOtp = async (email, otp) => {
 
 const verifyOTP = async (data, role) => {
     try {
-        console.log(role, 'role');
         const verify = await TempUser.findOne({ email: data.email, otp: data.otp });
         if (verify) {
             console.log('OTP matched');
