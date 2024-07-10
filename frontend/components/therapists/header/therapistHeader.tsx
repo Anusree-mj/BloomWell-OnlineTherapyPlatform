@@ -126,7 +126,7 @@ export default function TherapistHeader(props: Props) {
                 }
             };
         }
-    }, [therapist._id, count, alert]);
+    }, [therapist._id, count]);
     useEffect(() => {
         if (error) {
             toast.error(error);
@@ -211,14 +211,14 @@ export default function TherapistHeader(props: Props) {
             subItems: [
                 { title: 'Active', link: '/therapist/activities/active' },
                 { title: 'Inactive', link: '/therapist/activities/inActive' },
-                { title: 'Availability', link: '/therapist/activities/availability' },
+                { title: 'Schedules', link: '/therapist/activities/schedules' },
                 { title: 'Reviews', link: '/therapist/activities/reviews' },
 
             ]
         },
         {
-            iconTitle: 'Schedules',
-            link: `/therapist/schedules`,
+            iconTitle: 'Manage Availability',
+            link: `/therapist/availability`,
         },
         {
             iconTitle: 'Manage Connections',
@@ -244,8 +244,17 @@ export default function TherapistHeader(props: Props) {
             flexGrow: 1,
         }}>
             <CssBaseline />
-            <AppBar position="static" sx={{ backgroundColor: '#325343' }}>
-                <Container maxWidth="xl">
+            <AppBar
+                position="static"
+                sx={{
+                    backgroundColor: '#325343',
+                    boxShadow: '0px 15px 10px -15px #111'
+                }}
+            >
+                <Container maxWidth="xl"
+                    sx={{
+                        boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
+                    }}>
                     <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
                         <Typography
                             variant="h6"

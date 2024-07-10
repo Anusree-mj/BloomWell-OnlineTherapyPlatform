@@ -49,7 +49,7 @@ const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
     };
 
     return (
-        <Box sx={{
+        <Box sx={{minHeight:'100vh',
             display: 'flex', flexDirection: 'column', backgroundColor: '#325343',
             alignItems: 'center', justifyContent: 'center',
         }}>

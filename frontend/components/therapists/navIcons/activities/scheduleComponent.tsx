@@ -42,7 +42,7 @@ const TherapistsScheulesComponent = () => {
             try {
                 const response = await axios.put(
                     `${process.env.NEXT_PUBLIC_SERVER_API_URL}/therapist/schedules`,
-                    { scheduleId, action, clientId,date,time },
+                    { scheduleId, action, clientId, date, time },
                     { withCredentials: true }
                 );
                 if (response.status === 200) {
@@ -123,12 +123,18 @@ const TherapistsScheulesComponent = () => {
         verificationStatus: schedule.verificationStatus === 'pending' ? 'Pending' : schedule.verificationStatus,
         status: schedule.status === 'pending' ? 'Pending' : schedule.status,
     }));
-    const head = 'Manage Therapist';
+    const head = 'My Activity';
+    const subHead = [
+        { name: 'Active', url: 'therapist/activities/active', select: false },
+        { name: 'Inactive', url: 'therapist/activities/inActive', select: false },
+        { name: 'Schedules', url: 'therapist/activities/schedules', select: true },
+        { name: 'Reviews', url: 'therapist/activities/reviews', select: false }
+    ]
     return (
         <Box sx={{
-            backgroundColor: '#F7FCC2', pb: 8
+            backgroundColor: '#325343', pb: 8
         }}>
-            <TableComponent rows={rows} columns={columns} head={head} subHead={[]} role=""/>
+            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role="" />
         </Box>
     );
 }

@@ -104,12 +104,12 @@ const AddAvailabilityForm = () => {
     return (
         <Box
             sx={{
-                backgroundColor: '#F7FCC2', display: 'flex', alignItems: 'center',
+                backgroundColor: '#325343', display: 'flex', alignItems: 'center',
                 flexDirection: 'column', justifyContent: 'center', minHeight: '80vh', pb: 4
             }}>
             <Typography
                 sx={{
-                    mt: 2, mb: 2, color: '#325343', fontSize: '1.2rem', fontWeight: 800,
+                    mt: 2, mb: 2, color: 'white', fontSize: '1rem', fontWeight: 600,
                 }}>
                 Days and Time You Preferred
             </Typography>

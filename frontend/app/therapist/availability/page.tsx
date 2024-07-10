@@ -5,16 +5,19 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from 'react-redux';
 import store from "@/store";
 import TherapistHeader from "@/components/therapists/header/therapistHeader";
-import TherapistsScheulesComponent from "@/components/therapists/navIcons/schedules/scheduleComponent";
+import AddAvailabilityForm from '@/components/therapists/navIcons/availability/availabilityComponent';
+import DateProvider from "@/utilities/dateProvider";
 
 const Page = () => {
 
     return (
         <Provider store={store}>
-            <ToastContainer />
-            <TherapistHeader />
-            <TherapistsScheulesComponent />
-            <Footer />
+            <DateProvider>
+                <ToastContainer />
+                <TherapistHeader />
+                <AddAvailabilityForm />
+                <Footer />
+            </DateProvider>
         </Provider>
     )
 }

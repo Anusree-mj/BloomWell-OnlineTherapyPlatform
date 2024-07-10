@@ -91,7 +91,7 @@ const ConnectionRequestsComponent = () => {
         verificationStatus: connection.adminVerify === 'Reject' ? 'Rejected by admin' : connection.status,
         medicalInfo: 'view',
     }));
-    const head = 'Connection Requests';
+    const head = 'Manage Connections';
     const subHead = [
         { name: 'All', url: 'therapist/connections', select: true },
         { name: 'Rejected', url: 'therapist/connections/rejected', select: false }
@@ -99,7 +99,7 @@ const ConnectionRequestsComponent = () => {
 
     return (
         <Box sx={{
-            backgroundColor: '#F7FCC2', pb: 8
+            backgroundColor: '#325343', pb: 8
         }}>
             <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role=""/>
         </Box>

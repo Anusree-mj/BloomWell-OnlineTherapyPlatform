@@ -44,7 +44,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ rows, columns, head, su
             }}
         >
             <Box sx={{
-                width: '90rem', maxWidth: '90%'
+                width: '90rem', maxWidth: '95%'
             }}>
                 <Typography variant="h6" noWrap component="div" sx={{
                     color: role === 'admin' ? '#325343' : 'white', alignSelf: 'start', mt: 5,
@@ -56,13 +56,14 @@ const TableComponent: React.FC<TableComponentProps> = ({ rows, columns, head, su
                 <Box sx={{
                     display: 'flex',
                     alignItems: 'center', justifyContent: 'space-between',
-                    mb: 1,
+                    mb: 1, width: '100%',
                 }}>
-                    <Box sx={{ display: 'flex', gap: 2 }}>
+                    <Box sx={{ display: 'flex', }}>
                         {subHead && subHead.map((item) => (
                             <Typography noWrap component="div" sx={{
                                 color: role === 'admin' ? '#325343' : 'white', mb: 1, textDecoration: 'underline',
-                                fontWeight: item.select ? 800 : 600, fontSize: '1rem',
+                                fontWeight: item.select ? 600 : 400, fontSize: '0.9rem',
+                                backgroundColor: item.select ? '#16171638' : 'none', p: 1,
                                 alignSelf: 'flex-start', cursor: 'pointer', letterSpacing: 1
                             }} onClick={() => { handleSubheadOnClick(item.url) }} >
                                 {item.name}
@@ -72,9 +73,28 @@ const TableComponent: React.FC<TableComponentProps> = ({ rows, columns, head, su
                     <TextField
                         label="Search..."
                         variant="outlined"
-                        value={search} sx={{
-                            alignSelf: 'end', width: '20rem',
-                            mt: { xs: 2 }
+                        value={search}
+                        sx={{ml:1,
+                            alignSelf: 'end',
+                            width: '15rem',
+                            maxWidth: '90%',
+                            '& .MuiOutlinedInput-root': {
+                                '& fieldset': {
+                                    borderColor: role === 'admin' ? '#325343' : 'white',
+                                },
+                                '&:hover fieldset': {
+                                    borderColor: role === 'admin' ? '#325343' : 'white',
+                                },
+                                '&.Mui-focused fieldset': {
+                                    borderColor: role === 'admin' ? '#325343' : 'white',
+                                },
+                            },
+                            '& .MuiInputBase-input': {
+                                color: role === 'admin' ? '#325343' : 'white',
+                            },
+                            '& .MuiInputLabel-root': {
+                                color: role === 'admin' ? '#325343' : 'white',
+                            },
                         }}
                         onChange={handleSearch}
                     />
@@ -98,6 +118,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ rows, columns, head, su
                         sx={{
                             '& .MuiDataGrid-cell': {
                                 fontSize: '0.88rem',
+                                color: role === 'admin' ? 'black' : 'white',
                             },
                         }}
                     />
