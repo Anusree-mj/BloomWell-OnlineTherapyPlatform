@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { AdminItem, PaymentDetailsItem } from "./type";
+import { AdminItem } from "./type";
 import { ClientItem } from "../clients/type";
 import { TherapistItem } from "../therapists/type";
 
@@ -9,7 +9,7 @@ export interface adminStateType {
     clients: ClientItem[];
     client: ClientItem;
     therapists: TherapistItem[];
-    paymentDetails: PaymentDetailsItem[];
+    paymentDetails: TherapistItem[];
     isLoading: boolean;
     error: any;
 }

@@ -144,13 +144,14 @@ const getPaymentDetailsController = async (req, res) => {
 // place payment
 const placePaymentController = async (req, res) => {
     try {
-        const { paymentId, totalAmount } = req.body;
         console.log('details found in place', req.body)
+        const { totalAmount,therapistId } = req.body;
+        const { paymentId } = await manageTherapistQueries.savePaymentDetails(req.body)
         const paymentDetails = await createRazorpayOrder(paymentId, totalAmount)
         console.log('paymetnderailsssssss', paymentDetails)
         res.status(200).json({
             status: 'ok',
-            paymentDetails
+            paymentDetails,therapistId
         });
 
     } catch (err) {
@@ -162,10 +163,10 @@ const placePaymentController = async (req, res) => {
 const verifyPaymentController = async (req, res) => {
     try {
         console.log('dataaaaaaaaaaa', req.body)
-        const { payment, order } = req.body;
+        const { payment, order,therapistId } = req.body;
         const { status } = verifyPayment(payment)
         if (status === 'ok') {
-            const { status } = await manageTherapistQueries.savePaymentDetails(order)
+            const { status } = await manageTherapistQueries.updatePaymentDetails(order,therapistId)
             if (status === 'ok') {
                 console.log('successs')
                 res.status(200).json({ status: 'ok' });

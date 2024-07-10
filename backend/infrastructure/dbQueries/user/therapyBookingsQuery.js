@@ -166,23 +166,9 @@ const updateSlot = async (data) => {
         console.log('slot updated:', updatedSlot)
         if (updatedSlot.modifiedCount > 0) {
 
-            await Payments.insertMany({
-                therapistId: therapistId,
-                totalClients: 2,
-                totalLiveSession: 2,
-                averageLiveSessionHrs: '30minutes',
-                totalAmount: 900,
+            await Therapists.findByIdAndUpdate(therapistId, {
+                $inc: { totalLiveSessionPerMonth: 1 }
             })
-
-            const paymentQuery = {
-                therapistId: therapistId,
-            }
-            const paymentUpdate = {
-                $inc: { totalLiveSession: 1, totalAmount: 250 }
-            }
-            const paymentOptions = { upsert: true }
-            const updatePayment = await Payments.updateOne(paymentQuery, paymentUpdate, paymentOptions)
-            console.log('updatedpatment', updatePayment)
 
             await Client.findByIdAndUpdate(roomID, { isActiveSlots: false });
             return { status: 'ok' }

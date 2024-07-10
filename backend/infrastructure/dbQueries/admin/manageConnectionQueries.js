@@ -1,6 +1,7 @@
 import Connections from "../../../entities/clients/connection.js";
 import Notifications from '../../../entities/users/notificationModel.js'
 import Client from "../../../entities/clients/clients.js";
+import Therapists from "../../../entities/therapists/therapist.js";
 
 const getConnectionRequests = async () => {
     try {
@@ -65,6 +66,12 @@ export const checkActiveConnection = async (connectionId, therapistName, clientI
             userType: 'Client',
             head: 'Connection Request Updated',
             message: message,
+        })
+        const connectionDetails = await Connections.find({ _id: connectionId });
+        const { therapistId } = connectionDetails[0];
+        console.log('therapistIdddddddddsdfe', therapistId)
+        await Therapists.findByIdAndUpdate(therapistId, {
+            $inc: { totalClients: 1 },
         })
         return;
     } catch (err) {

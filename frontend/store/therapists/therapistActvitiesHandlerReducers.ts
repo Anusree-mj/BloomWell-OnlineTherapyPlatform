@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ConnectionItems } from "../admin/type";
+import { ConnectionItems, PaymentDetailsItem } from "../admin/type";
 import { ReviewItems, ScheduleItems } from "./type";
 import { ClientItem } from "../clients/type";
 
 export interface ActivitiesStateType {
     connections: ConnectionItems[];
+    payments: PaymentDetailsItem[];
     reviews: ReviewItems[];
     client: ClientItem;
     schedules: ScheduleItems[];
@@ -53,7 +54,8 @@ const initialState: ActivitiesStateType = {
         isActiveSlots: false,
         activeSlotId: ""
     },
-    schedules: []
+    schedules: [],
+    payments: []
 }
 export const therapistActivitiesSlice: any = createSlice({
     name: "therapistActivities",
@@ -122,6 +124,22 @@ export const therapistActivitiesSlice: any = createSlice({
             state.error = action.payload;
             console.log('eror found', state.error)
         },
+
+        // get payments 
+        getTherapistsAllPaymentAction: (state) => {
+            console.log('entered in  action')
+            state.isLoading = true;
+        },
+        getTherapistsAllPaymentSuccessAction: (state, action) => {
+            state.isLoading = false;
+            state.payments = action.payload;
+            console.log('payments got in :', state.payments)
+        },
+        getTherapistsAllPaymentFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            console.log('eror found', state.error)
+        },
     }
 })
 export const {
@@ -136,6 +154,8 @@ export const {
     getTherapistsReviewsSuccessAction,
     getTherapistsSchedulesAction,
     getTherapistsSchedulesFailureAction,
-    getTherapistsSchedulesSuccessAction
-
+    getTherapistsSchedulesSuccessAction,
+    getTherapistsAllPaymentAction,
+    getTherapistsAllPaymentFailureAction,
+    getTherapistsAllPaymentSuccessAction,
 } = therapistActivitiesSlice.actions;

@@ -41,16 +41,18 @@ const AdminPayment = () => {
         document.body.appendChild(script);
     }, [dispatch, router]);
 
-    const handlePayment = async (paymentId: string, totalAmount: number) => {
+    const handlePayment = async (therapistId: string, totalAmount: number, totalClients: number,
+        totalLiveSessions: number
+    ) => {
         try {
             const response = await apiCall({
                 method: 'POST',
                 endpoint: `admin/therapists/payment`,
-                body: { paymentId, totalAmount }
+                body: { therapistId, totalAmount, totalClients, totalLiveSessions }
             });
 
             if (response.status === 'ok' && response.paymentDetails) {
-                razorpayPayment(response.paymentDetails);
+                razorpayPayment(response.paymentDetails,response.therapistId);
             } else {
                 toast.error(`Failed to do the payment. Please try again!`);
             }
@@ -59,7 +61,7 @@ const AdminPayment = () => {
         }
     };
 
-    const razorpayPayment = (order: { id: string; amount: number }) => {
+    const razorpayPayment = (order: { id: string; amount: number },therapistId:string) => {
         if (!isRazorpayLoaded) {
             toast.error("Razorpay is not loaded. Please try again later.");
             return;
@@ -74,7 +76,7 @@ const AdminPayment = () => {
             image: "/logo.png",
             order_id: order.id,
             handler: function (response: RazorpayPaymentResponse) {
-                verifyPayment(response, order);
+                verifyPayment(response, order,therapistId);
             },
             prefill: {
                 name: 'Emily',
@@ -97,12 +99,12 @@ const AdminPayment = () => {
         }
     };
 
-    const verifyPayment = async (payment: RazorpayPaymentResponse, order: { id: string; amount: number }): Promise<void> => {
+    const verifyPayment = async (payment: RazorpayPaymentResponse, order: { id: string; amount: number },therapistId:string): Promise<void> => {
         try {
             const response = await apiCall({
                 method: 'PUT',
                 endpoint: `admin/therapists/verify/payment`,
-                body: { payment, order }
+                body: { payment, order,therapistId }
             });
 
             if (response.status === 'ok') {
@@ -122,7 +124,7 @@ const AdminPayment = () => {
         { field: "totalClient", headerName: "Total Clients", width: 110 },
         { field: "totalLiveSessions", headerName: "Total Live Sessions", width: 150 },
         { field: "averageLiveHrs", headerName: "Average Live Session Hours", width: 200 },
-        { field: "totalAmount", headerName: "Total Amount", width: 110 },
+        { field: "total", headerName: "Total Amount", width: 110 },
         { field: "paymentStatus", headerName: "Payment Status", width: 130 },
         {
             field: "pay",
@@ -134,22 +136,28 @@ const AdminPayment = () => {
                     variant="contained"
                     color="success"
                     disabled={params.row.paymentStatus === 'Completed'}
-                    onClick={() => handlePayment(params.row.id, params.row.totalAmount)}
+                    onClick={() => handlePayment(params.row.id, params.row.totalAmount, params.row.totalClients,
+                        params.row.totalLiveSessions
+                    )}
                 >
                     Pay
                 </Button>
             ),
         },
     ];
+    const calculateTotalAmount = (totalClient: any, totalLiveSession: any) => {
+        const totalAmount = (totalClient * 200) + (totalLiveSession * 300);
+        return totalAmount;
+    }
     const rows = paymentDetails.map((item, index) => ({
         id: item._id,
         slNo: index + 1,
-        name: item.therapistId.name,
-        totalClient: item.totalClients,
-        totalLiveSessions: item.totalLiveSession,
-        averageLiveHrs: item.averageLiveSessionHrs ? item.averageLiveSessionHrs : '30minutes',
-        totalAmount: item.totalAmount,
-        paymentStatus: item.paymentStatus,
+        name: item.name,
+        totalClient: item.totalClients?item.totalClients:0,
+        totalLiveSessions: item.totalLiveSessionPerMonth?item.totalLiveSessionPerMonth:0,
+        totalAmount: calculateTotalAmount(item.totalClients, item.totalLiveSessionPerMonth),
+        total: `₹ ${calculateTotalAmount(item.totalClients, item.totalLiveSessionPerMonth)}/-`,
+        paymentStatus: item.isMonthlyPaid ? 'Completed' : 'Pending',
         pay: 'PAY'
     }));
     const head = 'Manage Payments';

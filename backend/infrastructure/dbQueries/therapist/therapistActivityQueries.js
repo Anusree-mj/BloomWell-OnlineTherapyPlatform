@@ -6,6 +6,7 @@ import Connections from "../../../entities/clients/connection.js";
 import Feedback from "../../../entities/users/feedback.js";
 import Reviews from "../../../entities/therapists/reviews.js";
 import Bookings from "../../../entities/clients/bookings.js";
+import Payments from "../../../entities/admin/adminPaymentModel.js";
 
 const doQuit = async (therapistId, quitInfo) => {
     try {
@@ -112,6 +113,18 @@ const updateSchedulesDetails = async (slotId, action, clientId, date, time) => {
     }
 }
 
+const getPaymentsDetails = async (therapistId) => {
+    try {
+        const schedules = await Payments.find({ therapistId: therapistId, })
+        if (schedules) {
+            return { status: 'ok', schedules }
+        } else {
+            return { status: 'nok', message: 'No schedules added yet' }
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
 export default {
     doQuit,
     getReviews,

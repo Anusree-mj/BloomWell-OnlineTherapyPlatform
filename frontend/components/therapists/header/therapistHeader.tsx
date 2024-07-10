@@ -206,7 +206,7 @@ export default function TherapistHeader(props: Props) {
         setIncomingCall({ ...incomingCall, open: false });
     };
     const navicons = [
-        {
+        { 
             iconTitle: 'Activities', link: '/#',
             subItems: [
                 { title: 'Active', link: '/therapist/activities/active' },
@@ -226,7 +226,7 @@ export default function TherapistHeader(props: Props) {
         },
         { iconTitle: 'Quit', link: '/therapist/quit' },
         {
-            iconTitle: 'Payments', link: '#',
+            iconTitle: 'Payments', link: '/therapist/payments',
         },
         {
             iconTitle: 'Notifications',
