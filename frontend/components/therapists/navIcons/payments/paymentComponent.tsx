@@ -2,27 +2,24 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { GridColDef } from '@mui/x-data-grid';
-import FormHelperText from '@mui/material/FormHelperText';
 import { useRouter } from "next/navigation";
-import { Box, MenuItem, Select } from "@mui/material";
-import Link from "next/link";
-import { getTherapistsConnectionRequestAction, ActivitiesStateType } from "@/store/therapists/therapistActvitiesHandlerReducers";
-import { manageConnectionRequest } from "@/utilities/therapists/manageConnectionRequest";
+import { Box } from "@mui/material";
+import { getTherapistsAllPaymentAction, ActivitiesStateType } from "@/store/therapists/therapistActvitiesHandlerReducers";
 import TableComponent from "@/components/common/tableComponent";
+import { format } from 'date-fns';
 
 
-const ConnectionRequestsComponent = () => {
+const TherapistEarningsComponent = () => {
     const dispatch = useDispatch();
     const router = useRouter()
-    const [verifystatus, setVerifyStatus] = useState('')
-    const connections = useSelector((state: {
+    const payments = useSelector((state: {
         therapistActivities: ActivitiesStateType
-    }) => state.therapistActivities.connections);
+    }) => state.therapistActivities.payments);
 
     useEffect(() => {
         const therapistData = localStorage.getItem("therapistData");
         if (therapistData) {
-            dispatch(getTherapistsConnectionRequestAction());
+            dispatch(getTherapistsAllPaymentAction());
         } else {
             router.push('/login')
         }
@@ -30,75 +27,23 @@ const ConnectionRequestsComponent = () => {
 
     const columns: GridColDef[] = [
         { field: "no", headerName: "No", width: 10 },
-        { field: "name", headerName: "Name", width: 120 },
-        { field: "email", headerName: "Email", width: 150 },
-        {
-            field: "medicalInfo",
-            headerName: "Medical Info",
-            sortable: false,
-            width: 120,
-            renderCell: (params) => (
-                <Link href={`/client/medicalInfo/${params.row.clientId}`} style={{ textDecoration: 'underline' }}
-                >View
-                </Link>
-            ),
-        },
-        { field: "verificationStatus", headerName: "Status", width: 200 },
-        {
-            field: "verify",
-            headerName: "Verify",
-            sortable: false,
-            width: 160,
-            renderCell: (params) => (
-                <Box sx={{
-                    m: 1, minWidth: 100, border: 'none', outline: 'none',
-                }}>
-                    <Select sx={{
-                        outline: 'none', border: 'none',
-                        fontSize: '0.88rem', padding: 0
-                    }}
-                        value={verifystatus}
-                        onChange={(e) => manageConnectionRequest(params.row.id, params.row.name, e.target.value)}
-                        displayEmpty
-                        inputProps={{ 'aria-label': 'Without label' }}
-                        disabled={params.row.verificationStatus !== 'pending' || params.row.verificationStatus === 'Rejected by admin'}
-                    >
-                        <MenuItem value="" sx={{ fontSize: '0.88rem' }}>
-                            <em>None</em>
-                        </MenuItem>
-                        {verifyOptions.map((option) => (
-                            <MenuItem key={option} value={option}
-                                sx={{ fontSize: '0.88rem' }}>
-                                {option}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                    <FormHelperText>Without label</FormHelperText>
-                </Box>
-            ),
-        },
+        { field: "amount", headerName: "Amount", width: 120 },
+        { field: "creditedAt", headerName: "Credited At", width: 150 },
     ];
-    const rows = connections.map((connection, index) => ({
-        id: connection._id,
-        clientId: connection.clientId._id,
+    const rows = payments.map((payment, index) => ({
+        id: payment._id,
         no: index + 1,
-        name: connection.clientId.name,
-        email: connection.clientId.email,
-        verificationStatus: connection.adminVerify === 'Reject' ? 'Rejected by admin' : connection.status,
-        medicalInfo: 'view',
+        amount: `₹ ${payment.totalAmount}/-`,
+        creditedAt: format(new Date(payment.updatedAt), "do MMMM yyyy")
     }));
-    const head = 'Manage Connections';
-    const subHead = [
-        { name: 'All', url: 'therapist/connections', select: true },
-        { name: 'Rejected', url: 'therapist/connections/rejected', select: false }
-    ]
-
+    const head = 'Earnings';
+   
     return (
         <Box sx={{
             backgroundColor: '#325343', pb: 8
         }}>
-            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role=""/>
+            <TableComponent rows={rows} columns={columns} head={head} subHead={[]} role="" />
         </Box>
     );
 }
-export default ConnectionRequestsComponent
+export default TherapistEarningsComponent

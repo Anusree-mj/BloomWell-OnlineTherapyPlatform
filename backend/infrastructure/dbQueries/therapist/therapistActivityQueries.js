@@ -115,11 +115,11 @@ const updateSchedulesDetails = async (slotId, action, clientId, date, time) => {
 
 const getPaymentsDetails = async (therapistId) => {
     try {
-        const schedules = await Payments.find({ therapistId: therapistId, })
-        if (schedules) {
-            return { status: 'ok', schedules }
+        const payments = await Payments.find({ therapistId: therapistId, paymentStatus: 'Completed' })
+        if (payments) {
+            return { status: 'ok', payments }
         } else {
-            return { status: 'nok', message: 'No schedules added yet' }
+            return { status: 'nok', message: 'No payments added yet' }
         }
     } catch (err) {
         console.log(err)
@@ -130,5 +130,5 @@ export default {
     getReviews,
     getSchedulesDetails,
     updateSchedulesDetails,
-
+    getPaymentsDetails,
 }

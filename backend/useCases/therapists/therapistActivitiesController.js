@@ -39,10 +39,10 @@ const getPaymentsController = async (req, res) => {
     try {
         const therapistId = req.user._id;
         console.log('therapist id in controller', therapistId)
-        const response = await therapistActivityQueries.getSchedulesDetails(therapistId.toString())
+        const response = await therapistActivityQueries.getPaymentsDetails(therapistId.toString())
         if (response.status === 'ok') {
-            const { status, schedules } = response
-            res.status(200).json({ status, schedules });
+            const { status, payments } = response
+            res.status(200).json({ status, payments });
         } else {
             const { message } = response
             res.status(400).json({ status: 'nok', message });
@@ -55,4 +55,6 @@ const getPaymentsController = async (req, res) => {
 export {
     getSchedulesController,
     updateScheduleController,
+    getPaymentsController,
+
 }

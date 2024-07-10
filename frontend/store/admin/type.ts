@@ -73,4 +73,5 @@ export interface PaymentDetailsItem {
     totalAmount: number,
     paymentStatus: string,
     name: string,
+    updatedAt:string,
 }

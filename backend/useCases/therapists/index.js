@@ -28,7 +28,7 @@ import {
 import {
     getSchedulesController,
     updateScheduleController,
-
+    getPaymentsController,
 } from "./therapistActivitiesController.js"
 
 const therapistControllers = {
@@ -52,7 +52,7 @@ const therapistControllers = {
     getReviewsController,
     getSchedulesController,
     updateScheduleController,
-
+    getPaymentsController,
 
 }
 
