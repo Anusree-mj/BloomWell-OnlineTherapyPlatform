@@ -9,7 +9,7 @@ const Page = () => {
     return (
         <Provider store={store}>
             <AdminHeader />
-                <AdminManageClients />
+            <AdminManageClients />
         </Provider>
     );
 }

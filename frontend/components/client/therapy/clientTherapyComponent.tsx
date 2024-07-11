@@ -39,14 +39,10 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
         { title: 'Therapist', button: 'View Profile', url: `therapist/view/${therapist._id}` },
         { title: 'Schedules', button: 'Book Slot', url: `#` },
         { title: 'Remarks', button: 'View All', url: `#` },
-        { title: 'Goals', button: 'View All', url: `#` },
-        { title: 'Worksheets', button: 'View All', url: `#` },
     ]
     const AccordionContent = [
         { content: ['No schedules yet'] },
         { content: ['No remarks yet'] },
-        { content: ['No goals yet'] },
-        { content: ['No worksheets yet'] }
     ]
 
     const messageData = {

@@ -60,7 +60,7 @@ const BookSlotComponent = () => {
                     body: { date: formattedDate, time: formattedTime }
                 });
                 if (response.status === 'ok') {
-                    const { addedSlotId } = response.data
+                    const { addedSlotId } = response
                     dispatch(getBookedSlotsDetailsAction(addedSlotId))
                     setIsActiveSlot(true)
                 }

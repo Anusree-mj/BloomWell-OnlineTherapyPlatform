@@ -7,6 +7,7 @@ import { Box, Button } from "@mui/material";
 import TableComponent from "@/components/common/tableComponent";
 import { apiCall } from "@/services/api";
 import { toast } from "react-toastify";
+import { adminAuth } from "@/utilities/auth";
 
 interface RazorpayPaymentResponse {
     razorpay_payment_id: string;
@@ -21,8 +22,8 @@ const AdminPayment = () => {
     const [isRazorpayLoaded, setIsRazorpayLoaded] = useState(false);
 
     useEffect(() => {
-        const adminData = localStorage.getItem("adminData");
-        if (adminData) {
+        const { status } = adminAuth()
+        if (status === 'ok') {
             dispatch(getTherapistsPaymentsAction());
         } else {
             router.push('/admin/login');
@@ -52,7 +53,7 @@ const AdminPayment = () => {
             });
 
             if (response.status === 'ok' && response.paymentDetails) {
-                razorpayPayment(response.paymentDetails,response.therapistId);
+                razorpayPayment(response.paymentDetails, response.therapistId);
             } else {
                 toast.error(`Failed to do the payment. Please try again!`);
             }
@@ -61,7 +62,7 @@ const AdminPayment = () => {
         }
     };
 
-    const razorpayPayment = (order: { id: string; amount: number },therapistId:string) => {
+    const razorpayPayment = (order: { id: string; amount: number }, therapistId: string) => {
         if (!isRazorpayLoaded) {
             toast.error("Razorpay is not loaded. Please try again later.");
             return;
@@ -76,7 +77,7 @@ const AdminPayment = () => {
             image: "/logo.png",
             order_id: order.id,
             handler: function (response: RazorpayPaymentResponse) {
-                verifyPayment(response, order,therapistId);
+                verifyPayment(response, order, therapistId);
             },
             prefill: {
                 name: 'Emily',
@@ -99,12 +100,12 @@ const AdminPayment = () => {
         }
     };
 
-    const verifyPayment = async (payment: RazorpayPaymentResponse, order: { id: string; amount: number },therapistId:string): Promise<void> => {
+    const verifyPayment = async (payment: RazorpayPaymentResponse, order: { id: string; amount: number }, therapistId: string): Promise<void> => {
         try {
             const response = await apiCall({
                 method: 'PUT',
                 endpoint: `admin/therapists/verify/payment`,
-                body: { payment, order,therapistId }
+                body: { payment, order, therapistId }
             });
 
             if (response.status === 'ok') {
@@ -123,7 +124,6 @@ const AdminPayment = () => {
         { field: "name", headerName: "Name", width: 120 },
         { field: "totalClient", headerName: "Total Clients", width: 110 },
         { field: "totalLiveSessions", headerName: "Total Live Sessions", width: 150 },
-        { field: "averageLiveHrs", headerName: "Average Live Session Hours", width: 200 },
         { field: "total", headerName: "Total Amount", width: 110 },
         { field: "paymentStatus", headerName: "Payment Status", width: 130 },
         {
@@ -135,7 +135,7 @@ const AdminPayment = () => {
                 <Button
                     variant="contained"
                     color="success"
-                    disabled={params.row.paymentStatus === 'Completed'}
+                    disabled={params.row.paymentStatus === 'Completed' || params.row.totalClient === 0}
                     onClick={() => handlePayment(params.row.id, params.row.totalAmount, params.row.totalClients,
                         params.row.totalLiveSessions
                     )}
@@ -146,15 +146,16 @@ const AdminPayment = () => {
         },
     ];
     const calculateTotalAmount = (totalClient: any, totalLiveSession: any) => {
-        const totalAmount = (totalClient * 200) + (totalLiveSession * 300);
+        let totalAmount = 0;
+        totalAmount = ((totalClient ?? 0) * 200) + ((totalLiveSession ?? 0) * 300);
         return totalAmount;
     }
     const rows = paymentDetails.map((item, index) => ({
         id: item._id,
         slNo: index + 1,
         name: item.name,
-        totalClient: item.totalClients?item.totalClients:0,
-        totalLiveSessions: item.totalLiveSessionPerMonth?item.totalLiveSessionPerMonth:0,
+        totalClient: item.totalClients ? item.totalClients : 0,
+        totalLiveSessions: item.totalLiveSessionPerMonth ? item.totalLiveSessionPerMonth : 0,
         totalAmount: calculateTotalAmount(item.totalClients, item.totalLiveSessionPerMonth),
         total: `₹ ${calculateTotalAmount(item.totalClients, item.totalLiveSessionPerMonth)}/-`,
         paymentStatus: item.isMonthlyPaid ? 'Completed' : 'Pending',

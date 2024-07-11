@@ -25,6 +25,7 @@ import Image from 'next/image';
 import { styled, alpha } from '@mui/material/styles';
 import { MenuProps } from '@mui/material/Menu';
 import { useMediaQuery, useTheme } from '@mui/material';
+import { clientAuth } from '@/utilities/auth';
 
 interface Props {
     container?: Element;
@@ -88,8 +89,8 @@ export default function ClientHeader(props: Props) {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
     React.useEffect(() => {
-        const clientData = localStorage.getItem("clientData");
-        if (clientData) {
+        const { status } = clientAuth()
+        if (status === 'ok') {
             dispatch(getClientDetailsAction())
         } else {
             router.push('/login')

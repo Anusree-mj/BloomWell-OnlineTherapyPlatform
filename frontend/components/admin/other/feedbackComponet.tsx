@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Box } from "@mui/material";
 import TableComponent from "@/components/common/tableComponent";
 import { getAllFeedbacksAction, adminActivitiesStateType } from "@/store/admin/adminActivityReducer";
+import { adminAuth } from "@/utilities/auth";
 
 const AdminFeedBackComponent = () => {
     const dispatch = useDispatch();
@@ -13,12 +14,7 @@ const AdminFeedBackComponent = () => {
     const router = useRouter()
 
     useEffect(() => {
-        const adminData = localStorage.getItem("adminData");
-        if (adminData) {
-            dispatch(getAllFeedbacksAction());
-        } else {
-            router.push('/admin/login')
-        }
+        dispatch(getAllFeedbacksAction());
     }, []);
 
     const columns: GridColDef[] = [
@@ -40,7 +36,7 @@ const AdminFeedBackComponent = () => {
         <Box sx={{
             ml: { xs: 'none', sm: '15rem' }, mt: 5
         }}>
-            <TableComponent rows={rows} columns={columns} head={head} subHead={[]} />
+            <TableComponent rows={rows} columns={columns} head={head} subHead={[]} role="admin" />
         </Box>
     );
 }

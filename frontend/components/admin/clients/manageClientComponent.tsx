@@ -15,14 +15,11 @@ const AdminManageClients = () => {
   const clients = useSelector((state: { admin: adminStateType }) => state.admin.clients);
   const router = useRouter()
 
-  useEffect(() => {
-    const adminData = localStorage.getItem("adminData");
-    if (adminData) {
+  useEffect(() => {   
       dispatch(getAllClientsDetailsAction());
-    } else {
-      router.push('/admin/login')
-    }
+    
   }, []);
+  
   const handleDelete = (cliendId: string, clientName: string) => {
     deleteClient(cliendId, clientName);
   };

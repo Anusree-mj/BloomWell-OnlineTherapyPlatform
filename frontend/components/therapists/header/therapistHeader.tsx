@@ -26,6 +26,7 @@ import { styled, alpha } from '@mui/material/styles';
 import { MenuProps } from '@mui/material/Menu';
 import CustomAlert from './customAlert';
 import { apiCall } from '@/services/api';
+import { therapistAuth } from '@/utilities/auth';
 
 interface Props {
     container?: Element;
@@ -90,8 +91,8 @@ export default function TherapistHeader(props: Props) {
     const [incomingCall, setIncomingCall] = useState({ open: false, roomId: '', clientName: '' });
 
     useEffect(() => {
-        const therapistData = localStorage.getItem("therapistData");
-        if (therapistData) {
+        const { status } = therapistAuth()
+        if (status === 'ok') {
             dispatch(getTherapistProfileAction());
         } else {
             router.push('/login');
