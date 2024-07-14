@@ -22,7 +22,7 @@ const OngoingActivityComponent = () => {
         const clientData = localStorage.getItem("clientData");
         if (clientData) {
             const parsedData = JSON.parse(clientData);
-            if (parsedData.isConnected) {
+            if (parsedData.isConnected && parsedData.therapistDetails) {
                 console.log('dispatching getclietnOngoingactionnnnnnnnn', parsedData.therapistDetails)
                 dispatch(getClientOngoingActivityAction({ therapistId: parsedData.therapistDetails._id }));
             } else {

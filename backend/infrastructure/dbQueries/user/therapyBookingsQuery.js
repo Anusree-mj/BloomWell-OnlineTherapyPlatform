@@ -59,7 +59,10 @@ const postClientSlotBooking = async (clientId, therapistId, date, time) => {
             time: time,
         })
         if (addSlot) {
-            const addedSlotId = addSlot[0]._id
+            const addedSlotId = addSlot[0]._id;
+            console.log('addsloteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', addSlot);
+            console.log('addsloteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee:', addedSlotId);
+
             await Client.findByIdAndUpdate(clientId, { isActiveSlots: true, activeSlotId: addedSlotId });
             console.log('added slotss', addSlot)
             return { status: 'ok', addedSlotId }

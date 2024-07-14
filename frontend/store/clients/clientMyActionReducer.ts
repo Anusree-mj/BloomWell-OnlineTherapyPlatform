@@ -75,7 +75,7 @@ export const clientMyActivitySlice: any = createSlice({
         getBookedSlotsDetailsSuccessAction: (state, action) => {
             state.isLoading = false;
             state.bookedSlot = action.payload;
-            console.log('slots got in reducer', state.bookedSlot)
+            console.log('slots got in reducereeeeeeeeeeeeeeeeeeeeeee', state.bookedSlot)
         },
         getBookedSlotsDetailsFailureAction: (state, action) => {
             state.isLoading = false;

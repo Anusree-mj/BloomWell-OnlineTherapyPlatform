@@ -59,8 +59,8 @@ const TableComponent: React.FC<TableComponentProps> = ({ rows, columns, head, su
                     mb: 1, width: '100%',
                 }}>
                     <Box sx={{ display: 'flex', }}>
-                        {subHead && subHead.map((item) => (
-                            <>
+                        {subHead && subHead.map((item, index) => (
+                            <Box key={index}>
                                 {role === 'admin' && item.url === '#' ? (
                                     <Typography component="div" sx={{
                                         color: 'green', mb: 1, fontWeight: 700,
@@ -80,7 +80,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ rows, columns, head, su
                                         {item.name}
                                     </Typography>
                                 )}
-                            </>
+                            </Box>
                         ))}
                     </Box>
                     <TextField

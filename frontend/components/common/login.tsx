@@ -53,7 +53,7 @@ export default function Login() {
             const therapistData = JSON.parse(localStorage.getItem('therapistData') || '{}');
             const { image } = therapistData;
             if (image) {
-                router.push('/therapist/')
+                router.push('/therapist/activities/active')
             } else {
                 router.push('/therapist/welcome');
             }

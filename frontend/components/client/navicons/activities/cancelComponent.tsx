@@ -12,18 +12,15 @@ import { apiCall } from "@/services/api";
 
 interface CancelComponent {
     setIsActiveSlot: React.Dispatch<React.SetStateAction<boolean>>;
+    addedSlotId: string
 }
 
-const CancelComponent: React.FC<CancelComponent> = ({ setIsActiveSlot }) => {
+const CancelComponent: React.FC<CancelComponent> = ({ setIsActiveSlot, addedSlotId }) => {
     const dispatch = useDispatch();
     const bookedSlot = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.bookedSlot)
 
-
     useEffect(() => {
-        const clientData = JSON.parse(localStorage.getItem('clientData') || '{}');
-        const { activeSlotId } = (clientData);
-        console.log('activeSlotId gound:', activeSlotId)
-        dispatch(getBookedSlotsDetailsAction(activeSlotId))
+        dispatch(getBookedSlotsDetailsAction(addedSlotId))
 
     }, [dispatch]);
 
