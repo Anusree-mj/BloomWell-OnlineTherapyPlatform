@@ -19,8 +19,6 @@ const authAdmin = async (req, res) => {
     }
 }
 
-
-
 export {
     authAdmin,
 }

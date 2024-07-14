@@ -18,16 +18,12 @@ interface RazorpayPaymentResponse {
 const AdminPayment = () => {
     const dispatch = useDispatch();
     const paymentDetails = useSelector((state: { admin: adminStateType }) => state.admin.paymentDetails);
+    const adminData = useSelector((state: { admin: adminStateType }) => state.admin.admin);
     const router = useRouter();
     const [isRazorpayLoaded, setIsRazorpayLoaded] = useState(false);
 
     useEffect(() => {
-        const { status } = adminAuth()
-        if (status === 'ok') {
-            dispatch(getTherapistsPaymentsAction());
-        } else {
-            router.push('/admin/login');
-        }
+        dispatch(getTherapistsPaymentsAction());
 
         const script = document.createElement('script');
         script.src = "https://checkout.razorpay.com/v1/checkout.js";
@@ -162,9 +158,13 @@ const AdminPayment = () => {
         pay: 'PAY'
     }));
     const head = 'Manage Payments';
+    const subHead = [
+        { name: `Total Earnings : ₹${adminData.totalEarnings}/-`, url: '#', select: false, imp: true },
+    ]
     return (
         <Box sx={{ ml: { xs: 'none', sm: '15rem' }, mt: 5 }}>
-            <TableComponent rows={rows} columns={columns} head={head} subHead={[]} role="admin" />
+
+            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role="admin" />
         </Box>
     );
 }

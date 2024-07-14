@@ -19,6 +19,7 @@ const initialState: adminStateType = {
         _id: '',
         name: '',
         email: '',
+        totalEarnings: 0
     },
     clients: [],
     therapists: [],
@@ -150,8 +151,10 @@ export const adminSlice: any = createSlice({
         },
         getTherapistsPaymentsSuccessAction: (state, action) => {
             state.isLoading = false;
-            console.log('action payload in successaction', action.payload)
-            state.paymentDetails = action.payload;
+            console.log('action payload in successaction', action.payload.paymentDetails)
+            state.paymentDetails = action.payload.paymentDetails;
+            state.admin = action.payload.adminData
+            console.log('adminddddddddddddddd', state.admin)
         },
         getTherapistsPaymentsFailureAction: (state, action) => {
             state.isLoading = false;

@@ -2,7 +2,8 @@ import { takeEvery, put, call } from 'redux-saga/effects';
 import {
     getAdminLoginAction,
     getAdminLoginSuccessAction,
-    getAdminLoginFailureAction,
+    getAdminLoginFailureAction
+
 } from '@/store/admin/adminReducer';
 import { apiCall } from '@/services/api';
 
@@ -34,6 +35,9 @@ function* getAdminLoginActionSaga(action: {
     }
 }
 
+
+
 export function* adminAuthWatcher() {
     yield takeEvery(getAdminLoginAction, getAdminLoginActionSaga);
+
 }

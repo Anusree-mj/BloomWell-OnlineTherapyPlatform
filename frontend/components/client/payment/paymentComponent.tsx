@@ -64,8 +64,8 @@ const PaymentComponent = () => {
                             endpoint: `client/payment`,
                         });
                         if (response.status === 'ok') {
-                            console.log(response.data, 'data got');
-                            setProducts(response.data.products);
+                            console.log(response, 'data got');
+                            setProducts(response.products);
                         }
                     } catch (error) {
                         console.error('Error fetching products:', error);

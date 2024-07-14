@@ -1,3 +1,4 @@
+import Admin from "../../../entities/admin/adminModel.js";
 import Payments from "../../../entities/admin/adminPaymentModel.js";
 import Therapists from "../../../entities/therapists/therapist.js";
 import Notifications from "../../../entities/users/notificationModel.js";
@@ -112,7 +113,7 @@ const getTherapistWhoQuitQuery = async () => {
     }
 }
 
-const getTherapistPaymentDetails = async () => {
+const getTherapistPaymentDetails = async (adminId) => {
     try {
         const therapists = await Therapists.find();
 
@@ -140,8 +141,8 @@ const getTherapistPaymentDetails = async () => {
             therapist.isMonthlyPaid = isMonthlyPaid;
             await therapist.save();
         }
-
-        return { paymentDetails: therapists }
+        const adminData = await Admin.findOne({ _id: adminId })
+        return { paymentDetails: therapists, adminData }
     }
     catch (err) {
         console.log(err)
@@ -165,17 +166,20 @@ const savePaymentDetails = async (data) => {
     }
 }
 
-const updatePaymentDetails = async (order, therapistId) => {
+const updatePaymentDetails = async (order, therapistId, adminId) => {
     try {
         const query = { _id: order.receipt };
         const update = { paymentStatus: 'Completed' };
         const options = { upsert: true };
         const updatePayment = await Payments.updateOne(query, update, options);
+        console.log('order getting like htisssssssssssssssssssssssssssssssssssssssss', order)
         if (updatePayment.modifiedCount > 0) {
             console.log('updateeeeeeeeee', updatePayment)
-           const therapist= await Therapists.findByIdAndUpdate(therapistId, { totalLiveSessionPerMonth: 0, isMonthlyPaid: true })
-           console.log(therapist,'therapisttttttttttttttttttttt') 
-           return { status: 'ok' }
+            await Therapists.findByIdAndUpdate(therapistId, { totalLiveSessionPerMonth: 0, isMonthlyPaid: true })
+            const amount = order.amount / 100
+            console.log('amounteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', amount)
+            await Admin.findByIdAndUpdate(adminId, { $inc: { totalEarnings: -amount } })
+            return { status: 'ok' }
         } else {
             console.log('payment not found')
             return { status: 'nok', message: 'payment not found' }

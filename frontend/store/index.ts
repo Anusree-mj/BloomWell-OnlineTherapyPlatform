@@ -29,7 +29,9 @@ const store = configureStore({
         adminActivities: adminActivitiesSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(sagaMiddleware),
+        getDefaultMiddleware({
+            serializableCheck: false,
+        }).concat(sagaMiddleware),
 });
 
 sagaMiddleware.run(rootSaga);
