@@ -11,7 +11,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
-import Link from 'next/link';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
 import { Avatar, Menu, Container, Tooltip, Button, Divider } from '@mui/material';
@@ -207,7 +206,7 @@ export default function TherapistHeader(props: Props) {
         setIncomingCall({ ...incomingCall, open: false });
     };
     const navicons = [
-        { 
+        {
             iconTitle: 'Activities', link: '/#',
             subItems: [
                 { title: 'Active', link: '/therapist/activities/active' },
@@ -321,22 +320,21 @@ export default function TherapistHeader(props: Props) {
                                             <Collapse in={openMenus[item.iconTitle]} timeout="auto" unmountOnExit>
                                                 <List component="div" disablePadding>
                                                     {item.subItems.map((subItem, subIndex) => (
-                                                        <Link href={subItem.link} passHref key={subIndex}>
-                                                            <ListItemButton component="a" sx={{ pl: 4 }}
-                                                                onClick={handleCloseNavMenu}>
-                                                                <ListItemText primary={subItem.title} />
-                                                            </ListItemButton>
-                                                        </Link>
+                                                        <ListItemButton component="a" sx={{ pl: 4 }}
+                                                            onClick={() => {
+                                                                handleCloseNavMenu;
+                                                                router.push(`${subItem.link}`)
+                                                            }}>
+                                                            <ListItemText primary={subItem.title} />
+                                                        </ListItemButton>
                                                     ))}
                                                 </List>
                                             </Collapse>
                                         </div>
                                     ) : (
-                                        <Link href={item.link} passHref key={index}>
-                                            <MenuItem onClick={handleCloseNavMenu}>
-                                                <ListItemText primary={item.iconTitle} />
-                                            </MenuItem>
-                                        </Link>
+                                        <MenuItem onClick={() => { handleCloseNavMenu; router.push(`${item.link}`) }}>
+                                            <ListItemText primary={item.iconTitle} />
+                                        </MenuItem>
                                     )
                                 ))}
                             </Menu>
@@ -399,11 +397,12 @@ export default function TherapistHeader(props: Props) {
                                         >
                                             {item.subItems.map((subItem, subIndex) => (
                                                 <>
-                                                    <Link href={subItem.link} passHref key={subIndex}>
-                                                        <ListItemButton component="a" sx={{ pl: 4 }} onClick={handleClose}>
-                                                            <ListItemText primary={subItem.title} />
-                                                        </ListItemButton>
-                                                    </Link>
+                                                    <ListItemButton component="a" sx={{ pl: 4 }} onClick={() => {
+                                                        handleClose;
+                                                        router.push(`${subItem.link}`)
+                                                    }}>
+                                                        <ListItemText primary={subItem.title} />
+                                                    </ListItemButton>
                                                     {item.subItems.length - 1 !== subIndex && (
                                                         <Divider sx={{ my: 0.5 }} />
                                                     )}
@@ -413,11 +412,12 @@ export default function TherapistHeader(props: Props) {
                                         </StyledMenu>
                                     </div>
                                 ) : (
-                                    <Link href={item.link} passHref key={index}>
-                                        <MenuItem onClick={handleCloseNavMenu}>
-                                            <ListItemText primary={item.iconTitle} />
-                                        </MenuItem>
-                                    </Link>
+                                    <MenuItem onClick={() => {
+                                        handleCloseNavMenu:
+                                        router.push(`${item.link}`)
+                                    }}>
+                                        <ListItemText primary={item.iconTitle} />
+                                    </MenuItem>
                                 )
                             ))}
 

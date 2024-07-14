@@ -15,16 +15,17 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const drawerWidth = 240;
 const navItems = [
-  { name: 'Home', link: '/' },  
+  { name: 'Home', link: '/' },
   { name: 'Therapist Jobs', link: '/therapistJob' },
 ];
 
 export default function DrawerAppBar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const router = useRouter();
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -66,38 +67,33 @@ export default function DrawerAppBar() {
       <List>
         {navItems.map((item) => (
           <ListItem key={item.name} disablePadding>
-            <Link href={item.link} passHref>
-              <ListItemButton component="a"
-                sx={{ textAlign: 'center', color: '#325343', fontWeight: 600 }}>
-                <ListItemText primary={item.name} />
-              </ListItemButton>
-            </Link>
+            <ListItemButton onClick={() => router.push(`${item.link}`)}
+              sx={{ textAlign: 'center', color: '#325343', fontWeight: 600 }}>
+              <ListItemText primary={item.name} />
+            </ListItemButton>
           </ListItem>
         ))}
-        <Link href="/login" passHref>
-          <Button component="a"
-            variant="outlined"
-            sx={{
-              my: 1,
-              mx: 2,
-              color: '#325343',
-              borderColor: '#325343',
-              display: 'block',
-              fontWeight: 600
-            }}
-          >
-            Login
-          </Button>
-        </Link>
+        <Button component="a"
+          variant="outlined"
+          sx={{
+            my: 1,
+            mx: 2,
+            color: '#325343',
+            borderColor: '#325343',
+            display: 'block',
+            fontWeight: 600
+          }} onClick={() => router.push('/login')}
+        >
+          Login
+        </Button>
 
-        <Link href="/client/register" passHref>
-          <Button component="a" sx={{
-            my: 2, mx: 2, color: 'white', backgroundColor: '#325343',
-            display: 'block', fontWeight: 600,
-          }} variant="contained">
-            Get Started
-          </Button>
-        </Link>
+        <Button component="a" sx={{
+          my: 2, mx: 2, color: 'white', backgroundColor: '#325343',
+          display: 'block', fontWeight: 600,
+        }} variant="contained"
+          onClick={() => router.push('/client/register')} >
+          Get Started
+        </Button>
       </List>
     </Box>
   );
@@ -111,32 +107,27 @@ export default function DrawerAppBar() {
             flexGrow: 1, display: { xs: 'flex', sm: 'flex' },
             alignItems: 'center'
           }}>
-            <Link href="/" passHref>
-              <Image
-                src="/logo.png"
-                alt="logo"
-                width={90}
-                height={30}
-              />
-            </Link>
-            <Link href="/" passHref>
-              <Typography
-                variant="h6"
-                noWrap
-                component="a"
-                href="/"
-                sx={{
-                  display: { xs: 'flex', md: 'flex' },
-                  fontFamily: 'monospace',
-                  fontWeight: 700,
-                  letterSpacing: '.1rem',
-                  color: 'inherit',
-                  textDecoration: 'none',
-                }}
-              >
-                BloomWell
-              </Typography>
-            </Link>
+            <Image
+              src="/logo.png"
+              alt="logo"
+              width={90}
+              height={30}
+              onClick={() => { router.push('/') }}
+            />
+            <Typography
+              variant="h6"
+              noWrap
+              sx={{
+                display: { xs: 'flex', md: 'flex' },
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.1rem',
+                color: 'inherit',
+                textDecoration: 'none',
+              }} onClick={() => { router.push('/') }}
+            >
+              BloomWell
+            </Typography>
           </Box>
           <IconButton
             color="inherit"
@@ -149,47 +140,43 @@ export default function DrawerAppBar() {
           </IconButton>
           <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
             {navItems.map((item) => (
-              <Link key={item.name} href={item.link} passHref>
-                <Button component="a"
-                  sx={{
-                    color: '#fff',
-                    '&:hover': {
-                      textDecorationColor: 'transparent',
-                      boxShadow: 'inset 0em -0.2em 0 #49873D',
-                    },
-                  }}
-                >
-                  {item.name}
-                </Button>
-              </Link>
+              <Button
+                sx={{
+                  color: '#fff',
+                  '&:hover': {
+                    textDecorationColor: 'transparent',
+                    boxShadow: 'inset 0em -0.2em 0 #49873D',
+                  },
+                }} onClick={() => { router.push(`${item.link}`) }}
+              >
+                {item.name}
+              </Button>
             ))}
-            <Link href="/login" passHref>
-              <Button component="a"
-                sx={{
-                  mx: 1, color: 'white', borderColor: 'white', display: 'block',
-                  fontWeight: 600,
-                  '&:hover': {
-                    border: '1px solid #49873D'
-                  }
-                }}
-                variant="outlined">
-                Login
-              </Button>
-            </Link>
+            <Button
+              sx={{
+                mx: 1, color: 'white', borderColor: 'white', display: 'block',
+                fontWeight: 600,
+                '&:hover': {
+                  border: '1px solid #49873D'
+                }
+              }} onClick={() => { router.push('/') }}
 
-            <Link href="/client/register" passHref>
-              <Button component="a"
-                sx={{
-                  mx: 1, color: '#325343', backgroundColor: 'white', display: 'block',
-                  fontWeight: 600,
-                  '&:hover': {
-                    backgroundColor: '#49873D', color: 'white'
-                  }
-                }}
-                variant="contained">
-                Get Started
-              </Button>
-            </Link>
+              variant="outlined">
+              Login
+            </Button>
+
+            <Button
+              sx={{
+                mx: 1, color: '#325343', backgroundColor: 'white', display: 'block',
+                fontWeight: 600,
+                '&:hover': {
+                  backgroundColor: '#49873D', color: 'white'
+                }
+              }} onClick={() => { router.push('/client/register') }}
+
+              variant="contained">
+              Get Started
+            </Button>
           </Box>
         </Toolbar>
       </AppBar>

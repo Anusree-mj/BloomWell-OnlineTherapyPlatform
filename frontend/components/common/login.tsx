@@ -79,7 +79,7 @@ export default function Login() {
         <Box sx={{
             paddingTop: '2rem', paddingBottom: '2rem',
             backgroundColor: '#325343', display: 'flex',
-            alignItems: 'center', justifyContent: 'space-around', minHeight: '70vh'
+            alignItems: 'center', justifyContent: 'space-around', minHeight: '90vh'
         }}>
             <Box sx={{
                 display: { xs: 'none', sm: 'flex' }, flexDirection: 'column',
