@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { Typography } from '@mui/material';
+import { Typography, Pagination } from '@mui/material';
 import { Box } from '@mui/system';
 import { getNotificationsAction, userStateType } from '@/store/user/userReducer';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
@@ -11,6 +11,8 @@ const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
     const dispatch = useDispatch();
     const notifications = useSelector((state: { user: userStateType }) => state.user.notifications);
     const [expandedNotifications, setExpandedNotifications] = useState<{ [key: string]: boolean }>({ '': false });
+    const [page, setPage] = useState(1);
+    const notificationsPerPage = 6;
 
     useEffect(() => {
         const clientData = localStorage.getItem("clientData");
@@ -48,17 +50,26 @@ const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
         console.log('Show more toggled for:', notificationId);
     };
 
+    const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+    };
+
+    const startIndex = (page - 1) * notificationsPerPage;
+    const endIndex = startIndex + notificationsPerPage;
+    const paginatedNotifications = notifications.slice(startIndex, endIndex);
+
     return (
         <Box sx={{
+            minHeight: '100vh',pt:4,pb:6,
             display: 'flex', flexDirection: 'column', backgroundColor: '#325343',
-            alignItems: 'center', justifyContent: 'center',
+            alignItems: 'center', justifyContent: 'flex-start',
         }}>
-            {notifications.map((item) => (
+            {paginatedNotifications.map((item) => (
                 <Box key={item._id} sx={{
                     display: 'flex', flexDirection: 'column',
                     alignItems: 'center', justifyContent: 'center', mt: 2,
-                    width: '60rem', maxWidth: { sm: '100%', xs: '90%' },
-                    p: 3, borderRadius: '1rem', backgroundColor: 'white',
+                    width: '60rem', maxWidth: '90%',
+                    p: '0.6rem', borderRadius: '0.5rem', backgroundColor: 'white',
                     boxShadow: '1px 4px 10px rgba(0, 0, 0, 1.1)',
                 }}>
                     <Box sx={{
@@ -67,7 +78,7 @@ const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
                         width: '100%'
                     }}>
                         <Box>
-                            <Typography sx={{ fontWeight: item.isRead ? 600 : 800, fontSize: '1.1rem', color: '#325343' }}>
+                            <Typography sx={{ fontWeight: item.isRead ? 600 : 800, fontSize: '1rem', color: '#325343' }}>
                                 {item.head}
                             </Typography>
                             {!expandedNotifications[item._id] && (
@@ -115,6 +126,13 @@ const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
                     )}
                 </Box>
             ))}
+            <Pagination
+                count={Math.ceil(notifications.length / notificationsPerPage)}
+                page={page}
+                onChange={handleChangePage}
+                shape="rounded"
+                sx={{ mt: 5,color:'white' }}
+            />
         </Box>
     );
 };

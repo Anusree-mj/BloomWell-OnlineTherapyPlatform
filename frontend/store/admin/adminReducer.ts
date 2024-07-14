@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { AdminItem, PaymentDetailsItem } from "./type";
+import { AdminItem } from "./type";
 import { ClientItem } from "../clients/type";
 import { TherapistItem } from "../therapists/type";
 
@@ -9,7 +9,7 @@ export interface adminStateType {
     clients: ClientItem[];
     client: ClientItem;
     therapists: TherapistItem[];
-    paymentDetails: PaymentDetailsItem[];
+    paymentDetails: TherapistItem[];
     isLoading: boolean;
     error: any;
 }
@@ -19,6 +19,7 @@ const initialState: adminStateType = {
         _id: '',
         name: '',
         email: '',
+        totalEarnings: 0
     },
     clients: [],
     therapists: [],
@@ -150,8 +151,10 @@ export const adminSlice: any = createSlice({
         },
         getTherapistsPaymentsSuccessAction: (state, action) => {
             state.isLoading = false;
-            console.log('action payload in successaction', action.payload)
-            state.paymentDetails = action.payload;
+            console.log('action payload in successaction', action.payload.paymentDetails)
+            state.paymentDetails = action.payload.paymentDetails;
+            state.admin = action.payload.adminData
+            console.log('adminddddddddddddddd', state.admin)
         },
         getTherapistsPaymentsFailureAction: (state, action) => {
             state.isLoading = false;

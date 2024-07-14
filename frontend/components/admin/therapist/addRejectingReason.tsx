@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Divider, Typography, FormGroup } from '@mui/material'
 import { Box } from '@mui/system'
 import React from 'react'
@@ -6,6 +6,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import { useRouter } from "next/navigation";
 import { apiCall } from '@/services/api'
+import { adminAuth } from '@/utilities/auth'
 
 interface ReasonComponentProps {
     reasonId: string,
@@ -15,6 +16,13 @@ interface ReasonComponentProps {
 }
 const AddRejectingReasonComponent: React.FC<ReasonComponentProps> = ({ reasonId, reasonItems, postUrl, successUrl }) => {
     const router = useRouter();
+
+    useEffect(() => {
+        const { status } = adminAuth()
+        if (status !== 'ok') {
+            router.push('/admin/login');
+        }
+    }, [])
 
     const submitReason = async (item: string) => {
         try {

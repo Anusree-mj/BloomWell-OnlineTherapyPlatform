@@ -126,13 +126,14 @@ const getTherapistsWhoQuitController = async (req, res) => {
 // get therapist who quit
 const getPaymentDetailsController = async (req, res) => {
     try {
-        const { paymentDetails } = await manageTherapistQueries.getTherapistPaymentDetails()
+        const adminId = req.admin._id
+        const { paymentDetails, adminData } = await manageTherapistQueries.getTherapistPaymentDetails(adminId)
         console.log('readched therapist who controller')
         if (paymentDetails) {
-            console.log('details found ', paymentDetails)
+            console.log('details found ', paymentDetails, 'sdfd', adminData)
             res.status(200).json({
                 status: 'ok',
-                paymentDetails
+                paymentDetails, adminData
             });
         }
     } catch (err) {
@@ -144,13 +145,14 @@ const getPaymentDetailsController = async (req, res) => {
 // place payment
 const placePaymentController = async (req, res) => {
     try {
-        const { paymentId, totalAmount } = req.body;
         console.log('details found in place', req.body)
+        const { totalAmount, therapistId } = req.body;
+        const { paymentId } = await manageTherapistQueries.savePaymentDetails(req.body)
         const paymentDetails = await createRazorpayOrder(paymentId, totalAmount)
         console.log('paymetnderailsssssss', paymentDetails)
         res.status(200).json({
             status: 'ok',
-            paymentDetails
+            paymentDetails, therapistId
         });
 
     } catch (err) {
@@ -162,10 +164,11 @@ const placePaymentController = async (req, res) => {
 const verifyPaymentController = async (req, res) => {
     try {
         console.log('dataaaaaaaaaaa', req.body)
-        const { payment, order } = req.body;
-        const { status } = verifyPayment(payment)
+        const { payment, order, therapistId } = req.body;
+        const { status } = verifyPayment(payment);
+        const adminId = req.admin._id
         if (status === 'ok') {
-            const { status } = await manageTherapistQueries.savePaymentDetails(order)
+            const { status } = await manageTherapistQueries.updatePaymentDetails(order, therapistId,adminId)
             if (status === 'ok') {
                 console.log('successs')
                 res.status(200).json({ status: 'ok' });

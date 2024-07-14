@@ -23,7 +23,8 @@ router.post('/addAvailability', protect('therapist'), controllers.userController
 // schedulesss
 router.get('/schedules', protect('therapist'), controllers.therapistControllers.getSchedulesController)
 router.put('/schedules', protect('therapist'), controllers.therapistControllers.updateScheduleController)
-
+// payments
+router.get('/payments',protect('therapist'),controllers.therapistControllers.getPaymentsController)
 
 
 export default router;

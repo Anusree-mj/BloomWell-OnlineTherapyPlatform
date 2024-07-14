@@ -97,6 +97,12 @@ const disconnect = async (clientId, connectionId, reason) => {
         const options = { upsert: true };
         const response = await Connections.updateOne(query, update, options)
         if (response.modifiedCount > 0) {
+            const connectionDetails = await Connections.find({ _id: connectionId });
+            const { therapistId } = connectionDetails[0];
+            console.log('therapistIdddddddddsdfe', therapistId)
+            await Therapists.findByIdAndUpdate(therapistId, {
+                $inc: { totalClients: -1 }
+            })
             return { status: 'ok' }
         }
         else {

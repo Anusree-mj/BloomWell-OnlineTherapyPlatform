@@ -33,7 +33,7 @@ const ClientMedicalInfoViewComponent: React.FC<{ clientId: string; }> = ({ clien
     return (
         <Box
             sx={{
-                backgroundColor: '#F7FCC2',
+                backgroundColor: '#325343',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',

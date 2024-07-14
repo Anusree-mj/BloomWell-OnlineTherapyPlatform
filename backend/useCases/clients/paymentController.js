@@ -9,7 +9,7 @@ const getPaymentDetails = async (req, res) => {
         const prices = await stripe.prices.list({
             limit: 3
         });
-        res.status(200).json({ products: prices.data.reverse() });
+        res.status(200).json({status:'ok', products: prices.data.reverse() });
     } catch (err) {
         console.log('Error found', err);
         res.status(500).json({ error: 'Internal Server Error' });

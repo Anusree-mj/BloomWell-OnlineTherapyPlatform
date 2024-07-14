@@ -35,7 +35,26 @@ const updateScheduleController = async (req, res) => {
     }
 }
 
+const getPaymentsController = async (req, res) => {
+    try {
+        const therapistId = req.user._id;
+        console.log('therapist id in controller', therapistId)
+        const response = await therapistActivityQueries.getPaymentsDetails(therapistId.toString())
+        if (response.status === 'ok') {
+            const { status, payments } = response
+            res.status(200).json({ status, payments });
+        } else {
+            const { message } = response
+            res.status(400).json({ status: 'nok', message });
+        }
+    } catch (err) {
+        console.log('Error found', err)
+    }
+}
+
 export {
     getSchedulesController,
     updateScheduleController,
+    getPaymentsController,
+
 }

@@ -6,6 +6,7 @@ import { Box, Button } from '@mui/material';
 import axios from 'axios';
 import CheckCircleSharpIcon from '@mui/icons-material/CheckCircleSharp';
 import { useRouter } from 'next/navigation';
+import { apiCall } from '@/services/api';
 
 interface Product {
     id: string;
@@ -58,11 +59,14 @@ const PaymentComponent = () => {
                 const fetchProducts = async () => {
                     try {
                         console.log('reached in fetch')
-                        const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/payment`,
-                            { withCredentials: true, }
-                        );
-                        console.log(response.data, 'data got');
-                        setProducts(response.data.products);
+                        const response = await apiCall({
+                            method: 'GET',
+                            endpoint: `client/payment`,
+                        });
+                        if (response.status === 'ok') {
+                            console.log(response, 'data got');
+                            setProducts(response.products);
+                        }
                     } catch (error) {
                         console.error('Error fetching products:', error);
                     }

@@ -36,6 +36,9 @@ export interface TherapistItem {
     gender: string;
     reasonForRejection?: string;
     reasonForQuiting?: string;
+    totalClients: Number,
+    totalLiveSessionPerMonth: Number,
+    isMonthlyPaid:Boolean
 }
 
 export interface ScheduleItems {

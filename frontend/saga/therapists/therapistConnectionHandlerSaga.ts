@@ -1,18 +1,11 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import { apiCall } from '@/services/api';
 import {
-    getTherapistsConnectionRequestAction,
-    getTherapistsConnectionRequestFailureAction,
-    getTherapistsConnectionRequestSuccessAction,
-    getTherapistsRejectedConnectionsAction,
-    getTherapistsActiveConnectionsAction,
-    getTherapistsInActiveConnectionsAction,
-    getTherapistsReviewsAction,
-    getTherapistsReviewsFailureAction,
-    getTherapistsReviewsSuccessAction,
-    getTherapistsSchedulesAction,
-    getTherapistsSchedulesFailureAction,
-    getTherapistsSchedulesSuccessAction
+    getTherapistsConnectionRequestAction, getTherapistsConnectionRequestFailureAction, getTherapistsConnectionRequestSuccessAction,
+    getTherapistsRejectedConnectionsAction, getTherapistsActiveConnectionsAction, getTherapistsInActiveConnectionsAction,
+    getTherapistsReviewsAction, getTherapistsReviewsFailureAction, getTherapistsReviewsSuccessAction,
+    getTherapistsSchedulesAction, getTherapistsSchedulesFailureAction, getTherapistsSchedulesSuccessAction,
+    getTherapistsAllPaymentAction, getTherapistsAllPaymentFailureAction, getTherapistsAllPaymentSuccessAction,
 } from '@/store/therapists/therapistActvitiesHandlerReducers';
 
 // therapist connection request saga
@@ -113,7 +106,7 @@ function* getTherapistsReviewsActionSaga(): any {
     }
 }
 
-// get reviews and ratings
+// get schedules
 function* getTherapistsSchedulesActionSaga(): any {
     try {
         const response = yield call<any>(apiCall, {
@@ -129,8 +122,25 @@ function* getTherapistsSchedulesActionSaga(): any {
     } catch (err) {
         yield put(getTherapistsSchedulesFailureAction(err))
     }
-} 
+}
 
+// get reviews and ratings
+function* getTherapistsAllPaymentActionSaga(): any {
+    try {
+        const response = yield call<any>(apiCall, {
+            method: 'GET',
+            endpoint: 'therapist/payments',
+        });
+
+        if (response.status === 'ok') {
+            yield put(getTherapistsAllPaymentSuccessAction(response.payments))
+        } else {
+            yield put(getTherapistsAllPaymentFailureAction(response.message))
+        }
+    } catch (err) {
+        yield put(getTherapistsAllPaymentFailureAction(err))
+    }
+}
 
 export function* therapistConnectionRequestWatcher() {
     yield takeEvery(getTherapistsConnectionRequestAction, getTherapistsConnectionRequestActionSaga);
@@ -139,5 +149,6 @@ export function* therapistConnectionRequestWatcher() {
     yield takeEvery(getTherapistsInActiveConnectionsAction, getTherapistsInActiveConnectionsActionSaga);
     yield takeEvery(getTherapistsReviewsAction, getTherapistsReviewsActionSaga);
     yield takeEvery(getTherapistsSchedulesAction, getTherapistsSchedulesActionSaga);
+    yield takeEvery(getTherapistsAllPaymentAction, getTherapistsAllPaymentActionSaga);
 
 }

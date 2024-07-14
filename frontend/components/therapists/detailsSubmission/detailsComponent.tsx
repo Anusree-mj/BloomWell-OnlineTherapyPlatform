@@ -59,7 +59,7 @@ const DetailsComponent = () => {
     }
     return (
         <Box sx={{
-            backgroundColor: '#F7FCC2', display: 'flex',
+            backgroundColor: '#325343', display: 'flex',
             justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
             minHeight: '85vh', paddingBottom: '2rem'
         }}>

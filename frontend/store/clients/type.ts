@@ -35,15 +35,6 @@ export interface ClientItem {
 
 }
 
-export interface ClientOngoingActivityItem {
-    _id: string,
-    date: string,
-    time: string,
-    duration: string,
-    remarks: string,
-
-}
-
 export interface BookedSlotsItems {
     _id: string,
     therapistId: string,
@@ -51,4 +42,7 @@ export interface BookedSlotsItems {
     time: string,
     verificationStatus: string,
     status: string,
+    sessionStart: string,
+    sessionEnd: string,
+    sessionDuration: string,
 }

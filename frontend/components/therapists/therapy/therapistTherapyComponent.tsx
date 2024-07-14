@@ -24,15 +24,12 @@ const TherapistTherapyComponent: React.FC<{ clientId: string; }> = ({ clientId }
         { title: 'Upcoming Schedule', button: 'View All', url: `#`, },
         { title: 'Description', isAdd: true },
         { title: 'Remarks', button: 'View All', url: `#`, isAdd: true },
-        { title: 'Goals', button: 'View All', url: `#`, isAdd: true },
-        { title: 'Worksheets', button: 'View All', url: `#`, isAdd: true },
     ]
     const AccordionContent = [
         { content: ['No schedules yet'] },
         { content: ['No description added yet'] },
         { content: ['No remarks yet'] },
-        { content: ['No goals yet'] },
-        { content: ['No worksheets yet'] }
+
     ]
     // const reciever = {
     //     name: clientDetails.name,
@@ -56,7 +53,7 @@ const TherapistTherapyComponent: React.FC<{ clientId: string; }> = ({ clientId }
     return (
         <Box
             sx={{
-                backgroundColor: '#F7FCC2', pb: '4rem',
+                backgroundColor: '#325343', pb: '4rem',
                 display: 'flex', flexWrap: 'wrap-reverse', gap: 3,
                 justifyContent: { md: 'space-between', xs: 'center' },
                 alignItems: 'center',
@@ -64,7 +61,7 @@ const TherapistTherapyComponent: React.FC<{ clientId: string; }> = ({ clientId }
             }}>
             <TherapySidebarComponent
                 AccordionItems={AccordionItems} AccordionContent={AccordionContent} reciever={messageData.reciever} rating={0} />
-            <ChatComponent messageData={messageData} slotDetails={{}} />
+            <ChatComponent messageData={messageData} />
         </Box>
     )
 }

@@ -66,18 +66,17 @@ const InActiveConnectionComponent = () => {
         medicalInfo: 'view',
     }));
 
-    const head = 'InActive Connections';
+    const head = 'My Activity';
     const subHead = [
-        { name: 'Ongoing', url: 'client/myActivity/ongoing', select: false },
-        { name: 'All', url: 'client/myActivity/inActive', select: true },
-        { name: 'Goals', url: 'client/myActivity/reviews', select: false },
-        { name: 'Worksheets', url: 'client/myActivity/reviews', select: false },
-        { name: 'BookSlot', url: 'client/myActivity/reviews', select: false }
-
+        { name: 'Active', url: 'therapist/activities/active', select: false },
+        { name: 'Inactive', url: 'therapist/activities/inActive', select: true },
+        { name: 'Schedules', url: 'therapist/activities/schedules', select: false },
+        { name: 'Reviews', url: 'therapist/activities/reviews', select: false }
     ]
+
     return (
         <Box sx={{
-            backgroundColor: '#F7FCC2', pb: 8
+            backgroundColor: '#325343', pb: 8
         }}>
             <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role="user"/>
         </Box>

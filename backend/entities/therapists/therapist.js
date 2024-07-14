@@ -82,6 +82,16 @@ const therapistSchema = mongoose.Schema({
     },
     availableTimeTo: {
         type: String
+    },
+    totalClients: {
+        type: Number,
+    },
+    totalLiveSessionPerMonth: {
+        type: Number
+    },
+    isMonthlyPaid: {
+        type: Boolean,
+        default: false,
     }
 }, {
     timestamps: true

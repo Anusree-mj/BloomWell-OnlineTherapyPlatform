@@ -1,3 +1,4 @@
+import Admin from "../../../entities/admin/adminModel.js";
 import Payments from "../../../entities/admin/adminPaymentModel.js";
 import Therapists from "../../../entities/therapists/therapist.js";
 import Notifications from "../../../entities/users/notificationModel.js";
@@ -112,25 +113,72 @@ const getTherapistWhoQuitQuery = async () => {
     }
 }
 
-const getTherapistPaymentDetails = async () => {
+const getTherapistPaymentDetails = async (adminId) => {
     try {
-        const paymentDetails = await Payments.find().populate('therapistId', 'name');
-        console.log('paymentDetailsssssssssssssssssss', paymentDetails)
-        return { paymentDetails }
+        const therapists = await Therapists.find();
+
+        const currentMonthStart = new Date();
+        currentMonthStart.setDate(1);
+        currentMonthStart.setHours(0, 0, 0, 0);
+
+        const currentMonthEnd = new Date();
+        currentMonthEnd.setMonth(currentMonthEnd.getMonth() + 1);
+        currentMonthEnd.setDate(1);
+        currentMonthEnd.setHours(0, 0, 0, 0);
+
+        for (const therapist of therapists) {
+            const payments = await Payments.find({
+                therapistId: therapist._id,
+                createdAt: {
+                    $gte: currentMonthStart,
+                    $lt: currentMonthEnd
+                },
+                paymentStatus: 'Completed'
+            });
+
+            const isMonthlyPaid = payments.length > 0;
+
+            therapist.isMonthlyPaid = isMonthlyPaid;
+            await therapist.save();
+        }
+        const adminData = await Admin.findOne({ _id: adminId })
+        return { paymentDetails: therapists, adminData }
     }
     catch (err) {
         console.log(err)
     }
 }
 
-const savePaymentDetails = async (order) => {
+const savePaymentDetails = async (data) => {
+    try {
+        const { therapistId, totalAmount, totalClients, totalLiveSessions } = data;
+        console.log('data gotttttttttttttteeeeeeeeeeeeeee', data)
+        await Payments.insertMany({
+            therapistId: therapistId,
+            totalClients: totalClients,
+            totalLiveSession: totalLiveSessions,
+            totalAmount: totalAmount,
+        })
+        const paymentDetails = await Payments.findOne({ therapistId: therapistId });
+        return { paymentId: paymentDetails._id }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+const updatePaymentDetails = async (order, therapistId, adminId) => {
     try {
         const query = { _id: order.receipt };
         const update = { paymentStatus: 'Completed' };
         const options = { upsert: true };
         const updatePayment = await Payments.updateOne(query, update, options);
+        console.log('order getting like htisssssssssssssssssssssssssssssssssssssssss', order)
         if (updatePayment.modifiedCount > 0) {
-            console.log('updateeeeeeeeee',updatePayment)
+            console.log('updateeeeeeeeee', updatePayment)
+            await Therapists.findByIdAndUpdate(therapistId, { totalLiveSessionPerMonth: 0, isMonthlyPaid: true })
+            const amount = order.amount / 100
+            console.log('amounteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', amount)
+            await Admin.findByIdAndUpdate(adminId, { $inc: { totalEarnings: -amount } })
             return { status: 'ok' }
         } else {
             console.log('payment not found')
@@ -151,4 +199,5 @@ export default {
     getTherapistWhoQuitQuery,
     getTherapistPaymentDetails,
     savePaymentDetails,
+    updatePaymentDetails,
 }

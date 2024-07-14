@@ -69,7 +69,7 @@ export default function Footer() {
                 </Box >
                 <Box sx={{
                     display: 'flex', justifyContent: 'center', alignItems: 'center',
-                    maxWidth: '90%', width: '80rem', mt: 3
+                    width: '100%', mt: 3,
                 }}>
                     <Typography sx={{
                         fontSize: { xs: '0.8rem', sm: '0.8rem' },

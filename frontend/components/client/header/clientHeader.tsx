@@ -11,20 +11,19 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
-import Link from 'next/link';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
-import { Avatar, Menu, Container, Tooltip, Button, Divider } from '@mui/material';
+import { Menu, Container, Tooltip, Divider, Badge } from '@mui/material';
 import { clientStateType, getClientDetailsAction } from "@/store/clients/clientReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
-import AlertComponent from '@/components/common/alert';
 import Image from 'next/image';
 import { styled, alpha } from '@mui/material/styles';
 import { MenuProps } from '@mui/material/Menu';
 import { useMediaQuery, useTheme } from '@mui/material';
+import { clientAuth } from '@/utilities/auth';
 
 interface Props {
     container?: Element;
@@ -88,8 +87,8 @@ export default function ClientHeader(props: Props) {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
     React.useEffect(() => {
-        const clientData = localStorage.getItem("clientData");
-        if (clientData) {
+        const { status } = clientAuth()
+        if (status === 'ok') {
             dispatch(getClientDetailsAction())
         } else {
             router.push('/login')
@@ -131,19 +130,15 @@ export default function ClientHeader(props: Props) {
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
-
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
     };
-
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
     };
-
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-
     const handleMenuToggle = (menu: string) => {
         setOpenMenus((prevOpenMenus) => ({
             ...prevOpenMenus,
@@ -156,7 +151,6 @@ export default function ClientHeader(props: Props) {
     const handleClose = () => {
         setAnchorElSubItems(null);
     };
-
     const logoutHandler = async () => {
         try {
             setAnchorElNav(null);
@@ -168,12 +162,10 @@ export default function ClientHeader(props: Props) {
             console.log(error)
         }
     };
-
     const handleProfileClick = () => {
         setAnchorElNav(null);
         router.push('/client/profile')
     };
-
     const navicons = [
 
         {
@@ -181,11 +173,10 @@ export default function ClientHeader(props: Props) {
             subItems: [
                 { title: 'Ongoing', link: '/client/myActivity/ongoing' },
                 { title: 'All', link: '/client/myActivity/all' },
-                { title: 'Goals', link: '/client/myActivity/goals' },
-                { title: 'Worksheets', link: '/client/myActivity/worksheets' },
-                { title: 'BookSlot', link: '/client/myActivity/bookSlot' },
-
             ]
+        },
+        {
+            iconTitle: 'BookSlot', link: `/client/myActivity/bookSlot`,
         },
         {
             iconTitle: 'Therapy', link: `/client/therapy/${clientDetails.therapistDetails ? clientDetails.therapistDetails._id : ''}`,
@@ -194,14 +185,13 @@ export default function ClientHeader(props: Props) {
         {
             iconTitle: 'Notifications',
             link: `/client/notifications/${clientDetails._id}`,
+            badge: true,
         },
     ];
-
     const settings = [
         { title: 'Profile', action: handleProfileClick },
         { title: 'Logout', action: logoutHandler },
     ];
-
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -275,21 +265,29 @@ export default function ClientHeader(props: Props) {
                                             <Collapse in={openMenus[item.iconTitle]} timeout="auto" unmountOnExit>
                                                 <List component="div" disablePadding>
                                                     {item.subItems.map((subItem, subIndex) => (
-                                                        <Link href={subItem.link} passHref key={subIndex}>
-                                                            <ListItemButton component="a" sx={{ pl: 4 }} onClick={handleCloseNavMenu}>
-                                                                <ListItemText primary={subItem.title} />
-                                                            </ListItemButton>
-                                                        </Link>
+                                                        <ListItemButton component="a" sx={{ pl: 4 }} onClick={() => {
+                                                            handleCloseNavMenu;
+                                                            router.push(`${subItem.link}`)
+                                                        }}>
+                                                            <ListItemText primary={subItem.title} />
+                                                        </ListItemButton>
                                                     ))}
                                                 </List>
                                             </Collapse>
                                         </div>
                                     ) : (
-                                        <Link href={item.link} passHref key={index}>
-                                            <MenuItem onClick={handleCloseNavMenu}>
+                                        <MenuItem onClick={() => {
+                                            handleCloseNavMenu;
+                                            router.push(`${item.link}`)
+                                        }}>
+                                            {item.badge ? (
+                                                <Badge badgeContent={6} color="error" sx={{ pr: 1 }}>
+                                                    <ListItemText primary={item.iconTitle} />
+                                                </Badge>
+                                            ) : (
                                                 <ListItemText primary={item.iconTitle} />
-                                            </MenuItem>
-                                        </Link>
+                                            )}
+                                        </MenuItem>
                                     )
                                 ))}
                             </Menu>
@@ -345,11 +343,12 @@ export default function ClientHeader(props: Props) {
                                         >
                                             {item.subItems.map((subItem, subIndex) => (
                                                 <>
-                                                    <Link href={subItem.link} passHref key={subIndex}>
-                                                        <ListItemButton component="a" sx={{ pl: 4 }} onClick={handleClose}>
-                                                            <ListItemText primary={subItem.title} />
-                                                        </ListItemButton>
-                                                    </Link>
+                                                    <ListItemButton component="a" sx={{ pl: 4 }} onClick={() => {
+                                                        handleClose;
+                                                        router.push(subItem.link)
+                                                    }}>
+                                                        <ListItemText primary={subItem.title} />
+                                                    </ListItemButton>
                                                     {item.subItems.length - 1 !== subIndex && (
                                                         <Divider sx={{ my: 0.5 }} />
                                                     )}
@@ -358,11 +357,18 @@ export default function ClientHeader(props: Props) {
                                         </StyledMenu>
                                     </div>
                                 ) : (
-                                    <Link href={item.link} passHref key={index}>
-                                        <MenuItem onClick={handleCloseNavMenu}>
-                                            <ListItemText primary={item.iconTitle} />
+                                        <MenuItem onClick={() => {
+                                            handleCloseNavMenu;
+                                            router.push(`${item.link}`)
+                                        }}>
+                                            {item.badge ? (
+                                                <Badge badgeContent={6} color="error" sx={{ pr: 1 }}>
+                                                    <ListItemText primary={item.iconTitle} />
+                                                </Badge>
+                                            ) : (
+                                                <ListItemText primary={item.iconTitle} />
+                                            )}
                                         </MenuItem>
-                                    </Link>
                                 )
                             ))}
                         </Box>

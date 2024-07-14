@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ClienttHeader from '@/components/client/header/clientHeader';
 import NotificationsComponent from '@/components/user/notifications/notificationComponent';
+import Footer from '@/components/common/footer';
 
 export default function Page({ params }: { params: { userId: string } }) {
     return (
@@ -12,6 +13,7 @@ export default function Page({ params }: { params: { userId: string } }) {
             <ToastContainer />
             <ClienttHeader />
             <NotificationsComponent userId={params.userId} />
+            <Footer />
         </Provider>
     );
 }

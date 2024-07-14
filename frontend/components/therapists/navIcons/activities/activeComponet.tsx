@@ -72,18 +72,19 @@ const ActiveConnectionComponent = () => {
         medicalInfo: 'view',
     }));
 
-    const head = 'Active Connections';
+    const head = 'My Activity';
     const subHead = [
         { name: 'Active', url: 'therapist/activities/active', select: true },
         { name: 'Inactive', url: 'therapist/activities/inActive', select: false },
+        { name: 'Schedules', url: 'therapist/activities/schedules', select: false },
         { name: 'Reviews', url: 'therapist/activities/reviews', select: false }
     ]
     return (
         <Box sx={{
-            backgroundColor: '#F7FCC2', pb: 8
+            backgroundColor: '#325343', pb: 8
         }}>
             {!isQuit ?
-                <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} />
+                <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role="" />
                 : <DoSomethingComponent
                     content="Since you left BlloomWell all your connections have been disconnected. If you'd like to rejoin, we'd love to welcome you back!"
                     buttonTitle="Let's Rejoin" url="#"

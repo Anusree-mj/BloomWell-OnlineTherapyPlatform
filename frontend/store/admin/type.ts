@@ -5,7 +5,8 @@ import { TherapistItem } from "../therapists/type";
 export interface AdminItem {
     _id: string;
     name: string;
-    email: string
+    email: string;
+    totalEarnings: number;
 }
 
 export interface ConnectionItems {
@@ -73,4 +74,5 @@ export interface PaymentDetailsItem {
     totalAmount: number,
     paymentStatus: string,
     name: string,
+    updatedAt: string,
 }

@@ -14,6 +14,10 @@ const adminSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    totalEarnings: {
+        type: Number,
+        default: 0
+    },
 }, {
     timestamps: true
 })

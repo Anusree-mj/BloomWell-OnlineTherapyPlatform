@@ -28,6 +28,7 @@ import InsertCommentIcon from '@mui/icons-material/InsertComment';
 import Cookies from 'js-cookie';
 import { useRouter } from "next/navigation";
 import { toast } from 'react-toastify';
+import { adminAuth } from "@/utilities/auth";
 
 const drawerWidth = 240;
 
@@ -41,7 +42,13 @@ export default function AdminHeader(props: Props) {
   const [isClosing, setIsClosing] = React.useState(false);
   const [openMenus, setOpenMenus] = React.useState<{ [key: string]: boolean }>({});
   const router = useRouter();
-  
+
+  React.useEffect(() => {
+    const { status } = adminAuth()
+    if (status !== 'ok') {
+      router.push('/admin/login');
+    }
+  }, [])
   const handleDrawerClose = () => {
     setIsClosing(true);
     setMobileOpen(false);
@@ -115,19 +122,16 @@ export default function AdminHeader(props: Props) {
               <Collapse in={openMenus[item.iconTitle]} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                   {item.subItems.map((subItem, subIndex) => (
-                    <Link href={subItem.link} passHref key={subIndex}>
-                      <ListItemButton component="a" sx={{ pl: 4 }}>
+                      <ListItemButton sx={{ pl: 4 }} onClick={() => router.push(`${subItem.link}`)}>
                         <ListItemText primary={subItem.title} />
                       </ListItemButton>
-                    </Link>
                   ))}
                 </List>
               </Collapse>
             </div>
           ) : (
-            <Link href={item.link} passHref key={index}>
               <ListItem disablePadding>
-                <ListItemButton component="a">
+                <ListItemButton onClick={() => router.push(`${item.link}`)} >
                   <ListItemIcon sx={{ color: 'white' }}>
                     {item.icon}
                   </ListItemIcon>
@@ -138,7 +142,6 @@ export default function AdminHeader(props: Props) {
                   />
                 </ListItemButton>
               </ListItem>
-            </Link>
           )
         ))}
       </List>

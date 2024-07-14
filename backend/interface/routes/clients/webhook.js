@@ -3,6 +3,7 @@ import Stripe from 'stripe';
 import dotenv from 'dotenv';
 dotenv.config();
 import Client from '../../../entities/clients/clients.js';
+import Admin from '../../../entities/admin/adminModel.js';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const router = express.Router();
@@ -48,13 +49,15 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
                             stripeTrialEnd: trialEnd,
                             amount: amount,
                             productName: productName,
-                            status: 'active' 
+                            status: 'active'
                         },
                         isSubscribed: true,
                         isAnUser: true,
                     };
                     const option = { upsert: true };
                     const updateUser = await Client.updateOne(query, update, option);
+                    await Admin.updateOne({ name: 'Emily' }, { $inc: { totalEarnings: amount } })
+
                     console.log('user updated in subscription created', updateUser);
                     console.log(`Subscription created: ${subscription.id}`);
                 } catch (err) {

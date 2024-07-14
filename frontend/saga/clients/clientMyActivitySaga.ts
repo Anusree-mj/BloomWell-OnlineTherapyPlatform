@@ -9,7 +9,7 @@ import {
     getBookedSlotsDetailsAction,
     getBookedSlotsDetailsFailureAction,
     getBookedSlotsDetailsSuccessAction,
-   
+
 
 } from '@/store/clients/clientMyActionReducer';
 import { apiCall } from '@/services/api';
@@ -18,19 +18,19 @@ import { apiCall } from '@/services/api';
 // get connections saga
 function* getClientOngoingActivityActionSaga(action: {
     type: string;
-    payload: {
-        clientId: ''
+    payload: { 
+        therapistId: ''
     }
 }): any {
     try {
         console.log('data recieved in saga', action.payload)
         const response = yield call<any>(apiCall, {
             method: 'GET',
-            endpoint: `client/myActivity/ongoing`,
+            endpoint: `client/ongoing/${action.payload.therapistId}`,
         });
         console.log('reaponse got in ongoing saga', response)
         if (response.status === 'ok') {
-            yield put(getClientOngoingActivitySuccessAction(response.connectionDetails))
+            yield put(getClientOngoingActivitySuccessAction(response.ongoingActivities))
         } else {
             yield put(getClientOngoingActivityFailureAction(response.message))
         }

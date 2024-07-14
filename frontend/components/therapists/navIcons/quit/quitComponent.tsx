@@ -73,18 +73,17 @@ const TherapistQuitComponent = () => {
     return (
         <Box
             sx={{
-                backgroundColor: '#F7FCC2',
+                backgroundColor: '#325343',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'column',
-                minHeight: '85vh',
-                paddingBottom: '2rem',
+                minHeight: '85vh',pb:8
             }}
         >
             <Typography sx={{
                 width: '80rem', maxWidth: '90%', textAlign: 'center',
-                color: '#325343', fontWeight: 800, fontSize: '1rem', mt: 4
+                color: 'white', fontWeight: 800, fontSize: '1rem', mt: 4
             }}>We're sorry to see you leave. Your feedback is valuable in improving BloomWell. Please share your reasons for leaving to
                 help us enhance our services.</Typography>
             <Box sx={{

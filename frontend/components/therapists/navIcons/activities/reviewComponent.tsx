@@ -78,16 +78,16 @@ const TherapistReviewsComponent = () => {
         review: review.comments,
         therapy: 'View Profile',
     }));
-    const head = 'View Reviews';
+    const head = 'My Activity';
     const subHead = [
         { name: 'Active', url: 'therapist/activities/active', select: false },
         { name: 'Inactive', url: 'therapist/activities/inActive', select: false },
+        { name: 'Schedules', url: 'therapist/activities/schedules', select: false },
         { name: 'Reviews', url: 'therapist/activities/reviews', select: true }
-
     ]
     return (
         <Box sx={{
-            backgroundColor: '#F7FCC2', pb: 8
+            backgroundColor: '#325343', pb: 8
         }}>
             <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role=""/>
             <Modal open={modalOpen} onClose={handleClose}>

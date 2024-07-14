@@ -3,10 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDashboardDetailsAction, getTherapyCountsAction, adminActivitiesStateType } from '@/store/admin/adminActivityReducer';
 import { Box } from '@mui/system';
 import BarChartComponent from '@/components/admin/chart/barChart';
-import { Divider, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import PieChartComponent from '../chart/pieChart';
 import TopTherapistsComponents from './topComponents';
-
+import { adminAuth } from '@/utilities/auth';
+import { useRouter } from 'next/navigation';
 
 interface MonthData {
   count: number;
@@ -60,16 +61,19 @@ const DashBoardComponent = () => {
   const dispatch = useDispatch()
   const data = useSelector((state: { adminActivities: adminActivitiesStateType }) => state.adminActivities.dashboardDetails)
   const pieChartData = useSelector((state: { adminActivities: adminActivitiesStateType }) => state.adminActivities.therapyCount)
-
+  const router = useRouter();
 
   const { xData, yData } = getDataForChart(data);
 
   useEffect(() => {
-    console.log('entered in dashboard useffect')
-    dispatch(getDashboardDetailsAction());
-    dispatch(getTherapyCountsAction())
+    const { status } = adminAuth()
+    if (status === 'ok') {
+      dispatch(getDashboardDetailsAction());
+      dispatch(getTherapyCountsAction())
+    } else {
+      router.push('/admin/login')
+    }
   }, []);
-  console.log('ppppppppppppppppppppppppppppppppppppppppp', pieChartData)
 
   return (
     <Box sx={{

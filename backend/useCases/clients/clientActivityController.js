@@ -4,11 +4,12 @@ import clientActivityQueries from "../../infrastructure/dbQueries/client/clientA
 const getOngoingActivitiesController = async (req, res) => {
     try {
         const clientId = req.user._id
-        const response = await clientActivityQueries.getOngoingActivityDetails(clientId);
+        const therapistId = req.params.therapistId
+        console.log('reached controller with idddddddddddddd', clientId,'therapistdddddddd:', therapistId)
+        const response = await clientActivityQueries.getOngoingActivityDetails(clientId, therapistId);
         if (response.status === 'ok') {
-            const { status, connectionDetails } = response
-            console.log('response in getongoing controller pased')
-            res.status(200).json({ status: status, connectionDetails: connectionDetails });
+            const { status, ongoingActivities } = response
+            res.status(200).json({ status, ongoingActivities });
         } else {
             const { status, message } = response
             res.status(400).json({ status: status, message: message });
@@ -61,5 +62,5 @@ export {
     getOngoingActivitiesController,
     addFeedbackController,
     getAnyClientDetailsController,
-    
+
 }

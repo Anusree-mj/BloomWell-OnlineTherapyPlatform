@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { apiCall } from "@/services/api";
 
 
 const FeedBackComponent = () => {
@@ -24,9 +25,12 @@ const FeedBackComponent = () => {
                 return;
             } else {
                 setFeedback('')
-                const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/feedback`,
-                    { feedback }, { withCredentials: true });
-                if (response.data.status === 'ok') {
+                const response = await apiCall({
+                    method: 'POST',
+                    endpoint: `client/feedback`,
+                    body: { feedback }
+                });
+                if (response.status === 'ok') {
                     toast.success('Thankyou for your feedback!')
                 }
             }

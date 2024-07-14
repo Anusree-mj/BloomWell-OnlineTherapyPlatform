@@ -74,7 +74,7 @@ function* getTherapistsPaymentsActionSaga(): any {
         });
 
         if (response.status === 'ok') {
-            yield put(getTherapistsPaymentsSuccessAction(response.paymentDetails))
+            yield put(getTherapistsPaymentsSuccessAction({paymentDetails:response.paymentDetails,adminData:response.adminData}))
         } else {
             yield put(getTherapistsPaymentsFailureAction(response.message))
 
