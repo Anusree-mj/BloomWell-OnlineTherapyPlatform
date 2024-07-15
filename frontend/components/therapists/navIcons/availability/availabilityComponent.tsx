@@ -9,6 +9,7 @@ import { getAvailableSlotsAction, clientMyActivityStateType } from '@/store/clie
 import { styled } from '@mui/system';
 import { TimePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
+import { apiCall } from '@/services/api';
 
 const daysOfWeek = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
 
@@ -86,15 +87,17 @@ const AddAvailabilityForm = () => {
                 return;
             }
             const rrule = `FREQ=WEEKLY;BYDAY=${selectedDays.map(day => day.slice(0, 2)).join(',')}`;
-            const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_SERVER_API_URL}/therapist/addAvailability`,
-                { availability: rrule, startTime, endTime },
-                { withCredentials: true }
-            );
-            if (response.status === 200) {
+            const response = await apiCall({
+                method: 'POST',
+                endpoint: `therapist/addAvailability`,
+                body: { availability: rrule, startTime, endTime }
+            });
+            if (response.status === 'ok') {
                 toast.success('Available Days successfully added');
                 dispatch(getAvailableSlotsAction(therapistId));
                 setIsEdit(false)
+            } else {
+                toast.error('Something went wrong. Try again!');
             }
         } catch (error) {
             console.error('Error adding availability:', error);
@@ -195,7 +198,7 @@ const AddAvailabilityForm = () => {
                                     }}
                                 >
                                     {daysOfWeek.map((day) => (
-                                        <FormControlLabel 
+                                        <FormControlLabel
                                             key={day}
                                             control={
                                                 <Checkbox

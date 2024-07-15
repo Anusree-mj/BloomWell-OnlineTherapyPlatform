@@ -12,6 +12,7 @@ import Link from "next/link";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { format } from 'date-fns';
+import { apiCall } from "@/services/api";
 
 const TherapistsScheulesComponent = () => {
     const dispatch = useDispatch();
@@ -40,12 +41,13 @@ const TherapistsScheulesComponent = () => {
         });
         if (result.isConfirmed) {
             try {
-                const response = await axios.put(
-                    `${process.env.NEXT_PUBLIC_SERVER_API_URL}/therapist/schedules`,
-                    { scheduleId, action, clientId, date, time },
-                    { withCredentials: true }
-                );
-                if (response.status === 200) {
+
+                const response = await apiCall({
+                    method: 'PUT',
+                    endpoint: `therapist/schedules`,
+                    body: { scheduleId, action, clientId, date, time }
+                });
+                if (response.status === 'ok') {
                     dispatch(getTherapistsSchedulesAction());
                 }
             } catch (err) {

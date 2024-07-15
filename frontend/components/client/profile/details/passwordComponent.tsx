@@ -7,6 +7,7 @@ import { useDispatch, } from "react-redux";
 import { toast } from 'react-toastify';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { apiCall } from '@/services/api';
 
 
 const PasswordComponent = (props: { role: string }) => {
@@ -87,10 +88,12 @@ const PasswordComponent = (props: { role: string }) => {
             if (!valid) {
                 return;
             } else {
-                const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/${props.role}/profile/changePassword`,
-                    { changPasswordInfo: changPasswordInfo }, { withCredentials: true, });
-                console.log('response got in change password axois', response);
-                if (response.status === 200) {
+                const response = await apiCall({
+                    method: 'PUT',
+                    endpoint: `${props.role}/profile/changePassword`,
+                    body: { changPasswordInfo: changPasswordInfo }
+                });
+                if (response.status === 'ok') {
                     setChangePasswordInfo({
                         currentPassword: '',
                         newPassword: ''
@@ -98,6 +101,9 @@ const PasswordComponent = (props: { role: string }) => {
                     setIsChangePassword(false)
                     dispatch(getClientDetailsAction())
                     toast.success('Successfully changed password!')
+                } else {
+                    toast.success(`Password doesnt match`)
+
                 }
             }
         } catch (err) {

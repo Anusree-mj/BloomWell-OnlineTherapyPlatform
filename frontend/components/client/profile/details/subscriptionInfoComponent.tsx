@@ -6,6 +6,7 @@ import { useDispatch, } from "react-redux";
 import { getClientDetailsAction } from "@/store/clients/clientReducer";
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
+import { apiCall } from '@/services/api';
 
 interface SubscriptionInfoProps {
     SubscriptionItems: {
@@ -62,13 +63,16 @@ const SubscriptionInfoComponent: React.FC<SubscriptionInfoProps> = ({ Subscripti
     const handleCancelSubscription = async () => {
         try {
             console.log('entered in cancel')
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/payment/cancel`,
-                { stripeSubscriptionId: SubscriptionItems.stripeSubscriptionId },
-                { withCredentials: true, }
-            );
-            if (response.status === 200) {
+            const response = await apiCall({
+                method: 'POST',
+                endpoint: `client/payment/cancel`,
+                body: { stripeSubscriptionId: SubscriptionItems.stripeSubscriptionId }
+            });
+            if (response.status === 'ok') {
                 dispatch(getClientDetailsAction())
                 toast.success('Subscription successfully cancelled')
+            } else {
+                toast.error("Failed to cancel subscription. Try again!")
             }
         } catch (err) {
             console.log('Err found', err)

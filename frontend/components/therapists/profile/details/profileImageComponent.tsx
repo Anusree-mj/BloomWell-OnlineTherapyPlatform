@@ -24,7 +24,7 @@ const TherapistProfileImageComponent: React.FC<ProfileImageProps> = ({ image, se
                 const formData = new FormData();
                 formData.append('file', file);
 
-                const response = await axios.post('http://localhost:8000/therapist/uploadImage', formData, {
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/therapist/uploadImage`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -49,7 +49,7 @@ const TherapistProfileImageComponent: React.FC<ProfileImageProps> = ({ image, se
                 return
             } else {
                 const response = await axios.put('http://localhost:8000/therapist/profile/image',
-                    { image: image },{ withCredentials: true, });
+                    { image: image }, { withCredentials: true, });
                 if (response.status === 200) {
                     dispatch(getTherapistProfileAction())
                     setIsProfilePicChange(false)

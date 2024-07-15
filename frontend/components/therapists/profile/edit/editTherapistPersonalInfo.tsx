@@ -6,6 +6,7 @@ import { Button, MenuItem, TextField } from '@mui/material';
 import { genderOptions } from '../../detailsSubmission/licenseComponent';
 import { therapistRoleContents } from '@/components/user/therapistJob/queryComponent';
 import axios from 'axios';
+import { apiCall } from '@/services/api';
 
 
 interface PersonalInfo {
@@ -59,10 +60,13 @@ const EditTherapistPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ s
             if (!valid) {
                 return;
             }
-             else {
-                const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/therapist/profile/personal`,
-                    { personalInfo: editPersonalInfos }, { withCredentials: true, });
-                if (response.status === 200) {
+            else {
+                const response = await apiCall({
+                    method: 'PUT',
+                    endpoint: `therapist/profile/personal`,
+                    body: { personalInfo: editPersonalInfos }
+                });
+                if (response.status === 'ok') {
                     setEditPersonalInfo(false)
                     dispatch(getTherapistProfileAction())
                 }

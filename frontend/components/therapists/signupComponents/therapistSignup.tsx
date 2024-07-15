@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getTherapistSignUpAction, therapistStateType } from '@/store/therapists/therapistReducers';
 import OTPInput from '@/components/common/otp';
 import UploadIcon from '@mui/icons-material/Upload';
+import { apiCall } from '@/services/api';
 
 const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType }) => {
     const dispatch = useDispatch();
@@ -107,10 +108,15 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
             const valid = validation()
             if (valid) {
                 setLoading(true)
-                const response = await axios.post(`http://localhost:8000/users/getOtp`, { email: signupInfo.email });
-                if (response.status === 200) {
+                const response = await apiCall({
+                    method: 'POST',
+                    endpoint: `users/getOtp`,
+                    body: { email: signupInfo.email }
+                });
+                if (response.status === 'ok') {
                     setOtpField(true)
                 }
+
             } else {
                 return
             }

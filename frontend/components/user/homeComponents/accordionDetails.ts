@@ -6,27 +6,16 @@ export const accordionDetails = [
         therapist. Therapists must have a relevant academic degree in their field, at least 3 years of 
         experience, and have to be qualified and credentialed by their respective professional 
         organization after successfully completing the necessary education, exams, training, and 
-        practice requirements as applicable. For the avoidance of doubt, therapists are referred to 
-        on this site and related apps/sites by their title and U.S., U.K., or Australian credentials, 
-        whichever is applicable.`
+        practice requirements as applicable. `
     },
     {
         title: 'Who will be helping me?',
         content: `After you sign up, we will match you to an available therapist who fits your 
         objectives, preferences, and the type of issues you are dealing with. Different therapists
-         have different approaches and areas of focus, so it's important to find the right person who 
-         can achieve the best results for you. We have found that we are able to provide a successful 
-         match most of the time; however, if you start the process and you feel your therapist isn't a 
-         good fit for you, you may elect to be matched to a different therapist.`
-    },
-    {
-        title: 'Who will be helping me?',
-        content: `After you sign up, we will match you to an available therapist who fits your 
-    objectives, preferences, and the type of issues you are dealing with. Different therapists
-     have different approaches and areas of focus, so it's important to find the right person who 
-     can achieve the best results for you. We have found that we are able to provide a successful 
-     match most of the time; however, if you start the process and you feel your therapist isn't a 
-     good fit for you, you may elect to be matched to a different therapist.`
+        have different approaches and areas of focus, so it's important to find the right person who 
+        can achieve the best results for you. We have found that we are able to provide a successful 
+        match most of the time; however, if you start the process and you feel your therapist isn't a 
+        good fit for you, you may elect to be matched to a different therapist.`
     },
     {
         title: 'How much does it cost?',
@@ -35,9 +24,9 @@ export const accordionDetails = [
     },
     {
         title: 'How will I communicate with my therapist?',
-        content: `You can get therapy in four ways:
-        * Exchanging messages with your therapist
-        * Chatting live with your therapist`
+        content: `You can get therapy in two ways:<br />
+        * Exchanging messages 24/7 with your therapist<br />
+        * Weekly live sessions with your therapist`
     },
     {
         title: 'How long can I use BetterHelp?',
@@ -45,4 +34,4 @@ export const accordionDetails = [
         Some people feel they get most of the value after just a few weeks, while others prefer 
         to stick to the program for an extended period of time. This is completely up to you.`
     },
-]
+];

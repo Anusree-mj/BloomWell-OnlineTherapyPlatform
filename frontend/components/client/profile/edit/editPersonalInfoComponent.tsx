@@ -6,6 +6,7 @@ import { Button, MenuItem, TextField } from '@mui/material';
 import { ageItems, teenAgeItems } from '../../submitDetails/ageComponent';
 import { typeItems } from '../../submitDetails/therapyType';
 import axios from 'axios';
+import { apiCall } from '@/services/api';
 
 interface PersonalInfo {
     name: string,
@@ -73,9 +74,12 @@ const EditPersonalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setPersona
             if (!valid) {
                 return;
             } else {
-                const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/profile/personal`,
-                    { personalInfo: editPersonalInfo }, { withCredentials: true, });
-                if (response.status === 200) {
+                const response = await apiCall({
+                    method: 'PUT',
+                    endpoint: `client/profile/personal`,
+                    body: { personalInfo: editPersonalInfo }
+                });
+                if (response.status === 'ok') {
                     setPersonalEditInfo(false)
                     dispatch(getClientDetailsAction())
                 }

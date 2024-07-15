@@ -11,6 +11,7 @@ import { getClientSignUpAction, clientStateType } from "@/store/clients/clientRe
 import OTPInput from '@/components/common/otp';
 import Image from 'next/image';
 import SocialLoginComponent from '@/components/common/socialLogin';
+import { apiCall } from '@/services/api';
 
 const ClientSignupComponent = () => {
     const dispatch = useDispatch();
@@ -59,11 +60,14 @@ const ClientSignupComponent = () => {
             const valid = validation()
             if (valid) {
                 setLoading(true)
-                const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/users/getOtp`,
-                    { email: signupInfo.email });
-                if (response.status === 200) {
+                const response = await apiCall({
+                    method: 'POST',
+                    endpoint: `users/getOtp`,
+                    body: { email: signupInfo.email }
+                });
+                if (response.status === 'ok') {
                     setOtpField(true)
-                }
+                }               
             } else {
                 return
             }

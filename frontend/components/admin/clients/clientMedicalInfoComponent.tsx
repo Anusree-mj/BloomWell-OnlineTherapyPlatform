@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Box, Typography } from "@mui/material";
 import MedicalInfoComponent from "@/components/client/profile/details/medicalInfoComponent";
 import { useRouter } from "next/navigation";
-import { getAnyClientDetailsAction,clientStateType } from "@/store/clients/clientReducer";
+import { getAnyClientDetailsAction, clientStateType } from "@/store/clients/clientReducer";
 
 const ClientMedicalInfoViewComponent: React.FC<{ clientId: string; }> = ({ clientId }) => {
     const dispatch = useDispatch()
@@ -15,7 +15,7 @@ const ClientMedicalInfoViewComponent: React.FC<{ clientId: string; }> = ({ clien
     })
 
     useEffect(() => {
-        console.log('clientid is ',clientId)
+        console.log('clientid is ', clientId)
         const adminData = localStorage.getItem("adminData");
         const therapistData = localStorage.getItem('therapistData');
         if (!adminData || !therapistData) {
@@ -46,7 +46,7 @@ const ClientMedicalInfoViewComponent: React.FC<{ clientId: string; }> = ({ clien
 
                 <Typography sx={{
                     ml: '0.3rem',
-                    color: '#325343', fontWeight: 800, fontSize: '1.5rem', mt: 6
+                    color: 'white', fontWeight: 800, fontSize: '1rem', mt: 6
                 }}>Client Medical Info</Typography>
                 <MedicalInfoComponent medicalInfoItems={medicalInfoItems} readOnly={true} />
             </Box>

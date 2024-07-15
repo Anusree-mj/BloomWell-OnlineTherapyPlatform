@@ -60,14 +60,27 @@ export default function Login() {
         }
     };
 
-    // useEffect(() => {
-    //     if (localStorage.getItem('clientData')) {
-    //         router.push('/client/welcome')
-    //     }
-    //     else if (localStorage.getItem('therapistData')) {
-    //         router.push('/therapist/welcome')
-    //     }
-    // }, [])
+    useEffect(() => {
+        if (localStorage.getItem('clientData')) {
+            const clientData = JSON.parse(localStorage.getItem('clientData') || '{}');
+            const { questionnaire, isAnUser } = clientData;
+            if (Array.isArray(questionnaire) && questionnaire.length === 0) {
+                router.push('/client/details');
+            } else if (!isAnUser) {
+                router.push('/client/payment');
+            } else {
+                router.push('/client/myActivity/ongoing')
+            }
+        } else if (localStorage.getItem('therapistData')) {
+            const therapistData = JSON.parse(localStorage.getItem('therapistData') || '{}');
+            const { image } = therapistData;
+            if (image) {
+                router.push('/therapist/activities/active')
+            } else {
+                router.push('/therapist/welcome');
+            }
+        }
+    }, [])
 
     useEffect(() => {
         if (error) {
@@ -79,7 +92,7 @@ export default function Login() {
         <Box sx={{
             paddingTop: '2rem', paddingBottom: '2rem',
             backgroundColor: '#325343', display: 'flex',
-            alignItems: 'center', justifyContent: 'space-around', minHeight: '90vh'
+            alignItems: 'center', justifyContent: 'space-around', minHeight: '85vh'
         }}>
             <Box sx={{
                 display: { xs: 'none', sm: 'flex' }, flexDirection: 'column',
@@ -108,12 +121,15 @@ export default function Login() {
             </Box>
             {
                 loginMenu === "choose" ? <Box
-                    sx={{ display: "flex", flexDirection: "column", width: "300px", alignItems: "start" }}>
+                    sx={{
+                        display: "flex", flexDirection: "column", width: "30rem", maxWidth: '90%', alignItems: "center",
+                        justifyContent: 'center',
+                    }}>
                     <Button
-                        sx={{ width: "380px", border: "solid 1px white", marginBottom: "1rem" }}
+                        sx={{ width: "380px", border: "solid 1px white", color: 'white', marginBottom: "1rem", }}
                         onClick={() => setLoginMenu("client")}>Login as client</Button>
                     <Button
-                        sx={{ width: "380px", border: "solid 1px white" }}
+                        sx={{ width: "380px", border: "solid 1px white", color: 'white', }}
                         onClick={() => setLoginMenu("therapist")}>Login as Therapist</Button>
 
                 </Box> :
@@ -125,8 +141,6 @@ export default function Login() {
                         <TextField id="outlined-basic" label="Email" variant="outlined" sx={
                             {
                                 maxWidth: '90%', width: '30rem', backgroundColor: '#F7FCC2',
-
-
                             }
                         } onChange={(e) => { setEmail(e.target.value) }}
                         />

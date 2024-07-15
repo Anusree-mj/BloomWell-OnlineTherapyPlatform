@@ -22,7 +22,7 @@ const ProfileComponent: React.FC<ProfileComponentProps> = ({
                 const formData = new FormData();
                 formData.append('file', file);
 
-                const response = await axios.post('http://localhost:8000/therapist/uploadImage', formData, {
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/therapist/uploadImage`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }

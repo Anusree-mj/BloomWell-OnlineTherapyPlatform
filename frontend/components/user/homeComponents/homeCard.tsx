@@ -9,6 +9,7 @@ import Typography from '@mui/joy/Typography';
 import Image from 'next/image';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { useRouter } from "next/navigation";
+import { Divider } from '@mui/material';
 
 const cardItems = [ 
   { src: '/home/ind.png', title: 'Individual', subTitle: 'For myself', hoverSrc: '/home/indHover.png', color: '#397a4a' },
@@ -99,6 +100,8 @@ export default function MediaCover() {
           </Card>
         ))}
       </Box>
+      <Divider sx={{ width: '100%', backgroundColor: 'white', height: '3px', }} />
+
     </Box>
   );
 }
