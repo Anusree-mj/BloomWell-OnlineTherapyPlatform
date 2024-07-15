@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import LoadingButton from '@mui/lab/LoadingButton';
 import axios from 'axios'
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, IconButton, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
 import { getClientSignUpAction, clientStateType } from "@/store/clients/clientReducer";
@@ -12,6 +12,8 @@ import OTPInput from '@/components/common/otp';
 import Image from 'next/image';
 import SocialLoginComponent from '@/components/common/socialLogin';
 import { apiCall } from '@/services/api';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const ClientSignupComponent = () => {
     const dispatch = useDispatch();
@@ -36,6 +38,7 @@ const ClientSignupComponent = () => {
     })
     const [loading, setLoading] = useState(false)
     const [otpField, setOtpField] = useState(false)
+    const [passwordVisible, setPasswordVisible] = useState(false)
     const [otp, setOtp] = useState('');
     const [disableButton, setDisableButton] = useState(false)
     const isLoading = useSelector((state: { client: clientStateType }) => state.client.isLoading);
@@ -67,7 +70,7 @@ const ClientSignupComponent = () => {
                 });
                 if (response.status === 'ok') {
                     setOtpField(true)
-                }               
+                }
             } else {
                 return
             }
@@ -251,6 +254,16 @@ const ClientSignupComponent = () => {
                                     },
                                 }} onChange={(e) => { handleInputChange('confrmPassword', e.target.value) }}
                                 onClick={(e) => handleClearSpan('confrmPassword')}
+                                InputProps={{
+                                    endAdornment: (
+                                        <IconButton
+                                            onClick={() => setPasswordVisible((prevState) => !prevState)}
+                                            sx={{ position: 'absolute', right: '1rem', zIndex: 1 }}
+                                        >
+                                            {passwordVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                        </IconButton>
+                                    )
+                                }}
                             />
                             <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
                             >{spanText.confrmPassword}</span>

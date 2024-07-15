@@ -65,7 +65,7 @@ const TherapistQuitComponent = () => {
                     body: { quitInfo }
                 });
                 if (response.status === 'ok') {
-                    router.push('/therapist')
+                    router.push('/therapist/activities/active')
                 }
             }
         } catch (err) {

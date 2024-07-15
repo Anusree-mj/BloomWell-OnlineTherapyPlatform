@@ -56,7 +56,7 @@ export default function MediaCover() {
         component="ul"
         sx={{
           display: 'flex', gap: 5, flexWrap: 'wrap', mt: 3, maxWidth: '80%',
-          alignItems: 'center', justifyContent: 'center',
+          alignItems: 'center', justifyContent: 'center',pb:5
         }}
       >
         {cardItems.map((item, index) => (

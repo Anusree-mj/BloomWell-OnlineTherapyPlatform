@@ -37,7 +37,7 @@ export default function DrawerAppBar() {
       display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'
     }}>
       <Box sx={{
-        flexGrow: 1, display: { xs: 'flex', sm: 'flex' },
+        flexGrow: 1, display: { xs: 'flex', sm: 'flex' }, cursor: 'pointer',
         alignItems: 'center', backgroundColor: '#325343', width: '100%'
       }}>
         <Image
@@ -81,7 +81,10 @@ export default function DrawerAppBar() {
             color: '#325343',
             borderColor: '#325343',
             display: 'block',
-            fontWeight: 600
+            fontWeight: 600,
+            '&:hover': {
+              border: '1px solid #49873D'
+            }
           }} onClick={() => router.push('/login')}
         >
           Login
@@ -90,6 +93,10 @@ export default function DrawerAppBar() {
         <Button component="a" sx={{
           my: 2, mx: 2, color: 'white', backgroundColor: '#325343',
           display: 'block', fontWeight: 600,
+          '&:hover': {
+            backgroundColor: '#49873D',
+            color: 'white',
+          }
         }} variant="contained"
           onClick={() => router.push('/client/register')} >
           Get Started
@@ -105,7 +112,7 @@ export default function DrawerAppBar() {
         <Toolbar>
           <Box sx={{
             flexGrow: 1, display: { xs: 'flex', sm: 'flex' },
-            alignItems: 'center'
+            alignItems: 'center', cursor: 'pointer'
           }}>
             <Image
               src="/logo.png"
@@ -170,7 +177,8 @@ export default function DrawerAppBar() {
                 mx: 1, color: '#325343', backgroundColor: 'white', display: 'block',
                 fontWeight: 600,
                 '&:hover': {
-                  backgroundColor: '#49873D', color: 'white'
+                  backgroundColor: '#49873D',
+                  color: 'white',
                 }
               }} onClick={() => { router.push('/client/register') }}
 

@@ -35,7 +35,7 @@ const DetailsComponent = () => {
         const therapistData = JSON.parse(localStorage.getItem('therapistData') || '{}');
         const { email, license, image } = therapistData
         if (image) {
-            router.push('/therapist')
+            router.push('/therapist/activities/active')
         }
         const { licenseNo } = license
         setEmail(email);
@@ -67,7 +67,7 @@ const DetailsComponent = () => {
                 <>
                     <Typography sx={{
                         fontSize: { xs: '1.5rem', sm: '2rem' }, mt: 2,
-                        textAlign: 'center', color: '#325343',
+                        textAlign: 'center', color: 'white',
                     }}>
                         Areas Of Expertise
                     </Typography>
@@ -80,7 +80,7 @@ const DetailsComponent = () => {
                 <>
                     <Typography sx={{
                         fontSize: { xs: '1.5rem', sm: '2rem' }, mt: 2,
-                        textAlign: 'center', color: '#325343',
+                        textAlign: 'center', color: 'white',
                     }}>
                         Add your license information
                     </Typography>
@@ -97,7 +97,7 @@ const DetailsComponent = () => {
                 <>
                     <Typography sx={{
                         fontSize: { xs: '1.5rem', sm: '2rem' }, mt: 2,
-                        textAlign: 'center', color: '#325343',
+                        textAlign: 'center', color: 'white',
                     }}>
                         Describe yourself to clients
                     </Typography>
@@ -113,7 +113,7 @@ const DetailsComponent = () => {
                 <>
                     <Typography sx={{
                         fontSize: { xs: '1.5rem', sm: '2rem' }, mt: 2,
-                        textAlign: 'center', color: '#325343',
+                        textAlign: 'center', color: 'white',
                     }}>
                         Add your profile photo
                     </Typography>

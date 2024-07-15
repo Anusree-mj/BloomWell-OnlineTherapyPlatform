@@ -223,18 +223,18 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
         <Box sx={{
             backgroundColor: '#325343', display: 'flex',
             justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
-            minHeight: '85vh', paddingBottom: '2rem'
+            minHeight: '85vh', paddingBottom: '6rem'
         }}>
             {otpField !== true ? (
                 <>
                     <Typography sx={{
                         fontSize: { xs: '1.5rem', sm: '2rem' }, mt: 1,
-                        textAlign: 'center', color: '#325343',
+                        textAlign: 'center', color: 'white',
                     }}>
                         Welcome To BloomWell
                     </Typography>
                     <Typography sx={{
-                        fontSize: '0.9rem', fontWeight: 600, textAlign: 'center', color: '#325343',
+                        fontSize: '0.9rem', fontWeight: 600, textAlign: 'center', color: 'white',
                         width: '30rem', maxWidth: '80%', mb: 2
                     }
                     }>Create your therapist account by filling this form so we can start processing
@@ -249,12 +249,12 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
                         <Box sx={{
                             display: 'flex', flexWrap: 'wrap', alignItems: 'center',
                             justifyContent: 'flex-start', width: '40rem',
-                            maxWidth: '100%',
+                            maxWidth: '100%', gap: 1
                         }}>
                             {textFieldItems.map((item) => (
                                 <Box sx={{
-                                    display: 'flex', flexDirection: 'column', m: 1,
-                                    maxWidth: '100%',
+                                    display: 'flex', flexDirection: 'column', mt: { md: 1 },
+                                    maxWidth: '100%', width: { xs: '30rem',md:'15rem' }
                                 }}>
                                     <TextField id="outlined-basic"
                                         label={item.label} type={item.type} variant="outlined"
@@ -277,14 +277,14 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
                                 </Box>
                             ))}
                             <Box sx={{
-                                ml: 1, maxWidth: '90%',
+                                width: '100%',
                                 display: 'flex', flexDirection: 'column',
                                 alignItems: 'flex-start', justifyContent: 'flex-start'
                             }}>
                                 <TextField
                                     type="file"
                                     sx={{
-                                        mt: 1, mb: 2,
+                                        mt: 1, mb: 2,width:'100%',
                                         backgroundColor: '#F7FCC2',
                                         '& .MuiOutlinedInput-root': {
                                             '& fieldset': {

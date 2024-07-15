@@ -7,14 +7,12 @@ import { Divider } from '@mui/material';
 
 const contents = [
     {
-        src: '/home/wrkflow1.png', title: 'Find the best therapist for you',
-        content: `Answer a few questions to find a credentialled therapist who fits 
-        your needs and preferences. Tap into the largest network of credentialled provider`
+        src: '/home/wrkflow1.png', title: 'Sign Up and Answer a Few Questions',
+        content: `Answer a few questions to let us know what type of therapy you are looking for and what type of therapist you prefer. Subscribe to a package that suits your needs. You can choose any package and cancel according to your preference.`
     },
     {
-        src: '/home/wrkflow2.png', title: 'Find the best therapist for you',
-        content: `Answer a few questions to find a credentialled therapist who fits 
-        your needs and preferences. Tap into the largest network of credentialled provider`
+        src: '/home/wrkflow2.png', title: 'Connect with a Therapist',
+        content: `According to your preference, we will show the best therapists matched for you. Select one and connect with them. Once the therapist confirms your connection request, you can start the sessions.`
     },
     {
         src: '/home/wrkflow3.png', title: 'Communicate your way',
@@ -30,7 +28,7 @@ export default function HowItWorks() {
         <Box
             component="ul"
             sx={{
-                display: 'flex', gap: 5, flexWrap: 'wrap', pt: 10,
+                display: 'flex', gap: 5, flexWrap: 'wrap', pt: 4,
                 flexDirection: 'column',
                 alignItems: 'center', justifyContent: 'center',
                 backgroundColor: '#325343', pb: 3
