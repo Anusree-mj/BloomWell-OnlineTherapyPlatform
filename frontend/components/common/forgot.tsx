@@ -119,7 +119,7 @@ export default function AdminLogin() {
                         width: '30rem', maxWidth: '80%', mb: 2
                     }
                     }>No worries! Just enter the email address associated with your account,
-                        and we'll send you a link to reset your password</Typography>
+                        and we will send you a link to reset your password</Typography>
                     <FormControl sx={{
                         width: '30rem', backgroundColor: 'white', mt: 1,
                         padding: 4, maxWidth: '90%', minHeight: '50vh',

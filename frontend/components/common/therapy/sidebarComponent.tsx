@@ -109,7 +109,7 @@ const TherapySidebarComponent: React.FC<TherapySidebarComponentProps> = ({
                                 alignItems: 'center', justifyContent: 'center'
                             }}>
                                 {AccordionContent[index - 1].content.map((item) => (
-                                    <Box sx={{
+                                    <Box key={item} sx={{
                                         display: 'flex', flexDirection: 'column',
                                         justifyContent: 'center', alignItems: 'center',width:'100%'
                                     }}>

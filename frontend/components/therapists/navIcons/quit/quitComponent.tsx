@@ -88,7 +88,7 @@ const TherapistQuitComponent = () => {
             <Typography sx={{
                 width: '80rem', maxWidth: '90%', textAlign: 'center',
                 color: 'white', fontWeight: 800, fontSize: '1rem', mt: 4
-            }}>We're sorry to see you leave. Your feedback is valuable in improving BloomWell. Please share your reasons for leaving to
+            }}>We are sorry to see you leave. Your feedback is valuable in improving BloomWell. Please share your reasons for leaving to
                 help us enhance our services.</Typography>
             <Box sx={{
                 backgroundColor: 'white', display: 'flex', mt: '2rem', justifyContent: 'center', alignItems: 'center',

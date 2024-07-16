@@ -320,7 +320,7 @@ export default function TherapistHeader(props: Props) {
                                             <Collapse in={openMenus[item.iconTitle]} timeout="auto" unmountOnExit>
                                                 <List component="div" disablePadding>
                                                     {item.subItems.map((subItem, subIndex) => (
-                                                        <ListItemButton component="a" sx={{ pl: 4 }}
+                                                        <ListItemButton key={subIndex} component="a" sx={{ pl: 4 }}
                                                             onClick={() => {
                                                                 handleCloseNavMenu();
                                                                 router.push(`${subItem.link}`)
@@ -396,7 +396,7 @@ export default function TherapistHeader(props: Props) {
                                             onClose={handleClose}
                                         >
                                             {item.subItems.map((subItem, subIndex) => (
-                                                <>
+                                                <Box key={subIndex}>
                                                     <ListItemButton component="a" sx={{ pl: 4 }} onClick={() => {
                                                         handleClose();
                                                         router.push(`${subItem.link}`)
@@ -406,13 +406,13 @@ export default function TherapistHeader(props: Props) {
                                                     {item.subItems.length - 1 !== subIndex && (
                                                         <Divider sx={{ my: 0.5 }} />
                                                     )}
-                                                </>
+                                                </Box>
 
                                             ))}
                                         </StyledMenu>
                                     </div>
                                 ) : (
-                                    <MenuItem onClick={() => {
+                                    <MenuItem key={item.link} onClick={() => {
                                         handleCloseNavMenu();
                                         router.push(`${item.link}`)
                                     }}>

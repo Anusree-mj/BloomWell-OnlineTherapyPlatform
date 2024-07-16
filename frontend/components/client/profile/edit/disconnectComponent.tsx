@@ -58,8 +58,8 @@ const DisconnectComponent: React.FC<DisconnectInfo> = ({ setIsDisConnect, connec
                 justifyContent: 'space-around', width: '80rem', maxWidth: '100%',
                 p: 2
             }}>
-                {reasonItems.map((item) => (
-                    <Button variant="outlined"
+                {reasonItems.map((item, index) => (
+                    <Button variant="outlined" key={index}
                         sx={{
                             width: '20rem', maxWidth: '80%',
                             color: '#325343', mb: 2,

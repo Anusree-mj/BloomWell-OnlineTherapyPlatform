@@ -3,7 +3,7 @@ import QueryComponent from '../../components/user/therapistJob/queryComponent';
 import TherapistJobComponent from '../../components/user/therapistJob/therapistComponent';
 import Footer from '../../components/common/footer';
 
-export default function () {
+const Page = () => {   
     return (
         <>
             <Header />
@@ -13,3 +13,4 @@ export default function () {
         </>
     );
 }
+export default Page

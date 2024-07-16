@@ -121,7 +121,7 @@ const BookSlotComponent = () => {
                                 mb: 1, color: '#325343', alignSelf: 'start',
                                 fontSize: '1rem', fontWeight: 600,
                             }}>
-                            Choose your preferred session time from the therapist's available schedules for the next two months.
+                            Choose your preferred session time from the therapists available schedules for the next two months.
                         </Typography>
                         <Divider sx={{ width: '100%', mb: 2 }} />
                         <Box sx={{
