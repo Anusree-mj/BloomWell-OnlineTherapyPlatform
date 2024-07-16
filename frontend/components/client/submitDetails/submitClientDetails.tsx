@@ -104,7 +104,7 @@ const ClientDetailsComponent = () => {
                         fontSize: '0.9rem', fontWeight: 600, textAlign: 'center', color: 'white',
                         width: '30rem', maxWidth: '80%', mb: 2
                     }
-                    }>Let's get started.</Typography>
+                    }>Lets get started.</Typography>
 
                     <LoadingButton
                         loading={isLoading}

@@ -147,7 +147,7 @@ export default function DrawerAppBar() {
           </IconButton>
           <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
             {navItems.map((item) => (
-              <Button
+              <Button key={item.name}
                 sx={{
                   color: '#fff',
                   '&:hover': {

@@ -252,7 +252,7 @@ const TherapistSignupComponent: React.FC<{ roleType: string; }> = ({ roleType })
                             maxWidth: '100%', gap: 1
                         }}>
                             {textFieldItems.map((item) => (
-                                <Box sx={{
+                                <Box key={item.key} sx={{
                                     display: 'flex', flexDirection: 'column', mt: { md: 1 },
                                     maxWidth: '100%', width: { xs: '30rem',md:'15rem' }
                                 }}>

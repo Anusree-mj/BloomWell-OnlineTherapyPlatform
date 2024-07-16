@@ -122,7 +122,7 @@ export default function AdminHeader(props: Props) {
               <Collapse in={openMenus[item.iconTitle]} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                   {item.subItems.map((subItem, subIndex) => (
-                      <ListItemButton sx={{ pl: 4 }} onClick={() => router.push(`${subItem.link}`)}>
+                      <ListItemButton key={subIndex} sx={{ pl: 4 }} onClick={() => router.push(`${subItem.link}`)}>
                         <ListItemText primary={subItem.title} />
                       </ListItemButton>
                   ))}

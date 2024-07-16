@@ -56,8 +56,8 @@ const AddRejectingReasonComponent: React.FC<ReasonComponentProps> = ({ reasonId,
                 }}>Add a reason for rejecting therapist</Typography>
                 <Divider sx={{ mb: 2 }} />
                 <FormGroup>
-                    {reasonItems.map((item) => (
-                        <Button variant="outlined"
+                    {reasonItems.map((item, index) => (
+                        <Button variant="outlined" key={index}
                             sx={{
                                 color: '#325343', mb: 2,
                                 borderColor: '#325343',

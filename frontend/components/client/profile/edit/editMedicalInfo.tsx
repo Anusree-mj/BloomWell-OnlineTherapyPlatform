@@ -65,7 +65,7 @@ const EditMedicalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditMedi
             justifyContent: 'space-around', width: '80rem', maxWidth: '100%',
         }}>
             {questions.map((item, index) => (
-                <Box sx={{
+                <Box key={index} sx={{
                     display: 'flex', flexDirection: 'column', mt: 3, maxWidth: '90%'
                 }}>
                     <Typography sx={{
@@ -90,7 +90,7 @@ const EditMedicalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditMedi
                     >
                         {item.options.map((option) => (
 
-                            <MenuItem value={option}>
+                            <MenuItem key={option} value={option}>
                                 {option}
                             </MenuItem>
                         ))}

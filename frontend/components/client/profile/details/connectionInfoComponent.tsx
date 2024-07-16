@@ -72,7 +72,7 @@ const ConnectionInfoComponent: React.FC<ConnectionInfoProps> = ({ connectionInfo
                                         color: 'white',
                                     }
                                 }} onClick={handleLetsConnect}
-                            >Let's Connect</Button>
+                            >Lets Connect</Button>
                         </>
                     )}
                 </>
