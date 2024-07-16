@@ -27,6 +27,7 @@ const therapistsSignUp = async (req, res) => {
 const saveTherapistData = async (req, res) => {
     try {
         const data = req.body;
+        console.log('reached conterollereeeeee with data:::',data)
         const response = await therapistQuery.saveTherapistData(data);
         if (response.status === 'ok') {
             const { status, therapist } = response

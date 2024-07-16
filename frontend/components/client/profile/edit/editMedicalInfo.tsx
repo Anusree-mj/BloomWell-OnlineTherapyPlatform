@@ -4,6 +4,7 @@ import { getClientDetailsAction, clientStateType } from "@/store/clients/clientR
 import { Box } from '@mui/system';
 import { Button, MenuItem, TextField, Typography } from '@mui/material';
 import axios from 'axios';
+import { apiCall } from '@/services/api';
 
 
 
@@ -44,13 +45,15 @@ const EditMedicalInfoComponent: React.FC<EditPersonalInfoProps> = ({ setEditMedi
                 setEditMedicalInfo(false);
                 return;
             }
-            const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/profile/medical`,
-                { medicalInfo: editMedicalInfos }, { withCredentials: true, });
-            if (response.status === 200) {
+            const response = await apiCall({
+                method: 'PUT',
+                endpoint: `client/profile/medical`,
+                body: { medicalInfo: editMedicalInfos }
+            });
+            if (response.status === 'ok') {
                 setEditMedicalInfo(false)
                 dispatch(getClientDetailsAction())
             }
-
         } catch (err) {
             console.log('Error found:', err)
         }

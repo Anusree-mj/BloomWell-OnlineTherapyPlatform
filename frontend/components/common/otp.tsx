@@ -3,6 +3,7 @@ import { Input as BaseInput } from '@mui/base/Input';
 import { Box, styled } from '@mui/system';
 import { Button, FormControl, Typography } from '@mui/material';
 import axios from 'axios';
+import { apiCall } from '@/services/api';
 
 function OTP({
   separator,
@@ -202,11 +203,16 @@ const OTPInput: React.FC<OTPInputProps> = ({ email, otp, setOtp, disableButton, 
   })
   const handleResendOTP = async () => {
     try {
-      const response = await axios.post(`http://localhost:8000/users/getOtp`, { email: email });
-      if (response) {
+      const response = await apiCall({
+        method: 'POST',
+        endpoint: `users/getOtp`,
+        body: { email: email }
+      });
+      if (response.status === 'ok') {
         setTimer(119)
         setDisableButton(false)
       }
+      
     } catch (err) {
       console.log(err)
     }
@@ -219,22 +225,22 @@ const OTPInput: React.FC<OTPInputProps> = ({ email, otp, setOtp, disableButton, 
         flexDirection: 'column',
         gap: 2,
       }}
-    >   
-        <OTP separator={<span>-</span>} value={otp} onChange={setOtp} length={6} />
-        <span>Resend otp in: {formatTime(timer)}</span>
-        {disableButton && (
-          <Button variant="contained"
-            sx={{
-              mt: 3, borderRadius: '2rem',
-              maxWidth: '90%', width: '30rem', color: '#325343',
-              backgroundColor: '#a6de9b',
-              '&:hover': {
-                backgroundColor: '#325343',
-                color: 'white'
-              }
-            }} onClick={handleResendOTP}
-          >Resend OTP</Button>
-        )}
+    >
+      <OTP separator={<span>-</span>} value={otp} onChange={setOtp} length={6} />
+      <span>Resend otp in: {formatTime(timer)}</span>
+      {disableButton && (
+        <Button variant="contained"
+          sx={{
+            mt: 3, borderRadius: '2rem',
+            maxWidth: '90%', width: '30rem', color: '#325343',
+            backgroundColor: '#a6de9b',
+            '&:hover': {
+              backgroundColor: '#325343',
+              color: 'white'
+            }
+          }} onClick={handleResendOTP}
+        >Resend OTP</Button>
+      )}
     </Box>
   );
 }

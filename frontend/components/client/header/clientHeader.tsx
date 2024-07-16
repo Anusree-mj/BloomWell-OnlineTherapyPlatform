@@ -91,6 +91,8 @@ export default function ClientHeader(props: Props) {
         if (status === 'ok') {
             dispatch(getClientDetailsAction())
         } else {
+            const { message } = clientAuth()
+            toast.error(message)
             router.push('/login')
         }
     }, []);
@@ -357,18 +359,18 @@ export default function ClientHeader(props: Props) {
                                         </StyledMenu>
                                     </div>
                                 ) : (
-                                        <MenuItem onClick={() => {
-                                            handleCloseNavMenu;
-                                            router.push(`${item.link}`)
-                                        }}>
-                                            {item.badge ? (
-                                                <Badge badgeContent={6} color="error" sx={{ pr: 1 }}>
-                                                    <ListItemText primary={item.iconTitle} />
-                                                </Badge>
-                                            ) : (
+                                    <MenuItem onClick={() => {
+                                        handleCloseNavMenu;
+                                        router.push(`${item.link}`)
+                                    }}>
+                                        {item.badge ? (
+                                            <Badge badgeContent={6} color="error" sx={{ pr: 1 }}>
                                                 <ListItemText primary={item.iconTitle} />
-                                            )}
-                                        </MenuItem>
+                                            </Badge>
+                                        ) : (
+                                            <ListItemText primary={item.iconTitle} />
+                                        )}
+                                    </MenuItem>
                                 )
                             ))}
                         </Box>

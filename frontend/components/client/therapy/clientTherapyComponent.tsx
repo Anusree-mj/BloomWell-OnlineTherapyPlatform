@@ -15,36 +15,37 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
     const router = useRouter()
     const therapist = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
     const ratings = useSelector((state: { therapist: therapistStateType }) => state.therapist.ratings) || 0;
-    const clientId = useSelector((state: { client: clientStateType }) => state.client.client._id);
+    const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
     const activeSlotId = useSelector((state: { client: clientStateType }) => state.client.client.activeSlotId);
     const slotDetails = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.bookedSlot)
 
     useEffect(() => {
-        const { status } = clientAuth()
-        if (status === 'ok') {
-            const { clientDetails } = clientAuth();
-            if (!clientDetails.isConnected) {
-                router.push('/client/connection')
-            }
-            dispatch(getTherapistDetailsAction(therapistId));
-            dispatch(getBookedSlotsDetailsAction(activeSlotId))
-        } else {
-            const { message } = clientAuth()
-            toast.error(message)
-            router.push('/login')
+        const { clientDetails } = clientAuth();
+        if (!clientDetails.isConnected) {
+            router.push('/client/connection')
         }
+        dispatch(getTherapistDetailsAction(therapistId));
+        dispatch(getBookedSlotsDetailsAction(activeSlotId))
+
     }, []);
 
     const AccordionItems = [
         { title: 'Therapist', button: 'View Profile', url: `therapist/view/${therapist._id}` },
-        { title: 'Schedules', button: 'Book Slot', url: `#` },
+        { title: 'Schedules', button: slotDetails.date !== '' ? 'Cancel' : 'BookSlot', url: `/client/myActivity/bookSlot`, },
         { title: 'Remarks', button: 'View All', url: `#` },
     ]
     const AccordionContent = [
-        { content: ['No schedules yet'] },
+        {
+            content: [slotDetails.date !== '' ? `Your upcoming schedules is on ${slotDetails.date} at ${slotDetails.time}.
+            ` : 'No Schedules yet']
+        },
         { content: ['No remarks yet'] },
     ]
 
+    const bookedSlotDetails = {
+        date: slotDetails.date,
+        time: slotDetails.time
+    }
     const messageData = {
         reciever: {
             image: therapist.image,
@@ -53,7 +54,7 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
             role: 'Therapists'
         },
         sender: {
-            senderId: clientId,
+            senderId: clientDetails._id,
             role: 'Client'
         }
     }

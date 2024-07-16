@@ -10,56 +10,53 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Fade from '@mui/material/Fade';
 import { accordionDetails } from './accordionDetails';
 
-
 export default function AccordionTransition() {
-    const [expanded, setExpanded] = React.useState(false);
+    const [expanded, setExpanded] = React.useState<string | false>(false);
 
-    const handleExpansion = () => {
-        setExpanded((prevExpanded) => !prevExpanded);
+    const handleExpansion = (panel: string) => (
+        event: React.SyntheticEvent,
+        isExpanded: boolean
+    ) => {
+        setExpanded(isExpanded ? panel : false);
     };
 
     return (
         <Box sx={{
             display: 'flex', justifyContent: 'center',
-            flexDirection: 'column', alignItems: 'center', pt: 4, pb: 6
+            flexDirection: 'column', alignItems: 'center', pt: 4, pb: 10, backgroundColor: '#325343'
         }}>
             <Typography sx={{
                 fontSize: { xs: '1.5rem', sm: '2rem' },
-                textAlign: 'center', color: '#325343',
+                textAlign: 'center', color: 'white',
                 letterSpacing: '0.1rem',
                 fontWeight: 600
-            }
-            }>Frequently asked questions</Typography>
+            }}>Frequently asked questions</Typography>
 
             <Box sx={{ maxWidth: '80%', width: '90rem', mt: 4 }}>
                 {accordionDetails.map((item, index) => (
                     <Accordion
                         key={index}
-                        expanded={expanded}
-                        onChange={handleExpansion}
+                        expanded={expanded === `panel${index}`}
+                        onChange={handleExpansion(`panel${index}`)}
                         slots={{ transition: Fade as AccordionSlots['transition'] }}
                         slotProps={{ transition: { timeout: 400 } }}
                         sx={{
-                            '& .MuiAccordion-region': { height: expanded ? 'auto' : 0 },
-                            '& .MuiAccordionDetails-root': { display: expanded ? 'block' : 'none' },
+                            '& .MuiAccordionDetails-root': { display: expanded === `panel${index}` ? 'block' : 'none' },
                             p: 1,
                             '& .MuiAccordionSummary-content': {
                                 fontSize: '1.2rem',
                             },
-
                         }}
                     >
                         <AccordionSummary
                             expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1-content"
-                            id="panel1-header"
+                            aria-controls={`panel${index}-content`}
+                            id={`panel${index}-header`}
                         >
                             <Typography>{item.title}</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Typography>
-                                {item.content}
-                            </Typography>
+                            <Typography dangerouslySetInnerHTML={{ __html: item.content }} />
                         </AccordionDetails>
                     </Accordion>
                 ))}

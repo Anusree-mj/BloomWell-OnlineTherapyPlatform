@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Divider, Typography, Button, TextField, IconButton } from '@mui/material';
 import { Box } from '@mui/system';
-import axios from 'axios';
 import { getClientDetailsAction } from "@/store/clients/clientReducer";
 import { useDispatch, } from "react-redux";
 import { toast } from 'react-toastify';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { apiCall } from '@/services/api';
 
 
 const PasswordComponent = (props: { role: string }) => {
@@ -87,10 +87,12 @@ const PasswordComponent = (props: { role: string }) => {
             if (!valid) {
                 return;
             } else {
-                const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/${props.role}/profile/changePassword`,
-                    { changPasswordInfo: changPasswordInfo }, { withCredentials: true, });
-                console.log('response got in change password axois', response);
-                if (response.status === 200) {
+                const response = await apiCall({
+                    method: 'PUT',
+                    endpoint: `${props.role}/profile/changePassword`,
+                    body: { changPasswordInfo: changPasswordInfo }
+                });
+                if (response.status === 'ok') {
                     setChangePasswordInfo({
                         currentPassword: '',
                         newPassword: ''
@@ -98,6 +100,9 @@ const PasswordComponent = (props: { role: string }) => {
                     setIsChangePassword(false)
                     dispatch(getClientDetailsAction())
                     toast.success('Successfully changed password!')
+                } else {
+                    toast.error(`Password doesnt match`)
+
                 }
             }
         } catch (err) {
@@ -143,13 +148,16 @@ const PasswordComponent = (props: { role: string }) => {
                         display: 'flex', flexWrap: 'wrap', alignItems: 'cneter',
                         justifyContent: 'center',
                     }}>
-                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <Box sx={{
+                            display: 'flex', flexDirection: 'column', alignItems: 'center',
+                            justifyContent: 'center'
+                        }}>
 
                             <TextField id="outlined-basic" label="Current Password" variant="outlined"
                                 required value={changPasswordInfo.currentPassword}
                                 type={currentPassWordVisibility.isText ? 'text' : 'password'}
                                 sx={{
-                                    maxWidth: '100%', width: '30rem', mt: 2,
+                                    maxWidth: '90%', width: '30rem', mt: 2,
                                     boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                                     '& .MuiOutlinedInput-root': {
                                         '& fieldset': {
@@ -174,12 +182,15 @@ const PasswordComponent = (props: { role: string }) => {
                                 marginTop: '0.5rem'
                             }}>{spanText.currentPassword}</span>
                         </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                        <Box sx={{
+                            display: 'flex', flexDirection: 'column',
+                            alignItems: 'center', justifyContent: 'center'
+                        }}>
                             <TextField id="outlined-basic" label="New Password" variant="outlined"
                                 required value={changPasswordInfo.newPassword}
                                 type={newPassWordVisibility.isText ? 'text' : 'password'}
                                 sx={{
-                                    maxWidth: '100%', width: '30rem', mt: 2,
+                                    maxWidth: '90%', width: '30rem', mt: 2,
                                     boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                                     '& .MuiOutlinedInput-root': {
                                         '& fieldset': {

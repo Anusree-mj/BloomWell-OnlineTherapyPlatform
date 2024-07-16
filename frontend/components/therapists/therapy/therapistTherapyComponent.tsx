@@ -6,19 +6,26 @@ import TherapySidebarComponent from '../../common/therapy/sidebarComponent';
 import { getAnyClientDetailsAction, clientStateType } from "@/store/clients/clientReducer";
 import { therapistStateType } from '@/store/therapists/therapistReducers';
 import { getChatAction } from '@/store/user/userReducer';
+import { clientMyActivityStateType, getBookedSlotsDetailsAction } from '@/store/clients/clientMyActionReducer';
 
 const TherapistTherapyComponent: React.FC<{ clientId: string; }> = ({ clientId }) => {
     const dispatch = useDispatch();
     const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
     const therapistId = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist._id);
+    const slotDetails = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.bookedSlot)
 
     useEffect(() => {
         console.log('entered in useeffect clientId changed')
         dispatch(getAnyClientDetailsAction({ clientId }));
         dispatch(getChatAction({ recieverId: clientId, senderId: therapistId }));
-
     }, [clientId]);
-
+    useEffect(() => {
+        const { isActiveSlots } = clientDetails
+        if (isActiveSlots) {
+            const { activeSlotId } = clientDetails
+            dispatch(getBookedSlotsDetailsAction(activeSlotId))
+        }
+    }, [clientDetails])
     const AccordionItems = [
         { title: 'Client', button: 'View Profile', url: `client/medicalInfo/${clientId}` },
         { title: 'Upcoming Schedule', button: 'View All', url: `#`, },
@@ -26,7 +33,10 @@ const TherapistTherapyComponent: React.FC<{ clientId: string; }> = ({ clientId }
         { title: 'Remarks', button: 'View All', url: `#`, isAdd: true },
     ]
     const AccordionContent = [
-        { content: ['No schedules yet'] },
+        {
+            content: [slotDetails.date!=='' ? `Scheduled on ${slotDetails.date} at ${slotDetails.time}.
+            ` : 'No Schedules yet']
+        },
         { content: ['No description added yet'] },
         { content: ['No remarks yet'] },
 

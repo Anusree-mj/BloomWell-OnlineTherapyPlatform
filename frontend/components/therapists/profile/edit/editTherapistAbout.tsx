@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { getTherapistProfileAction, therapistStateType } from '@/store/therapists/therapistReducers';
 import { Box } from '@mui/system';
-import { Button,TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import axios from 'axios';
+import { apiCall } from '@/services/api';
 
 
 
@@ -26,9 +27,12 @@ const EditTherapistAboutComponent: React.FC<EditPersonalInfoProps> = ({ setEditA
             } else {
 
                 console.log('reached els')
-                const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/therapist/profile/description`,
-                    { description: description }, { withCredentials: true, });
-                if (response.status === 200) {
+                const response = await apiCall({
+                    method: 'PUT',
+                    endpoint: `therapist/profile/description`,
+                    body: { description: description }
+                });
+                if (response.status === 'ok') {
                     setEditAboutInfo(false)
                     dispatch(getTherapistProfileAction())
                 }

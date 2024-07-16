@@ -322,7 +322,7 @@ export default function TherapistHeader(props: Props) {
                                                     {item.subItems.map((subItem, subIndex) => (
                                                         <ListItemButton component="a" sx={{ pl: 4 }}
                                                             onClick={() => {
-                                                                handleCloseNavMenu;
+                                                                handleCloseNavMenu();
                                                                 router.push(`${subItem.link}`)
                                                             }}>
                                                             <ListItemText primary={subItem.title} />
@@ -332,7 +332,7 @@ export default function TherapistHeader(props: Props) {
                                             </Collapse>
                                         </div>
                                     ) : (
-                                        <MenuItem onClick={() => { handleCloseNavMenu; router.push(`${item.link}`) }}>
+                                        <MenuItem onClick={() => { handleCloseNavMenu(); router.push(`${item.link}`) }}>
                                             <ListItemText primary={item.iconTitle} />
                                         </MenuItem>
                                     )
@@ -398,7 +398,7 @@ export default function TherapistHeader(props: Props) {
                                             {item.subItems.map((subItem, subIndex) => (
                                                 <>
                                                     <ListItemButton component="a" sx={{ pl: 4 }} onClick={() => {
-                                                        handleClose;
+                                                        handleClose();
                                                         router.push(`${subItem.link}`)
                                                     }}>
                                                         <ListItemText primary={subItem.title} />
@@ -413,7 +413,7 @@ export default function TherapistHeader(props: Props) {
                                     </div>
                                 ) : (
                                     <MenuItem onClick={() => {
-                                        handleCloseNavMenu:
+                                        handleCloseNavMenu();
                                         router.push(`${item.link}`)
                                     }}>
                                         <ListItemText primary={item.iconTitle} />

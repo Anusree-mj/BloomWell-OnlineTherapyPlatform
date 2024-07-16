@@ -29,7 +29,7 @@ const TherapistJobComponent = () => {
         }}
       >
         <Typography sx={{
-          fontSize: { xs: '1.5rem', sm: '1.5rem' },
+          fontSize: '1.2rem',
           textAlign: 'center', color: '#325343',
           fontWeight: 600
         }

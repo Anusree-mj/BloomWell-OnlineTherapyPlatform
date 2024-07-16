@@ -8,6 +8,7 @@ import { therapistRoleContents } from '@/components/user/therapistJob/queryCompo
 import axios from 'axios';
 import UploadIcon from '@mui/icons-material/Upload';
 import { toast } from 'react-toastify';
+import { apiCall } from '@/services/api';
 
 interface ProffessionalInfoProps {
     licenseNo: string,
@@ -55,9 +56,12 @@ const EditProffessionalInfoComponent: React.FC<EditProffessionalInfoProps> = ({ 
             }
             else {
                 console.log('axios called')
-                const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/therapist/profile/proffessional`,
-                    { proffessionalInfo: editProffessionalInfo }, { withCredentials: true, });
-                if (response.status === 200) {
+                const response = await apiCall({
+                    method: 'PUT',
+                    endpoint: `therapist/profile/proffessional`,
+                    body: { proffessionalInfo: editProffessionalInfo }
+                });
+                if (response.status === 'ok') {
                     setIsEdit(false)
                     dispatch(getTherapistProfileAction())
                 }

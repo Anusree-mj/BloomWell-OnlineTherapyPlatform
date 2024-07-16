@@ -9,7 +9,7 @@ const getPaymentDetails = async (req, res) => {
         const prices = await stripe.prices.list({
             limit: 3
         });
-        res.status(200).json({status:'ok', products: prices.data.reverse() });
+        res.status(200).json({ status: 'ok', products: prices.data.reverse() });
     } catch (err) {
         console.log('Error found', err);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -39,7 +39,7 @@ const postPaymentDetails = async (req, res) => {
                 trial_period_days: 14
             }
         })
-        res.status(200).json({ url: session.url });
+        res.status(200).json({ status: 'ok', url: session.url });
 
     } catch (err) {
         console.log('Error found', err);
@@ -50,12 +50,12 @@ const postPaymentDetails = async (req, res) => {
 const cancelSubscription = async (req, res) => {
     const { stripeSubscriptionId } = req.body;
     const userId = req.user._id;
-    console.log('stripeIDdddddddd',stripeSubscriptionId);
-    
+    console.log('stripeIDdddddddd', stripeSubscriptionId);
+
     try {
         console.log('entered in try of sdfjsdfjsdjflsdjflsdfsdfsdf')
         const subscription = await stripe.subscriptions.update(
-            stripeSubscriptionId, 
+            stripeSubscriptionId,
             {
                 cancel_at_period_end: true,
                 metadata: {
@@ -65,7 +65,7 @@ const cancelSubscription = async (req, res) => {
         );
         console.log('Subscription Update Response:', subscription);
 
-        res.status(200).json({ subscription });
+        res.status(200).json({ status: 'ok', subscription });
     } catch (err) {
         console.error('Error found', err);
         res.status(500).json({ error: 'Internal Server Error' });

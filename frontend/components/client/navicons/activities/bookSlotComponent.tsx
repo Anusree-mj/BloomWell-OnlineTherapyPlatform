@@ -19,12 +19,13 @@ const BookSlotComponent = () => {
     const [time, setTime] = useState<Dayjs | null>(null);
     const [availableDates, setAvailableDates] = useState<Dayjs[]>([]);
     const [isActiveSlot, setIsActiveSlot] = useState(false);
-
+    const [activeSlotId, setActiveSlotId] = useState('')
     const dispatch = useDispatch();
     const slots = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.slots);
     const availableFrom = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.availableFrom);
     const availableTo = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.availableTo);
     const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
+    const bookedSlot = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.bookedSlot)
 
     useEffect(() => {
         const clientData = localStorage.getItem('clientData');
@@ -61,7 +62,7 @@ const BookSlotComponent = () => {
                 });
                 if (response.status === 'ok') {
                     const { addedSlotId } = response
-                    dispatch(getBookedSlotsDetailsAction(addedSlotId))
+                    setActiveSlotId(addedSlotId)
                     setIsActiveSlot(true)
                 }
             }
@@ -97,7 +98,7 @@ const BookSlotComponent = () => {
     return (
         <Box sx={{
             display: 'flex', backgroundColor: '#325343',
-            flexDirection: 'column', minHeight: '90vh',
+            flexDirection: 'column', minHeight: '100vh',
             alignItems: 'center', justifyContent: 'center', pb: 8,
         }}>
             {!isActiveSlot ? (
@@ -184,7 +185,7 @@ const BookSlotComponent = () => {
                     </Box>
                 </>
             ) :
-                <CancelComponent setIsActiveSlot={setIsActiveSlot} />
+                <CancelComponent setIsActiveSlot={setIsActiveSlot} addedSlotId={activeSlotId} />
             }
         </Box>
     );

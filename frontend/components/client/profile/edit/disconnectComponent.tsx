@@ -5,6 +5,7 @@ import { Box } from '@mui/system';
 import { Button, MenuItem, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { apiCall } from '@/services/api';
 
 
 
@@ -23,14 +24,20 @@ const DisconnectComponent: React.FC<DisconnectInfo> = ({ setIsDisConnect, connec
 
     const handleDisconnection = async (reason: string) => {
         try {
-            const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/connection`,
-                { reason, connectionId }, { withCredentials: true, }
-            );
-            if (response.status === 200) {
+            const response = await apiCall({
+                method: 'PUT',
+                endpoint: `client/connection`,
+                body: { reason, connectionId }
+            });
+            if (response.status === 'ok') {
                 toast.success('Disconnected Successfully!');
                 dispatch(getClientDetailsAction())
                 setIsDisConnect(false);
             }
+            else {
+                toast.error('Failed to Disconnect. Try again!')
+            }
+
         }
         catch (err) {
             console.log(err)

@@ -51,7 +51,7 @@ const AddRejectingReasonComponent: React.FC<ReasonComponentProps> = ({ reasonId,
                 flexDirection: 'column', p: 3, borderRadius: '1rem', boxShadow: '1px 4px 10px rgba(0, 0, 0, 1.1)',
             }}>
                 <Typography sx={{
-                    fontWeight: 800, fontSize: '1.3rem', color: '#325343',
+                    fontWeight: 800, fontSize: '1.1rem', color: '#325343',
                     mb: 1
                 }}>Add a reason for rejecting therapist</Typography>
                 <Divider sx={{ mb: 2 }} />

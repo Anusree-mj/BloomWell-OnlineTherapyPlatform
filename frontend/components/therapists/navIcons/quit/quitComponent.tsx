@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { Box, Button, Divider, FormControlLabel, FormGroup, TextField, Typography } from "@mui/material";
 import Radio from '@mui/material/Radio';
 import axios from "axios";
+import { apiCall } from "@/services/api";
 
 
 const TherapistQuitComponent = () => {
@@ -58,10 +59,13 @@ const TherapistQuitComponent = () => {
             if (!valid) {
                 return;
             } else {
-                const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/therapist/quit`,
-                    { quitInfo }, { withCredentials: true });
-                if (response.data.status === 'ok') {
-                    router.push('/therapist')
+                const response = await apiCall({
+                    method: 'PUT',
+                    endpoint: `therapist/quit`,
+                    body: { quitInfo }
+                });
+                if (response.status === 'ok') {
+                    router.push('/therapist/activities/active')
                 }
             }
         } catch (err) {
@@ -78,7 +82,7 @@ const TherapistQuitComponent = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: 'column',
-                minHeight: '85vh',pb:8
+                minHeight: '85vh', pb: 8
             }}
         >
             <Typography sx={{

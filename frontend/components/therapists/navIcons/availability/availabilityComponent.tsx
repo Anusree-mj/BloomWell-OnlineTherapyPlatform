@@ -9,6 +9,7 @@ import { getAvailableSlotsAction, clientMyActivityStateType } from '@/store/clie
 import { styled } from '@mui/system';
 import { TimePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
+import { apiCall } from '@/services/api';
 
 const daysOfWeek = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
 
@@ -86,15 +87,17 @@ const AddAvailabilityForm = () => {
                 return;
             }
             const rrule = `FREQ=WEEKLY;BYDAY=${selectedDays.map(day => day.slice(0, 2)).join(',')}`;
-            const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_SERVER_API_URL}/therapist/addAvailability`,
-                { availability: rrule, startTime, endTime },
-                { withCredentials: true }
-            );
-            if (response.status === 200) {
+            const response = await apiCall({
+                method: 'POST',
+                endpoint: `therapist/addAvailability`,
+                body: { availability: rrule, startTime, endTime }
+            });
+            if (response.status === 'ok') {
                 toast.success('Available Days successfully added');
                 dispatch(getAvailableSlotsAction(therapistId));
                 setIsEdit(false)
+            } else {
+                toast.error('Something went wrong. Try again!');
             }
         } catch (error) {
             console.error('Error adding availability:', error);
@@ -105,7 +108,7 @@ const AddAvailabilityForm = () => {
         <Box
             sx={{
                 backgroundColor: '#325343', display: 'flex', alignItems: 'center',
-                flexDirection: 'column', justifyContent: 'center', minHeight: '80vh', pb: 4
+                flexDirection: 'column', justifyContent: 'center', minHeight: '80vh', pb: 8
             }}>
             <Typography
                 sx={{
@@ -115,15 +118,15 @@ const AddAvailabilityForm = () => {
             </Typography>
             <Box
                 sx={{
-                    width: '80rem', backgroundColor: 'white', maxWidth: '80%',
+                    width: '60rem', backgroundColor: 'white', maxWidth: '90%',
                     boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)', borderRadius: '0.6rem',
-                    display: 'flex', flexDirection: 'column', p: 3,
+                    display: 'flex', flexWrap: 'wrap', p: 3,
                     alignItems: 'center', justifyContent: 'center',
                 }}
             >
                 {slots && slots.length > 0 && !isEdit ? (
                     <Box sx={{
-                        display: 'flex', flexWrap: 'wrap', maxWidth: '90%',
+                        display: 'flex', flexDirection: 'column', maxWidth: '90%',
                         justifyContent: 'center', alignItems: 'center', gap: 3
                     }}>
                         <Calendar
@@ -152,7 +155,7 @@ const AddAvailabilityForm = () => {
 
                     </Box>
                 ) : (
-                    <Box sx={{ width: '30rem', maxWidth: '90%' }}>
+                    <>
                         <Typography
                             sx={{
                                 alignSelf: 'start',
@@ -162,9 +165,8 @@ const AddAvailabilityForm = () => {
                         </Typography>
                         <Box
                             sx={{
-                                display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
-                                flexWrap: 'wrap', gap: '2.5rem', width: '30rem',
-                                maxWidth: '90%',
+                                display: 'flex', alignItems: 'center', justifyContent: 'space-around',
+                                flexWrap: 'wrap', gap: '2.5rem', width: '100%',
                             }}
                         >
                             <Box
@@ -173,7 +175,7 @@ const AddAvailabilityForm = () => {
                                     alignItems: 'flex-start',
                                     justifyContent: 'flex-start',
                                     flexDirection: 'column',
-                                    width: '30rem',
+                                    width: '20rem',
                                     maxWidth: '90%',
                                 }}
                             >
@@ -195,7 +197,7 @@ const AddAvailabilityForm = () => {
                                     }}
                                 >
                                     {daysOfWeek.map((day) => (
-                                        <FormControlLabel 
+                                        <FormControlLabel
                                             key={day}
                                             control={
                                                 <Checkbox
@@ -211,7 +213,7 @@ const AddAvailabilityForm = () => {
                             </Box>
                             <Box sx={{
                                 display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-start',
-                                flexDirection: 'column', width: '30rem', maxWidth: '90%',
+                                flexDirection: 'column', width: '20rem', maxWidth: '90%',
                             }}>
                                 <Typography
                                     sx={{
@@ -266,7 +268,7 @@ const AddAvailabilityForm = () => {
                             }} onClick={handleSubmit}>
                             Add Availability
                         </Button>
-                    </Box>
+                    </>
                 )}
             </Box>
         </Box >

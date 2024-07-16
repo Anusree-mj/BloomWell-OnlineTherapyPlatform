@@ -15,6 +15,7 @@ import VideoChatIcon from '@mui/icons-material/VideoChat';
 import { clientStateType } from "@/store/clients/clientReducer";
 import { toast } from 'react-toastify';
 import { BookedSlotsItems } from '@/store/clients/type';
+import { apiCall } from '@/services/api';
 
 interface ChatComponentProps {
     messageData: {
@@ -87,10 +88,12 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ messageData, slotDetails 
             message: message,
         };
         if (newMessageData.sender.senderId !== '') {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/users/chat`,
-                { messageData: newMessageData }, { withCredentials: true }
-            );
-            if (response.status === 200) {
+            const response = await apiCall({
+                method: 'POST',
+                endpoint: `users/chat`,
+                body: { messageData: newMessageData }
+            });
+            if (response.status === 'ok') {
                 socket.emit('send_chatMessage', newMessageData);
                 dispatch(getChatAction({
                     recieverId: messageData.reciever.recieverId,
@@ -130,23 +133,23 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ messageData, slotDetails 
                 return;
             }
             else {
-                // console.log('Slot is active and within the 1-hour range:', slotDetails);
-                // const currentDateTime = new Date();
-                // const slotDate = parse(slotDetails.date, 'dd-MM-yy', new Date());
-                // const slotTime = parse(slotDetails.time, 'hh:mm a', new Date());
-                // const slotStartTime = new Date(slotDate.setHours(slotTime.getHours(), slotTime.getMinutes()));
-                // const slotEndTime = addHours(slotStartTime, 1);
+                console.log('Slot is active and within the 1-hour range:', slotDetails);
+                const currentDateTime = new Date();
+                const slotDate = parse(slotDetails.date, 'dd-MM-yy', new Date());
+                const slotTime = parse(slotDetails.time, 'hh:mm a', new Date());
+                const slotStartTime = new Date(slotDate.setHours(slotTime.getHours(), slotTime.getMinutes()));
+                const slotEndTime = addHours(slotStartTime, 1);
 
-                // if (isWithinInterval(currentDateTime, { start: slotStartTime, end: slotEndTime })) {
+                if (isWithinInterval(currentDateTime, { start: slotStartTime, end: slotEndTime })) {
                     socket.emit('send_call',
                         {
                             therapistId: messageData.reciever.recieverId, roomId: messageData.sender.senderId,
                             clientName: clientDetails.name
                         });
                     router.push(`/liveSession/${messageData.sender.senderId}/${messageData.sender.senderId}`);
-                // } else {
-                //     toast.error(`The slot is not currently active. Please check your booking time.`);
-                // }
+                } else {
+                    toast.error(`The slot is not currently active. Please check your booking time.`);
+                }
             }
         }
         return;

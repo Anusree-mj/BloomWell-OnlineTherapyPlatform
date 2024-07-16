@@ -13,7 +13,7 @@ export function LoginHeader() {
             <Box sx={{
                 display: 'flex',
                 alignItems: 'center', justifyContent: 'center',
-                backgroundColor: '#325343',
+                backgroundColor: '#325343', cursor: 'pointer'
 
             }}>
                 <Image

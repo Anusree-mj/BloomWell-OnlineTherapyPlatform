@@ -80,11 +80,14 @@ const PaymentComponent = () => {
         try {
             e.preventDefault();
             console.log('entered in handle subscription')
-            const { data } = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/client/payment`,
-                { productId: productId },
-                { withCredentials: true, }
-            );
-            router.push(data.url)
+            const response = await apiCall({
+                method: 'POST',
+                endpoint: `client/payment`,
+                body: { productId: productId }
+            });
+            if (response.status === 'ok') {
+                router.push(response.url)
+            }
         } catch (error) {
             console.error('Error :', error);
         }

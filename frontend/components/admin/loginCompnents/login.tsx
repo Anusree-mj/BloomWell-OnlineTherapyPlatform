@@ -57,7 +57,7 @@ export default function AdminLogin() {
             alignItems: 'center', justifyContent: 'flex-start', minHeight: '90vh'
         }}>
             <Typography sx={{
-                fontSize: { xs: '1.2rem', sm: '2rem' },
+                fontSize: { xs: '1rem', sm: '1.2rem' },
                 color: 'white', mb: 1, fontWeight: 600,
             }}>
                 Admin Login

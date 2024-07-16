@@ -6,6 +6,7 @@ import { getNotificationsAction, userStateType } from '@/store/user/userReducer'
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import axios from 'axios';
+import { apiCall } from '@/services/api';
 
 const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
     const dispatch = useDispatch();
@@ -30,8 +31,12 @@ const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
                 [notificationId]: true
             }));
             if (!isRead) {
-                const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/users/notifications/${notificationId}`, {}, { withCredentials: true });
-                if (response.data.status === 'ok') {
+                const response = await apiCall({
+                    method: 'PUT',
+                    endpoint: `users/notifications/${notificationId}`,
+                    body: {}
+                });
+                if (response.status === 'ok') {
                     dispatch(getNotificationsAction(userId))
                 }
             } else {
@@ -60,7 +65,7 @@ const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
 
     return (
         <Box sx={{
-            minHeight: '100vh',pt:4,pb:6,
+            minHeight: '100vh', pt: 4, pb: 6,
             display: 'flex', flexDirection: 'column', backgroundColor: '#325343',
             alignItems: 'center', justifyContent: 'flex-start',
         }}>
@@ -131,7 +136,7 @@ const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
                 page={page}
                 onChange={handleChangePage}
                 shape="rounded"
-                sx={{ mt: 5,color:'white' }}
+                sx={{ mt: 5, color: 'white' }}
             />
         </Box>
     );

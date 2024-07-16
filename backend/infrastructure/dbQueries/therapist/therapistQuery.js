@@ -2,6 +2,7 @@
 import Therapists from "../../../entities/therapists/therapist.js";
 import Reviews from "../../../entities/therapists/reviews.js"
 import Client from "../../../entities/clients/clients.js";
+import Notifications from "../../../entities/users/notificationModel.js";
 
 const saveTherapistData = async (data) => {
     try {

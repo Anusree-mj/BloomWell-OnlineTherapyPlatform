@@ -10,6 +10,7 @@ import axios from 'axios';
 import LoadingButton from '@mui/lab/LoadingButton';
 import OTPInput from './otp';
 import { useRouter } from "next/navigation";
+import { apiCall } from '@/services/api';
 
 export default function AdminLogin() {
     const router = useRouter()
@@ -27,8 +28,12 @@ export default function AdminLogin() {
             const valid = validation()
             if (valid) {
                 // setLoading(true)
-                const response = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/users/forgotPassword/getOtp`, { email: email });
-                if (response.status === 200) {
+                const response = await apiCall({
+                    method: 'POST',
+                    endpoint: `users/forgotPassword/getOtp`,
+                    body: { email: email }
+                });
+                if (response.status === 'ok') {
                     setOtpField(true)
                     setLoading(false)
                 }
@@ -73,8 +78,12 @@ export default function AdminLogin() {
             }
             else {
                 // setLoading(true)
-                const response = await axios.post(`http://localhost:8000/users/forgotPassword/verifyOtp`, { email: email, otp: otp });
-                if (response.status === 200) {
+                const response = await apiCall({
+                    method: 'POST',
+                    endpoint: `users/forgotPassword/verifyOtp`,
+                    body: { email: email, otp: otp }
+                });
+                if (response.status === 'ok') {
                     setOtpField(true);
                     router.push('/login')
                     setLoading(false)
