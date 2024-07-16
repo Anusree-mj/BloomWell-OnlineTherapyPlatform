@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { Box } from "@mui/material";
 import TableComponent from "@/components/common/tableComponent";
 import { getAllFeedbacksAction, adminActivitiesStateType } from "@/store/admin/adminActivityReducer";
-import { adminAuth } from "@/utilities/auth";
 
 const AdminFeedBackComponent = () => {
     const dispatch = useDispatch();

@@ -122,26 +122,28 @@ export default function AdminHeader(props: Props) {
               <Collapse in={openMenus[item.iconTitle]} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                   {item.subItems.map((subItem, subIndex) => (
-                      <ListItemButton key={subIndex} sx={{ pl: 4 }} onClick={() => router.push(`${subItem.link}`)}>
+                    <Box key={subIndex}>
+                      <ListItemButton sx={{ pl: 4 }} onClick={() => router.push(`${subItem.link}`)}>
                         <ListItemText primary={subItem.title} />
                       </ListItemButton>
+                    </Box>
                   ))}
                 </List>
               </Collapse>
             </div>
           ) : (
-              <ListItem disablePadding>
-                <ListItemButton onClick={() => router.push(`${item.link}`)} >
-                  <ListItemIcon sx={{ color: 'white' }}>
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText primary={item.iconTitle}
-                    primaryTypographyProps={{
-                      sx: { fontWeight: 600 }
-                    }}
-                  />
-                </ListItemButton>
-              </ListItem>
+            <ListItem disablePadding key={item.link}>
+              <ListItemButton onClick={() => router.push(`${item.link}`)} >
+                <ListItemIcon sx={{ color: 'white' }}>
+                  {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.iconTitle}
+                  primaryTypographyProps={{
+                    sx: { fontWeight: 600 }
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
           )
         ))}
       </List>
