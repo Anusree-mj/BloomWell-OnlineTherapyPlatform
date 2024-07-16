@@ -25,9 +25,7 @@ const OngoingActivityComponent = () => {
             if (parsedData.isConnected && parsedData.therapistDetails) {
                 console.log('dispatching getclietnOngoingactionnnnnnnnn', parsedData.therapistDetails)
                 dispatch(getClientOngoingActivityAction({ therapistId: parsedData.therapistDetails._id }));
-            } else {
-                router.push('/login');
-            }
+            } 
         } else {
             router.push('/login');
         }
@@ -40,20 +38,21 @@ const OngoingActivityComponent = () => {
         { field: "endedAt", headerName: "Ended At", width: 150 },
         { field: "duration", headerName: "Duration", width: 130 },
         { field: "status", headerName: "Status", width: 130 },
-
     ];
 
     const rows = ongoingActivity.map((item, index) => ({
         id: item._id,
         slNo: index + 1,
         date: item.date,
-        startedAt: item.sessionStart?item.sessionStart:'Nill',
-        endedAt: item.sessionEnd?item.sessionEnd:'Nill',
-        duration: item.sessionDuration?item.sessionDuration:'Nill',
-        status:item.status
+        startedAt: item.sessionStart ? item.sessionStart : 'Nill',
+        endedAt: item.sessionEnd ? item.sessionEnd : 'Nill',
+        duration: item.sessionDuration ? item.sessionDuration : 'Nill',
+        status: item.status
     }));
-
-    const head = `Therapist : ${therapistDetails.name}`;
+    let head;
+    if (therapistDetails) {
+        head = `Therapist : ${therapistDetails.name}`;
+    }
     const subHead = [
         { name: 'Ongoing', url: 'client/myActivity/ongoing', select: true },
         { name: 'All', url: 'client/myActivity/inActive', select: false },
@@ -62,8 +61,8 @@ const OngoingActivityComponent = () => {
         <Box sx={{
             backgroundColor: '#325343', pb: 8
         }}>
-            {therapistDetails.name !== '' ? (
-                <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role='' />
+            {therapistDetails && therapistDetails.name !== '' ? (
+                <TableComponent rows={rows} columns={columns} head={head ? head : ''} subHead={subHead} role='' />
 
             ) : (
                 <Box sx={{

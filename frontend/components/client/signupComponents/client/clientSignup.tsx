@@ -38,7 +38,8 @@ const ClientSignupComponent = () => {
     })
     const [loading, setLoading] = useState(false)
     const [otpField, setOtpField] = useState(false)
-    const [passwordVisible, setPasswordVisible] = useState(false)
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [confrnPasswordVisible, setconfrnPasswordVisible] = useState(false)
     const [otp, setOtp] = useState('');
     const [disableButton, setDisableButton] = useState(false)
     const isLoading = useSelector((state: { client: clientStateType }) => state.client.isLoading);
@@ -224,7 +225,7 @@ const ClientSignupComponent = () => {
                             <TextField
                                 id="outlined-password-input"
                                 label="Password"
-                                type="password"
+                                type={passwordVisible ? "text" : "password"}
                                 required
                                 sx={{
                                     maxWidth: '100%', width: '30rem', backgroundColor: '#F7FCC2',
@@ -236,13 +237,23 @@ const ClientSignupComponent = () => {
                                     },
                                 }} onChange={(e) => { handleInputChange('password', e.target.value) }}
                                 onClick={(e) => handleClearSpan('password')}
+                                InputProps={{
+                                    endAdornment: (
+                                        <IconButton
+                                            onClick={() => setPasswordVisible((prevState) => !prevState)}
+                                            sx={{ position: 'absolute', right: '1rem', zIndex: 1 }}
+                                        >
+                                            {passwordVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                        </IconButton>
+                                    )
+                                }}
                             />
                             <span style={{ color: 'red', fontSize: '0.8rem', marginLeft: '0.4rem' }}
                             >{spanText.password}</span>
                             <TextField
                                 id="outlined-password-input"
                                 label="Confirm Password"
-                                type="password"
+                                type={confrnPasswordVisible ? 'text' : "password"}
                                 required
                                 sx={{
                                     maxWidth: '100%', width: '30rem', backgroundColor: '#F7FCC2',
@@ -257,10 +268,10 @@ const ClientSignupComponent = () => {
                                 InputProps={{
                                     endAdornment: (
                                         <IconButton
-                                            onClick={() => setPasswordVisible((prevState) => !prevState)}
+                                            onClick={() => setconfrnPasswordVisible((prevState) => !prevState)}
                                             sx={{ position: 'absolute', right: '1rem', zIndex: 1 }}
                                         >
-                                            {passwordVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                            {confrnPasswordVisible ? <VisibilityOffIcon /> : <VisibilityIcon />}
                                         </IconButton>
                                     )
                                 }}
