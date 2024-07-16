@@ -278,7 +278,7 @@ export default function ClientHeader(props: Props) {
                                             </Collapse>
                                         </div>
                                     ) : (
-                                        <MenuItem onClick={() => {
+                                        <MenuItem key={index} onClick={() => {
                                             handleCloseNavMenu;
                                             router.push(`${item.link}`)
                                         }}>
@@ -359,7 +359,7 @@ export default function ClientHeader(props: Props) {
                                         </StyledMenu>
                                     </div>
                                 ) : (
-                                    <MenuItem onClick={() => {
+                                    <MenuItem key={index} onClick={() => {
                                         handleCloseNavMenu;
                                         router.push(`${item.link}`)
                                     }}>
