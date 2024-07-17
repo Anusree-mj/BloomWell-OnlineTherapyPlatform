@@ -332,7 +332,7 @@ export default function TherapistHeader(props: Props) {
                                             </Collapse>
                                         </div>
                                     ) : (
-                                        <MenuItem onClick={() => { handleCloseNavMenu(); router.push(`${item.link}`) }}>
+                                        <MenuItem key={index} onClick={() => { handleCloseNavMenu(); router.push(`${item.link}`) }}>
                                             <ListItemText primary={item.iconTitle} />
                                         </MenuItem>
                                     )
