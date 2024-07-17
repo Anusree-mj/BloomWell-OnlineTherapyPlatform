@@ -28,7 +28,6 @@ export const userSlice: any = createSlice({
     reducers: {
         // login action
         getLoginAction: (state) => {
-            console.log('entered in login action')
             state.isLoading = true;
         },
         getLoginSuccessAction: (state, action) => {
@@ -38,10 +37,8 @@ export const userSlice: any = createSlice({
         getLoginFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
         getNotificationsAction: (state) => {
-            console.log('entered in login action')
             state.isLoading = true;
         },
         getNotificationsSuccessAction: (state, action) => {
@@ -51,12 +48,10 @@ export const userSlice: any = createSlice({
         getNotificationsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
         // get chats
         getChatAction: (state) => {
-            console.log('entered in login action')
             state.isLoading = true;
         },
         getChatSuccessAction: (state, action) => {
@@ -66,7 +61,6 @@ export const userSlice: any = createSlice({
         getChatFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
     }
 })

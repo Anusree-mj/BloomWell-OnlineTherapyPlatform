@@ -29,13 +29,10 @@ function* getLoginActionSaga(action: {
                 yield put(getLoginSuccessAction(response.client))
                 localStorage.setItem("clientData", JSON.stringify(response.client));
                 action.payload.handleLoginSuccess(response.role)
-                console.log('login success')
             } else {
-                console.log('therapist role entered')
                 yield put(getLoginSuccessAction(response.therapist))
                 localStorage.setItem("therapistData", JSON.stringify(response.therapist));
                 action.payload.handleLoginSuccess(response.role)
-                console.log('login success')
             }
         } else {
             yield put(getLoginFailureAction(response.message))
@@ -73,9 +70,6 @@ function* getChatActionSaga(action: {
     payload: { recieverId: string; senderId: string }
 }): any {
     try {
-        console.log('data in getChat saga payload receiverId', action.payload.recieverId);
-        console.log('data in getChat saga payload senderId', action.payload.senderId);
-
         const response = yield call<any>(apiCall, {
             method: 'GET',
             endpoint: `users/chat/${action.payload.senderId}/${action.payload.recieverId}`,

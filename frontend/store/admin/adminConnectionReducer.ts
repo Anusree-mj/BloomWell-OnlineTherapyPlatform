@@ -21,7 +21,6 @@ export const adminConnectionSlice: any = createSlice({
 
         // get connectionrequests
         getAdminConnectionRequestAction: (state) => {
-            console.log('entered in  action')
             state.isLoading = true;
         },
         getAdminConnectionRequestSuccessAction: (state, action) => {
@@ -31,7 +30,6 @@ export const adminConnectionSlice: any = createSlice({
         getAdminConnectionRequestFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
        
     }

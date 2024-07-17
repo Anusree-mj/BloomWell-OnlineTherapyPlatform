@@ -19,7 +19,6 @@ function* getConnectionsActionSaga(action: {
     }
 }): any {
     try {
-        console.log('data recieved in saga', action.payload)
         const response = yield call<any>(apiCall, {
             method: 'GET',
             endpoint: `client/connection/${action.payload}`,
@@ -43,13 +42,11 @@ function* postConnectionActionSaga(action: {
     }
 }): any {
     try {
-        console.log('data recieved in saga', action.payload)
         const response = yield call<any>(apiCall, {
             method: 'POST',
             endpoint: 'client/connection',
             body: action.payload
         });
-        console.log('responseeeeeeeeeeee', response)
         if (response.status === 'ok') {
             yield put(postConnectionSuccessAction())
             action.payload.handleConnectionSuccess(response.therapistName)

@@ -23,7 +23,6 @@ export default function Login() {
 
     const handleLogin = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
-        console.log('Entered in handlelogin')
         if (!email && !password) {
             toast.error('Please provide valid email and password');
             return;

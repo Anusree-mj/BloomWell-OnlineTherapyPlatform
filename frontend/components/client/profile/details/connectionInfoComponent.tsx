@@ -17,7 +17,6 @@ interface ConnectionInfoProps {
 }
 
 const ConnectionInfoComponent: React.FC<ConnectionInfoProps> = ({ connectionInfoItems, hasConnectionInfo }) => {
-    console.log('connection Info Items:', connectionInfoItems);
     const router = useRouter();
     const [isDisConnect, setIsDisConnect] = useState(false)
     const typographyItems = [

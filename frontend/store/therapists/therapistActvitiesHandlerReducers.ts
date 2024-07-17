@@ -63,7 +63,6 @@ export const therapistActivitiesSlice: any = createSlice({
     reducers: {
         // get connectionrequests
         getTherapistsConnectionRequestAction: (state) => {
-            console.log('entered in  action')
             state.isLoading = true;
         },
         getTherapistsConnectionRequestSuccessAction: (state, action) => {
@@ -73,30 +72,25 @@ export const therapistActivitiesSlice: any = createSlice({
         getTherapistsConnectionRequestFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
         // get rejected connections requests
         getTherapistsRejectedConnectionsAction: (state) => {
-            console.log('entered in  action')
             state.isLoading = true;
         },
 
         // get active connections
         getTherapistsActiveConnectionsAction: (state) => {
-            console.log('entered in  action')
             state.isLoading = true;
         },
 
         // get inactive connections
         getTherapistsInActiveConnectionsAction: (state) => {
-            console.log('entered in  action')
             state.isLoading = true;
         },
 
         // get reviews 
         getTherapistsReviewsAction: (state) => {
-            console.log('entered in  action')
             state.isLoading = true;
         },
         getTherapistsReviewsSuccessAction: (state, action) => {
@@ -106,39 +100,32 @@ export const therapistActivitiesSlice: any = createSlice({
         getTherapistsReviewsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
         // get schedules 
         getTherapistsSchedulesAction: (state) => {
-            console.log('entered in  action')
             state.isLoading = true;
         },
         getTherapistsSchedulesSuccessAction: (state, action) => {
             state.isLoading = false;
             state.schedules = action.payload;
-            console.log('schedules got in :', state.schedules)
         },
         getTherapistsSchedulesFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
         // get payments 
         getTherapistsAllPaymentAction: (state) => {
-            console.log('entered in  action')
             state.isLoading = true;
         },
         getTherapistsAllPaymentSuccessAction: (state, action) => {
             state.isLoading = false;
             state.payments = action.payload;
-            console.log('payments got in :', state.payments)
         },
         getTherapistsAllPaymentFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
     }
 })

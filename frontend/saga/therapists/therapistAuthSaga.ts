@@ -35,7 +35,6 @@ function* getTherapistSignUpActionSaga(action: {
             yield put(getTherapistSignUpSuccessAction(response.therapist))
             localStorage.setItem("therapistData", JSON.stringify(response.therapist));
             action.payload.handleTherapistSignupSuccess()
-            console.log('Therapistsignup success')
         } else {
             yield put(getTherapistSignUpFailureAction(response.message))
         }
@@ -80,18 +79,14 @@ function* getTherapistDetailsActionSaga(action: {
     }
 }): any {
     try {
-        console.log('entered in saga')
         const response = yield call<any>(apiCall, {
             method: 'GET',
             endpoint: `admin/therapists/view/${action.payload}`,
         });
 
         if (response.status === 'ok') {
-            console.log('status okkkk')
             yield put(getTherapistDetailsSuccessAction(response))
         } else {
-            console.log('status dvvvvvvvvvvvokkkk')
-
             yield put(getTherapistDetailsFailureAction(response.message))
         }
     } catch (err) {

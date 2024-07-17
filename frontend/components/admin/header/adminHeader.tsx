@@ -157,7 +157,6 @@ export default function AdminHeader(props: Props) {
       router.push('/admin/login');
     } catch (error) {
       toast.error('Logout Failed');
-      console.log(error);
     }
   };
   const container = props.container ?? undefined;

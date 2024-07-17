@@ -28,7 +28,6 @@ export const clientConnectionSlice: any = createSlice({
         getConnectionsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
         // post connection
@@ -41,7 +40,6 @@ export const clientConnectionSlice: any = createSlice({
         postConnectionFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
     }

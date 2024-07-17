@@ -45,19 +45,13 @@ export default function VideoCall({ roomID, userID }: any) {
                             minute: '2-digit',
                             hour12: false
                         });
-                        console.log('Session End Time:', sessionEndTime);
 
                         const response = await apiCall({
                             method: 'PUT',
                             endpoint: `client/slot`,
                             body: { sessionEnd: sessionEndTime, roomID }
                         });
-
-                        if (response.status === 'ok') {
-                            console.log('Session data saved successfully');
-                        } else {
-                            console.error('Failed to save session data', response);
-                        }
+                       
                     } catch (error) {
                         console.error('Error during cleanup:', error);
                     }

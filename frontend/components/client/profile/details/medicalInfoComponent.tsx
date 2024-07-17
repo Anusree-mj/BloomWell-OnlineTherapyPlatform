@@ -18,10 +18,7 @@ interface MedicalInfoProps {
 const MedicalInfoComponent: React.FC<MedicalInfoProps> = ({ medicalInfoItems, readOnly }) => {
     const [showMore, setShowMore] = useState(false);
     const [editMedicalInfo, setEditMedicalInfo] = useState(false)
-
-    useEffect(() => {
-        console.log('medical info itemssssss', medicalInfoItems)
-    }, [])
+    
     let questions = [];
     if (medicalInfoItems.sessionType === 'Individual therapy') {
         questions = individualQuestionnaire;

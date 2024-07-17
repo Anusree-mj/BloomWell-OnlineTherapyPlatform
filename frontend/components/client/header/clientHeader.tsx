@@ -106,7 +106,6 @@ export default function ClientHeader(props: Props) {
             socket.current.emit('joinRoom', { userId: clientDetails._id, role: 'client' });
 
             socket.current.on('recieve_connectionMessage', (data) => {
-                console.log('Data reached in recieve_connectionMessage:', data);
                 setAlertMessage(`New Connection from ${data}`);
             });
 

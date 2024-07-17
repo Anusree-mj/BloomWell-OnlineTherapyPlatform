@@ -36,7 +36,6 @@ const LicenseComponent: React.FC<LicenseComponentProps> = ({
     setExperience, gender, setGender, setDescriptionField }) => {
 
     const handleNext = () => {
-        console.log('countrttttt', country, expiryDate)
         if (!country || !expiryDate || !experience) {
             toast.error('Please fill all details');
             return;

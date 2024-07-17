@@ -31,7 +31,10 @@ const initialState: therapistStateType = {
         isVerified: false,
         isActive: false,
         verificationStatus: "",
-        gender: ''
+        gender: '',
+        totalClients: 0,
+        totalLiveSessionPerMonth: 0,
+        isMonthlyPaid: false
     },
     isLoading: false,
     error: null,
@@ -44,7 +47,6 @@ export const therapistSlice: any = createSlice({
     reducers: {
         // sgnup action
         getTherapistSignUpAction: (state) => {
-            console.log('entered in SignUp action')
             state.isLoading = true;
         },
         getTherapistSignUpSuccessAction: (state, action) => {
@@ -54,11 +56,9 @@ export const therapistSlice: any = createSlice({
         getTherapistSignUpFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
         // save details
         saveTherapistDetailsAction: (state) => {
-            console.log('entered in SignUp action')
             state.isLoading = true;
         },
         saveTherapistDetailsSuccessAction: (state, action) => {
@@ -68,25 +68,20 @@ export const therapistSlice: any = createSlice({
         saveTherapistDetailsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
         // get therapist profile
         getTherapistDetailsAction: (state) => {
-            console.log('entered in profile action')
             state.isLoading = true;
         },
         getTherapistDetailsSuccessAction: (state, action) => {
-            console.log('reached profile success avtiondd')
             state.isLoading = false;
             state.therapist = action.payload.therapist;
             state.ratings = action.payload.ratings;
             state.reviews = action.payload.reviews;
-            console.log(state.therapist, 'therapist found in reducer')
         },
         getTherapistDetailsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
         // get therapistDetails
@@ -94,15 +89,12 @@ export const therapistSlice: any = createSlice({
             state.isLoading = true;
         },
         getTherapistProfileSuccessAction: (state, action) => {
-            console.log('reached profile success avtiondd')
             state.isLoading = false;
             state.therapist = action.payload;
-            console.log(state.therapist, 'therapist found in reducer')
         },
         getTherapistProfileFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found in profile details', state.error)
         },
     }
 })

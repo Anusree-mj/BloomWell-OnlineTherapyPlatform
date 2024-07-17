@@ -16,13 +16,11 @@ const WelcomeComponent = ({ welcomeText }: WelcomeComponentProps) => {
     const therapistData = localStorage.getItem('therapistData')
    
     if (!clientData && !therapistData) {
-      console.log('notsfdsdfsdfsdfdsaaaaa')
       router.push('/login')
     }
   }, [])
 
   const handleWelcomeNavigation = (link: string) => {
-    console.log(link, 'link in handleonclick')
     router.push(`${link}`)
   }
 

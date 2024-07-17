@@ -18,7 +18,6 @@ const AdminTherapistsQuitComponent = () => {
         const adminData = localStorage.getItem("adminData");
         if (adminData) {
             dispatch(getTherapistsWhoQuitAction());
-            console.log(therapists, 'therapist details')
         } else {
             router.push('/admin/login')
         }

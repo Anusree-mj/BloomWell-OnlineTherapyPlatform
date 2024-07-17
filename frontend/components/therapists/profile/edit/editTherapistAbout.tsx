@@ -25,8 +25,6 @@ const EditTherapistAboutComponent: React.FC<EditPersonalInfoProps> = ({ setEditA
                 setEditAboutInfo(false);
                 return;
             } else {
-
-                console.log('reached els')
                 const response = await apiCall({
                     method: 'PUT',
                     endpoint: `therapist/profile/description`,

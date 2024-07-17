@@ -73,7 +73,6 @@ const BookSlotComponent = () => {
 
     const checkValidity = () => {
         let isValid = true;
-        console.log('entered in validity')
         if (!date) {
             isValid = false;
             toast.error('Select a date')

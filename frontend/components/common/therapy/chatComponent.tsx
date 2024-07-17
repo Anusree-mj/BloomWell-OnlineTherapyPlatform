@@ -57,7 +57,6 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ messageData, slotDetails 
         if (messageData.sender.senderId !== '') {
             socket.emit('joinRoom', { userId: messageData.sender.senderId, role: messageData.sender.role });
             socket.on('getUsers', (data: any) => {
-                console.log('dataaa', data);
                 const userIdExists = data.some((user: any) => user.userId === messageData.reciever.recieverId);
                 if (userIdExists) {
                     setIsOnline(true)
@@ -126,14 +125,12 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ messageData, slotDetails 
         });
     };
     const handleVideoChat = () => {
-        console.log('clientdetailsssssssss', clientDetails)
         if (slotDetails) {
             if (!clientDetails.isActiveSlots) {
                 toast.error(`Please book a slot for a live session.`)
                 return;
             }
             else {
-                console.log('Slot is active and within the 1-hour range:', slotDetails);
                 const currentDateTime = new Date();
                 const slotDate = parse(slotDetails.date, 'dd-MM-yy', new Date());
                 const slotTime = parse(slotDetails.time, 'hh:mm a', new Date());

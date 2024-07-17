@@ -25,7 +25,6 @@ const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
 
     const handleReadNotification = async (notificationId: string, isRead: boolean) => {
         try {
-            console.log('Reached in axios');
             setExpandedNotifications(prevState => ({
                 ...prevState,
                 [notificationId]: true
@@ -52,7 +51,6 @@ const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
             ...prevState,
             [notificationId]: false
         }));
-        console.log('Show more toggled for:', notificationId);
     };
 
     const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -100,12 +98,16 @@ const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
                         {expandedNotifications[item._id] ? (
                             <ExpandLessOutlinedIcon
                                 sx={{ fontWeight: 200, color: '#325343', fontSize: '2rem' }}
-                                onClick={() => { handleShowMoreToggle(item._id); console.log('ExpandLessIcon clicked', item._id); }}
+                                onClick={() => {
+                                    handleShowMoreToggle(item._id);
+                                }}
                             />
                         ) : (
                             <ExpandMoreOutlinedIcon
                                 sx={{ fontWeight: item.isRead ? 600 : 800, color: '#325343', fontSize: '2rem' }}
-                                onClick={() => { handleReadNotification(item._id, item.isRead); console.log('ExpandMoreIcon clicked', item._id); }}
+                                onClick={() => {
+                                    handleReadNotification(item._id, item.isRead);
+                                }}
                             />
                         )}
                     </Box>

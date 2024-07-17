@@ -30,33 +30,12 @@ const SocialLoginComponent: React.FC = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const login = useGoogleLogin({
     onSuccess: tokenResponse => {
-      console.log("dsd", tokenResponse)
       setUser(tokenResponse as any)
       dispatch(getSignInWithGoogleAction({ profile: tokenResponse, handleSigninWithGoogleSuccess }));
 
     }
   });
 
-
-  // useEffect(() => {
-  //   if (user) {
-  //     axios
-  //       .get(`https://www.googleapis.com/oauth2/v1/userinfo`, {
-  //         headers: {
-  //           Authorization: `Bearer ${user.access_token}`,
-  //           Accept: 'application/json'
-  //         }
-  //       })
-  //       .then((res) => {
-  //         console.log('response got from google axios', res.data)
-  //         setProfile(res.data);
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  // }, [user]);
-  // useEffect(() => {
-  //   console.log('profile detailsss', profile)
-  // }, [profile])
   const handleSigninWithGoogleSuccess = () => {
     router.push('/client/details')
   }

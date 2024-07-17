@@ -26,7 +26,6 @@ const ClientQuestionnaire: React.FC<TypeComponentProps> = ({
     const handleAnswers = (answer: string | null) => {
         if (!answer) {
             toast.error('Please select an option');
-            console.log('answerrr', answer)
             return;
         }
         setAnswers((prevAnswers) => [...prevAnswers, answer]);

@@ -55,7 +55,6 @@ const EditProffessionalInfoComponent: React.FC<EditProffessionalInfoProps> = ({ 
                 return;
             }
             else {
-                console.log('axios called')
                 const response = await apiCall({
                     method: 'PUT',
                     endpoint: `therapist/profile/proffessional`,

@@ -6,7 +6,6 @@ import { notFound, errorHandler } from './interface/middlewares/errorMiddleware.
 import connectDb from './infrastructure/config/db.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import { Server } from 'socket.io';
 import { createServer } from 'http';
 import initializeSocket from './socketio.js';
 

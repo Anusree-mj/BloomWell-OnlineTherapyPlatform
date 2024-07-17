@@ -79,7 +79,6 @@ const ClientProfileComponent = () => {
         })
 
         setHasConnectionInfo(true)
-        console.log('client details got in profile', clientDetails)
     }, [clientDetails])
 
     return (
