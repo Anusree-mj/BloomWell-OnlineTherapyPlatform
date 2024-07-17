@@ -18,7 +18,6 @@ const RejectedTherapistsComponent = () => {
         const adminData = localStorage.getItem("adminData");
         if (adminData) {
             dispatch(getRejectedTherapistsDetailsAction());
-            console.log(therapists, 'therapist details')
         } else {
             router.push('/admin/login')
         }

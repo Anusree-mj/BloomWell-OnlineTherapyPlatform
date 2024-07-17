@@ -23,7 +23,6 @@ const OngoingActivityComponent = () => {
         if (clientData) {
             const parsedData = JSON.parse(clientData);
             if (parsedData.isConnected && parsedData.therapistDetails) {
-                console.log('dispatching getclietnOngoingactionnnnnnnnn', parsedData.therapistDetails)
                 dispatch(getClientOngoingActivityAction({ therapistId: parsedData.therapistDetails._id }));
             } 
         } else {

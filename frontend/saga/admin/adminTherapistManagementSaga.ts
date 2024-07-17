@@ -19,7 +19,6 @@ function* getAdminConnectionRequestActionSaga(): any {
 
         if (response.status === 'ok') {
             yield put(getAdminConnectionRequestSuccessAction(response.connections))
-            console.log('connection details', response.connections)
         } else {
             yield put(getAdminConnectionRequestFailureAction(response.message))
 

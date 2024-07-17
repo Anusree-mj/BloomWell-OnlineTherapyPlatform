@@ -53,7 +53,6 @@ export const clientSlice: any = createSlice({
     reducers: {
         // sgnup action
         getClientSignUpAction: (state) => {
-            console.log('entered in ClientSignUp action')
             state.isLoading = true;
         },
         getClientSignUpSuccessAction: (state, action) => {
@@ -63,12 +62,10 @@ export const clientSlice: any = createSlice({
         getClientSignUpFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
         // save details
         saveClientDetailsAction: (state) => {
-            console.log('entered in SignUp action')
             state.isLoading = true;
         },
         saveClientDetailsSuccessAction: (state, action) => {
@@ -78,7 +75,6 @@ export const clientSlice: any = createSlice({
         saveClientDetailsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
         // get client details
@@ -87,13 +83,11 @@ export const clientSlice: any = createSlice({
         },
         getClientDetailsSuccessAction: (state, action) => {
             state.isLoading = false;
-            console.log('client details:', action.payload)
             state.client = action.payload;
         },
         getClientDetailsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
         // signin with google action
         getSignInWithGoogleAction: (state) => {
@@ -106,13 +100,11 @@ export const clientSlice: any = createSlice({
         },
         getAnyClientDetailsSuccessAction: (state, action) => {
             state.isLoading = false;
-            console.log('client details:', action.payload)
             state.client = action.payload;
         },
         getAnyClientDetailsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
     }
 })

@@ -33,7 +33,6 @@ function* getClientSignUpActionSaga(action: {
             yield put(getClientSignUpSuccessAction(response.client))
             localStorage.setItem("clientData", JSON.stringify(response.client));
             action.payload.handleSignupSuccess()
-            console.log('signup success')
         } else {
             yield put(getClientSignUpFailureAction(response.message))
         }
@@ -50,7 +49,6 @@ function* saveclientDetailsActionSaga(action: {
     }
 }): any {
     try {
-        console.log('data recieved in saga', action.payload)
         const response = yield call<any>(apiCall, {
             method: 'POST',
             endpoint: 'client',
@@ -78,7 +76,6 @@ function* getClientDetailsActionSaga(): any {
         });
         if (response.status === 'ok') {
             yield put(getClientDetailsSuccessAction(response.client))
-            console.log('clientdetails getting in saga', response.client)
             localStorage.setItem("clientData", JSON.stringify(response.client));
         } else {
             yield put(getClientDetailsFailureAction(response.message))
@@ -96,7 +93,6 @@ function* getSignInWithGoogleActionSaga(action: {
     }
 }): any {
     try {
-        console.log('data recieved in auth saga', action.payload)
         const response = yield call<any>(apiCall, {
             method: 'POST',
             endpoint: 'client/googleAuth',
@@ -120,7 +116,6 @@ function* getAnyClientDetailsActionSaga(action: {
     payload: { clientId: '' }
 }): any {
     try {
-        console.log('clientid got in saga', action.payload)
         const response = yield call<any>(apiCall, {
             method: 'GET',
             endpoint: `client/viewAny/${action.payload.clientId}`,
@@ -128,7 +123,6 @@ function* getAnyClientDetailsActionSaga(action: {
 
         if (response.status === 'ok') {
             yield put(getAnyClientDetailsSuccessAction(response.client))
-            console.log('connection details', response.client)
         } else {
             yield put(getAnyClientDetailsFailureAction(response.message))
         }

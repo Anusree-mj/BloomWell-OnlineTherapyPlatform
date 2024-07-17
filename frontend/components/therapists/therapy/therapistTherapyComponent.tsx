@@ -15,7 +15,6 @@ const TherapistTherapyComponent: React.FC<{ clientId: string; }> = ({ clientId }
     const slotDetails = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.bookedSlot)
 
     useEffect(() => {
-        console.log('entered in useeffect clientId changed')
         dispatch(getAnyClientDetailsAction({ clientId }));
         dispatch(getChatAction({ recieverId: clientId, senderId: therapistId }));
     }, [clientId]);

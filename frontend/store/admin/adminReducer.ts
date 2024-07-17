@@ -69,7 +69,6 @@ export const adminSlice: any = createSlice({
     reducers: {
         // login action
         getAdminLoginAction: (state) => {
-            console.log('entered in AdminLogin action')
             state.isLoading = true;
         },
         getAdminLoginSuccessAction: (state, action) => {
@@ -79,12 +78,10 @@ export const adminSlice: any = createSlice({
         getAdminLoginFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
         // get clients details
         getAllClientsDetailsAction: (state) => {
-            console.log('entered in get client details action')
             state.isLoading = true;
         },
         getAllClientsDetailsSuccessAction: (state, action) => {
@@ -94,55 +91,45 @@ export const adminSlice: any = createSlice({
         getAllClientsDetailsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
         // get therapists details
         getTherapistsDetailsAction: (state) => {
-            console.log('entered in get therapists details action')
             state.isLoading = true;
         },
         getTherapistsDetailsSuccessAction: (state, action) => {
             state.isLoading = false;
-            console.log('action payload in successaction', action.payload)
             state.therapists = action.payload;
         },
         getTherapistsDetailsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
         // get rejected therapists details
         getRejectedTherapistsDetailsAction: (state) => {
-            console.log('entered in get therapists details action')
             state.isLoading = true;
         },
         getRejectedTherapistsDetailsSuccessAction: (state, action) => {
             state.isLoading = false;
-            console.log('action payload in successaction', action.payload)
             state.therapists = action.payload;
         },
         getRejectedTherapistsDetailsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
         // get therapists who quit
         getTherapistsWhoQuitAction: (state) => {
-            console.log('entered in get therapists details action')
             state.isLoading = true;
         },
         getTherapistsWhoQuitSuccessAction: (state, action) => {
             state.isLoading = false;
-            console.log('action payload in successaction', action.payload)
             state.therapists = action.payload;
         },
         getTherapistsWhoQuitFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
         // get therapist paymentdetails
@@ -151,15 +138,12 @@ export const adminSlice: any = createSlice({
         },
         getTherapistsPaymentsSuccessAction: (state, action) => {
             state.isLoading = false;
-            console.log('action payload in successaction', action.payload.paymentDetails)
             state.paymentDetails = action.payload.paymentDetails;
             state.admin = action.payload.adminData
-            console.log('adminddddddddddddddd', state.admin)
         },
         getTherapistsPaymentsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
     }
 })

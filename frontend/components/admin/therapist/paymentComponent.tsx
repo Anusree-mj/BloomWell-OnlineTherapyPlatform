@@ -28,7 +28,6 @@ const AdminPayment = () => {
         const script = document.createElement('script');
         script.src = "https://checkout.razorpay.com/v1/checkout.js";
         script.onload = () => {
-            console.log("Razorpay script loaded");
             setIsRazorpayLoaded(true);
         };
         script.onerror = () => {

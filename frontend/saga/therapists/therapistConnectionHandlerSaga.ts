@@ -18,7 +18,6 @@ function* getTherapistsConnectionRequestActionSaga(): any {
 
         if (response.status === 'ok') {
             yield put(getTherapistsConnectionRequestSuccessAction(response.connections))
-            console.log('connection details', response.connections)
         } else {
             yield put(getTherapistsConnectionRequestFailureAction(response.message))
 
@@ -38,7 +37,6 @@ function* getTherapistsRejectedConnectionsActionSaga(): any {
 
         if (response.status === 'ok') {
             yield put(getTherapistsConnectionRequestSuccessAction(response.connections))
-            console.log('connection details', response.connections)
         } else {
             yield put(getTherapistsConnectionRequestFailureAction(response.message))
 
@@ -58,7 +56,6 @@ function* getTherapistsActiveConnectionsActionSaga(): any {
 
         if (response.status === 'ok') {
             yield put(getTherapistsConnectionRequestSuccessAction(response.connections))
-            console.log('connection details', response.connections)
         } else {
             yield put(getTherapistsConnectionRequestFailureAction(response.message))
 
@@ -78,7 +75,6 @@ function* getTherapistsInActiveConnectionsActionSaga(): any {
 
         if (response.status === 'ok') {
             yield put(getTherapistsConnectionRequestSuccessAction(response.connections))
-            console.log('connection details', response.connections)
         } else {
             yield put(getTherapistsConnectionRequestFailureAction(response.message))
         }
@@ -97,7 +93,6 @@ function* getTherapistsReviewsActionSaga(): any {
 
         if (response.status === 'ok') {
             yield put(getTherapistsReviewsSuccessAction(response.reviews))
-            console.log('connection details', response.reviews)
         } else {
             yield put(getTherapistsReviewsFailureAction(response.message))
         }

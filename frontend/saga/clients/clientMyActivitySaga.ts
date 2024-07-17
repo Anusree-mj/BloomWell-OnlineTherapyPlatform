@@ -18,17 +18,15 @@ import { apiCall } from '@/services/api';
 // get connections saga
 function* getClientOngoingActivityActionSaga(action: {
     type: string;
-    payload: { 
+    payload: {
         therapistId: ''
     }
 }): any {
     try {
-        console.log('data recieved in saga', action.payload)
         const response = yield call<any>(apiCall, {
             method: 'GET',
             endpoint: `client/ongoing/${action.payload.therapistId}`,
         });
-        console.log('reaponse got in ongoing saga', response)
         if (response.status === 'ok') {
             yield put(getClientOngoingActivitySuccessAction(response.ongoingActivities))
         } else {
@@ -47,13 +45,11 @@ function* getAvailableSlotsActionSaga(action: {
     }
 }): any {
     try {
-        console.log('data recieved in saga', action.payload)
         const response = yield call<any>(apiCall, {
             method: 'GET',
             endpoint: `client/slots/${action.payload}`,
         });
         if (response.status === 'ok') {
-            console.log('slots got in slots saga', response.slots)
             yield put(getAvailableSlotsSuccessAction(
                 {
                     slots: response.slots,
@@ -76,13 +72,11 @@ function* getBookedSlotsDetailsActionSaga(action: {
     }
 }): any {
     try {
-        console.log('data recieved in saga', action.payload)
         const response = yield call<any>(apiCall, {
             method: 'GET',
             endpoint: `client/slots/active/${action.payload}`,
         });
         if (response.status === 'ok') {
-            console.log('slots got in slots saga', response.slotDetails)
             yield put(getBookedSlotsDetailsSuccessAction(response.slotDetails))
         } else {
             yield put(getBookedSlotsDetailsFailureAction(response.message))

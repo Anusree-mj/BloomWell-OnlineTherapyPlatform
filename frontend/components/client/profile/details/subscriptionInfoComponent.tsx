@@ -62,7 +62,6 @@ const SubscriptionInfoComponent: React.FC<SubscriptionInfoProps> = ({ Subscripti
 
     const handleCancelSubscription = async () => {
         try {
-            console.log('entered in cancel')
             const response = await apiCall({
                 method: 'POST',
                 endpoint: `client/payment/cancel`,

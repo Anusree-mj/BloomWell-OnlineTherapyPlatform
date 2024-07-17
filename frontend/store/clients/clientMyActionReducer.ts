@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {  BookedSlotsItems } from "./type";
+import { BookedSlotsItems } from "./type";
 
 export interface clientMyActivityStateType {
     slots: string[];
@@ -46,7 +46,6 @@ export const clientMyActivitySlice: any = createSlice({
         getClientOngoingActivityFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
         // get available slots
@@ -58,14 +57,10 @@ export const clientMyActivitySlice: any = createSlice({
             state.slots = action.payload.slots;
             state.availableFrom = action.payload.availableFrom;
             state.availableTo = action.payload.availableTo;
-            console.log('slots got in reducer', state.slots,
-                'availableFrom:', state.availableFrom, 'available to:', state.availableTo
-            )
         },
         getAvailableSlotsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
         // get booked slots details
@@ -75,12 +70,10 @@ export const clientMyActivitySlice: any = createSlice({
         getBookedSlotsDetailsSuccessAction: (state, action) => {
             state.isLoading = false;
             state.bookedSlot = action.payload;
-            console.log('slots got in reducereeeeeeeeeeeeeeeeeeeeeee', state.bookedSlot)
         },
         getBookedSlotsDetailsFailureAction: (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-            console.log('eror found', state.error)
         },
 
     }

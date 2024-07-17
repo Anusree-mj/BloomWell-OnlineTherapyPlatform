@@ -24,9 +24,7 @@ function* getAdminLoginActionSaga(action: {
             yield put(getAdminLoginSuccessAction(response.admin))
             localStorage.setItem("adminData", JSON.stringify(response.admin));
             action.payload.handleAdminLoginSuccess()
-            console.log('login success')
         } else {
-            console.log('login not success')
             yield put(getAdminLoginFailureAction(response.message))
 
         }

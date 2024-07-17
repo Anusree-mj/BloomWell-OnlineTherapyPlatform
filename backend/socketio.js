@@ -24,11 +24,9 @@ const initializeSocket = (server) => {
         });
 
         socket.on('send_Connection', (data) => {
-            console.log('raeached socket.io js with data', data)
             const { therapistId, clientName } = data;
             const deliverTo = users.find((e) => e.userId === therapistId);
             if (deliverTo) {
-                console.log('deliverto address', deliverTo);
                 socket.to(deliverTo.socketId).emit('recieve_connectionMessage', clientName)
             } else {
                 console.log('deliver to address not found')

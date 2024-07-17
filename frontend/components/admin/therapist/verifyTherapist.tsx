@@ -26,7 +26,6 @@ const AdminVerifyTherapists = () => {
         const adminData = localStorage.getItem("adminData");
         if (adminData) {
             dispatch(getTherapistsDetailsAction());
-            console.log(therapists, 'therapist details')
         } else {
             router.push('/admin/login')
         }

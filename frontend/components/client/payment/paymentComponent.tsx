@@ -54,17 +54,13 @@ const PaymentComponent = () => {
             if (parsedData.isSubscribed) {
                 router.push('/client/myActivity/ongoing')
             } else {
-                console.log('reached in fetch else')
-
                 const fetchProducts = async () => {
                     try {
-                        console.log('reached in fetch')
                         const response = await apiCall({
                             method: 'GET',
                             endpoint: `client/payment`,
                         });
                         if (response.status === 'ok') {
-                            console.log(response, 'data got');
                             setProducts(response.products);
                         }
                     } catch (error) {
@@ -79,7 +75,6 @@ const PaymentComponent = () => {
     const handleSubscription = async (e: { preventDefault: () => void; }, productId: string) => {
         try {
             e.preventDefault();
-            console.log('entered in handle subscription')
             const response = await apiCall({
                 method: 'POST',
                 endpoint: `client/payment`,

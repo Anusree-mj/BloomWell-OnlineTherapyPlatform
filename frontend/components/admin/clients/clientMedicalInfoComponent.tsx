@@ -15,7 +15,6 @@ const ClientMedicalInfoViewComponent: React.FC<{ clientId: string; }> = ({ clien
     })
 
     useEffect(() => {
-        console.log('clientid is ', clientId)
         const adminData = localStorage.getItem("adminData");
         const therapistData = localStorage.getItem('therapistData');
         if (!adminData || !therapistData) {

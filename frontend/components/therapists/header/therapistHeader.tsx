@@ -107,13 +107,11 @@ export default function TherapistHeader(props: Props) {
             socket.current.emit('joinRoom', { userId: therapist._id, role: 'therapist' });
 
             socket.current.on('recieve_connectionMessage', (data: string) => {
-                console.log('Data reached in recieve_connectionMessage:', data, "prevCount:", count);
                 setCount((prevCount) => prevCount + 1);
                 setAlertMessage(`New Connection from ${data}`);
             });
 
             socket.current.on('recieve_call', ({ roomId, clientName }) => {
-                console.log('recieved data in call', roomId, clientName)
                 setIncomingCall({ open: true, roomId, clientName });
             });
 
@@ -195,11 +193,7 @@ export default function TherapistHeader(props: Props) {
             endpoint: `client/slot/start`,
             body: { sessionStart: sessionStartTime, roomID: incomingCall.roomId }
         });
-        if (response.status === 'ok') {
-            console.log('Session data saved successfully');
-        } else {
-            console.error('Failed to save session data');
-        }
+    
     };
 
     const handleCallClose = () => {

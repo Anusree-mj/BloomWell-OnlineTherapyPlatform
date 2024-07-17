@@ -34,7 +34,6 @@ const ClientDetailsComponent = () => {
     useEffect(() => {
         const clientData = JSON.parse(localStorage.getItem('clientData') || '{}');
         const { email, questionnaire } = clientData
-        console.log(email, 'email got')
         setEmail(email);
         if (questionnaire.length !== 0) {
             router.push('/client/payment')

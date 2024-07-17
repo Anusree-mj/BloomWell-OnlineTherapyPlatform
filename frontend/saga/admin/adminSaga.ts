@@ -20,7 +20,6 @@ function* getAllClientsDetailsActionSaga(): any {
 
         if (response.status === 'ok') {
             yield put(getAllClientsDetailsSuccessAction(response.clients))
-            console.log('cleint details', response.clients)
         } else {
             yield put(getAllClientsDetailsFailureAction(response.message))
 
@@ -39,7 +38,6 @@ function* getTherapistsDetailsActionSaga(): any {
         });
 
         if (response.status === 'ok') {
-            console.log(response, 'response got in sage')
             yield put(getTherapistsDetailsSuccessAction(response.therapists))
         } else {
             yield put(getTherapistsDetailsFailureAction(response.message))
