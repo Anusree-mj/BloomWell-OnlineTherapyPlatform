@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 
 interface MonthData {
   count: number;
-  month: number;
+  month: string;
 }
 
 interface Response {
@@ -20,7 +20,7 @@ interface Response {
   totalTherapists: MonthData[];
   totalActiveTherapists: MonthData[];
 }
-const getDataForChart = (response: object) => {
+const getDataForChart = (response: Response) => {
   const months = Array.from(new Set(
     Object.values(response)
       .flatMap(item => item.map((data: { month: number, count: number }) => data.month))
@@ -35,18 +35,21 @@ const getDataForChart = (response: object) => {
 
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  for (const [index, key] of Object.keys(response).entries()) {
+  const keys = Object.keys(response) as Array<keyof Response>;
+
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
     if (response.hasOwnProperty(key)) {
       const categoryData: number[] = [];
 
       months.forEach(month => {
-        const count = response[key as keyof Response]
+        const count = response[key]
           .find(item => item.month === month)?.count ?? 0;
 
         categoryData.push(count);
       });
 
-      yData.push({ data: categoryData, color: colors[index] });
+      yData.push({ data: categoryData, color: colors[i] });
     }
   }
 
@@ -54,8 +57,6 @@ const getDataForChart = (response: object) => {
 
   return { xData, yData };
 };
-
-
 
 const DashBoardComponent = () => {
   const dispatch = useDispatch()
