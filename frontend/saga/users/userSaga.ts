@@ -1,14 +1,9 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import {
-    getLoginAction,
-    getLoginFailureAction,
-    getLoginSuccessAction,
-    getNotificationsAction,
-    getNotificationsFailureAction,
-    getNotificationsSuccessAction,
-    getChatAction,
-    getChatFailureAction,
-    getChatSuccessAction
+    getLoginAction, getLoginFailureAction, getLoginSuccessAction,
+    getNotificationsAction, getNotificationsFailureAction, getNotificationsSuccessAction,
+    getChatAction, getChatFailureAction, getChatSuccessAction,
+    getNotificationCountAction, getNotificationCountFailureAction, getNotificationCountSuccessAction
 } from '../../store/user/userReducer'
 import { apiCall } from '@/services/api';
 
@@ -85,11 +80,31 @@ function* getChatActionSaga(action: {
     }
 }
 
+// get chat
+function* getNotificationCountActionSaga(action: {
+    type: string;
+    payload: { userId: string }
+}): any { 
+    try {
+        const response = yield call<any>(apiCall, {
+            method: 'GET',
+            endpoint: `users/notificationCount/${action.payload.userId}`,
+        });
 
+        if (response.status === 'ok') {
+            yield put(getNotificationCountSuccessAction(response.count));
+        } else {
+            yield put(getNotificationCountFailureAction(response.message));
+        }
+    } catch (err) {
+        yield put(getNotificationCountFailureAction(err));
+    }
+}
 
 export function* userWatcher() {
     yield takeEvery(getLoginAction, getLoginActionSaga);
     yield takeEvery(getNotificationsAction, getNotificationsActionSaga);
     yield takeEvery(getChatAction, getChatActionSaga);
+    yield takeEvery(getNotificationCountAction, getNotificationCountActionSaga);
 
 }

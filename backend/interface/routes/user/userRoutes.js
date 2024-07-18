@@ -14,6 +14,7 @@ router.post('/forgotPassword/getOtp', controllers.userControllers.getForgotPassw
 router.post('/forgotPassword/verifyOtp', controllers.userControllers.verifyOTP)
 // get notification
 router.get('/notifications/:userId', controllers.userControllers.getNotificationController);
+router.get('/notificationCount/:userId', controllers.userControllers.getNotificationCountController)
 // read notification
 router.put('/notifications/:notificationId', controllers.userControllers.readNotificationController);
 // send chat message

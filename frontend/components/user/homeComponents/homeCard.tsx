@@ -11,7 +11,7 @@ import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { useRouter } from "next/navigation";
 import { Divider } from '@mui/material';
 
-const cardItems = [ 
+const cardItems = [
   { src: '/home/ind.png', title: 'Individual', subTitle: 'For myself', hoverSrc: '/home/indHover.png', color: '#397a4a' },
   { src: '/home/couple.png', title: 'Couples', subTitle: 'For me and my partner', hoverSrc: '/home/coupleHover.png', color: '#265353' },
   { src: '/home/teen.png', title: 'Teen', subTitle: 'For my child', hoverSrc: '/home/teenHover.png', color: '#6f4205' }
@@ -33,7 +33,7 @@ export default function MediaCover() {
 
   return (
     <Box sx={{
-      minHeight: '90vh',
+      minHeight: '100vh',
       backgroundColor: '#325343', display: 'flex',
       flexDirection: 'column', alignItems: 'center', justifyContent: 'center', pt: 4, pb: 4
 
@@ -56,7 +56,7 @@ export default function MediaCover() {
         component="ul"
         sx={{
           display: 'flex', gap: 5, flexWrap: 'wrap', mt: 3, maxWidth: '80%',
-          alignItems: 'center', justifyContent: 'center',pb:5
+          alignItems: 'center', justifyContent: 'center', pb: 6
         }}
       >
         {cardItems.map((item, index) => (

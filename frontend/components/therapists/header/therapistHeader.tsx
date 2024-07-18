@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
-import { Avatar, Menu, Container, Tooltip, Button, Divider } from '@mui/material';
+import { Avatar, Menu, Container, Tooltip, Button, Divider, Badge } from '@mui/material';
 import { getTherapistProfileAction, therapistStateType } from '@/store/therapists/therapistReducers';
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
@@ -26,6 +26,7 @@ import { MenuProps } from '@mui/material/Menu';
 import CustomAlert from './customAlert';
 import { apiCall } from '@/services/api';
 import { therapistAuth } from '@/utilities/auth';
+import { getNotificationCountAction, userStateType } from '@/store/user/userReducer';
 
 interface Props {
     container?: Element;
@@ -79,6 +80,7 @@ export default function TherapistHeader(props: Props) {
     const therapist = useSelector((state: { therapist: therapistStateType }) => state.therapist.therapist);
     const router = useRouter();
     const error = useSelector((state: { therapist: therapistStateType }) => state.therapist.error);
+    const notificationCount = useSelector((state: { user: userStateType }) => state.user.notificationCount);
 
     const [anchorElSubItems, setAnchorElSubItems] = useState<null | HTMLElement>(null);
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -101,6 +103,7 @@ export default function TherapistHeader(props: Props) {
 
     useEffect(() => {
         if (therapist._id) {
+            dispatch(getNotificationCountAction({ userId: therapist._id }))
             if (!socket.current) {
                 socket.current = io(`${process.env.NEXT_PUBLIC_SERVER_API_URL}`);
             }
@@ -193,7 +196,7 @@ export default function TherapistHeader(props: Props) {
             endpoint: `client/slot/start`,
             body: { sessionStart: sessionStartTime, roomID: incomingCall.roomId }
         });
-    
+
     };
 
     const handleCallClose = () => {
@@ -225,6 +228,7 @@ export default function TherapistHeader(props: Props) {
         {
             iconTitle: 'Notifications',
             link: `/therapist/notifications/${therapist._id}`,
+            badge: true,
         },
     ];
 
@@ -327,7 +331,13 @@ export default function TherapistHeader(props: Props) {
                                         </div>
                                     ) : (
                                         <MenuItem key={index} onClick={() => { handleCloseNavMenu(); router.push(`${item.link}`) }}>
-                                            <ListItemText primary={item.iconTitle} />
+                                            {item.badge ? (
+                                                <Badge badgeContent={notificationCount.toString()} color="error" sx={{ pr: 1 }}>
+                                                    <ListItemText primary={item.iconTitle} />
+                                                </Badge>
+                                            ) : (
+                                                <ListItemText primary={item.iconTitle} />
+                                            )}
                                         </MenuItem>
                                     )
                                 ))}
@@ -410,7 +420,13 @@ export default function TherapistHeader(props: Props) {
                                         handleCloseNavMenu();
                                         router.push(`${item.link}`)
                                     }}>
-                                        <ListItemText primary={item.iconTitle} />
+                                        {item.badge ? (
+                                            <Badge badgeContent={notificationCount.toString()} color="error" sx={{ pr: 1 }}>
+                                                <ListItemText primary={item.iconTitle} />
+                                            </Badge>
+                                        ) : (
+                                            <ListItemText primary={item.iconTitle} />
+                                        )}
                                     </MenuItem>
                                 )
                             ))}

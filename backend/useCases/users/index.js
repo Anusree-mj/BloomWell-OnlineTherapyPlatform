@@ -7,6 +7,7 @@ import {
     readNotificationController,
     sendChatMessageController,
     getChatController,
+    getNotificationCountController,
 
 } from './userAuthController.js';
 
@@ -36,7 +37,8 @@ const userControllers = {
     getActiveSlotController,
     cancelSlotController,
     updateSessionController,
-    updateStartSessionController
+    updateStartSessionController,
+    getNotificationCountController
 };
 
 export default userControllers;

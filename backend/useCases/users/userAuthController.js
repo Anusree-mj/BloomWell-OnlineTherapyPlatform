@@ -107,6 +107,23 @@ const getNotificationController = async (req, res) => {
     }
 }
 
+const getNotificationCountController = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        console.log('reached in controller with userId', userId)
+        const response = await userAuthQueries.getNotificationsCount(userId);
+        if (response.status === 'ok') {
+            const { status, count } = response
+            res.status(200).json({ status: status, count });
+        } else {
+            const { status, message } = response
+            res.status(400).json({ status: status, message: message })
+        }
+    } catch (err) {
+        console.log('Error found', err)
+    }
+}
+
 const readNotificationController = async (req, res) => {
     try {
         const notificationId = req.params.notificationId;
@@ -170,5 +187,5 @@ export {
     readNotificationController,
     sendChatMessageController,
     getChatController,
-    
+    getNotificationCountController,
 }

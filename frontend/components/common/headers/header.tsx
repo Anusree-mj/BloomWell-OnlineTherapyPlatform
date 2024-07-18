@@ -166,7 +166,7 @@ export default function DrawerAppBar() {
                 '&:hover': {
                   border: '1px solid #49873D'
                 }
-              }} onClick={() => { router.push('/') }}
+              }} onClick={() => { router.push('/login') }}
 
               variant="outlined">
               Login

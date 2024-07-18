@@ -24,6 +24,7 @@ import { styled, alpha } from '@mui/material/styles';
 import { MenuProps } from '@mui/material/Menu';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { clientAuth } from '@/utilities/auth';
+import { getNotificationCountAction, userStateType } from '@/store/user/userReducer';
 
 interface Props {
     container?: Element;
@@ -71,9 +72,9 @@ const StyledMenu = styled((props: MenuProps) => (
 }));
 
 export default function ClientHeader(props: Props) {
-    const socket = React.useRef<Socket | null>(null);
     const dispatch = useDispatch();
     const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
+    const notificationCount = useSelector((state: { user: userStateType }) => state.user.notificationCount);
     const router = useRouter();
     const error = useSelector((state: { client: clientStateType }) => state.client.error);
     const [anchorElSubItems, setAnchorElSubItems] = React.useState<null | HTMLElement>(null);
@@ -81,7 +82,6 @@ export default function ClientHeader(props: Props) {
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-    const [alertMessage, setAlertMessage] = React.useState<string>('');
     const [openMenus, setOpenMenus] = React.useState<{ [key: string]: boolean }>({});
 
     const theme = useTheme();
@@ -99,23 +99,7 @@ export default function ClientHeader(props: Props) {
 
     React.useEffect(() => {
         if (clientDetails._id) {
-            if (!socket.current) {
-                socket.current = io(`${process.env.NEXT_PUBLIC_SERVER_API_URL}`);
-            }
-
-            socket.current.emit('joinRoom', { userId: clientDetails._id, role: 'client' });
-
-            socket.current.on('recieve_connectionMessage', (data) => {
-                setAlertMessage(`New Connection from ${data}`);
-            });
-
-            return () => {
-                if (socket.current) {
-                    socket.current.off('recieve_connectionMessage');
-                    socket.current.disconnect();
-                    socket.current = null;
-                }
-            };
+            dispatch(getNotificationCountAction({ userId: clientDetails._id }))
         }
     }, [clientDetails]);
 
@@ -282,7 +266,7 @@ export default function ClientHeader(props: Props) {
                                             router.push(`${item.link}`)
                                         }}>
                                             {item.badge ? (
-                                                <Badge badgeContent={6} color="error" sx={{ pr: 1 }}>
+                                                <Badge badgeContent={notificationCount.toString()} color="error" sx={{ pr: 1 }}>
                                                     <ListItemText primary={item.iconTitle} />
                                                 </Badge>
                                             ) : (
@@ -363,7 +347,7 @@ export default function ClientHeader(props: Props) {
                                         router.push(`${item.link}`)
                                     }}>
                                         {item.badge ? (
-                                            <Badge badgeContent={6} color="error" sx={{ pr: 1 }}>
+                                            <Badge badgeContent={notificationCount.toString()} color="error" sx={{ pr: 1 }}>
                                                 <ListItemText primary={item.iconTitle} />
                                             </Badge>
                                         ) : (
@@ -410,9 +394,6 @@ export default function ClientHeader(props: Props) {
                     </Toolbar>
                 </Container>
             </AppBar>
-            {/* {alertMessage && (
-                <AlertComponent message={alertMessage} viewURL={'/therapist/connections'} />
-            )} */}
         </Box >
     );
 
