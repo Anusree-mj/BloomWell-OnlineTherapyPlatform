@@ -103,6 +103,21 @@ const getNotifications = async (userId) => {
     }
 }
 
+const getNotificationsCount = async (userId) => {
+    try {
+        const count = await Notifications.countDocuments({ userId: userId, isRead: false });
+        if (count) {
+            return { status: 'ok', count }
+        } else {
+            return { status: 'nok', message: 'Invalid request' }
+        }
+
+    } catch (err) {
+        console.log(err)
+        return { status: 'nok', message: 'Invalid request' }
+    }
+}
+
 const readNotification = async (notificationId) => {
     try {
         const query = { _id: notificationId }
@@ -148,7 +163,7 @@ const saveMessageData = async (messageData) => {
 
 const getChats = async (senderId, recieverId) => {
     try {
-        const chats = await Chats.find({ 
+        const chats = await Chats.find({
             $or: [
                 { senderId: senderId, recieverId: recieverId },
                 { senderId: recieverId, recieverId: senderId }
@@ -177,4 +192,5 @@ export default {
     readNotification,
     saveMessageData,
     getChats,
+    getNotificationsCount,
 }

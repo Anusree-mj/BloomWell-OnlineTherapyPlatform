@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Typography, Pagination } from '@mui/material';
 import { Box } from '@mui/system';
-import { getNotificationsAction, userStateType } from '@/store/user/userReducer';
+import { getNotificationCountAction, getNotificationsAction, userStateType } from '@/store/user/userReducer';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import axios from 'axios';
@@ -16,11 +16,7 @@ const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
     const notificationsPerPage = 6;
 
     useEffect(() => {
-        const clientData = localStorage.getItem("clientData");
-        if (clientData) {
-            const parsedData = JSON.parse(clientData);
-            dispatch(getNotificationsAction(userId));
-        }
+        dispatch(getNotificationsAction(userId));
     }, [dispatch]);
 
     const handleReadNotification = async (notificationId: string, isRead: boolean) => {
@@ -36,7 +32,8 @@ const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
                     body: {}
                 });
                 if (response.status === 'ok') {
-                    dispatch(getNotificationsAction(userId))
+                    dispatch(getNotificationsAction(userId));
+                    dispatch(getNotificationCountAction({ userId }))
                 }
             } else {
                 return

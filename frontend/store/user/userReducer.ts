@@ -4,6 +4,7 @@ import { UserItem, NotificationItem, ChatItem } from './type'
 
 export interface userStateType {
     user: UserItem;
+    notificationCount: Number;
     chats: ChatItem[];
     notifications: NotificationItem[];
     isLoading: boolean;
@@ -16,6 +17,7 @@ const initialState: userStateType = {
         email: '',
         _id: ""
     },
+    notificationCount: 0,
     isLoading: false,
     error: null,
     notifications: [],
@@ -44,6 +46,7 @@ export const userSlice: any = createSlice({
         getNotificationsSuccessAction: (state, action) => {
             state.isLoading = false;
             state.notifications = action.payload;
+            console.log('notificationss:',state.notifications)
         },
         getNotificationsFailureAction: (state, action) => {
             state.isLoading = false;
@@ -62,6 +65,19 @@ export const userSlice: any = createSlice({
             state.isLoading = false;
             state.error = action.payload;
         },
+
+        getNotificationCountAction: (state) => {
+            state.isLoading = true;
+        },
+        getNotificationCountSuccessAction: (state, action) => {
+            state.isLoading = false;
+            state.notificationCount = action.payload;
+            console.log('count got::', state.notificationCount)
+        },
+        getNotificationCountFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+        },
     }
 })
 export const {
@@ -73,5 +89,9 @@ export const {
     getNotificationsSuccessAction,
     getChatAction,
     getChatFailureAction,
-    getChatSuccessAction
+    getChatSuccessAction,
+    getNotificationCountAction,
+    getNotificationCountSuccessAction,
+    getNotificationCountFailureAction,
+
 } = userSlice.actions;

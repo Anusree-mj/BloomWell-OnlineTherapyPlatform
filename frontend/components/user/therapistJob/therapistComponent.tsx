@@ -5,9 +5,9 @@ import Image from 'next/image';
 import CircleIcon from '@mui/icons-material/Circle';
 
 const practiceIcons = [
-  { src: '/therapists/job1.png', content: 'Earn ₹500 per each hour for a  live session.' },
-  { src: '/therapists/job2.png', content: 'Bonuses & incentives for high performers.' },
-  { src: '/therapists/job3.png', content: 'Free BloomWell membership & earn more.' },
+  { src: '/page/job1.png', content: 'Earn ₹500 per each hour for a  live session.' },
+  { src: '/page/job2.png', content: 'Bonuses & incentives for high performers.' },
+  { src: '/page/job3.png', content: 'Free BloomWell membership & earn more.' },
 ]
 
 const requirements = [
@@ -71,7 +71,7 @@ const TherapistJobComponent = () => {
               ))
             }
           </Box>
-        
+
         </Box>
       </Box >
       {/* practice ends */}
@@ -115,16 +115,6 @@ const TherapistJobComponent = () => {
             you cannot be a provider at BloomWell at this time.
           </Typography>
         </Box>
-        <Button variant="contained" sx={{
-          mt: 2, backgroundColor: '#325343', color: 'white', borderRadius: '1.2rem',
-          pt: 1, pb: 1,
-          '&:hover': {
-            backgroundColor: '#49873D',
-            color: 'white',
-          }
-        }}>
-          Start application
-        </Button>
       </Box>
     </>
   )

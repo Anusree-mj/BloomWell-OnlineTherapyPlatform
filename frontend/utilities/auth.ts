@@ -22,15 +22,22 @@ export const clientAuth = () => {
 }
 
 export const therapistAuth = () => {
+    console.log('reached auth')
     const therapistData = localStorage.getItem("therapistData");
     if (therapistData) {
         const parsedData = JSON.parse(therapistData);
         if (!parsedData.isBlocked) {
+            console.log('sending status ok')
             return { status: 'ok', therapistData }
+
         } else {
+            console.log('sending status nok')
+
             return { status: 'nok', message: 'User is blocked' }
         }
     } else {
+        console.log('sending status nok')
+
         return { status: 'nok', message: 'User not found' }
     }
 }
