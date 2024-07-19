@@ -5,11 +5,29 @@ const getOngoingActivitiesController = async (req, res) => {
     try {
         const clientId = req.user._id
         const therapistId = req.params.therapistId
-        console.log('reached controller with idddddddddddddd', clientId,'therapistdddddddd:', therapistId)
+        console.log('reached controller with idddddddddddddd', clientId, 'therapistdddddddd:', therapistId)
         const response = await clientActivityQueries.getOngoingActivityDetails(clientId, therapistId);
         if (response.status === 'ok') {
             const { status, ongoingActivities } = response
             res.status(200).json({ status, ongoingActivities });
+        } else {
+            const { status, message } = response
+            res.status(400).json({ status: status, message: message });
+        }
+    } catch (err) {
+        console.log('Error found', err)
+    }
+}
+
+// get connections 
+const getAllActivityController = async (req, res) => {
+    try {
+        const clientId = req.user._id
+        console.log('reached controller with clientIdd', clientId)
+        const response = await clientActivityQueries.getAllActivities(clientId);
+        if (response.status === 'ok') {
+            const { status, activities } = response
+            res.status(200).json({ status, activities });
         } else {
             const { status, message } = response
             res.status(400).json({ status: status, message: message });
@@ -62,5 +80,6 @@ export {
     getOngoingActivitiesController,
     addFeedbackController,
     getAnyClientDetailsController,
+    getAllActivityController,
 
 }

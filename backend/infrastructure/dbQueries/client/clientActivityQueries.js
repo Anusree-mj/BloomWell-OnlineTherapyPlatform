@@ -35,6 +35,24 @@ const getOngoingActivityDetails = async (clientId, therapistId) => {
     }
 }
 
+const getAllActivities = async (clientId) => {
+    try {
+        const activities = await Connections.find({
+            clientId: clientId,
+            status: 'Accept',
+            adminVerify: 'Accept'
+        }).populate('therapistId', 'name').sort({ createdAt: -1 })
+        if (activities.length > 0) {
+            return { status: 'ok', activities }
+        } else {
+            return { status: 'nok', message: 'No activities found' }
+        }
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+
 const addFeedback = async (clientId, feedback) => {
     try {
         const response = await Feedback.insertMany({
@@ -70,4 +88,5 @@ export default {
     getOngoingActivityDetails,
     addFeedback,
     getAnyClientsDetailsQuery,
+    getAllActivities,
 }

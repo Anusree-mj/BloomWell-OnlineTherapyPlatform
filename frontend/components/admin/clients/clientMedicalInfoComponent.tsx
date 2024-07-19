@@ -15,11 +15,6 @@ const ClientMedicalInfoViewComponent: React.FC<{ clientId: string; }> = ({ clien
     })
 
     useEffect(() => {
-        const adminData = localStorage.getItem("adminData");
-        const therapistData = localStorage.getItem('therapistData');
-        if (!adminData || !therapistData) {
-            router.push('/login')
-        }
         dispatch(getAnyClientDetailsAction({ clientId }));
     }, []);
     useEffect(() => {

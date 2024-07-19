@@ -22,7 +22,8 @@ import {
 import {
     getOngoingActivitiesController,
     addFeedbackController,
-    getAnyClientDetailsController
+    getAnyClientDetailsController,
+    getAllActivityController,
 } from "./clientActivityController.js";
 
 import {
@@ -34,6 +35,7 @@ import {
 
 const clientControllers = {
     signUp,
+    getAllActivityController,
     saveClientData,
     getConnectionController,
     getPaymentDetails,

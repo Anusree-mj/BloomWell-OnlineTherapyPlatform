@@ -43,9 +43,9 @@ const OngoingActivityComponent = () => {
         id: item._id,
         slNo: index + 1,
         date: item.date,
-        startedAt: item.sessionStart ? item.sessionStart : 'Nill',
-        endedAt: item.sessionEnd ? item.sessionEnd : 'Nill',
-        duration: item.sessionDuration ? item.sessionDuration : 'Nill',
+        startedAt: item.sessionStart ? item.sessionStart : '---',
+        endedAt: item.sessionEnd ? item.sessionEnd : '---',
+        duration: item.sessionDuration ? item.sessionDuration : '---',
         status: item.status
     }));
     let head;
@@ -54,7 +54,7 @@ const OngoingActivityComponent = () => {
     }
     const subHead = [
         { name: 'Ongoing', url: 'client/myActivity/ongoing', select: true },
-        { name: 'All', url: 'client/myActivity/inActive', select: false },
+        { name: 'All', url: 'client/myActivity/all', select: false },
     ]
     return (
         <Box sx={{
