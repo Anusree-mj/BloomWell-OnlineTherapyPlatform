@@ -1,18 +1,13 @@
 import { takeEvery, put, call } from 'redux-saga/effects';
 import {
-    getClientOngoingActivityAction,
-    getClientOngoingActivityFailureAction,
-    getClientOngoingActivitySuccessAction,
-    getAvailableSlotsAction,
-    getAvailableSlotsFailureAction,
-    getAvailableSlotsSuccessAction,
-    getBookedSlotsDetailsAction,
-    getBookedSlotsDetailsFailureAction,
-    getBookedSlotsDetailsSuccessAction,
-
+    getClientOngoingActivityAction, getClientOngoingActivityFailureAction, getClientOngoingActivitySuccessAction,
+    getAvailableSlotsAction, getAvailableSlotsFailureAction, getAvailableSlotsSuccessAction,
+    getBookedSlotsDetailsAction, getBookedSlotsDetailsFailureAction, getBookedSlotsDetailsSuccessAction,
+    getClientsAllConnectionAction, getClientsAllConnectionSuccessAction, getClientsAllConnectionFailureAction
 
 } from '@/store/clients/clientMyActionReducer';
 import { apiCall } from '@/services/api';
+import { getAllClientsDetailsAction } from '@/store/admin/adminReducer';
 
 
 // get connections saga
@@ -86,10 +81,28 @@ function* getBookedSlotsDetailsActionSaga(action: {
     }
 }
 
+// get booked slot
+function* getClientsAllConnectionActionSaga(): any {
+    try {
+        const response = yield call<any>(apiCall, {
+            method: 'GET',
+            endpoint: `client/activity/all`,
+        });
+        if (response.status === 'ok') {
+            yield put(getClientsAllConnectionSuccessAction(response.activities))
+        } else {
+            yield put(getClientsAllConnectionFailureAction(response.message))
+        }
+    } catch (err) {
+        yield put(getClientsAllConnectionFailureAction(err))
+    }
+}
+
 
 export function* clientMyActionWatcher() {
     yield takeEvery(getClientOngoingActivityAction, getClientOngoingActivityActionSaga);
     yield takeEvery(getAvailableSlotsAction, getAvailableSlotsActionSaga);
     yield takeEvery(getBookedSlotsDetailsAction, getBookedSlotsDetailsActionSaga);
+    yield takeEvery(getClientsAllConnectionAction, getClientsAllConnectionActionSaga);
 
 }

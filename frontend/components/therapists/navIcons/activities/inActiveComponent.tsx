@@ -48,7 +48,7 @@ const InActiveConnectionComponent = () => {
             sortable: false,
             width: 100,
             renderCell: (params) => (
-                <Link href={`/client/medicalInfo/${params.row.clientId}`} style={{ textDecoration: 'underline' }}
+                <Link href={`/therapist/therapy/${params.row.clientId}`} style={{ textDecoration: 'underline' }}
                 >View Profile
                 </Link>
             ),

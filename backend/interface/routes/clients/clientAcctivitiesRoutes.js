@@ -15,6 +15,7 @@ router.post('/connection', protect('client'), controllers.clientControllers.post
 router.put('/connection', protect('client'), controllers.clientControllers.disconnectController)
 // get ongoing activity details
 router.get('/ongoing/:therapistId', protect('client'), controllers.clientControllers.getOngoingActivitiesController)
+router.get('/activity/all', protect('client'), controllers.clientControllers.getAllActivityController)
 
 // edit profile 
 router.put('/profile/personal', protect('client'), controllers.clientControllers.editPersonalInfoController)

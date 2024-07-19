@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { BookedSlotsItems } from "./type";
+import { BookedSlotsItems, ClientAllConnectionItems } from "./type";
 
 export interface clientMyActivityStateType {
     slots: string[];
@@ -7,6 +7,7 @@ export interface clientMyActivityStateType {
     availableTo: string;
     bookedSlot: BookedSlotsItems;
     ongoingActivities: BookedSlotsItems[];
+    connectionDetails: ClientAllConnectionItems[];
     isLoading: boolean;
     error: any;
 }
@@ -28,7 +29,8 @@ const initialState: clientMyActivityStateType = {
         sessionEnd: "",
         sessionDuration: ""
     },
-    ongoingActivities: []
+    ongoingActivities: [],
+    connectionDetails: []
 }
 
 export const clientMyActivitySlice: any = createSlice({
@@ -76,6 +78,19 @@ export const clientMyActivitySlice: any = createSlice({
             state.error = action.payload;
         },
 
+        getClientsAllConnectionAction: (state) => {
+            state.isLoading = true;
+        },
+        getClientsAllConnectionSuccessAction: (state, action) => {
+            state.isLoading = false;
+            state.connectionDetails = action.payload;
+            console.log('got all connection details', state.connectionDetails)
+        },
+        getClientsAllConnectionFailureAction: (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+        },
+
     }
 })
 export const {
@@ -91,5 +106,8 @@ export const {
     getBookedSlotsDetailsFailureAction,
     getBookedSlotsDetailsSuccessAction,
 
+    getClientsAllConnectionAction,
+    getClientsAllConnectionSuccessAction,
+    getClientsAllConnectionFailureAction
 
 } = clientMyActivitySlice.actions;

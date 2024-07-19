@@ -46,3 +46,17 @@ export interface BookedSlotsItems {
     sessionEnd: string,
     sessionDuration: string,
 }
+
+export interface ClientAllConnectionItems {
+    _id: string,
+    therapistId: {
+        _id: string,
+        name: string
+    },
+    status: string,
+    adminVerify: string,
+    description: string,
+    isActive: boolean,
+    reasonForDisconnection: string,
+    reasonForRejection: string
+}
