@@ -21,8 +21,9 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
 
     useEffect(() => {
         const { status } = clientAuth();
-        if (status === 'ok') {
+        if (status === 'ok') {  
             const { clientDetails } = clientAuth()
+            console.log('clientdetails',clientDetails)
             if (clientDetails && !clientDetails.isConnected) {
                 router.push('/client/connection')
             }
