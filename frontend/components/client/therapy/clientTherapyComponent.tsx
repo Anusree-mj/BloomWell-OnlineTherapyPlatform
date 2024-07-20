@@ -20,13 +20,15 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
     const slotDetails = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.bookedSlot)
 
     useEffect(() => {
-        const { clientDetails } = clientAuth();
-        if (!clientDetails.isConnected) {
-            router.push('/client/connection')
+        const { status } = clientAuth();
+        if (status === 'ok') {
+            const { clientDetails } = clientAuth()
+            if (clientDetails && !clientDetails.isConnected) {
+                router.push('/client/connection')
+            }
+            dispatch(getTherapistDetailsAction(therapistId));
+            dispatch(getBookedSlotsDetailsAction(activeSlotId))
         }
-        dispatch(getTherapistDetailsAction(therapistId));
-        dispatch(getBookedSlotsDetailsAction(activeSlotId))
-
     }, []);
 
     const AccordionItems = [
