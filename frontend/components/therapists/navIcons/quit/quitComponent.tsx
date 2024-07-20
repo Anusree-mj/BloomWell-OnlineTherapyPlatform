@@ -16,12 +16,7 @@ const TherapistQuitComponent = () => {
         reason: '',
         feedback: ''
     })
-    useEffect(() => {
-        const therapistData = localStorage.getItem("therapistData");
-        if (!therapistData) {
-            router.push('/login');
-        }
-    }, []);
+   
     const reasonItems = ['Poor User Experience', 'Billing and Payment Issues', 'Technical Issues',
         'Personal Reasons', 'Work-Life Balance', 'Lack of Professional Growth']
     const handleOnChange = (key: string, item: string) => {

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, Checkbox, Button, FormControlLabel, Divider } from '@mui/material';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +9,7 @@ import { styled } from '@mui/system';
 import { TimePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 import { apiCall } from '@/services/api';
+import { therapistAuth } from '@/utilities/auth';
 
 const daysOfWeek = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
 
@@ -26,7 +26,7 @@ const AddAvailabilityForm = () => {
     const [endTime, setEndTime] = useState<Dayjs | null>(null);
     const [isEdit, setIsEdit] = useState(false);
 
-    const [therapistId, setTherapistId] = useState<string>('');
+    const [therapistId, setTherapistId] = useState<string | undefined>('');
     const slots = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.slots);
     const availableFrom = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.availableFrom);
     const availableTo = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.availableTo);
@@ -34,11 +34,11 @@ const AddAvailabilityForm = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const therapistData = localStorage.getItem('therapistData');
-        if (therapistData) {
-            const parsedData = JSON.parse(therapistData);
-            setTherapistId(parsedData._id);
-            dispatch(getAvailableSlotsAction(parsedData._id));
+        const response = therapistAuth()
+        if (response.status === 'ok') {
+            const { therapistData } = response
+            setTherapistId(therapistData?._id);
+            dispatch(getAvailableSlotsAction(therapistData?._id));
         }
     }, [dispatch]);
 
@@ -51,15 +51,14 @@ const AddAvailabilityForm = () => {
         } else {
             newSelectedDays.splice(currentIndex, 1);
         }
-
         setSelectedDays(newSelectedDays);
     };
 
     const isAvailableDate = (date: Date, slots: string[]) => {
         return slots.some(slot => {
             const slotDate = new Date(slot);
-            const slotDay = slotDate.toLocaleString('en-US', { weekday: 'long' }).toUpperCase(); // Get day like "MONDAY"
-            const dateDay = date.toLocaleString('en-US', { weekday: 'long' }).toUpperCase(); // Get day like "MONDAY"
+            const slotDay = slotDate.toLocaleString('en-US', { weekday: 'long' }).toUpperCase(); 
+            const dateDay = date.toLocaleString('en-US', { weekday: 'long' }).toUpperCase(); 
             return slotDay === dateDay;
         });
     };
@@ -108,7 +107,7 @@ const AddAvailabilityForm = () => {
         <Box
             sx={{
                 backgroundColor: '#325343', display: 'flex', alignItems: 'center',
-                flexDirection: 'column', justifyContent: 'center', minHeight: '80vh', pb: 8
+                flexDirection: 'column', justifyContent: 'center', minHeight: '95vh', pb: 8
             }}>
             <Typography
                 sx={{

@@ -23,12 +23,7 @@ const AdminVerifyTherapists = () => {
     const [verifystatus, setVerifyStatus] = useState('')
 
     useEffect(() => {
-        const adminData = localStorage.getItem("adminData");
-        if (adminData) {
-            dispatch(getTherapistsDetailsAction());
-        } else {
-            router.push('/admin/login')
-        }
+        dispatch(getTherapistsDetailsAction());
     }, []);
     const columns: GridColDef[] = [
         { field: "slNo", headerName: "No", width: 10 },

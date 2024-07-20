@@ -135,7 +135,11 @@ const NotificationsComponent: React.FC<{ userId: string; }> = ({ userId }) => {
                 page={page}
                 onChange={handleChangePage}
                 shape="rounded"
-                sx={{ mt: 5, color: 'white' }}
+                sx={{
+                    mt: 5, '& .MuiPaginationItem-root': {
+                        color: 'white',
+                    },
+                }}
             />
         </Box>
     );

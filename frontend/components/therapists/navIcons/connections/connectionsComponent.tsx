@@ -24,12 +24,7 @@ const ConnectionRequestsComponent = () => {
     }) => state.therapistActivities.connections);
 
     useEffect(() => {
-        const therapistData = localStorage.getItem("therapistData");
-        if (therapistData) {
-            dispatch(getTherapistsConnectionRequestAction());
-        } else {
-            router.push('/login')
-        }
+        dispatch(getTherapistsConnectionRequestAction());
     }, []);
 
     const columns: GridColDef[] = [
@@ -101,7 +96,7 @@ const ConnectionRequestsComponent = () => {
         <Box sx={{
             backgroundColor: '#325343', pb: 8
         }}>
-            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role=""/>
+            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role="" />
         </Box>
     );
 }

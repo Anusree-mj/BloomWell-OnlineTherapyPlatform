@@ -18,13 +18,8 @@ const InActiveConnectionComponent = () => {
     }) => state.therapistActivities.connections);
 
     useEffect(() => {
-        const therapistData = localStorage.getItem("therapistData");
-        if (therapistData) {
-            dispatch(getTherapistsInActiveConnectionsAction());
-        } else {
-            router.push('/login');
-        }
-    }, [dispatch, router]);
+        dispatch(getTherapistsInActiveConnectionsAction());
+    }, [dispatch]);
 
     const columns: GridColDef[] = [
         { field: "no", headerName: "No", width: 20 },
@@ -78,7 +73,7 @@ const InActiveConnectionComponent = () => {
         <Box sx={{
             backgroundColor: '#325343', pb: 8
         }}>
-            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role="user"/>
+            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role="user" />
         </Box>
     );
 }

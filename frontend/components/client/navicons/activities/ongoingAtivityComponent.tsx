@@ -9,6 +9,7 @@ import { GridColDef } from '@mui/x-data-grid';
 import DoSomethingComponent from "../../../common/doSomethingComponent";
 import TableComponent from "@/components/common/tableComponent";
 import { clientStateType } from "@/store/clients/clientReducer";
+import { clientAuth } from "@/utilities/auth";
 
 
 const OngoingActivityComponent = () => {
@@ -19,14 +20,12 @@ const OngoingActivityComponent = () => {
 
 
     useEffect(() => {
-        const clientData = localStorage.getItem("clientData");
-        if (clientData) {
-            const parsedData = JSON.parse(clientData);
-            if (parsedData.isConnected && parsedData.therapistDetails) {
-                dispatch(getClientOngoingActivityAction({ therapistId: parsedData.therapistDetails._id }));
-            } 
-        } else {
-            router.push('/login');
+        const response = clientAuth()
+        if (response.status === 'ok') {
+            const { clientDetails } = response
+            if (clientDetails?.isConnected && clientDetails?.therapistDetails) {
+                dispatch(getClientOngoingActivityAction({ therapistId: clientDetails?.therapistDetails._id }));
+            }
         }
     }, []);
 

@@ -1,22 +1,12 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { apiCall } from "@/services/api";
 
 
 const FeedBackComponent = () => {
-    const router = useRouter();
     const [feedback, setFeedback] = useState('')
     const [spanText, setSpanText] = useState('')
-
-    useEffect(() => {
-        const clientData = localStorage.getItem("clientData");
-        if (!clientData) {
-            router.push('/login');
-        }
-    }, []);
 
     const handleSubmit = async () => {
         try {

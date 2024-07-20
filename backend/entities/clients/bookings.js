@@ -31,6 +31,9 @@ const bookingsSchema = mongoose.Schema({
     },
     sessionDuration: {
         type: String,
+    },
+    remarks: {
+        type: String
     }
 }, {
     timestamps: true

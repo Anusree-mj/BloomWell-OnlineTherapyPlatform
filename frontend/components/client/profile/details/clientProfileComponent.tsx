@@ -36,12 +36,7 @@ const ClientProfileComponent = () => {
         amount: 0,
         status: ''
     })
-    useEffect(() => {
-        const clientData = localStorage.getItem("clientData");
-        if (!clientData) {
-            router.push('/login');
-        }
-    }, []);
+   
     useEffect(() => {
         setPersonalInfoItems({
             name: clientDetails.name || '',
