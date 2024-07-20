@@ -15,12 +15,7 @@ const RejectedTherapistsComponent = () => {
     const router = useRouter()
 
     useEffect(() => {
-        const adminData = localStorage.getItem("adminData");
-        if (adminData) {
-            dispatch(getRejectedTherapistsDetailsAction());
-        } else {
-            router.push('/admin/login')
-        }
+        dispatch(getRejectedTherapistsDetailsAction());
     }, []);
 
     const columns: GridColDef[] = [

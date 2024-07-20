@@ -10,6 +10,7 @@ import TableComponent from "../../../common/tableComponent";
 import { therapistStateType } from "@/store/therapists/therapistReducers";
 import DoSomethingComponent from "@/components/common/doSomethingComponent";
 import { Box } from "@mui/system";
+import { therapistAuth } from "@/utilities/auth";
 
 const ActiveConnectionComponent = () => {
     const dispatch = useDispatch();
@@ -21,16 +22,14 @@ const ActiveConnectionComponent = () => {
     }) => state.therapistActivities.connections);
 
     useEffect(() => {
-        const therapistData = localStorage.getItem("therapistData");
-        if (therapistData) {
-            const parsedData = JSON.parse(therapistData);
-            if (parsedData.verificationStatus === 'Granted' && !parsedData.isActive) {
+        const response = therapistAuth()
+        if (response.status === 'ok') {
+            const { therapistData } = response
+            if (therapistData?.verificationStatus === 'Granted' && !therapistData.isActive) {
                 setIsquit(true)
             } else {
                 dispatch(getTherapistsActiveConnectionsAction());
             }
-        } else {
-            router.push('/login');
         }
     }, [dispatch, router]);
 

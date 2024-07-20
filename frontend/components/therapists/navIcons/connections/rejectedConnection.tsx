@@ -17,12 +17,7 @@ const RejectedConnectionsComponent = () => {
     }) => state.therapistActivities.connections);
 
     useEffect(() => {
-        const therapistData = localStorage.getItem("therapistData");
-        if (therapistData) {
-            dispatch(getTherapistsRejectedConnectionsAction());
-        } else {
-            router.push('/login')
-        }
+        dispatch(getTherapistsRejectedConnectionsAction());
     }, []);
 
     const columns: GridColDef[] = [

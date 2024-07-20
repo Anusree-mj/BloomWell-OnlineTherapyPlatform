@@ -20,12 +20,7 @@ const TherapistReviewsComponent = () => {
 
 
     useEffect(() => {
-        const therapistData = localStorage.getItem("therapistData");
-        if (therapistData) {
-            dispatch(getTherapistsReviewsAction());
-        } else {
-            router.push('/login')
-        }
+        dispatch(getTherapistsReviewsAction());
     }, []);
     const handleOpen = (value: string) => {
         setCellValue(value);
@@ -89,7 +84,7 @@ const TherapistReviewsComponent = () => {
         <Box sx={{
             backgroundColor: '#325343', pb: 8
         }}>
-            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role=""/>
+            <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role="" />
             <Modal open={modalOpen} onClose={handleClose}>
                 <Box sx={{
                     position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',

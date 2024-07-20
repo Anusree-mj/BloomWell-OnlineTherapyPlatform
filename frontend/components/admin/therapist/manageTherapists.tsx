@@ -15,12 +15,7 @@ const AdminManageTherapists = () => {
     const router = useRouter()
 
     useEffect(() => {
-        const adminData = localStorage.getItem("adminData");
-        if (adminData) {
-            dispatch(getTherapistsDetailsAction());
-        } else {
-            router.push('/admin/login')
-        }
+        dispatch(getTherapistsDetailsAction());
     }, []);
 
     const handleDelete = (cliendId: string, therapistName: string) => {
@@ -80,7 +75,7 @@ const AdminManageTherapists = () => {
     const head = 'Manage Therapist';
     return (
         <Box sx={{
-            ml: { xs: 'none', sm: '15rem' },mt: 5
+            ml: { xs: 'none', sm: '15rem' }, mt: 5
         }}>
             <TableComponent rows={rows} columns={columns} head={head} subHead={[]} role="admin" />
         </Box>

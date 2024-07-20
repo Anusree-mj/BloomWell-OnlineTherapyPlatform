@@ -15,12 +15,7 @@ const AdminTherapistsQuitComponent = () => {
     const router = useRouter()
 
     useEffect(() => {
-        const adminData = localStorage.getItem("adminData");
-        if (adminData) {
-            dispatch(getTherapistsWhoQuitAction());
-        } else {
-            router.push('/admin/login')
-        }
+        dispatch(getTherapistsWhoQuitAction());
     }, []);
 
     const columns: GridColDef[] = [

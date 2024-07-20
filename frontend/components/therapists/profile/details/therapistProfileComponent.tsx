@@ -32,12 +32,7 @@ const TherapistProfileComponent = () => {
         expertise: []
     })
 
-    useEffect(() => {
-        const therapistData = localStorage.getItem("therapistData");
-        if (!therapistData) {
-            router.push('/login');
-        }
-    }, []);
+   
 
     useEffect(() => {
         setPersonalInfoItems({

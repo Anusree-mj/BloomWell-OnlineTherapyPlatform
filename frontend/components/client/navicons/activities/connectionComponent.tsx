@@ -15,6 +15,7 @@ import {
 import Link from "next/link";
 import Swal from 'sweetalert2';
 import { getClientDetailsAction } from "@/store/clients/clientReducer";
+import { clientAuth } from '@/utilities/auth';
 
 
 const ConnectionComponent = () => {
@@ -22,18 +23,18 @@ const ConnectionComponent = () => {
     const dispatch = useDispatch();
     const router = useRouter()
     const therapists = useSelector((state: { clientConnection: clientConnectionStateType }) => state.clientConnection.therapist);
-    const [clientId, setClientId] = useState('');
-    const [clientName, setClientName] = useState('')
+    const [clientId, setClientId] = useState<string | undefined>('');
+    const [clientName, setClientName] = useState<string | undefined>('')
     useEffect(() => {
-        const clientData = localStorage.getItem("clientData");
-        if (clientData) {
-            const parsedData = JSON.parse(clientData);
-            if (parsedData.isConnected) {
+        const response = clientAuth()
+        if (response.status === 'ok') {
+            const { clientDetails } = response
+            if (clientDetails?.isConnected) {
                 router.push('/client/myActivity/ongoing')
             } else {
-                setClientId(parsedData._id);
-                setClientName(parsedData.name)
-                dispatch(getConnectionsAction(parsedData._id));
+                setClientId(clientDetails?._id);
+                setClientName(clientDetails?.name)
+                dispatch(getConnectionsAction(clientDetails?._id));
             }
         } else {
             router.push('/login')

@@ -17,12 +17,7 @@ const TherapistEarningsComponent = () => {
     }) => state.therapistActivities.payments);
 
     useEffect(() => {
-        const therapistData = localStorage.getItem("therapistData");
-        if (therapistData) {
-            dispatch(getTherapistsAllPaymentAction());
-        } else {
-            router.push('/login')
-        }
+        dispatch(getTherapistsAllPaymentAction());
     }, []);
 
     const columns: GridColDef[] = [
@@ -37,7 +32,7 @@ const TherapistEarningsComponent = () => {
         creditedAt: format(new Date(payment.updatedAt), "do MMMM yyyy")
     }));
     const head = 'Earnings';
-   
+
     return (
         <Box sx={{
             backgroundColor: '#325343', pb: 8

@@ -28,15 +28,13 @@ const BookSlotComponent = () => {
     const bookedSlot = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.bookedSlot)
 
     useEffect(() => {
-        const clientData = localStorage.getItem('clientData');
-        if (clientData) {
-            if (clientDetails.isActiveSlots) {
-                setIsActiveSlot(true);
-            } else {
-                dispatch(getAvailableSlotsAction(clientDetails.therapistDetails ? clientDetails.therapistDetails._id : ''));
-            }
+        if (clientDetails.isActiveSlots) {
+            setIsActiveSlot(true);
+        } else {
+            dispatch(getAvailableSlotsAction(clientDetails.therapistDetails ? clientDetails.therapistDetails._id : ''));
         }
     }, [clientDetails]);
+    
     useEffect(() => {
         if (slots && slots.length > 0) {
             const filteredSlots = slots

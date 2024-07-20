@@ -20,12 +20,7 @@ const TherapistsScheulesComponent = () => {
     const router = useRouter()
 
     useEffect(() => {
-        const therapistData = localStorage.getItem("therapistData");
-        if (therapistData) {
-            dispatch(getTherapistsSchedulesAction());
-        } else {
-            router.push('/admin/login')
-        }
+        dispatch(getTherapistsSchedulesAction());
     }, []);
 
     const handleVerify = async (scheduleId: string, action: string, clientId: string,

@@ -25,12 +25,7 @@ const AdminConnectionRequestsComponent = () => {
     }) => state.adminConnectionRequests.connections);
 
     useEffect(() => {
-        const therapistData = localStorage.getItem("therapistData");
-        if (therapistData) {
-            dispatch(getAdminConnectionRequestAction());
-        } else {
-            router.push('/login')
-        }
+        dispatch(getAdminConnectionRequestAction());
     }, []);
     const columns: GridColDef[] = [
         { field: "no", headerName: "No", width: 10 },
