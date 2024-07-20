@@ -35,7 +35,7 @@ const ActiveConnectionComponent = () => {
 
     const columns: GridColDef[] = [
         { field: "no", headerName: "No", width: 20 },
-        { field: "clientName", headerName: "Name", width: 150 },
+        { field: "clientName", headerName: "Name", width: 100 },
         { field: "description", headerName: "Description", width: 250 },
         {
             field: "medicalInfo",
@@ -66,7 +66,7 @@ const ActiveConnectionComponent = () => {
         clientName: connection.clientId.name,
         clientId: connection.clientId._id,
         no: index + 1,
-        description: connection.description,
+        description: connection.clientId.description,
         details: 'view profile',
         medicalInfo: 'view',
     }));

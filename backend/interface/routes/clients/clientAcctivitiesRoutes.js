@@ -28,7 +28,7 @@ router.post('/feedback', protect('client'), controllers.clientControllers.addFee
 // slots
 router.get('/slots/:therapistId', protect('client'), controllers.userControllers.getAvailableSlotsController)
 router.post('/slots/:therapistId', protect('client'), controllers.userControllers.postBookedSlotController)
-router.get('/slots/active/:activeSlotId', protect('client'), controllers.userControllers.getActiveSlotController)
+router.get('/slots/active/:activeSlotId',controllers.userControllers.getActiveSlotController)
 router.put('/slot/cancel', protect('client'), controllers.userControllers.cancelSlotController)
 router.put('/slot', controllers.userControllers.updateSessionController)
 router.put('/slot/start', protect('client'), controllers.userControllers.updateStartSessionController)

@@ -125,10 +125,42 @@ const getPaymentsDetails = async (therapistId) => {
         console.log(err)
     }
 }
+
+const addData = async (data, key) => {
+    try {
+        const { value, clientId } = data;
+        let updateClient
+        if (key === 'Description') {
+            const query = {
+                _id: clientId
+            }
+            const update = { description: value };
+            const options = { upsert: true }
+            updateClient = await Client.updateOne(query, update, options)
+        } else {
+            console.log('key found in query', key)
+            const query = {
+                _id: clientId
+            }
+            const update = { remarks: value };
+            const options = { upsert: true }
+            updateClient = await Client.updateOne(query, update, options)
+        }
+        if (updateClient) {
+            return { status: 'ok' }
+        } else {
+            return { status: 'nok', message: 'No client found' }
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
 export default {
     doQuit,
     getReviews,
     getSchedulesDetails,
     updateSchedulesDetails,
     getPaymentsDetails,
+    addData,
 }

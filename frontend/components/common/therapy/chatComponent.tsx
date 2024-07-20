@@ -5,7 +5,6 @@ import { Avatar, TextField, Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { InputAdornment, IconButton } from '@mui/material';
 import { io } from 'socket.io-client';
-import axios from 'axios';
 import { getChatAction, userStateType } from '@/store/user/userReducer';
 import { useDispatch, useSelector } from "react-redux";
 import { format, isToday, isYesterday, isThisWeek, parse, isWithinInterval, addHours } from 'date-fns';

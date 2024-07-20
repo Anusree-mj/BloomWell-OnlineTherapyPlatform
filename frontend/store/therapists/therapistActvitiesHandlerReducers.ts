@@ -52,7 +52,9 @@ const initialState: ActivitiesStateType = {
             status: ""
         },
         isActiveSlots: false,
-        activeSlotId: ""
+        activeSlotId: "",
+        description: "",
+        remarks: ""
     },
     schedules: [],
     payments: []
@@ -68,6 +70,7 @@ export const therapistActivitiesSlice: any = createSlice({
         getTherapistsConnectionRequestSuccessAction: (state, action) => {
             state.isLoading = false;
             state.connections = action.payload;
+            console.log('connectionsssssgot',state.connections)
         },
         getTherapistsConnectionRequestFailureAction: (state, action) => {
             state.isLoading = false;

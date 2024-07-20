@@ -32,7 +32,8 @@ export interface ClientItem {
     };
     isActiveSlots: boolean;
     activeSlotId: string;
-
+    description: string;
+    remarks: string
 }
 
 export interface BookedSlotsItems {

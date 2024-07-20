@@ -59,7 +59,9 @@ const initialState: adminStateType = {
             status: ""
         },
         isActiveSlots: false,
-        activeSlotId: ""
+        activeSlotId: "",
+        description: "",
+        remarks: ""
     }
 }
 

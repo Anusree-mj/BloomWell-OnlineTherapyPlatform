@@ -52,9 +52,24 @@ const getPaymentsController = async (req, res) => {
     }
 }
 
+const therapistsAddDataController = async (req, res) => {
+    try {
+        const key = req.params.keyId;
+        const response = await therapistActivityQueries.addData(req.body, key)
+        if (response.status === 'ok') {
+            res.status(200).json({ status: response.status });
+        } else {
+            const { message } = response
+            res.status(400).json({ status: 'nok', message });
+        }
+    } catch (err) {
+        console.log('Error found', err)
+    }
+}
+
 export {
     getSchedulesController,
     updateScheduleController,
     getPaymentsController,
-
+    therapistsAddDataController,
 }

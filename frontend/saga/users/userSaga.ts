@@ -65,6 +65,7 @@ function* getChatActionSaga(action: {
     payload: { recieverId: string; senderId: string }
 }): any {
     try {
+        console.log('senderId', action.payload.senderId, 'recirverid', action.payload.recieverId)
         const response = yield call<any>(apiCall, {
             method: 'GET',
             endpoint: `users/chat/${action.payload.senderId}/${action.payload.recieverId}`,
@@ -84,7 +85,7 @@ function* getChatActionSaga(action: {
 function* getNotificationCountActionSaga(action: {
     type: string;
     payload: { userId: string }
-}): any { 
+}): any {
     try {
         const response = yield call<any>(apiCall, {
             method: 'GET',
