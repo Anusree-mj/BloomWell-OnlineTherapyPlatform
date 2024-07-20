@@ -25,7 +25,8 @@ router.get('/schedules', protect('therapist'), controllers.therapistControllers.
 router.put('/schedules', protect('therapist'), controllers.therapistControllers.updateScheduleController)
 // payments
 router.get('/payments',protect('therapist'),controllers.therapistControllers.getPaymentsController)
-
+// add description
+router.post('/add/:keyId',protect('therapist'),controllers.therapistControllers.therapistsAddDataController)
 
 export default router;
 

@@ -55,7 +55,7 @@ const InActiveConnectionComponent = () => {
         clientName: connection.clientId.name,
         clientId: connection.clientId._id,
         no: index + 1,
-        description: connection.description,
+        description: connection.clientId.description,
         reason: connection.reasonForDisconnection,
         details: 'view profile',
         medicalInfo: 'view',

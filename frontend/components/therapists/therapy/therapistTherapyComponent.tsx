@@ -16,8 +16,8 @@ const TherapistTherapyComponent: React.FC<{ clientId: string; }> = ({ clientId }
 
     useEffect(() => {
         dispatch(getAnyClientDetailsAction({ clientId }));
-        dispatch(getChatAction({ recieverId: clientId, senderId: therapistId }));
     }, [clientId]);
+
     useEffect(() => {
         const { isActiveSlots } = clientDetails
         if (isActiveSlots) {
@@ -25,6 +25,7 @@ const TherapistTherapyComponent: React.FC<{ clientId: string; }> = ({ clientId }
             dispatch(getBookedSlotsDetailsAction(activeSlotId))
         }
     }, [clientDetails])
+
     const AccordionItems = [
         { title: 'Client', button: 'View Profile', url: `client/medicalInfo/${clientId}` },
         { title: 'Upcoming Schedule', button: 'View All', url: `#`, },
@@ -33,19 +34,15 @@ const TherapistTherapyComponent: React.FC<{ clientId: string; }> = ({ clientId }
     ]
     const AccordionContent = [
         {
-            content: [slotDetails.date!=='' ? `Scheduled on ${slotDetails.date} at ${slotDetails.time}.
+            content: [slotDetails.date !== '' ? `Scheduled on ${slotDetails.date} at ${slotDetails.time}.
             ` : 'No Schedules yet']
         },
-        { content: ['No description added yet'] },
-        { content: ['No remarks yet'] },
+        {
+            content: [clientDetails.description && clientDetails.description !== '' ? clientDetails.description : 'No description added yet']
+        },
+        { content: [clientDetails.remarks && clientDetails.remarks !== '' ? clientDetails.remarks : 'No remarks yet'] },
 
     ]
-    // const reciever = {
-    //     name: clientDetails.name,
-    //     recieverId: clientDetails._id,
-    //     image: '',
-    //     role: 'Client'
-    // }
 
     const messageData = {
         reciever: {
@@ -59,6 +56,7 @@ const TherapistTherapyComponent: React.FC<{ clientId: string; }> = ({ clientId }
             role: 'Therapists'
         }
     }
+    
     return (
         <Box
             sx={{
@@ -67,11 +65,11 @@ const TherapistTherapyComponent: React.FC<{ clientId: string; }> = ({ clientId }
                 justifyContent: { md: 'space-between', xs: 'center' },
                 alignItems: 'center',
                 minHeight: '90vh',
-            }}>
+            }} >
             <TherapySidebarComponent
                 AccordionItems={AccordionItems} AccordionContent={AccordionContent} reciever={messageData.reciever} rating={0} />
             <ChatComponent messageData={messageData} />
-        </Box>
+        </Box >
     )
 }
 

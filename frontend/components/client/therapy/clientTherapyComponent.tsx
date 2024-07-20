@@ -7,7 +7,6 @@ import TherapySidebarComponent from '../../common/therapy/sidebarComponent';
 import { clientStateType } from '@/store/clients/clientReducer';
 import { clientAuth } from '@/utilities/auth';
 import { useRouter } from "next/navigation";
-import { toast } from 'react-toastify';
 import { clientMyActivityStateType, getBookedSlotsDetailsAction } from '@/store/clients/clientMyActionReducer';
 
 const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistId }) => {
@@ -21,9 +20,9 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
 
     useEffect(() => {
         const { status } = clientAuth();
-        if (status === 'ok') {  
+        if (status === 'ok') {
             const { clientDetails } = clientAuth()
-            console.log('clientdetails',clientDetails)
+            console.log('clientdetails', clientDetails)
             if (clientDetails && !clientDetails.isConnected) {
                 router.push('/client/connection')
             }
@@ -42,13 +41,9 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
             content: [slotDetails.date !== '' ? `Your upcoming schedules is on ${slotDetails.date} at ${slotDetails.time}.
             ` : 'No Schedules yet']
         },
-        { content: ['No remarks yet'] },
+        { content: [clientDetails.remarks && clientDetails.remarks !== '' ? clientDetails.remarks : 'No remarks yet'] },
     ]
 
-    const bookedSlotDetails = {
-        date: slotDetails.date,
-        time: slotDetails.time
-    }
     const messageData = {
         reciever: {
             image: therapist.image,
@@ -58,8 +53,8 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
         },
         sender: {
             senderId: clientDetails._id,
-            role: 'Client'
-        }
+            role: 'Client',
+        },
     }
     return (
         <Box

@@ -41,7 +41,9 @@ const initialState: clientStateType = {
             status: ""
         },
         isActiveSlots: false,
-        activeSlotId: ""
+        activeSlotId: "",
+        description: "",
+        remarks: ""
     },
     isLoading: false,
     error: null
@@ -84,6 +86,7 @@ export const clientSlice: any = createSlice({
         getClientDetailsSuccessAction: (state, action) => {
             state.isLoading = false;
             state.client = action.payload;
+            console.log('getclienteeeeeeee', state.client)
         },
         getClientDetailsFailureAction: (state, action) => {
             state.isLoading = false;

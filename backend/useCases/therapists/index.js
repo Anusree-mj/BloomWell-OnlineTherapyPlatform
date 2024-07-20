@@ -29,6 +29,8 @@ import {
     getSchedulesController,
     updateScheduleController,
     getPaymentsController,
+    therapistsAddDataController,
+
 } from "./therapistActivitiesController.js"
 
 const therapistControllers = {
@@ -53,7 +55,7 @@ const therapistControllers = {
     getSchedulesController,
     updateScheduleController,
     getPaymentsController,
-
+    therapistsAddDataController,
 }
 
 export default therapistControllers

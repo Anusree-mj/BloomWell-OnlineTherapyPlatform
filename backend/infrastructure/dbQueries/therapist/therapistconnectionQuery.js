@@ -102,7 +102,7 @@ const getActiveConnections = async (therapistId) => {
     try {
         console.log('therapist id ', therapistId)
         const connections = await Connections.find({ therapistId: therapistId, isActive: true })
-            .populate('clientId', 'name email').sort({ createdAt: -1 });
+            .populate('clientId', 'name email description').sort({ createdAt: -1 });
 
         if (connections) {
             return { status: 'ok', connections }

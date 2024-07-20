@@ -1,16 +1,17 @@
 import { Accordion, AccordionSummary, Typography, AccordionDetails, Avatar, Rating, Button, TextField } from '@mui/material'
 import { Box } from '@mui/system'
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { clientMyActivityStateType, getBookedSlotsDetailsAction } from '@/store/clients/clientMyActionReducer';
+import { apiCall } from '@/services/api';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { toast } from 'react-toastify';
 
 interface AccordionItem {
     title: string;
     button?: string;
     url?: string;
-    isAdd?: boolean
+    isAdd?: boolean;
 }
 interface AccordionContentItem {
     content: string[];
@@ -26,12 +27,13 @@ interface TherapySidebarComponentProps {
     };
 }
 
-
 const TherapySidebarComponent: React.FC<TherapySidebarComponentProps> = ({
     AccordionItems, AccordionContent, reciever, rating }) => {
     const router = useRouter();
-    const [value, setValue] = useState('')
+    const [values, setValues] = useState<{ [key: string]: string }>({});
     const [expandedPanel, setExpandedPanel] = useState<string | false>(false);
+    const [addValue, setAddValue] = useState<{ [key: string]: boolean }>({});
+    const [data, setData] = useState<{ [key: string]: string }>({});
 
     const handleExpansion = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
         setExpandedPanel(isExpanded ? panel : false);
@@ -41,9 +43,30 @@ const TherapySidebarComponent: React.FC<TherapySidebarComponentProps> = ({
         router.push(`/${url}`)
     }
 
-    const handleAddDetails = (key: string) => {
-        console.log('value got', value)
-    }
+    const handleAddDetails = async (key: string) => {
+        const value = values[key];
+        if (value) {
+            const response = await apiCall({
+                method: 'POST',
+                endpoint: `therapist/add/${key}`,
+                body: { value, clientId: reciever.recieverId }
+            });
+            if (response.status === 'ok') {
+                setData(prevValues => ({ ...prevValues, [key]: value }))
+                setValues(prevValues => ({ ...prevValues, [key]: '' }));
+                console.log('response got', response);
+            }
+        } else {
+            toast.error(`Add ${key}`);
+        }
+    };
+    const handleChange = (title: string, value: string) => {
+        setValues(prevValues => ({ ...prevValues, [title]: value }));
+    };
+
+    const handleAddClick = (title: string) => {
+        setAddValue(prevState => ({ ...prevState, [title]: !prevState[title] }));
+    };
 
     return (
         <Box sx={{
@@ -108,16 +131,19 @@ const TherapySidebarComponent: React.FC<TherapySidebarComponentProps> = ({
                                 display: 'flex', flexDirection: 'column',
                                 alignItems: 'center', justifyContent: 'center'
                             }}>
-                                {AccordionContent[index - 1].content.map((item) => (
-                                    <Box key={item} sx={{
-                                        display: 'flex', flexDirection: 'column',
-                                        justifyContent: 'center', alignItems: 'center',width:'100%'
+                                {AccordionContent[index - 1].content.map((content) => (
+                                    <Box key={content} sx={{
+                                        display: 'flex',
+                                        justifyContent: 'space-around', alignItems: 'center', width: '100%'
                                     }}>
-                                        <Typography sx={{ color: '#325343', fontSize: '1rem', fontWeight: 600,
-                                            alignSelf:'center'
-                                         }}>
-                                            {item}
-                                        </Typography>
+                                        <Typography sx={{
+                                            color: '#325343', fontSize: '1rem', fontWeight: 600,
+                                            alignSelf: 'center'
+                                        }}>
+                                            {data[item.title] && data[item.title] !== '' ? data[item.title] : content}                                        </Typography>
+                                        {item.isAdd && (
+                                            <AddCircleOutlineIcon sx={{ color: '#325343', cursor: 'pointer' }} onClick={() => handleAddClick(item.title)} />
+                                        )}
                                     </Box>
                                 ))}
                                 {item.button && (
@@ -132,15 +158,21 @@ const TherapySidebarComponent: React.FC<TherapySidebarComponentProps> = ({
                                     > {item.button}
                                     </Button>
                                 )}
-                                {item.isAdd &&
+                                {item.isAdd && addValue[item.title] &&
                                     <Box
                                         sx={{
                                             display: 'flex', flexDirection: 'column',
                                             alignItems: 'center', justifyContent: 'center'
                                         }}>
-                                        <TextField id="outlined-basic" label={`Add ${item.title}`} variant="outlined"
+                                        <TextField
+                                            id="outlined-basic"
+                                            label={`Add ${item.title}`}
+                                            variant="outlined"
+                                            value={values[item.title] || ''}
                                             sx={{ maxWidth: '90%', width: '100%', mt: 2 }}
-                                            onChange={(e) => { setValue(e.target.value) }} />
+                                            onChange={(e) => handleChange(item.title, e.target.value)}
+                                        />
+
                                         <Button variant="contained"
                                             sx={{
                                                 mt: 2, backgroundColor: '#325343', width: '20rem', maxWidth: '80%', p: '0.2rem',

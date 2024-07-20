@@ -167,7 +167,9 @@ const getClientDataQuery = async (clientId) => {
                         therapistDetails: {
                             _id: 1,
                             name: 1,
-                        }
+                        },
+                        description:1,
+                        remarks:1
                     }
                 }
             ]);
