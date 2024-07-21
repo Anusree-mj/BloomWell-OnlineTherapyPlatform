@@ -26,7 +26,7 @@ router.put('/profile/changePassword', protect('client'), controllers.clientContr
 router.post('/feedback', protect('client'), controllers.clientControllers.addFeedbackController)
 
 // slots
-router.get('/slots/:therapistId', protect('client'), controllers.userControllers.getAvailableSlotsController)
+router.get('/slots/:therapistId', controllers.userControllers.getAvailableSlotsController)
 router.post('/slots/:therapistId', protect('client'), controllers.userControllers.postBookedSlotController)
 router.get('/slots/active/:activeSlotId',controllers.userControllers.getActiveSlotController)
 router.put('/slot/cancel', protect('client'), controllers.userControllers.cancelSlotController)
