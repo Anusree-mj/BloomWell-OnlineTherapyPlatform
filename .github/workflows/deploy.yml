@@ -1,3 +1,4 @@
+# git hub action workflow
 name: Deploy to GCP
 
 on:
@@ -8,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  deploy: 
     runs-on: ubuntu-latest
 
     steps:
