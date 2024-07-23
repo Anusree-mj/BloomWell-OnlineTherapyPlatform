@@ -124,7 +124,6 @@ export default function Login() {
                         sx={{
                             display: "flex", flexDirection: "column", width: "30rem", maxWidth: '90%', alignItems: "center",
                             justifyContent: 'center',
-                            border:'1px solid red'
                         }}>
                         <Button
                             sx={{ width: "380px", border: "solid 1px white", color: 'white', marginBottom: "1rem",maxWidth:'100%' }}
