@@ -4,7 +4,8 @@ import Client from '../../entities/clients/clients.js';
 import Therapists from '../../entities/therapists/therapist.js';
 
 const protect = (tokenType) => asyncHandler(async (req, res, next) => {
-    // console.log('reached protect')
+    console.log('reached protect')
+    console.log('cookies', req.cookies)
     let token;
     if (tokenType === 'client') {
         token = req.cookies.jwtClient;
