@@ -11,7 +11,7 @@ import initializeSocket from './socketio.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:8000', `${process.env.NEXT_APP_URL}`];
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:8000',`${process.env.API_URL}`, `${process.env.NEXT_APP_URL}`];
 dotenv.config();
 const port = process.env.PORT;
 
