@@ -61,7 +61,7 @@ app.use('/therapist', therapistRoutes, therapistActivitiesRoutes, therapistProfi
 app.use('/admin/therapists', adminTherapistRoutes)
 
 
-app.get('/', (req, res) => res.send('Server is ready'))
+app.get('/', (req, res) => res.send('Serve is ready'))
 app.use(notFound);
 app.use(errorHandler);
 server.listen(port, () => console.log(`Server started on port ${port}`));
