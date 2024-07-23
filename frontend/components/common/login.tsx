@@ -119,19 +119,21 @@ export default function Login() {
                 </Box>
             </Box>
             {
-                loginMenu === "choose" ? <Box
-                    sx={{
-                        display: "flex", flexDirection: "column", width: "30rem", maxWidth: '90%', alignItems: "center",
-                        justifyContent: 'center',
-                    }}>
-                    <Button
-                        sx={{ width: "380px", border: "solid 1px white", color: 'white', marginBottom: "1rem", }}
-                        onClick={() => setLoginMenu("client")}>Login as client</Button>
-                    <Button
-                        sx={{ width: "380px", border: "solid 1px white", color: 'white', }}
-                        onClick={() => setLoginMenu("therapist")}>Login as Therapist</Button>
+                loginMenu === "choose" ?
+                    <Box
+                        sx={{
+                            display: "flex", flexDirection: "column", width: "30rem", maxWidth: '90%', alignItems: "center",
+                            justifyContent: 'center',
+                            border:'1px solid red'
+                        }}>
+                        <Button
+                            sx={{ width: "380px", border: "solid 1px white", color: 'white', marginBottom: "1rem",maxWidth:'100%' }}
+                            onClick={() => setLoginMenu("client")}>Login as client</Button>
+                        <Button
+                            sx={{ width: "380px", border: "solid 1px white", color: 'white',maxWidth:'100%' }}
+                            onClick={() => setLoginMenu("therapist")}>Login as Therapist</Button>
 
-                </Box> :
+                    </Box> :
                     <Box sx={{
                         display: 'flex', flexDirection: 'column', maxWidth: '90%',
                         width: '30rem', pt: 6, pb: 6, borderRadius: '1rem',
