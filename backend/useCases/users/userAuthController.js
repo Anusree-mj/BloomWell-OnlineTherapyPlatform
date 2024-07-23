@@ -13,13 +13,23 @@ const authUser = async (req, res) => {
             if (response.role === 'client') {
                 const { status, client } = response;
                 const token = generateToken(client._id);
-                res.cookie('jwtClient', token, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true });
+                res.cookie('jwtClient', token, {
+                    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+                    httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
+                    secure: process.env.NODE_ENV === 'production', // Only set secure cookies in production
+                    sameSite: 'None' // Allow cookies to be sent cross-origin
+                });
                 res.status(200).json({ status: status, role: 'client', client: client });
             }
             else {
                 const { status, therapist } = response;
                 const token = generateToken(therapist._id);
-                res.cookie('jwtTherapist', token, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true });
+                res.cookie('jwtTherapist', token, {
+                    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+                    httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
+                    secure: process.env.NODE_ENV === 'production', // Only set secure cookies in production
+                    sameSite: 'None' // Allow cookies to be sent cross-origin
+                });
                 res.status(200).json({ status: status, role: 'therapist', therapist: therapist });
             }
         } else {

@@ -12,7 +12,12 @@ const therapistsSignUp = async (req, res) => {
             const { user } = response;
             console.log(user, 'therapist received in controller')
             const token = generateToken(user._id)
-            res.cookie('jwtTherapist', token, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true });
+            res.cookie('jwtTherapist', token, {
+                expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+                httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
+                secure: process.env.NODE_ENV === 'production', // Only set secure cookies in production
+                sameSite: 'None' // Allow cookies to be sent cross-origin
+            });
             res.status(200).json({ status: 'ok', therapist: user });
         } else {
             const { message } = response
@@ -27,7 +32,7 @@ const therapistsSignUp = async (req, res) => {
 const saveTherapistData = async (req, res) => {
     try {
         const data = req.body;
-        console.log('reached conterollereeeeee with data:::',data)
+        console.log('reached conterollereeeeee with data:::', data)
         const response = await therapistQuery.saveTherapistData(data);
         if (response.status === 'ok') {
             const { status, therapist } = response

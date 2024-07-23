@@ -21,7 +21,12 @@ const googleSignup = async (req, res) => {
         if (response.status === 'ok') {
             const { user } = response;
             const token = generateToken(user._id)
-            res.cookie('jwtClient', token, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true });
+            res.cookie('jwtClient', token, {
+                expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+                httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
+                secure: process.env.NODE_ENV === 'production', // Only set secure cookies in production
+                sameSite: 'None' // Allow cookies to be sent cross-origin
+            });
             res.status(200).json({ status: 'ok', client: user });
         } else {
             res.status(400).json({ status: 'nok', message: 'Something went wrong' });
@@ -39,7 +44,12 @@ const signUp = async (req, res) => {
         if (response.status === 'ok') {
             const { user } = response;
             const token = generateToken(user._id)
-            res.cookie('jwtClient', token, { expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), httpOnly: true });
+            res.cookie('jwtClient', token, {
+                expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+                httpOnly: true, // Prevent client-side JavaScript from accessing the cookie
+                secure: process.env.NODE_ENV === 'production', // Only set secure cookies in production
+                sameSite: 'None' // Allow cookies to be sent cross-origin
+            });
             res.status(200).json({ status: 'ok', client: user });
         } else {
             const { message } = response
@@ -76,7 +86,7 @@ const getClientData = async (req, res) => {
         console.log('reached in client data controllersssssssss')
         if (response.status === 'ok') {
             const { status, client } = response
-            console.log('successfully passed client data',client)
+            console.log('successfully passed client data', client)
             res.status(200).json({ status: status, client: client });
         } else {
             const { status, message } = response
