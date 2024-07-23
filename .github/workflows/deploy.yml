@@ -1,0 +1,42 @@
+name: Deploy to GCP
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build project
+      run: npm run build
+
+    - name: Deploy to GCP VM
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        GCP_VM_HOST: ${{ secrets.GCP_VM_HOST }}
+        GCP_VM_USER: ${{ secrets.GCP_VM_USER }}
+      run: |
+        echo "$SSH_PRIVATE_KEY" > private_key.pem
+        chmod 600 private_key.pem
+        rsync -avz -e "ssh -i private_key.pem -o StrictHostKeyChecking=no" ./backend/ $GCP_VM_USER@$GCP_VM_HOST:~/BloomWell-OnlineTherapyPlatform/backend
+        ssh -i private_key.pem -o StrictHostKeyChecking=no $GCP_VM_USER@$GCP_VM_HOST << 'EOF'
+          cd ~/BloomWell-OnlineTherapyPlatform/backend
+          npm install --production
+          pm2 restart all
+        EOF
