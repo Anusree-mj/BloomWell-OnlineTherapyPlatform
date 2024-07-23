@@ -1,3 +1,5 @@
+import axios, { AxiosError } from 'axios';
+
 interface ApiOptions {
     method: string;
     endpoint: string;
@@ -5,27 +7,28 @@ interface ApiOptions {
 }
 
 export const apiCall = async ({ method, endpoint, body = {} }: ApiOptions) => {
-    try {
-        const apiUrl = process.env.NEXT_PUBLIC_SERVER_API_URL;
+    const apiUrl = process.env.NEXT_PUBLIC_SERVER_API_URL;
 
-        const res = await fetch(`${apiUrl}/${endpoint}`, {
+    try {
+        const response = await axios({
             method: method,
-            body: method !== 'GET' && body ? JSON.stringify(body) : undefined,
+            url: `${apiUrl}/${endpoint}`,
+            data: method !== 'GET' && body ? body : undefined,
             headers: {
                 'Content-Type': 'application/json'
             },
-            credentials: 'include'
+            withCredentials: true // Include cookies with the request
         });
 
-        if (!res.ok) {
-            const errorData = await res.json();
-            throw new Error(`HTTP error! status: ${res.status}, message: ${errorData.message || 'Unknown error'}`);
-        }
-
-        return await res.json();
+        return response.data;
     } catch (error) {
-        console.error('API call error:', error);
+        // Handle AxiosError
+        if (axios.isAxiosError(error)) {
+            console.error('API call error:', error.response?.data || error.message);
+        } else {
+            // Handle other types of errors
+            console.error('Unexpected error:', error);
+        }
         throw error;
     }
 };
-
