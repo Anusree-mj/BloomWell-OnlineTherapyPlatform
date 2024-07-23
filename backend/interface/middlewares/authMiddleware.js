@@ -11,11 +11,11 @@ const protect = (tokenType) => asyncHandler(async (req, res, next) => {
     } else if (tokenType === 'therapist') {
         token = req.cookies.jwtTherapist;
     }
-    // console.log('token found', token)
+    console.log('token found', token)
     if (token) {
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
-            // console.log(decoded, 'decodeddd')
+            console.log(decoded, 'decodeddd')
             let user;
             if (tokenType === 'client') {
                 user = await Client.findById(decoded.id).select('-password');
@@ -26,6 +26,7 @@ const protect = (tokenType) => asyncHandler(async (req, res, next) => {
                 req.user = user;
                 next();
             } else {
+                console.log('user is blocked')
                 res.status(401).json({ message: 'User is blocked' });
             }
         } catch (error) {
