@@ -3,7 +3,7 @@ import { showConfirmationDialog, handleAction } from './alertConfigManage';
 
 const handleConfirmDelete = async (therapistId: string, therapistName: string) => {
     await handleAction('Delete', therapistId, therapistName, async () => {
-        await axios.delete(`http://localhost:8000/admin/therapists/${therapistId}`, { withCredentials: true });
+        await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/admin/therapists/${therapistId}`, { withCredentials: true });
     });
 };
 
@@ -19,7 +19,7 @@ const deleteTherapist = async (therapistId: string, therapistName: string) => {
 
 const handleConfirmEdit = async (therapistId: string, therapistName: string) => {
     await handleAction('Unblock', therapistId, therapistName, async () => {
-        await axios.put(`http://localhost:8000/admin/therapists/${therapistId}`, {}, {
+        await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/admin/therapists/${therapistId}`, {}, {
             withCredentials: true,
             headers: { 'Content-Type': 'application/json' },
         });

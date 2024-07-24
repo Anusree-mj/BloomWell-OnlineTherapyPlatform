@@ -48,7 +48,7 @@ const TherapistProfileImageComponent: React.FC<ProfileImageProps> = ({ image, se
                 toast.error("No File Selected");
                 return
             } else {
-                const response = await axios.put('http://localhost:8000/therapist/profile/image',
+                const response = await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/therapist/profile/image`,
                     { image: image }, { withCredentials: true, });
                 if (response.status === 200) {
                     dispatch(getTherapistProfileAction())

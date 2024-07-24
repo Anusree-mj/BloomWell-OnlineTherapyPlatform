@@ -3,7 +3,7 @@ import { showConfirmationDialog, handleAction } from './alertConfig';
 
 const handleConfirmDelete = async (clientId: string, clientName: string) => {
   await handleAction('Delete', clientId, clientName, async () => {
-    await axios.delete(`http://localhost:8000/admin/clients/${clientId}`, { withCredentials: true });
+    await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/admin/clients/${clientId}`, { withCredentials: true });
   });
 };
 
@@ -19,7 +19,7 @@ const deleteClient = async (clientId: string, clientName: string) => {
 
 const handleConfirmEdit = async (clientId: string, clientName: string) => {
   await handleAction('Unblock', clientId, clientName, async () => {
-    await axios.put(`http://localhost:8000/admin/clients/${clientId}`, {}, {
+    await axios.put(`${process.env.NEXT_PUBLIC_SERVER_API_URL}/admin/clients/${clientId}`, {}, {
       withCredentials: true,
       headers: { 'Content-Type': 'application/json' },
     });
@@ -31,7 +31,7 @@ const editClient = async (clientId: string, clientName: string) => {
     title: 'Confirm Unblocking',
     confirmText: 'Yes, Unblock!',
     confirmColor: '#d33',
-    confirmCallback: handleConfirmEdit,    
+    confirmCallback: handleConfirmEdit,
   });
 };
 
