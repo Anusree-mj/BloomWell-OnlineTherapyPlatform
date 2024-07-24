@@ -14,14 +14,14 @@ const TherapistReviewsComponent = () => {
     const router = useRouter()
     const reviews = useSelector((state: {
         therapistActivities: ActivitiesStateType
-    }) => state.therapistActivities.reviews);
+    }) => state.therapistActivities.reviews || []);
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [cellValue, setCellValue] = useState<string>('');
 
-
     useEffect(() => {
         dispatch(getTherapistsReviewsAction());
-    }, []);
+    }, [dispatch]);
+
     const handleOpen = (value: string) => {
         setCellValue(value);
         setModalOpen(true);
@@ -64,26 +64,27 @@ const TherapistReviewsComponent = () => {
             ),
         },
     ];
+
     const rows = reviews.map((review, index) => ({
-        id: review._id,
-        clientId: review.clientId._id,
+        id: review._id || 'no-id',
+        clientId: review.clientId?._id || 'no-client-id',
         no: index + 1,
-        name: review.clientId.name,
-        rating: review.rating,
-        review: review.comments,
+        name: review.clientId?.name || 'Unknown',
+        rating: review.rating || 0,
+        review: review.comments || '',
         therapy: 'View Profile',
     }));
+
     const head = 'My Activity';
     const subHead = [
         { name: 'Active', url: 'therapist/activities/active', select: false },
         { name: 'Inactive', url: 'therapist/activities/inActive', select: false },
         { name: 'Schedules', url: 'therapist/activities/schedules', select: false },
         { name: 'Reviews', url: 'therapist/activities/reviews', select: true }
-    ]
+    ];
+
     return (
-        <Box sx={{
-            backgroundColor: '#325343', pb: 8
-        }}>
+        <Box sx={{ backgroundColor: '#325343', pb: 8 }}>
             <TableComponent rows={rows} columns={columns} head={head} subHead={subHead} role="" />
             <Modal open={modalOpen} onClose={handleClose}>
                 <Box sx={{
@@ -101,8 +102,7 @@ const TherapistReviewsComponent = () => {
                     </Typography>
                 </Box>
             </Modal>
-
         </Box>
     );
 }
-export default TherapistReviewsComponent
+export default TherapistReviewsComponent;
