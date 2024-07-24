@@ -78,14 +78,15 @@ const ConnectionRequestsComponent = () => {
         },
     ];
     const rows = connections.map((connection, index) => ({
-        id: connection._id|| 'no-id',
-        clientId: connection.clientId._id|| 'Unknown',
+        id: connection?._id || 'no-id',
+        clientId: connection?.clientId?._id || 'Unknown',
         no: index + 1,
-        name: connection.clientId.name|| 'Unknown',
-        email: connection.clientId.email|| 'Unknown',
-        verificationStatus: connection.adminVerify === 'Reject' ? 'Rejected by admin' : connection.status,
+        name: connection?.clientId?.name || 'Unknown',
+        email: connection?.clientId?.email || 'Unknown',
+        verificationStatus: connection?.adminVerify === 'Reject' ? 'Rejected by admin' : connection?.status || 'Unknown',
         medicalInfo: 'view',
     }));
+
     const head = 'Manage Connections';
     const subHead = [
         { name: 'All', url: 'therapist/connections', select: true },
