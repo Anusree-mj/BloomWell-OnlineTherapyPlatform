@@ -21,47 +21,54 @@ interface Response {
   totalActiveTherapists: MonthData[];
 }
 const getDataForChart = (response: Response) => {
+  // Ensure response is not null and is an object
+  if (!response || typeof response !== 'object') {
+    return { xData: [], yData: [] };
+  }
+
+  // Extract months from response data and handle them as strings
   const months = Array.from(new Set(
     Object.values(response)
-      .flatMap(item => item.map((data: { month: number, count: number }) => data.month))
+      .flatMap((item: MonthData[]) => item.map(data => data.month))
   ));
 
-  months.sort((a, b) => a - b);
+  // Sort months assuming they are strings like 'Jan', 'Feb', etc.
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  months.sort((a, b) => monthNames.indexOf(a) - monthNames.indexOf(b));
 
   const yData: { data: number[]; color: string }[] = [];
-
   const colors = ['#02B2AF', '#72CCFF', '#DA00FF', '#9001CB'];
-  const dataKey = ['TotalClients', 'TotalSubscribedClients', 'TotalTherapists', 'TotalActiveTherapists'];
-
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const dataKey = ['totalClients', 'totalSubscribedClients', 'totalTherapists', 'totalActiveTherapists'];
 
   const keys = Object.keys(response) as Array<keyof Response>;
 
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    if (response.hasOwnProperty(key)) {
-      const categoryData: number[] = [];
+    const categoryData: number[] = [];
 
-      months.forEach(month => {
-        const count = response[key]
-          .find(item => item.month === month)?.count ?? 0;
+    const category = response[key] || [];
 
-        categoryData.push(count);
-      });
+    monthNames.forEach(monthName => {
+      const count = category.find(item => item.month === monthName)?.count ?? 0;
+      categoryData.push(count);
+    });
 
-      yData.push({ data: categoryData, color: colors[i] });
-    }
+    yData.push({ data: categoryData, color: colors[i] });
   }
 
-  const xData = months.map(month => monthNames[month - 1]); // Adjust month index
+  // xData is just monthNames now
+  const xData = monthNames;
 
   return { xData, yData };
 };
 
+
+
 const DashBoardComponent = () => {
   const dispatch = useDispatch()
-  const data = useSelector((state: { adminActivities: adminActivitiesStateType }) => state.adminActivities.dashboardDetails)
-  const pieChartData = useSelector((state: { adminActivities: adminActivitiesStateType }) => state.adminActivities.therapyCount)
+  const data = useSelector((state: { adminActivities: adminActivitiesStateType }) => state.adminActivities.dashboardDetails) || {};
+  const pieChartData = useSelector((state: { adminActivities: adminActivitiesStateType }) => state.adminActivities.therapyCount) || [];
+
   const router = useRouter();
 
   const { xData, yData } = getDataForChart(data);

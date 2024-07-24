@@ -91,17 +91,19 @@ const AdminConnectionRequestsComponent = () => {
         },
     ];
     const rows = connections.map((connection, index) => ({
-        id: connection._id,
-        therapistId: connection.therapistId._id,
-        clientId: connection.clientId._id,
+        id: connection?._id || 'no-id',
+        therapistId: connection?.therapistId?._id || 'no-id',
+        clientId: connection?.clientId?._id || 'no-id',
         no: index + 1,
-        therapistName: connection.therapistId.name,
-        clientName: connection.clientId.name,
-        therapistStatus: connection.status,
-        therapistVerificationStatus: connection.status === 'Reject' ? `Rejected,\nReason: ${connection.reasonForRejection}`
-            : connection.status === 'Accept' ? 'Accepted'
-                : connection.status,
-        verificationStatus: connection.adminVerify,
+        therapistName: connection?.therapistId?.name || 'Unknown',
+        clientName: connection?.clientId?.name || 'Unknown',
+        therapistStatus: connection?.status || 'Unknown',
+        therapistVerificationStatus: connection?.status === 'Reject'
+            ? `Rejected,\nReason: ${connection?.reasonForRejection || 'No reason provided'}`
+            : connection?.status === 'Accept'
+                ? 'Accepted'
+                : connection?.status || 'Unknown',
+        verificationStatus: connection?.adminVerify || 'Unknown',
         viewTherapist: 'view',
         viewClient: 'view'
     }));
