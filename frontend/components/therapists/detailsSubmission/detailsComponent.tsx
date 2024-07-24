@@ -61,7 +61,7 @@ const DetailsComponent = () => {
         <Box sx={{
             backgroundColor: '#325343', display: 'flex',
             justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
-            minHeight: '85vh', paddingBottom: '2rem'
+            minHeight: '85vh', paddingBottom: '4rem'
         }}>
             {expertiseField && (
                 <>

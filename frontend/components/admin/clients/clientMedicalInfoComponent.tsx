@@ -33,7 +33,7 @@ const ClientMedicalInfoViewComponent: React.FC<{ clientId: string; }> = ({ clien
                 alignItems: 'center',
                 flexDirection: 'column',
                 minHeight: '90vh',
-                paddingBottom: '2rem'
+                paddingBottom: '4rem'
             }}
         >
             <Box sx={{ width: '100%', maxWidth: '90%' }}>

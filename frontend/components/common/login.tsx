@@ -89,7 +89,7 @@ export default function Login() {
     const [loginMenu, setLoginMenu] = useState("choose")
     return (
         <Box sx={{
-            paddingTop: '2rem', paddingBottom: '2rem',
+            paddingTop: '2rem', paddingBottom: '4rem',
             backgroundColor: '#325343', display: 'flex',
             alignItems: 'center', justifyContent: 'space-around', minHeight: '85vh'
         }}>
@@ -126,10 +126,10 @@ export default function Login() {
                             justifyContent: 'center',
                         }}>
                         <Button
-                            sx={{ width: "380px", border: "solid 1px white", color: 'white', marginBottom: "1rem",maxWidth:'100%' }}
+                            sx={{ width: "380px", border: "solid 1px white", color: 'white', marginBottom: "1rem", maxWidth: '100%' }}
                             onClick={() => setLoginMenu("client")}>Login as client</Button>
                         <Button
-                            sx={{ width: "380px", border: "solid 1px white", color: 'white',maxWidth:'100%' }}
+                            sx={{ width: "380px", border: "solid 1px white", color: 'white', maxWidth: '100%' }}
                             onClick={() => setLoginMenu("therapist")}>Login as Therapist</Button>
 
                     </Box> :
@@ -172,18 +172,26 @@ export default function Login() {
                         >
                             Login
                         </LoadingButton>
-                        <Typography sx={{
-                            color: '#325343', mt: 2,
-                            fontWeight: 600, textDecorationColor: '#325343'
-                        }} onClick={() => router.push('/forgotPassword')} >
-                            Forgot Password?
-                        </Typography>
                         {loginMenu === "client" &&
                             <>
                                 <SocialLoginComponent />
 
                             </>
                         }
+                        <Typography sx={{
+                            color: '#325343', mt: 2, textDecoration: 'underline',
+                            fontWeight: 600, textDecorationColor: '#325343', fontSize: '0.9rem',
+                            cursor: 'pointer',
+                        }} onClick={() => router.push('/forgotPassword')} >
+                            Forgot Password?
+                        </Typography>
+                        <Typography sx={{
+                            color: '#007bff', mt: 1, textDecoration: 'underline', fontSize: '0.9rem',
+                            cursor: 'pointer',
+                            textDecorationColor: '#007bff'
+                        }} onClick={() => router.push('/client/register')} >
+                            New here? Sign Up
+                        </Typography>
                     </Box>
             }
         </Box>

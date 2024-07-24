@@ -150,7 +150,7 @@ const PasswordComponent = (props: { role: string }) => {
                     }}>
                         <Box sx={{
                             display: 'flex', flexDirection: 'column', alignItems: 'center',
-                            justifyContent: 'center'
+                            justifyContent: 'center', maxWidth: '100%'
                         }}>
 
                             <TextField id="outlined-basic" label="Current Password" variant="outlined"
@@ -184,7 +184,7 @@ const PasswordComponent = (props: { role: string }) => {
                         </Box>
                         <Box sx={{
                             display: 'flex', flexDirection: 'column',
-                            alignItems: 'center', justifyContent: 'center'
+                            alignItems: 'center', justifyContent: 'center', maxWidth: '100%'
                         }}>
                             <TextField id="outlined-basic" label="New Password" variant="outlined"
                                 required value={changPasswordInfo.newPassword}
@@ -224,7 +224,7 @@ const PasswordComponent = (props: { role: string }) => {
                     }}>
                         <Button variant="outlined"
                             sx={{
-                                mt: 5, width: '30rem', maxWidth: '90%',
+                                mt: 3, width: '30rem', maxWidth: '90%',
                                 color: '#325343', border: '2px solid #325343',
                                 '&:hover': {
                                     backgroundColor: '#95C08D',

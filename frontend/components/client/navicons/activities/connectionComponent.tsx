@@ -73,7 +73,7 @@ const ConnectionComponent = () => {
             sx={{
                 backgroundColor: '#325343', display: 'flex', alignItems: 'center',
                 flexDirection: 'column', minHeight: '90vh',
-                paddingBottom: '2rem'
+                paddingBottom: '4rem'
             }}
         >
             <Typography

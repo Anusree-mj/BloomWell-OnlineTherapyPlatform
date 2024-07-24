@@ -168,7 +168,7 @@ const ClientSignupComponent = () => {
         <Box sx={{
             backgroundColor: '#325343', display: 'flex',
             justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
-            paddingBottom: '3rem'
+            paddingBottom: '4rem'
         }}>
             {otpField !== true ? (
                 <>
@@ -298,6 +298,13 @@ const ClientSignupComponent = () => {
                                 Continue
                             </LoadingButton>
                             <SocialLoginComponent />
+                            <Typography sx={{
+                            color: '#007bff', mt: 1, textDecoration: 'underline', fontSize: '0.9rem',
+                            cursor: 'pointer',
+                            textDecorationColor: '#007bff'
+                        }} onClick={() => router.push('/login')} >
+                           Already Signed in? Sign In
+                        </Typography>
                         </Box>
                     </FormControl>
                 </>

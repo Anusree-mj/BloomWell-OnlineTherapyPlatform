@@ -85,7 +85,7 @@ const ClientProfileComponent = () => {
                 alignItems: 'center',
                 flexDirection: 'column',
                 minHeight: '85vh',
-                paddingBottom: '2rem'
+                paddingBottom: '4rem'
             }}
         >
             <Box sx={{ width: '100%', maxWidth: '90%' }}>

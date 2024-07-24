@@ -1,7 +1,9 @@
 import { Server } from 'socket.io';
 import { userJoin, userLeft, users, getUsers } from './utilitis/userSocket.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:8000'];
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:8000',`${process.env.API_URL}`, `${process.env.NEXT_APP_URL}`];
 
 const initializeSocket = (server) => {
     const io = new Server(server, {

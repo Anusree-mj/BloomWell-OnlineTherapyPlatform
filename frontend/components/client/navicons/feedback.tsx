@@ -37,7 +37,7 @@ const FeedBackComponent = () => {
                 alignItems: 'center',
                 flexDirection: 'column',
                 minHeight: '90vh',
-                paddingBottom: '2rem',
+                paddingBottom: '4rem',
             }} >
             <Typography sx={{
                 width: '80rem', maxWidth: '90%', textAlign: 'center',

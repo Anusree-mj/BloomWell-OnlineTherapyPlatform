@@ -58,7 +58,7 @@ const ClientDetailsComponent = () => {
         <Box sx={{
             backgroundColor: '#325343', display: 'flex',
             justifyContent: 'center', alignItems: 'center', flexDirection: 'column',
-            minHeight: '90vh', paddingBottom: '2rem'
+            minHeight: '90vh', paddingBottom: '4rem'
         }}>
             {!submitDetails && (
                 <>
