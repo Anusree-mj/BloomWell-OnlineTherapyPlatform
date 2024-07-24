@@ -78,11 +78,11 @@ const ConnectionRequestsComponent = () => {
         },
     ];
     const rows = connections.map((connection, index) => ({
-        id: connection._id,
-        clientId: connection.clientId._id,
+        id: connection._id|| 'no-id',
+        clientId: connection.clientId._id|| 'Unknown',
         no: index + 1,
-        name: connection.clientId.name,
-        email: connection.clientId.email,
+        name: connection.clientId.name|| 'Unknown',
+        email: connection.clientId.email|| 'Unknown',
         verificationStatus: connection.adminVerify === 'Reject' ? 'Rejected by admin' : connection.status,
         medicalInfo: 'view',
     }));

@@ -106,15 +106,10 @@ const getNotifications = async (userId) => {
 const getNotificationsCount = async (userId) => {
     try {
         const count = await Notifications.countDocuments({ userId: userId, isRead: false });
-        if (count) {
-            return { status: 'ok', count }
-        } else {
-            return { status: 'nok', message: 'Invalid request' }
-        }
-
+        return { status: 'ok', count: count ?? 0 };
     } catch (err) {
-        console.log(err)
-        return { status: 'nok', message: 'Invalid request' }
+        console.log(err);
+        return { status: 'nok', message: 'Invalid request' };
     }
 }
 
