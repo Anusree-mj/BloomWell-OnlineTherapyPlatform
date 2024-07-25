@@ -51,15 +51,16 @@ const InActiveConnectionComponent = () => {
     ];
 
     const rows = connections.map((connection, index) => ({
-        id: connection._id,
-        clientName: connection.clientId.name,
-        clientId: connection.clientId._id,
+        id: connection._id || 'no id', 
+        clientName: connection.clientId?.name || '--',  
+        clientId: connection.clientId?._id || '--',  
         no: index + 1,
-        description: connection.clientId.description,
-        reason: connection.reasonForDisconnection,
+        description: connection.clientId?.description || '--',  
+        reason: connection.reasonForDisconnection || '--', 
         details: 'view profile',
         medicalInfo: 'view',
     }));
+    
 
     const head = 'My Activity';
     const subHead = [

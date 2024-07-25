@@ -62,11 +62,11 @@ const ActiveConnectionComponent = () => {
     ];
 
     const rows = connections.map((connection, index) => ({
-        id: connection._id,
-        clientName: connection.clientId.name,
-        clientId: connection.clientId._id,
+        id: connection._id|| 'no id',
+        clientName: connection.clientId?.name || '--',  
+        clientId: connection.clientId?._id || '--',  
         no: index + 1,
-        description: connection.clientId.description,
+        description: connection.clientId?.description || '--',  
         details: 'view profile',
         medicalInfo: 'view',
     }));
