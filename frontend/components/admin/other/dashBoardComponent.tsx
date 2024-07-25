@@ -29,7 +29,9 @@ const getDataForChart = (response: Response) => {
   // Extract months from response data and handle them as strings
   const months = Array.from(new Set(
     Object.values(response)
-      .flatMap((item: MonthData[]) => item.map(data => data.month))
+      .flatMap((item: MonthData[]) => 
+        item.map(data => data.month).filter(month => month) // Filter out null or undefined months
+      )
   ));
 
   // Sort months assuming they are strings like 'Jan', 'Feb', etc.
@@ -57,10 +59,11 @@ const getDataForChart = (response: Response) => {
   }
 
   // xData is just monthNames now
-  const xData = monthNames;
+  const xData = monthNames; 
 
   return { xData, yData };
 };
+
 
 
 
