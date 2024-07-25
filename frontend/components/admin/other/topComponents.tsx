@@ -7,7 +7,7 @@ import { getTopTherapistsAction, adminActivitiesStateType } from '@/store/admin/
 
 const TopTherapistsComponents = () => {
     const dispatch = useDispatch();
-    const topTherapists = useSelector((state: { adminActivities: adminActivitiesStateType }) => state.adminActivities.topTherapists);
+    const topTherapists = useSelector((state: { adminActivities: adminActivitiesStateType }) => state.adminActivities.topTherapists || []);
 
     useEffect(() => {
         dispatch(getTopTherapistsAction())

@@ -58,11 +58,17 @@ const getDataForChart = (response: Response) => {
     yData.push({ data: categoryData, color: colors[i] });
   }
 
+  // Safeguard against null/undefined values in yData
+  yData.forEach(series => {
+    series.data = series.data.map(value => value ?? 0); // Replace null/undefined with 0
+  });
+
   // xData is just monthNames now
   const xData = monthNames; 
 
   return { xData, yData };
 };
+
 
 
 
