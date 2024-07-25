@@ -20,6 +20,7 @@ const CancelComponent: React.FC<CancelComponent> = ({ setIsActiveSlot, addedSlot
     const bookedSlot = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.bookedSlot)
 
     useEffect(() => {
+        console.log('addedslotid',addedSlotId)
         dispatch(getBookedSlotsDetailsAction(addedSlotId))
 
     }, [dispatch]);

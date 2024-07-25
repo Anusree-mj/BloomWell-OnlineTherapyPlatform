@@ -86,7 +86,7 @@ export const clientSlice: any = createSlice({
         getClientDetailsSuccessAction: (state, action) => {
             state.isLoading = false;
             state.client = action.payload;
-            console.log('getclienteeeeeeee', state.client)
+            console.log('clientdetails in reducer', state.client)
         },
         getClientDetailsFailureAction: (state, action) => {
             state.isLoading = false;

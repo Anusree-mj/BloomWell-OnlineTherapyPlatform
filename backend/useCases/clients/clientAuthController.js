@@ -83,7 +83,6 @@ const getClientData = async (req, res) => {
     try {
         const clientId = req.user._id
         const response = await clientAuthQueries.getClientDataQuery(clientId);
-        console.log('reached in client data controllersssssssss')
         if (response.status === 'ok') {
             const { status, client } = response
             console.log('successfully passed client data', client)

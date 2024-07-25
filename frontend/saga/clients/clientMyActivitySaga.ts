@@ -40,6 +40,7 @@ function* getAvailableSlotsActionSaga(action: {
     }
 }): any {
     try {
+        console.log('therapistid being passed in saga',action.payload)
         const response = yield call<any>(apiCall, {
             method: 'GET',
             endpoint: `client/slots/${action.payload}`,

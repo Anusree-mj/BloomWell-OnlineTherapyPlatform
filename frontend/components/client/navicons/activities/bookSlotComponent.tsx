@@ -11,7 +11,7 @@ import {
 } from "@/store/clients/clientMyActionReducer";
 import axios from "axios";
 import CancelComponent from "./cancelComponent";
-import { clientStateType } from "@/store/clients/clientReducer";
+import { clientStateType, getClientDetailsAction } from "@/store/clients/clientReducer";
 import { apiCall } from "@/services/api";
 
 const BookSlotComponent = () => {
@@ -27,14 +27,21 @@ const BookSlotComponent = () => {
     const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
     const bookedSlot = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.bookedSlot)
 
+   
     useEffect(() => {
-        if (clientDetails.isActiveSlots) {
-            setIsActiveSlot(true);
-        } else {
-            dispatch(getAvailableSlotsAction(clientDetails.therapistDetails ? clientDetails.therapistDetails._id : ''));
+        if (clientDetails._id !== '') {
+            console.log('clientdetails gotttttttttttttttttt', clientDetails)
+            if (clientDetails.isActiveSlots) {
+                setIsActiveSlot(true);
+                setActiveSlotId(clientDetails.activeSlotId)
+            } else {
+                console.log('therapist iddddddd', clientDetails.therapistDetails._id)
+
+                dispatch(getAvailableSlotsAction(clientDetails.therapistDetails ? clientDetails.therapistDetails._id : ''));
+            }
         }
     }, [clientDetails]);
-    
+
     useEffect(() => {
         if (slots && slots.length > 0) {
             const filteredSlots = slots
@@ -53,6 +60,7 @@ const BookSlotComponent = () => {
             } else {
                 const formattedDate = date?.format('DD-MM-YY');
                 const formattedTime = time?.format('hh:mm A');
+                console.log('therapist iddddddd', clientDetails.therapistDetails._id)
                 const response = await apiCall({
                     method: 'POST',
                     endpoint: `client/slots/${clientDetails.therapistDetails._id}`,
