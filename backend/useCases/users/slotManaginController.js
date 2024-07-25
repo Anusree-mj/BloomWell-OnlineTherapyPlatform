@@ -93,7 +93,7 @@ const cancelSlotController = async (req, res) => {
 
 const updateStartSessionController = async (req, res) => {
     try {
-        console.log('reached updateStartSessionController', req.body)
+        console.log('reached update Start SessionController::::::::::::::::::::::::', req.body)
         const response = await therapyBookingsQuery.updateSlotStarting(req.body)
         if (response.status === 'ok') {
             const { status } = response

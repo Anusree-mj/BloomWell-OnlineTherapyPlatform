@@ -9,7 +9,6 @@ const authUser = async (req, res) => {
         const { email, password } = req.body;
         const response = await userAuthQueries.userDoLogin(email, password);
         if (response.status === 'ok') {
-            console.log('response got from query')
             if (response.role === 'client') {
                 const { status, client } = response;
                 const token = generateToken(client._id);
@@ -155,7 +154,6 @@ const sendChatMessageController = async (req, res) => {
     try {
         const { messageData } = req.body;
 
-        console.log('reached in controller with messageData', messageData)
         const response = await userAuthQueries.saveMessageData(messageData);
         if (response.status === 'ok') {
             const { status } = response

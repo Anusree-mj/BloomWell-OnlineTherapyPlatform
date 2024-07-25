@@ -28,8 +28,7 @@ const BookSlotComponent = () => {
     const bookedSlot = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.bookedSlot)
 
     useEffect(() => {
-        if (clientDetails && !clientDetails.isConnected) {
-            toast.error(`You don't have an active connection yet!`)
+        if (clientDetails && !clientDetails.connectionDetails.isActive) {
             router.push('/client/connection')
         }
     }, [])

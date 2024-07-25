@@ -30,7 +30,6 @@ const doQuit = async (therapistId, quitInfo) => {
 
         const connectedClients = await Connections.find({ therapistId: therapistId, isActive: true });
         for (const item of connectedClients) {
-            console.log('entered in for of')
             await Notifications.insertMany([{
                 userId: item.clientId,
                 userType: 'Client',
@@ -92,7 +91,6 @@ const updateSchedulesDetails = async (slotId, action, clientId, date, time) => {
         };
         const options = { upsert: false }
         const updateschedules = await Bookings.updateOne(query, update, options)
-        console.log('updatedSchedules', updateschedules)
         if (updateschedules.modifiedCount > 0) {
 
             const content = action === 'Accepted' ? `Your live session have been scheduled on ${date} at ${time}.See you there.`

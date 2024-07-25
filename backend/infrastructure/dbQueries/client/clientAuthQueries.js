@@ -52,7 +52,6 @@ const verifyOTP = async (data, role) => {
                 };
                 user = await Therapists.create(newUser);
             }
-            console.log('New user created:', user);
             return { status: 'ok', user };
         } else {
             console.log('OTP does not match');
@@ -75,7 +74,6 @@ const saveAuthData = async (profile) => {
             const hashedPassword = await bcrypt.hash(id, 10);
 
             const user = await Client.insertMany({ name: name, email: email, password: hashedPassword });
-            console.log('data being created', user)
 
             return { status: 'ok', user }
         }
@@ -88,7 +86,6 @@ const saveAuthData = async (profile) => {
 const saveClientData = async (data) => {
     try {
         const { email, type, age, answers } = data
-        console.log(data, 'data in save details')
         const query = { email: email }
         const update = {
             sessionType: type,

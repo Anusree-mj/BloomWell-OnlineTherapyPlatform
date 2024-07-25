@@ -123,7 +123,6 @@ const getInActiveConnections = async (therapistId) => {
             .populate('clientId', 'name email').sort({ createdAt: -1 });
 
         if (connections) {
-            console.log('connectionsssssssssss', connections)
             return { status: 'ok', connections }
         } else {
             return { status: 'nok', message: 'No data' }

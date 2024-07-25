@@ -24,8 +24,7 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
         if (status === 'ok') {
             const { clientDetails } = clientAuth()
             console.log('clientdetails', clientDetails)
-            if (clientDetails && !clientDetails.isConnected) {
-                toast.error(`You don't have an active connection yet!`)
+            if (clientDetails && !clientDetails.connectionDetails.isActive) {
                 router.push('/client/connection')
             }
             dispatch(getTherapistDetailsAction(therapistId));

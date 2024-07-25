@@ -27,7 +27,6 @@ const verifyTherapistQuery = async (therapistId, verifyStatus) => {
                 isActive: true
             });
         }
-        console.log('reached out')
         const therapist = await Therapists.findByIdAndUpdate(therapistId, {
             verificationStatus: verifyStatus,
             isVerified: true
@@ -172,7 +171,6 @@ const updatePaymentDetails = async (order, therapistId, adminId) => {
         const update = { paymentStatus: 'Completed' };
         const options = { upsert: true };
         const updatePayment = await Payments.updateOne(query, update, options);
-        console.log('order getting like htisssssssssssssssssssssssssssssssssssssssss', order)
         if (updatePayment.modifiedCount > 0) {
             console.log('updateeeeeeeeee', updatePayment)
             await Therapists.findByIdAndUpdate(therapistId, { totalLiveSessionPerMonth: 0, isMonthlyPaid: true })

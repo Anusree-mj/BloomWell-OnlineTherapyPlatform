@@ -40,7 +40,6 @@ const getAvailableSlots = async (therapistId) => {
         nextMonth.setMonth(now.getMonth() + 1);
 
         const slots = rule.between(now, nextMonth);
-        console.log('available slots', slots)
         return {
             status: 'ok', slots, availableFrom: therapist.availableTimeFrom,
             availableTo: therapist.availableTimeTo
