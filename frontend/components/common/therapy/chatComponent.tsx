@@ -44,6 +44,8 @@ const ChatComponent: React.FC<ChatComponentProps> = ({ messageData, slotDetails 
     const router = useRouter();
 
     useEffect(() => {
+        console.log('therapistId',messageData.reciever.recieverId,'senderiddd:',messageData.sender.senderId
+        )
         if (messageData.reciever.recieverId !== '' && messageData.sender.senderId !== '') {
             dispatch(getChatAction({
                 recieverId: messageData.reciever.recieverId,

@@ -4,7 +4,7 @@ import { protectAdmin } from '../../middlewares/adminAuthMiddleware.js';
 import controllers from '../../../useCases/index.js'
 
 // get therapists details
-router.get('/view', protectAdmin, controllers.adminControllers.getTherapistsDetailsController)
+router.get('/view',  controllers.adminControllers.getTherapistsDetailsController)
 // get therapist details for admin view and client view
 router.get('/view/:therapistId', controllers.therapistControllers.getTherapistData)
 // verify therapist

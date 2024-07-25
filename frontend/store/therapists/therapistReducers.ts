@@ -71,11 +71,13 @@ export const therapistSlice: any = createSlice({
         },
         // get therapist profile
         getTherapistDetailsAction: (state) => {
+            console.log('therapist details callleddddddddddd')
             state.isLoading = true;
         },
         getTherapistDetailsSuccessAction: (state, action) => {
             state.isLoading = false;
             state.therapist = action.payload.therapist;
+            console.log('therapist detailss got in ')
             state.ratings = action.payload.ratings;
             state.reviews = action.payload.reviews;
         },

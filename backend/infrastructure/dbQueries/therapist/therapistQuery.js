@@ -52,23 +52,30 @@ const getTherapistDataWithReviews = async (therapistId) => {
 
             for (const review of therapistReviews) {
                 const client = await Client.findById(review.clientId);
-                const reviewWithClientName = {
-                    ...review.toObject(),
-                    clientName: client.name
-                };
-                reviews.push(reviewWithClientName);
+                if (client) {  // Ensure client is not null
+                    const reviewWithClientName = {
+                        ...review.toObject(),
+                        clientName: client.name
+                    };
+                    reviews.push(reviewWithClientName);
+                } else {
+                    // Handle the case where the client is not found, if necessary
+                    console.log(`Client with ID ${review.clientId} not found`);
+                }
             }
-            console.log('reviewsss', reviews)
-            return { status: 'ok', therapist, ratings, reviews }
+            console.log('reviews', reviews);
+            return { status: 'ok', therapist, ratings, reviews };
         } else {
-            console.log('no therapist found')
-            return { status: 'nok' }
+            console.log('No therapist found');
+            return { status: 'nok' };
         }
     }
     catch (err) {
-        console.log(err)
+        console.log(err);
+        return { status: 'error', message: err.message };
     }
 }
+
 
 const calculateRating = (reviews) => {
     const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);

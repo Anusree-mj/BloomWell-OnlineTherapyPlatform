@@ -55,6 +55,7 @@ export const userSlice: any = createSlice({
 
         // get chats
         getChatAction: (state) => {
+            console.log('calling get chat actoin')
             state.isLoading = true;
         },
         getChatSuccessAction: (state, action) => {

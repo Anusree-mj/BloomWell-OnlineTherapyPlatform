@@ -27,9 +27,13 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
                 router.push('/client/connection')
             }
             dispatch(getTherapistDetailsAction(therapistId));
-            dispatch(getBookedSlotsDetailsAction(activeSlotId))
+            // dispatch(getBookedSlotsDetailsAction(activeSlotId))
         }
     }, []);
+
+    useEffect(() => {
+        console.log('therapistsdetailssss', therapist)
+    }, [therapist])
 
     const AccordionItems = [
         { title: 'Therapist', button: 'View Profile', url: `therapist/view/${therapist._id}` },
@@ -56,6 +60,7 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
             role: 'Client',
         },
     }
+    console.log('messagedattaaaaaaaaaaaaaaaa', messageData)
     return (
         <Box
             sx={{
