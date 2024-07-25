@@ -7,12 +7,11 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import {
     getAvailableSlotsAction, clientMyActivityStateType,
-    getBookedSlotsDetailsAction
 } from "@/store/clients/clientMyActionReducer";
-import axios from "axios";
 import CancelComponent from "./cancelComponent";
-import { clientStateType, getClientDetailsAction } from "@/store/clients/clientReducer";
+import { clientStateType } from "@/store/clients/clientReducer";
 import { apiCall } from "@/services/api";
+import { useRouter } from "next/navigation";
 
 const BookSlotComponent = () => {
     const [date, setDate] = useState<Dayjs | null>(null);
@@ -21,13 +20,20 @@ const BookSlotComponent = () => {
     const [isActiveSlot, setIsActiveSlot] = useState(false);
     const [activeSlotId, setActiveSlotId] = useState('')
     const dispatch = useDispatch();
+    const router = useRouter()
     const slots = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.slots);
     const availableFrom = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.availableFrom);
     const availableTo = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.availableTo);
     const clientDetails = useSelector((state: { client: clientStateType }) => state.client.client);
     const bookedSlot = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.bookedSlot)
 
-   
+    useEffect(() => {
+        if (clientDetails && !clientDetails.isConnected) {
+            toast.error(`You don't have an active connection yet!`)
+            router.push('/client/connection')
+        }
+    }, [])
+
     useEffect(() => {
         if (clientDetails._id !== '') {
             console.log('clientdetails gotttttttttttttttttt', clientDetails)

@@ -8,6 +8,7 @@ import { clientStateType } from '@/store/clients/clientReducer';
 import { clientAuth } from '@/utilities/auth';
 import { useRouter } from "next/navigation";
 import { clientMyActivityStateType, getBookedSlotsDetailsAction } from '@/store/clients/clientMyActionReducer';
+import { toast } from 'react-toastify';
 
 const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistId }) => {
     const dispatch = useDispatch();
@@ -24,6 +25,7 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
             const { clientDetails } = clientAuth()
             console.log('clientdetails', clientDetails)
             if (clientDetails && !clientDetails.isConnected) {
+                toast.error(`You don't have an active connection yet!`)
                 router.push('/client/connection')
             }
             dispatch(getTherapistDetailsAction(therapistId));
