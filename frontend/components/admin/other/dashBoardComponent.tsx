@@ -21,76 +21,59 @@ interface Response {
   totalActiveTherapists: MonthData[];
 }
 const getDataForChart = (response: Response) => {
-  // Ensure response is not null and is an object
-  if (!response || typeof response !== 'object') {
-    return { xData: [], yData: [] };
-  }
-
-  // Extract months from response data and handle them as strings
   const months = Array.from(new Set(
     Object.values(response)
-      .flatMap((item: MonthData[]) => 
-        item.map(data => data.month).filter(month => month) // Filter out null or undefined months
-      )
+      .flatMap(item => item.map((data: { month: number, count: number }) => data.month))
   ));
 
-  // Sort months assuming they are strings like 'Jan', 'Feb', etc.
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  months.sort((a, b) => monthNames.indexOf(a) - monthNames.indexOf(b));
+  months.sort((a, b) => a - b);
 
   const yData: { data: number[]; color: string }[] = [];
+
   const colors = ['#02B2AF', '#72CCFF', '#DA00FF', '#9001CB'];
-  const dataKey = ['totalClients', 'totalSubscribedClients', 'totalTherapists', 'totalActiveTherapists'];
+  const dataKey = ['TotalClients', 'TotalSubscribedClients', 'TotalTherapists', 'TotalActiveTherapists'];
+
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   const keys = Object.keys(response) as Array<keyof Response>;
 
   for (let i = 0; i < keys.length; i++) {
     const key = keys[i];
-    const categoryData: number[] = [];
+    if (response.hasOwnProperty(key)) {
+      const categoryData: number[] = [];
 
-    const category = response[key] || [];
+      months.forEach(month => {
+        const count = response[key]
+          .find(item => item.month === month)?.count ?? 0;
 
-    monthNames.forEach(monthName => {
-      const count = category.find(item => item.month === monthName)?.count ?? 0;
-      categoryData.push(count);
-    });
+        categoryData.push(count);
+      });
 
-    yData.push({ data: categoryData, color: colors[i] });
+      yData.push({ data: categoryData, color: colors[i] });
+    }
   }
 
-  // Safeguard against null/undefined values in yData
-  yData.forEach(series => {
-    series.data = series.data.map(value => value ?? 0); // Replace null/undefined with 0
-  });
-
-  // xData is just monthNames now
-  const xData = monthNames; 
+  const xData = months.map(month => monthNames[month - 1]); // Adjust month index
 
   return { xData, yData };
 };
 
-
-
-
-
 const DashBoardComponent = () => {
   const dispatch = useDispatch()
-  const data = useSelector((state: { adminActivities: adminActivitiesStateType }) => state.adminActivities.dashboardDetails) || {};
-  const pieChartData = useSelector((state: { adminActivities: adminActivitiesStateType }) => state.adminActivities.therapyCount) || [];
-
+  const data = useSelector((state: { adminActivities: adminActivitiesStateType }) => state.adminActivities.dashboardDetails)
+  const pieChartData = useSelector((state: { adminActivities: adminActivitiesStateType }) => state.adminActivities.therapyCount)
   const router = useRouter();
 
   const { xData, yData } = getDataForChart(data);
 
   useEffect(() => {
-    const { status } = adminAuth()
-    if (status === 'ok') {
-      dispatch(getDashboardDetailsAction());
-      dispatch(getTherapyCountsAction())
-    } else {
-      router.push('/admin/login')
-    }
+    console.log('entered in dashboard useffect')
+    dispatch(getDashboardDetailsAction({ handleActionSuccess }));
   }, []);
+
+  const handleActionSuccess = () => {
+    dispatch(getTherapyCountsAction())
+  }
 
   return (
     <Box sx={{

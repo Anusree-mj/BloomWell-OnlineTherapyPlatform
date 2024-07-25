@@ -20,48 +20,48 @@ export default function Footer() {
                     width: '20rem', mb: 1,
                 }}>
                     <Typography sx={{
-                        fontSize:'0.8rem',
+                        fontSize: '0.8rem',
                         color: 'white',
                     }
                     }>Home</Typography>
                     <Typography sx={{
-                        fontSize:'0.8rem',
+                        fontSize: '0.8rem',
                         color: 'white',
                     }
                     }>Advice</Typography>
                     <Typography sx={{
-                        fontSize:'0.8rem',
+                        fontSize: '0.8rem',
                         color: 'white',
                     }
                     }>Contact</Typography>
                     <Typography sx={{
-                        fontSize:'0.8rem',
+                        fontSize: '0.8rem',
                         color: 'white',
                     }
                     }>Therapist Jobs</Typography>
 
                 </Box >
-                <Divider sx={{ width: '100%', mx: 'auto' }} />
+                <Divider sx={{ width: '100%', mx: 'auto', backgroundColor: 'white' }} />
                 <Box sx={{
                     display: 'flex', justifyContent: 'space-between', maxWidth: '90%', width: '30rem', mt: 1
                 }}>
                     <Typography sx={{
-                        fontSize:'0.8rem',
+                        fontSize: '0.8rem',
                         color: 'white',
                     }
                     }>Terms & Conditions</Typography>
                     <Typography sx={{
-                        fontSize:'0.8rem',
+                        fontSize: '0.8rem',
                         color: 'white',
                     }
                     }>Privacy Policy</Typography>
                     <Typography sx={{
-                        fontSize:'0.8rem',
+                        fontSize: '0.8rem',
                         color: 'white',
                     }
                     }>Sharing Settings</Typography>
                     <Typography sx={{
-                        fontSize:'0.8rem',
+                        fontSize: '0.8rem',
                         color: 'white',
                     }
                     }>Web Accessibility</Typography>
@@ -72,7 +72,7 @@ export default function Footer() {
                     width: '100%', mt: 3,
                 }}>
                     <Typography sx={{
-                        fontSize:'0.8rem',
+                        fontSize: '0.8rem',
                         color: 'white',
                     }
                     }>© 2024 BlossomWell</Typography>

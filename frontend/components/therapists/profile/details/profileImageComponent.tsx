@@ -109,7 +109,7 @@ const TherapistProfileImageComponent: React.FC<ProfileImageProps> = ({ image, se
                     }}>
                         <Button variant="outlined"
                             sx={{
-                                mt: 2, width: '10rem', maxWidth: '90%',
+                                mt: 5, width: '10rem', maxWidth: '90%',backgroundColor:'white',
                                 color: '#325343', border: '2px solid #325343',
                                 '&:hover': {
                                     backgroundColor: '#95C08D',
@@ -140,9 +140,10 @@ const TherapistProfileImageComponent: React.FC<ProfileImageProps> = ({ image, se
                     }}
                     onClick={() => { setIsProfilePicChange(true) }}
                 >Change</Button>
-            )}
+            )
+            }
 
-        </Box>
+        </Box >
 
     );
 };

@@ -24,9 +24,9 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
         if (status === 'ok') {
             const { clientDetails } = clientAuth()
             console.log('clientdetails', clientDetails)
-            if (clientDetails && !clientDetails.connectionDetails.isActive) {
-                router.push('/client/connection')
-            }
+            // if (clientDetails && !clientDetails.connectionDetails.isActive) {
+            //     router.push('/client/connection')
+            // }
             dispatch(getTherapistDetailsAction(therapistId));
             // dispatch(getBookedSlotsDetailsAction(activeSlotId))
         }
@@ -39,7 +39,7 @@ const ClientTherapyComponent: React.FC<{ therapistId: string; }> = ({ therapistI
     const AccordionItems = [
         { title: 'Therapist', button: 'View Profile', url: `therapist/view/${therapist._id}` },
         { title: 'Schedules', button: slotDetails.date !== '' ? 'Cancel' : 'BookSlot', url: `/client/myActivity/bookSlot`, },
-        { title: 'Remarks', button: 'View All', url: `#` },
+        { title: 'Remarks'},
     ]
     const AccordionContent = [
         {

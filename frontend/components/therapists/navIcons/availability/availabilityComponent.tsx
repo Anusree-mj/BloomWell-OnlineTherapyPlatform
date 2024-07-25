@@ -57,8 +57,8 @@ const AddAvailabilityForm = () => {
     const isAvailableDate = (date: Date, slots: string[]) => {
         return slots.some(slot => {
             const slotDate = new Date(slot);
-            const slotDay = slotDate.toLocaleString('en-US', { weekday: 'long' }).toUpperCase(); 
-            const dateDay = date.toLocaleString('en-US', { weekday: 'long' }).toUpperCase(); 
+            const slotDay = slotDate.toLocaleString('en-US', { weekday: 'long' }).toUpperCase();
+            const dateDay = date.toLocaleString('en-US', { weekday: 'long' }).toUpperCase();
             return slotDay === dateDay;
         });
     };
@@ -128,18 +128,18 @@ const AddAvailabilityForm = () => {
                         display: 'flex', flexDirection: 'column', maxWidth: '90%',
                         justifyContent: 'center', alignItems: 'center', gap: 3
                     }}>
+
+                        <Typography
+                            sx={{
+                                mt: 2, mb: 1, color: '#325343', fontSize: '1rem', fontWeight: 600,
+                            }}>
+                            Time you preferred : {dayjs(availableFrom).format('hh:mm A')} - {dayjs(availableTo).format('hh:mm A')}
+                        </Typography>
                         <Calendar
                             tileClassName={({ date }) => tileClassName({ date })}
                             tileContent={({ date }) => tileContent({ date })}
                         />
-                        <Box sx={{ display: 'flex', flexDirection: 'column', alignSelf: 'start', maxWidth: '90%' }}>
 
-                            <Typography
-                                sx={{
-                                    mt: 2, mb: 1, color: '#325343', fontSize: '1rem', fontWeight: 600,
-                                }}>
-                                Time you preferred : {dayjs(availableFrom).format('hh:mm A')} - {dayjs(availableTo).format('hh:mm A')}
-                            </Typography>
                             <Button variant="contained"
                                 sx={{
                                     backgroundColor: '#325343', width: '20rem', maxWidth: '90%',
@@ -150,7 +150,6 @@ const AddAvailabilityForm = () => {
                                 }} onClick={() => setIsEdit(true)}>
                                 Edit Availability
                             </Button>
-                        </Box>
 
                     </Box>
                 ) : (

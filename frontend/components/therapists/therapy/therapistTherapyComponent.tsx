@@ -28,9 +28,9 @@ const TherapistTherapyComponent: React.FC<{ clientId: string; }> = ({ clientId }
 
     const AccordionItems = [
         { title: 'Client', button: 'View Profile', url: `client/medicalInfo/${clientId}` },
-        { title: 'Upcoming Schedule', button: 'View All', url: `#`, },
+        { title: 'Upcoming Schedule', button: 'View All', url: `therapist/activities/schedules`, },
         { title: 'Description', isAdd: true },
-        { title: 'Remarks', button: 'View All', url: `#`, isAdd: true },
+        { title: 'Remarks',isAdd: true },
     ]
     const AccordionContent = [
         {

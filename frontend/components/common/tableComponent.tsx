@@ -72,7 +72,7 @@ const TableComponent: React.FC<TableComponentProps> = ({ rows, columns, head, su
                                 ) : (
 
                                     <Typography noWrap component="div" sx={{
-                                        color: role === 'admin' ? '#325343' : 'white', mb: 1, textDecoration: 'underline',
+                                        color: role === 'admin' ? '#325343' : 'white', mb: 1, textDecoration: item.select ? 'underline' : 'none',
                                         fontWeight: item.select ? 600 : 400, fontSize: '0.9rem',
                                         backgroundColor: item.select ? '#16171638' : 'none', p: 1,
                                         alignSelf: 'flex-start', cursor: 'pointer', letterSpacing: 1

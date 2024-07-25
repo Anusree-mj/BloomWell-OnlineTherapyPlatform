@@ -25,7 +25,10 @@ function* getAllFeedbacksActionSaga(): any {
     }
 }
 // get dashboard details
-function* getDashboardDetailsActionSaga(): any {
+function* getDashboardDetailsActionSaga(action: {
+    type: string;
+    payload: { handleActionSuccess: () => void }
+}): any {
     try {
         const response = yield call<any>(apiCall, {
             method: 'GET',
@@ -33,6 +36,7 @@ function* getDashboardDetailsActionSaga(): any {
         });
         if (response.status === 'ok') {
             yield put(getDashboardDetailsSuccessAction(response.dashboardDetails))
+            action.payload.handleActionSuccess()
         } else {
             yield put(getDashboardDetailsFailureAction(response.message))
         }

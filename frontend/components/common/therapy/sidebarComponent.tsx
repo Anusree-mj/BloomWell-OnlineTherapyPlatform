@@ -54,6 +54,7 @@ const TherapySidebarComponent: React.FC<TherapySidebarComponentProps> = ({
             if (response.status === 'ok') {
                 setData(prevValues => ({ ...prevValues, [key]: value }))
                 setValues(prevValues => ({ ...prevValues, [key]: '' }));
+                handleAddClick(key)
                 console.log('response got', response);
             }
         } else {

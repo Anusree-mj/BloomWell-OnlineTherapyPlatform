@@ -155,7 +155,9 @@ const getClientDataQuery = async (clientId) => {
                         isSubscribed: 1,
                         isBlocked: 1,
                         isActiveSlots: 1,
-                        activeSlotId:1,
+                        activeSlotId: 1,
+                        description: 1,
+                        remarks: 1,
                         connectionDetails: {
                             _id: 1,
                             isActive: 1,
@@ -165,11 +167,10 @@ const getClientDataQuery = async (clientId) => {
                             _id: 1,
                             name: 1,
                         },
-                        description:1,
-                        remarks:1
                     }
                 }
             ]);
+            console.log('clietneeedetailsssssssssssssss:::::::::::::', client[0])
             return { status: 'ok', client: client[0] }
         } else {
             console.log('passing else')
