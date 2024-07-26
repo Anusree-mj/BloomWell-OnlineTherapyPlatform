@@ -44,11 +44,11 @@ const RejectedConnectionsComponent = () => {
     ];
 
     const rows = connections.map((connection, index) => ({
-        id: connection._id,
+        id: connection._id|| 'no-id',
         no: index + 1,
-        name: connection.clientId.name,
-        email: connection.clientId.email,
-        reason: connection.reasonForRejection,
+        name: connection?.clientId?.name || '--',
+        email: connection?.clientId?.email || '--',
+        reason: connection?.reasonForRejection||'--',
         addReason: 'ADD',
     }));
 
