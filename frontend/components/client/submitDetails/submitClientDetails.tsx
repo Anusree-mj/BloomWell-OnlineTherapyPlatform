@@ -33,15 +33,17 @@ const ClientDetailsComponent = () => {
 
     useEffect(() => {
         const clientData = JSON.parse(localStorage.getItem('clientData') || '{}');
-        const { email, questionnaire } = clientData
+        const email = clientData.email || '';
+        const questionnaire = clientData.questionnaire || [];
         setEmail(email);
-        if (questionnaire.length !== 0) {
+        if (questionnaire?.length !== 0) {
             router.push('/client/payment')
         }
         if (Object.keys(clientData).length === 0) {
             router.push('/login')
         }
     }, [])
+
 
     useEffect(() => {
         toast.error(error);
