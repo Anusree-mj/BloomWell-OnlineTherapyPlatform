@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
 import {
     Box, Typography, Avatar, Accordion, AccordionDetails, AccordionSummary,
-    Rating, useTheme, Paper, Button, MobileStepper
+    Rating, useTheme, Paper, Button, MobileStepper,
+    Divider
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTherapistDetailsAction, therapistStateType } from '@/store/therapists/therapistReducers';
 import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils'; 
+import { autoPlay } from 'react-swipeable-views-utils';
 
 const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistId }) => {
     const dispatch = useDispatch();
@@ -58,6 +59,7 @@ const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistI
 
     return (
         <Box sx={{
+            backgroundColor: '#325343',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             flexDirection: 'column'
         }}>
@@ -71,9 +73,9 @@ const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistI
             </Typography>
             <Box sx={{
                 display: 'flex', justifyContent: 'center', maxWidth: '100%',
-                flexDirection: 'column', alignItems: 'center', pt: 4, pb: 6,
+                flexDirection: 'column', alignItems: 'center', pt: 1, pb: 6,
             }}>
-                <Box sx={{ maxWidth: '80%', width: '80rem', mt: 4 }}>
+                <Box sx={{ maxWidth: '90%', width: '80rem', mt: 1, }}>
                     {accordionItems.map((item) => (
                         <Accordion
                             key={item.title}
@@ -100,28 +102,34 @@ const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistI
                         </Accordion>
                     ))}
                 </Box>
+                <Divider sx={{ width: '100%', backgroundColor: 'white', height: '3px', mt:6}} />
                 {/* reviews */}
                 <Box sx={{
-                    maxWidth: '100%', width: '90rem', 
+                    maxWidth: '100%', width: '90rem',
                     display: 'flex', flexDirection: 'column',
                     justifyContent: 'center', alignItems: 'center',
-                    flexGrow: 1, mt: 6, backgroundColor: '#325343',
-                    minHeight: '40vh',
+                    flexGrow: 1, mt: 2, backgroundColor: '#325343',
+                    minHeight: '40vh', // Set a minimum height
+                    overflow: 'visible', // Ensure overflow is visible
                 }}>
                     <Box sx={{
                         boxShadow: '0px 4px 10px rgba(0, 0, 0, 1.1)',
                         backgroundColor: '#F7FCC2', borderRadius: '0.6rem',
-                        p: 2, mb: 1, width: '50rem', maxWidth: '90%'
+                        p: 2, mb: 1, width: '50rem', maxWidth: '90%',
+                        overflow: 'hidden', // Prevent overflow outside the Box
+                        display: 'flex',
+                        flexDirection: 'column', // Allow content to expand vertically
                     }}>
                         <Paper
                             square
                             elevation={0}
                             sx={{
                                 display: 'flex',
-                                alignItems: 'center',
-                                height: 50,
-                                pl: 2,mt:2,
+                                alignItems: 'flex-start',
+                                height: 'auto', // Remove fixed height
+                                pl: 2, mt: 2,
                                 backgroundColor: '#F7FCC2',
+                                overflow: 'visible', // Allow Paper to grow with content
                             }}
                         >
                             {reviews.length > 0 ? (
@@ -158,6 +166,7 @@ const ViewTherapistComponent: React.FC<{ therapistId: string; }> = ({ therapistI
                         activeStep={activeStep} backButton={undefined} nextButton={undefined}                        // nextButton and backButton props are removed to hide the buttons
                     />
                 </Box>
+
             </Box>
         </Box>
     );

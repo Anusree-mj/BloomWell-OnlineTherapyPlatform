@@ -147,7 +147,19 @@ function OTP({
   };
 
   return (
-    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        gap: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 1,
+        maxWidth: '100%', // Ensure it doesn’t exceed container width
+        '@media (max-width: 600px)': {
+          gap: 0.5, // Reduce gap on smaller screens
+        }
+      }}
+    >
       {new Array(length).fill(null).map((_, index) => (
         <React.Fragment key={index}>
           <BaseInput
@@ -212,7 +224,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ email, otp, setOtp, disableButton, 
         setTimer(119)
         setDisableButton(false)
       }
-      
+
     } catch (err) {
       console.log(err)
     }
@@ -227,7 +239,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ email, otp, setOtp, disableButton, 
       }}
     >
       <OTP separator={<span>-</span>} value={otp} onChange={setOtp} length={6} />
-      <span>Resend otp in: {formatTime(timer)}</span>
+      <span style={{color:'#007bff',fontSize:'0.97rem'}}>Resend otp in: {formatTime(timer)}</span>
       {disableButton && (
         <Button variant="contained"
           sx={{

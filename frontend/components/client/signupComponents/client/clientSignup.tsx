@@ -316,7 +316,7 @@ const ClientSignupComponent = () => {
                     }}>Now, Signin with your credentials.</Typography>
                     <FormControl sx={{
                         width: '30rem', backgroundColor: 'white',
-                        padding: 4, maxWidth: '90%', minHeight: '50vh',
+                        padding: 2, maxWidth: '95%', minHeight: '50vh',
                         boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                         borderRadius: '0.6rem',
                     }}>
