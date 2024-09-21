@@ -11,7 +11,7 @@ const sendOtpByEmail = async (email, otp) => {
         service: 'Gmail',
         auth: {
             user: 'anuanusree682@gmail.com',
-            pass: 'lbfy jmqk wnzl lxcb',
+            pass: 'wqrp aczk guep ppyc',
         },
         secure: true,
         port: 465,
