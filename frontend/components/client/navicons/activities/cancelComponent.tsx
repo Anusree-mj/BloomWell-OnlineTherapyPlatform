@@ -20,7 +20,7 @@ const CancelComponent: React.FC<CancelComponent> = ({ setIsActiveSlot, addedSlot
     const bookedSlot = useSelector((state: { clientMyActivity: clientMyActivityStateType }) => state.clientMyActivity.bookedSlot)
 
     useEffect(() => {
-        console.log('addedslotid',addedSlotId)
+        console.log('addedslotid', addedSlotId)
         dispatch(getBookedSlotsDetailsAction(addedSlotId))
 
     }, [dispatch]);
@@ -76,8 +76,7 @@ const CancelComponent: React.FC<CancelComponent> = ({ setIsActiveSlot, addedSlot
                 <Typography
                     sx={{ textAlign: 'center', letterSpacing: '1px', color: '#325343' }}>
                     Your slot on <span style={{ fontWeight: '800' }}>{formattedDate}</span> at <span style={{ fontWeight: '800' }}>{bookedSlot.time}</span> has been successfully booked.
-                    Awaiting confirmation from your therapist.
-                    You will be notified once it is confirmed.
+                    Any further clarification connect with your therapist via chat.Have a nice day!
                 </Typography>
                 <Button component="a" sx={{
                     my: 2, mx: 2, color: 'white', backgroundColor: '#325343',
