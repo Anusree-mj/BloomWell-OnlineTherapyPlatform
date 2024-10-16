@@ -60,28 +60,6 @@ export default function Login() {
     };
 
     useEffect(() => {
-        if (localStorage.getItem('clientData')) {
-            const clientData = JSON.parse(localStorage.getItem('clientData') || '{}');
-            const { questionnaire, isAnUser } = clientData;
-            if (Array.isArray(questionnaire) && questionnaire.length === 0) {
-                router.push('/client/details');
-            } else if (!isAnUser) {
-                router.push('/client/payment');
-            } else {
-                router.push('/client/myActivity/ongoing')
-            }
-        } else if (localStorage.getItem('therapistData')) {
-            const therapistData = JSON.parse(localStorage.getItem('therapistData') || '{}');
-            const { image } = therapistData;
-            if (image) {
-                router.push('/therapist/activities/active')
-            } else {
-                router.push('/therapist/welcome');
-            }
-        }
-    }, [])
-
-    useEffect(() => {
         if (error) {
             toast.error(error)
         }
