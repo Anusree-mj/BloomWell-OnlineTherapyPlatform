@@ -23,18 +23,20 @@ const Page = () => {
       } else if (!isAnUser) {
         router.push('/client/payment');
       } else {
-        router.push('/client/myActivity/ongoing')
+        router.push('/client/myActivity/ongoing');
       }
     } else if (localStorage.getItem('therapistData')) {
       const therapistData = JSON.parse(localStorage.getItem('therapistData') || '{}');
       const { image } = therapistData;
       if (image) {
-        router.push('/therapist/activities/active')
+        router.push('/therapist/activities/active');
       } else {
         router.push('/therapist/welcome');
       }
+    } else {
+      setLoading(false); // Once the check is done, set loading to false
     }
-  }, [])
+  }, [router]);
   if (loading) return (<Loading />)
   return (
     <Provider store={store}>
