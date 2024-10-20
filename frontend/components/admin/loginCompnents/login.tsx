@@ -37,13 +37,7 @@ export default function AdminLogin() {
     const handleAdminLoginSuccess = () => {
         router.push('/admin');
     };
-
-    useEffect(() => {
-        if (localStorage.getItem('adminData')) {
-            router.push('/admin');
-        }
-    }, [router]);
-
+ 
     useEffect(() => {
         if (error) {
             toast.error(error);
